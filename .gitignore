@@ -1,0 +1,18 @@
+# Secrets: any .env variant except the committed template
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.keystore
+*.jks
+service-account*.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Generated output
+poc/plan_generator/outputs/

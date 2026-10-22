@@ -1,0 +1,14 @@
+{
+  "age": 20,
+  "sex": "male",
+  "height_cm": 170,
+  "weight_kg": 62,
+  "occupation": "university student",
+  "goal": "build general strength and stamina",
+  "experience_level": "beginner",
+  "days_per_week": 3,
+  "minutes_per_session": 45,
+  "equipment": ["none (bodyweight only)"],
+  "training_location": "home (small dorm room)",
+  "limitations": ["hurt right wrist: painful when putting weight on the hand or bending it back"]
+}
