@@ -16,3 +16,13 @@ __pycache__/
 
 # Generated output
 poc/plan_generator/outputs/
+
+Progress.csv
+
+# IDE & OS
+.vs/
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
