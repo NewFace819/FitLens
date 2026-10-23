@@ -9,7 +9,7 @@
 |---|---|---|
 | **CQ1** | Người dùng báo đau cổ tay hoặc chấn thương tương tự: cho nghỉ hẳn (A) hay chỉ đưa bài không ảnh hưởng (B)? | Sheet, nêu 22/10, chưa chốt |
 | **CQ2** | Dữ liệu cho lịch tập và bữa ăn lấy từ đâu, để LLM chỉ là cầu nối chứ không quyết mọi thứ? | Sheet, nêu 23/10, chưa chốt |
-| **CQ3** | Có giữ "bù calo" (ăn nhiều thì tập thêm hiệp) không? | Mới: có trong đề xuất ban đầu và blueprint, nhưng function list v1 đã bỏ mà không nói |
+| **CQ3** | Có giữ "bù calo" (ăn nhiều thì tập thêm hiệp) không? | Nêu khi review 23/10 (Claude, không có trong sheet): tính năng có trong đề xuất ban đầu và blueprint, nhưng function list v1 đã bỏ mà không nói. **Đã chốt 23/10: bỏ (reject)**, vì giống "trả nợ calo" |
 
 Ngoài ra còn kiểm tra tiêu chí "Xong khi…" trong sheet và quy ước UML (`docs/reference/Note.md` mục 3, `docs/reference/report.md` mục 2.2).
 
@@ -33,7 +33,7 @@ Ngoài ra còn kiểm tra tiêu chí "Xong khi…" trong sheet và quy ước UM
 **Kết luận:**
 - **CQ1 không làm đổi sơ đồ.** Cả hai phương án dùng cùng 12 ô và cùng quan hệ, chỉ khác luồng chi tiết của UC02, UC05 và INC. Có thể chốt sơ đồ ngay.
 - **CQ2 quyết định cách làm 6 use case** (UC01, UC02, UC04, UC08, UC09, INC), và cả câu trả lời "LLM bịa bài thì sao?" khi thuyết trình. Nên chốt trước CP1 (25/10).
-- **CQ3** chỉ ảnh hưởng UC08, nhưng đang mâu thuẫn với blueprint của Gia Huy (Rules Engine có "Bù Calo").
+- **CQ3 đã chốt 23/10: bỏ bù calo.** Chỉ ảnh hưởng UC08, nhưng blueprint của Gia Huy (Rules Engine có "Bù Calo") và `Data_Design.md` mục 4.2 cần sửa theo.
 
 ## 3. Đề xuất để nhóm chốt
 
@@ -44,7 +44,7 @@ Ngoài ra còn kiểm tra tiêu chí "Xong khi…" trong sheet và quy ước UM
 
    Mức 2 tránh được việc "nghỉ hẳn" khiến người dùng bỏ app hoặc giấu chấn thương. Mức 1 giữ an toàn cho trường hợp nặng.
 2. **CQ2:** nhóm soạn danh mục 30–40 bài, mỗi bài có mã và nhãn (vùng cơ thể dùng tới, dụng cụ, có luật camera hay không). LLM chỉ được trả về mã bài trong danh mục. Code loại bài không có trong danh mục hoặc dùng tới vùng cần tránh, rồi mới hiển thị. Bữa ăn: 20–30 món quen thuộc với sinh viên, giá trị ước lượng. Nếu dùng bảng thành phần thực phẩm có sẵn thì kiểm tra quyền sử dụng trước.
-3. **CQ3:** bỏ bù calo, vì nó gắn ăn uống với việc "trả nợ" bằng tập luyện, không hợp với người trẻ. Nếu nhóm vẫn giữ, không bao giờ diễn đạt kiểu "ăn món này thì phải tập thêm".
+3. **CQ3 (đã chốt 23/10): bỏ bù calo**, vì nó giống "trả nợ calo": gắn ăn uống với việc phải tập thêm để bù.
 
 ## 4. Test PoC sinh lịch tập (offline, 23/10)
 
@@ -84,7 +84,7 @@ Có một script kiểm tra 43 điều kiện: tiêu chí "Xong khi…" trong sh
 
 ## 6. Việc cần người khác làm
 
-- **Cả nhóm:** chốt CQ1–CQ3 trước CP1 (25/10). Xác nhận `docs/reference/report.md` là bản use case 13/10, và đồng ý đổi actor so với `Note.md`.
+- **Cả nhóm:** chốt CQ1, CQ2 trước CP1 (25/10). Xác nhận `docs/reference/report.md` là bản use case 13/10, và đồng ý đổi actor so với `Note.md`.
 - **Hải:** PoC cần kiểm tra kết quả bằng code (bài cấm theo vùng, số buổi) và bắt `ValidationError`. Khi có key thì chạy thật 2 hồ sơ mẫu. Chốt danh sách bài camera hỗ trợ.
-- **Gia Huy:** trong `SLIDES_BLUEPRINT.md`, nhân vật "vạm vỡ" trái với quyết định 22/10. Phần "Bù Calo" của Rules Engine chờ CQ3.
+- **Gia Huy:** trong `SLIDES_BLUEPRINT.md`, nhân vật "vạm vỡ" trái với quyết định 22/10. Bỏ "Bù Calo" khỏi Rules Engine (`ARCHITECTURE.md`) và mục 4.2 của `Data_Design.md`, vì CQ3 đã chốt bỏ.
 - **Đức Huy:** render sơ đồ, gửi function list cho Thông, Gia Huy, THA, cập nhật sheet trước 22:00.

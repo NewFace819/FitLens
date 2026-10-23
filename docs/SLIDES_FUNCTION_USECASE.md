@@ -71,5 +71,6 @@
 | Camera kiểm tra được những bài nào? | Chỉ các bài nhóm đã viết luật góc khớp. Hải chốt danh sách theo kết quả test đếm rep. |
 | LLM bịa bài tập nguy hiểm thì sao? | Hiện PoC chỉ chặn bằng prompt. Đề xuất: LLM chỉ chọn bài trong danh mục có nhãn và code kiểm tra lại. *(Chờ nhóm chốt câu hỏi 2.)* |
 | Người dùng báo đau thì app làm gì? | Dừng buổi ngay, không cần mạng, và khuyên đi khám nếu đau kéo dài. Các buổi sau thế nào: *chờ nhóm chốt câu hỏi 1.* |
+| Sao không có bù calo như đề xuất ban đầu? | Nhóm đã bỏ (chốt 23/10): bắt tập thêm để bù bữa ăn giống "trả nợ calo", dễ tạo áp lực ăn uống cho người trẻ. |
 | Nghỉ vì đau có mất streak không? | Không. Nếu mất streak, người dùng sẽ có lý do cố tập khi đang đau. |
 | Gửi dữ liệu sức khoẻ cho Gemini có an toàn không? | Chỉ gửi dữ liệu đã bỏ tên, email, ID, vì prompt ở tầng miễn phí có thể được Google dùng để cải thiện sản phẩm. |

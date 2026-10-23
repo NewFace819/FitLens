@@ -11,7 +11,7 @@
 | Plan Adaptive Workout | Get Weekly Plan | Đổi tên theo mục tiêu của người dùng |
 | Customize by Health & Goal | Apply Health Limitations («include» dùng chung) | Lịch tập, bữa ăn và chat đều phải tránh vùng chấn thương, dị ứng |
 | Progressively Scale Difficulty | Bước trong Get Weekly Plan | Bước trong luồng, không phải mục tiêu riêng |
-| Suggest Nutrition & Balance Calories | Get Meal Suggestions | Phần bù calo chờ nhóm chốt (câu hỏi 3) |
+| Suggest Nutrition & Balance Calories | Get Meal Suggestions | Bỏ phần bù calo (đã chốt 23/10: giống "trả nợ calo") |
 | Consult Fitness Safety | Chat with Coach | Chat hỏi đáp chung; phần an toàn đi qua Report Pain |
 | Query Medical RAG | Bỏ | Bước nội bộ |
 | Trigger Doctor Referral | Report Pain | Gộp mọi chỗ người dùng báo đau vào một luồng an toàn |
@@ -67,7 +67,7 @@ Các quy tắc dưới đây đúng với cả hai phương án của câu hỏi
 - **UC05 Report Pain:** chạy không cần mạng. Trong buổi tập thì dừng buổi; trong chat thì ngừng gợi ý bài. Khuyên đi khám nếu đau kéo dài. Việc gì xảy ra với các buổi sau: chờ câu hỏi 1.
 - **UC06 Rate Session Difficulty:** thang Dễ / Vừa / Quá sức, không có lựa chọn "đau" (đau đi qua UC05). Người dùng bỏ qua thì giữ nguyên độ khó.
 - **UC07 Delete Personal Data:** xoá cả thông tin chấn thương. Dữ liệu đã gửi Gemini không xoá được, nên chỉ gửi dữ liệu đã ẩn danh.
-- **UC08 Get Meal Suggestions:** tránh món gây dị ứng, không tính calo chính xác. Bù calo: chờ câu hỏi 3.
+- **UC08 Get Meal Suggestions:** tránh món gây dị ứng, không tính calo chính xác. Không bù calo bằng tập thêm (đã chốt 23/10).
 - **UC09 Chat with Coach:** lọc tên, số điện thoại… trong tin nhắn trước khi gửi Gemini. Nhắc tới đau hoặc chấn thương thì sang UC05.
 - **UC10 View Progress & Avatar:** ngày nghỉ theo lịch hoặc do báo đau không làm mất streak. Chỉ số nhân vật tính bằng luật từ dữ liệu buổi tập.
 - **UC11 Set Workout Reminders:** nội dung nhắc chung chung, không chứa thông tin sức khoẻ (vì hiện trên màn hình khoá). Tạm dừng nhắc khi người dùng đang nghỉ do đau.
@@ -85,6 +85,7 @@ Các quy tắc dưới đây đúng với cả hai phương án của câu hỏi
 8. **Không kết nối thiết bị đeo** (smartwatch, đo nhịp tim).
 9. **Không làm bản web.**
 10. **Không có thanh toán hay gói trả phí.**
+11. **Không bù calo bằng tập thêm hiệp** sau bữa ăn nhiều calo (đã chốt 23/10: giống "trả nợ calo").
 
 ## 6. Sơ đồ PlantUML
 

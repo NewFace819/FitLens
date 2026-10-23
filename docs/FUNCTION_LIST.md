@@ -32,4 +32,4 @@
 ### Cần nhóm chốt (chi tiết: [REVIEW_USE_CASES.md](REVIEW_USE_CASES.md))
 1. **Báo đau (câu hỏi 22/10):** nghỉ hẳn hay tập bài không ảnh hưởng? *Đề xuất:* dấu hiệu nguy hiểm → dừng mọi bài tập; đau một vùng → dừng buổi, các buổi sau bỏ bài dùng vùng đó; hết đau → người dùng gỡ trong hồ sơ.
 2. **Nguồn dữ liệu (câu hỏi 23/10):** *Đề xuất:* danh mục 30–40 bài có nhãn vùng cơ thể; LLM chỉ chọn bài trong danh mục, code kiểm tra lại. Bữa ăn: 20–30 món quen thuộc với sinh viên, giá trị ước lượng.
-3. **Bù calo (mới):** đề xuất ban đầu và blueprint có "ăn nhiều thì tập thêm hiệp". *Đề xuất:* bỏ, vì nó gắn ăn uống với "trả nợ" bằng tập luyện.
+3. **Bù calo (nêu khi review 23/10):** đề xuất ban đầu và blueprint có "ăn nhiều thì tập thêm hiệp". **Đã chốt 23/10: bỏ**, vì giống "trả nợ calo" bằng tập luyện.
