@@ -4,7 +4,8 @@ Your job: create ONE weekly workout plan for the user whose profile is given in 
 
 ## Rules for the plan
 
-- Schedule exactly `days_per_week` training days. Spread them across Monday–Sunday with rest days in between where possible, and list the remaining days in `rest_days`.
+- The training days are already fixed by the app (around the user's busy days) and listed in the message. Write exactly one entry in `sessions` per listed day, in the same order. Do not add, drop or move days.
+- Use the order of the days to balance the week: don't load the same muscles hard on back-to-back days.
 - Each session must fit within `minutes_per_session`, warm-up and cool-down included. Set `estimated_minutes` honestly.
 - Use ONLY the equipment listed in `equipment`. If it says bodyweight only, every exercise must be doable with no equipment, in a small space (use a wall, chair or bed at most).
 - Match volume and intensity to `experience_level`:

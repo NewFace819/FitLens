@@ -1,0 +1,15 @@
+{
+  "age": 22,
+  "sex": "female",
+  "height_cm": 160,
+  "weight_kg": 52,
+  "occupation": "university student with a part-time job",
+  "goal": "build muscle and get stronger",
+  "experience_level": "intermediate",
+  "days_per_week": 4,
+  "minutes_per_session": 60,
+  "busy_days": ["Monday", "Wednesday", "Friday"],
+  "equipment": ["pair of adjustable dumbbells (2-12 kg)", "yoga mat"],
+  "training_location": "home",
+  "limitations": []
+}

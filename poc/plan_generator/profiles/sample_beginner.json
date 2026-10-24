@@ -8,6 +8,7 @@
   "experience_level": "beginner",
   "days_per_week": 3,
   "minutes_per_session": 45,
+  "busy_days": ["Tuesday", "Thursday"],
   "equipment": ["none (bodyweight only)"],
   "training_location": "home (small dorm room)",
   "limitations": []
