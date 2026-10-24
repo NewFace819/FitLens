@@ -33,10 +33,12 @@ _TBD – fill in once decided (mobile framework, backend, AI/LLM provider, pose-
 
 - **App language:** English.
 - **LLM (PoC):** Google Gemini API free tier, `gemini-3.8-flash` (see `poc/plan_generator/`). Free-tier prompts may be used by Google to improve its products, so never send real personal data on the free tier.
+- **Data contract:** profile and plan formats are JSON Schemas in `schemas/` (generated from `poc/plan_generator/models.py`); see `schemas/README.md` for conventions.
 
 ## Repo layout
 
-_TBD – fill in as the structure settles._
+- `schemas/` – shared data contract (JSON Schema), framework-neutral.
+- `poc/` – proofs of concept (`plan_generator/`: LLM workout plans).
 
 ## How to work in this repo
 

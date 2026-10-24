@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Availability": {
+      "additionalProperties": false,
+      "properties": {
+        "days_per_week": {
+          "maximum": 7,
+          "minimum": 1,
+          "title": "Days Per Week",
+          "type": "integer"
+        },
+        "minutes_per_session": {
+          "maximum": 180,
+          "minimum": 10,
+          "title": "Minutes Per Session",
+          "type": "integer"
+        },
+        "busy": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BusySlot"
+          },
+          "title": "Busy",
+          "type": "array"
+        }
+      },
+      "required": [
+        "days_per_week",
+        "minutes_per_session"
+      ],
+      "title": "Availability",
+      "type": "object"
+    },
+    "BusySlot": {
+      "additionalProperties": false,
+      "properties": {
+        "weekday": {
+          "description": "ISO weekday: 1 = Monday ... 7 = Sunday.",
+          "maximum": 7,
+          "minimum": 1,
+          "title": "Weekday",
+          "type": "integer"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "description": "24-hour local time, HH:MM.",
+              "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Omit start and end for the whole day.",
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "description": "24-hour local time, HH:MM.",
+              "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        }
+      },
+      "required": [
+        "weekday"
+      ],
+      "title": "BusySlot",
+      "type": "object"
+    },
+    "Limitation": {
+      "additionalProperties": false,
+      "properties": {
+        "area": {
+          "enum": [
+            "neck",
+            "shoulder_left",
+            "shoulder_right",
+            "elbow_left",
+            "elbow_right",
+            "wrist_left",
+            "wrist_right",
+            "upper_back",
+            "lower_back",
+            "hip_left",
+            "hip_right",
+            "knee_left",
+            "knee_right",
+            "ankle_left",
+            "ankle_right"
+          ],
+          "title": "Area",
+          "type": "string"
+        },
+        "note": {
+          "default": "",
+          "description": "The user's own words, e.g. 'pain when bending it back'.",
+          "title": "Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "area"
+      ],
+      "title": "Limitation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "age": {
+      "maximum": 100,
+      "minimum": 13,
+      "title": "Age",
+      "type": "integer"
+    },
+    "sex": {
+      "enum": [
+        "male",
+        "female",
+        "other"
+      ],
+      "title": "Sex",
+      "type": "string"
+    },
+    "height_cm": {
+      "exclusiveMinimum": 0,
+      "title": "Height Cm",
+      "type": "number"
+    },
+    "weight_kg": {
+      "exclusiveMinimum": 0,
+      "title": "Weight Kg",
+      "type": "number"
+    },
+    "goal": {
+      "enum": [
+        "general_fitness",
+        "build_muscle",
+        "lose_fat",
+        "endurance",
+        "mobility"
+      ],
+      "title": "Goal",
+      "type": "string"
+    },
+    "goal_note": {
+      "default": "",
+      "title": "Goal Note",
+      "type": "string"
+    },
+    "experience_level": {
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "title": "Experience Level",
+      "type": "string"
+    },
+    "equipment": {
+      "items": {
+        "enum": [
+          "bodyweight",
+          "dumbbells",
+          "kettlebell",
+          "resistance_band",
+          "pull_up_bar",
+          "bench",
+          "jump_rope",
+          "yoga_mat"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Equipment",
+      "type": "array"
+    },
+    "equipment_note": {
+      "default": "",
+      "title": "Equipment Note",
+      "type": "string"
+    },
+    "training_location": {
+      "default": "",
+      "title": "Training Location",
+      "type": "string"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Limitation"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "availability": {
+      "$ref": "#/$defs/Availability"
+    }
+  },
+  "required": [
+    "age",
+    "sex",
+    "height_cm",
+    "weight_kg",
+    "goal",
+    "experience_level",
+    "equipment",
+    "availability"
+  ],
+  "title": "Profile",
+  "type": "object"
+}

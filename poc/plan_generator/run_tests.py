@@ -5,15 +5,20 @@ Writes outputs/test_report.md (paste into the tracker) and outputs/test_report.h
 Exit code 0 only if every profile passes.
 """
 
-import json
 import sys
 from datetime import datetime
 from html import escape
 
 from google.genai import errors
+from pydantic import ValidationError
 
-from generate_plan import (HERE, OUTPUT_DIR, WEEKDAYS, WorkoutPlan, generate_plan, make_client,
-                           save_plan)
+from generate_plan import (HERE, OUTPUT_DIR, busy_weekdays, format_target, generate_plan,
+                           load_profile, make_client, save_plan)
+from models import WEEKDAY_NAMES, Plan, Profile
+
+
+def short(day: int) -> str:
+    return WEEKDAY_NAMES[day][:3]
 
 
 def run_all() -> tuple[list[dict], str]:
@@ -21,12 +26,14 @@ def run_all() -> tuple[list[dict], str]:
     stamp = f"{datetime.now():%Y%m%d_%H%M%S}"
     results = []
     for path in sorted((HERE / "profiles").glob("*.json")):
-        profile = json.loads(path.read_text(encoding="utf-8"))
         print(f"- {path.stem} ...", end=" ", flush=True)
-        result = {"name": path.stem, "profile": profile, "plan": None, "problems": [], "error": ""}
+        result = {"name": path.stem, "profile": None, "plan": None, "problems": [], "error": ""}
         try:
-            result["plan"], result["problems"] = generate_plan(client, model, profile)
+            result["profile"] = load_profile(path)
+            result["plan"], result["problems"] = generate_plan(client, model, result["profile"])
             save_plan(result["plan"], f"{path.stem}_{stamp}")
+        except ValidationError as e:
+            result["error"] = f"invalid profile or plan: {e.error_count()} error(s), first: {e.errors()[0]['msg']}"
         except (errors.APIError, ValueError) as e:
             result["error"] = str(e)
         result["passed"] = result["plan"] is not None and not result["problems"]
@@ -37,30 +44,28 @@ def run_all() -> tuple[list[dict], str]:
 
 def summary_row(r: dict) -> dict:
     p, plan = r["profile"], r["plan"]
-    days = [d.day for d in plan.weekly_schedule] if plan else []
-    busy = p.get("busy_days", [])
-    clashes = [d for d in days if d in busy]
-    longest = max((d.estimated_minutes for d in plan.weekly_schedule), default=0) if plan else 0
+    days = [s.weekday for s in plan.sessions] if plan else []
+    busy = busy_weekdays(p) if p else set()
+    longest = max((s.estimated_minutes for s in plan.sessions), default=0) if plan else 0
     return {
         "profile": r["name"],
-        "requested": f"{p['days_per_week']} x {p['minutes_per_session']} min",
-        "busy": ", ".join(d[:3] for d in busy) or "none",
-        "training": ", ".join(d[:3] for d in days) or "-",
-        "clash": ", ".join(clashes) or "none",
-        "minutes": f"{longest} / {p['minutes_per_session']}" if plan else "-",
+        "requested": f"{p.availability.days_per_week} x {p.availability.minutes_per_session} min" if p else "-",
+        "busy": ", ".join(short(d) for d in sorted(busy)) or "none",
+        "training": ", ".join(short(d) for d in days) or "-",
+        "clash": ", ".join(short(d) for d in days if d in busy) or "none",
+        "minutes": f"{longest} / {p.availability.minutes_per_session}" if plan else "-",
         "result": "PASS" if r["passed"] else "FAIL",
         "why": r["error"] or "; ".join(r["problems"]),
     }
 
 
 def write_markdown(results: list[dict], model: str) -> None:
-    rows = [summary_row(r) for r in results]
     passed = sum(r["passed"] for r in results)
     lines = [f"# Plan generator test report ({datetime.now():%Y-%m-%d %H:%M}, {model})", "",
              f"**{passed}/{len(results)} profiles passed.**", "",
              "| Profile | Requested | Busy | Training days | Clash with busy day | Longest session / limit | Result |",
              "|---|---|---|---|---|---|---|"]
-    for row in rows:
+    for row in map(summary_row, results):
         result = row["result"] + (f" ({row['why']})" if row["why"] else "")
         lines.append(f"| {row['profile']} | {row['requested']} | {row['busy']} | {row['training']} "
                      f"| {row['clash']} | {row['minutes']} | {result} |")
@@ -70,10 +75,10 @@ def write_markdown(results: list[dict], model: str) -> None:
 CSS = """
 :root { --bg:#f7f7fb; --card:#fff; --text:#1d1d27; --muted:#6b6b7b; --line:#e3e3ec;
   --train:#2e9e5b; --train-bg:#e3f5ea; --busy:#c0392b; --busy-bg:#fbe5e2; --rest-bg:#efeff4;
-  --accent:#5046e5; }
+  --accent:#5046e5; --accent-bg:#eceafd; }
 @media (prefers-color-scheme: dark) { :root { --bg:#14141b; --card:#1e1e28; --text:#ececf3;
   --muted:#9a9aab; --line:#2f2f3d; --train:#5fd38f; --train-bg:#173826; --busy:#ff7b6b;
-  --busy-bg:#41201c; --rest-bg:#262632; --accent:#8f88ff; } }
+  --busy-bg:#41201c; --rest-bg:#262632; --accent:#8f88ff; --accent-bg:#26244a; } }
 * { box-sizing:border-box; }
 body { margin:0; background:var(--bg); color:var(--text);
   font:15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
@@ -92,6 +97,8 @@ th { color:var(--muted); font-weight:600; }
 .pill { display:inline-block; padding:2px 10px; border-radius:99px; font-weight:700; font-size:13px; }
 .pass { background:var(--train-bg); color:var(--train); }
 .fail { background:var(--busy-bg); color:var(--busy); }
+.tag { display:inline-block; margin-left:6px; padding:0 8px; border-radius:99px; font-size:12px;
+  background:var(--accent-bg); color:var(--accent); font-weight:600; }
 .week { display:grid; grid-template-columns:repeat(7, 1fr); gap:6px; margin:14px 0; }
 .day { border-radius:10px; padding:8px 4px; text-align:center; font-size:13px; }
 .day b { display:block; font-size:14px; }
@@ -107,35 +114,46 @@ ul { margin:6px 0; padding-left:20px; }
 """
 
 
-def week_strip(profile: dict, plan: WorkoutPlan | None) -> str:
-    training = {d.day: d for d in plan.weekly_schedule} if plan else {}
-    busy = set(profile.get("busy_days", []))
+def week_strip(profile: Profile, plan: Plan | None) -> str:
+    training = {s.weekday: s for s in plan.sessions} if plan else {}
+    slots = {}
+    for slot in profile.availability.busy:
+        slots.setdefault(slot.weekday, []).append(
+            f"{slot.start}–{slot.end}" if slot.start else "all day")
     cells = []
-    for day in WEEKDAYS:
-        if day in training and day in busy:
+    for day in WEEKDAY_NAMES:
+        if day in training and day in slots:
             kind, label = "busy", "CLASH"
         elif day in training:
             kind, label = "train", f"Train · {training[day].estimated_minutes}m"
-        elif day in busy:
-            kind, label = "busy", "Busy"
+        elif day in slots:
+            kind, label = "busy", "Busy<br>" + "<br>".join(slots[day])
         else:
             kind, label = "rest", "Rest"
-        cells.append(f'<div class="day {kind}"><b>{day[:3]}</b>{label}</div>')
+        cells.append(f'<div class="day {kind}"><b>{short(day)}</b>{label}</div>')
     return f'<div class="week">{"".join(cells)}</div>'
 
 
-def session_html(day) -> str:
+def session_html(s) -> str:
     rows = "".join(
-        f"<tr><td><b>{escape(ex.name)}</b><br><span class='muted'>{escape(ex.form_tip)}</span></td>"
-        f"<td>{ex.sets} x {escape(ex.reps_or_duration)}</td><td>{ex.rest_seconds}s</td></tr>"
-        for ex in day.exercises)
+        f"<tr><td><b>{escape(ex.name)}</b>"
+        + (f"<span class='tag'>tracked: {ex.exercise_id}</span>" if ex.exercise_id else "")
+        + f"<br><span class='muted'>{escape(ex.form_tip)}</span></td>"
+        f"<td>{escape(format_target(ex))}</td><td>{ex.rest_seconds}s</td></tr>"
+        for ex in s.exercises)
     li = lambda items: "".join(f"<li>{escape(i)}</li>" for i in items)
-    return (f"<details><summary>{day.day}: {escape(day.focus)} "
-            f"<span class='muted'>(~{day.estimated_minutes} min)</span></summary>"
-            f"<p><b>Warm-up</b></p><ul>{li(day.warmup)}</ul>"
-            f"<div class='scroll'><table><tr><th>Exercise</th><th>Sets x reps</th><th>Rest</th></tr>"
+    return (f"<details><summary>{WEEKDAY_NAMES[s.weekday]}: {escape(s.title)} "
+            f"<span class='muted'>(~{s.estimated_minutes} min)</span></summary>"
+            f"<p><b>Warm-up</b></p><ul>{li(s.warmup)}</ul>"
+            f"<div class='scroll'><table><tr><th>Exercise</th><th>Sets x target</th><th>Rest</th></tr>"
             f"{rows}</table></div>"
-            f"<p><b>Cool-down</b></p><ul>{li(day.cooldown)}</ul></details>")
+            f"<p><b>Cool-down</b></p><ul>{li(s.cooldown)}</ul></details>")
+
+
+def profile_facts(p: Profile) -> str:
+    limits = ", ".join(f"{l.area} ({l.note})" if l.note else l.area for l in p.limitations) or "none"
+    return (f"{p.age}, {p.experience_level}, goal: {p.goal} · equipment: {', '.join(p.equipment)} · "
+            f"limitations: {limits}")
 
 
 def write_html(results: list[dict], model: str) -> None:
@@ -154,16 +172,16 @@ def write_html(results: list[dict], model: str) -> None:
     cards = ""
     for r in results:
         p, plan = r["profile"], r["plan"]
-        facts = (f"{p['age']}, {p['experience_level']}, goal: {p['goal']} · "
-                 f"equipment: {', '.join(p['equipment'])} · "
-                 f"limitations: {', '.join(p['limitations']) or 'none'}")
-        cards += f"<section class='card'><h2>{escape(r['name'])}</h2><div class='muted'>{escape(facts)}</div>"
-        cards += week_strip(p, plan)
+        cards += f"<section class='card'><h2>{escape(r['name'])}</h2>"
+        if p is None:
+            cards += f"<p class='fail pill'>Error: {escape(r['error'])}</p></section>"
+            continue
+        cards += f"<div class='muted'>{escape(profile_facts(p))}</div>" + week_strip(p, plan)
         if plan:
-            cards += f"<p><b>{escape(plan.plan_name)}</b>: {escape(plan.summary)}</p>"
+            cards += f"<p><b>{escape(plan.title)}</b>: {escape(plan.summary)}</p>"
             if plan.schedule_note:
                 cards += f"<div class='note'>{escape(plan.schedule_note)}</div>"
-            cards += "".join(session_html(d) for d in plan.weekly_schedule)
+            cards += "".join(session_html(s) for s in plan.sessions)
             cards += f"<div class='note'>{escape(plan.safety_note)}</div>"
         else:
             cards += f"<p class='fail pill'>Error: {escape(r['error'])}</p>"
@@ -173,12 +191,14 @@ def write_html(results: list[dict], model: str) -> None:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plan Generator Report</title><style>{CSS}</style></head><body><main>
 <h1>Plan generator test report</h1>
-<div class="muted">{datetime.now():%Y-%m-%d %H:%M} · model {escape(model)} ·
+<div class="muted">{datetime.now():%Y-%m-%d %H:%M} · model {escape(model)} · data contract v1 ·
 done when: 3 profiles give 3 readable weekly plans, no session on a busy day</div>
 <div class="banner {'ok' if all_ok else 'bad'}">{passed}/{len(results)} profiles passed</div>
 <section class="card"><div class="scroll"><table>{head}{body}</table></div>
 <div class="legend" style="margin-top:12px"><span class="pill pass">Train</span>
-<span class="pill fail">Busy</span><span class="muted">Rest</span></div></section>
+<span class="pill fail">Busy</span><span class="muted">Rest</span>
+<span class="tag">tracked: id</span> <span class="muted">= the app can recognise this exercise</span>
+</div></section>
 {cards}</main></body></html>"""
     (OUTPUT_DIR / "test_report.html").write_text(html, encoding="utf-8")
 

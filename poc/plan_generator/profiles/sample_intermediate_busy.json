@@ -1,15 +1,19 @@
 {
+  "schema_version": 1,
   "age": 22,
   "sex": "female",
   "height_cm": 160,
   "weight_kg": 52,
-  "occupation": "university student with a part-time job",
-  "goal": "build muscle and get stronger",
+  "goal": "build_muscle",
+  "goal_note": "build muscle and get stronger around a part-time job",
   "experience_level": "intermediate",
-  "days_per_week": 4,
-  "minutes_per_session": 60,
-  "busy_days": ["Monday", "Wednesday", "Friday"],
-  "equipment": ["pair of adjustable dumbbells (2-12 kg)", "yoga mat"],
+  "equipment": ["dumbbells", "yoga_mat"],
+  "equipment_note": "a pair of adjustable dumbbells, 2-12 kg each",
   "training_location": "home",
-  "limitations": []
+  "limitations": [],
+  "availability": {
+    "days_per_week": 4,
+    "minutes_per_session": 60,
+    "busy": [{ "weekday": 1 }, { "weekday": 3 }, { "weekday": 5 }]
+  }
 }
