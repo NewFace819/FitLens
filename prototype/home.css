@@ -1,0 +1,83 @@
+﻿/* FitLens Home — static, responsive UI preview.
+   Icons are embedded SVG placeholders in home.html. No external dependencies. */
+html { color-scheme: light; }
+body { margin: 0; background: #eeefea; }
+#fitlens-home-preview{display:flex;justify-content:center;padding:24px 12px;box-sizing:border-box;width:100%}
+#fitlens-home-preview *{box-sizing:border-box}
+#fitlens-home-preview .fl-phone{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#27362d;background:#f7f6f2;width:390px;max-width:100%;border-radius:42px;overflow:hidden;position:relative;box-shadow:0 22px 65px #1b30201c,0 0 0 1px #23392e16;isolation:isolate}
+#fitlens-home-preview .fl-status{height:49px;padding:17px 28px 0;display:flex;justify-content:space-between;align-items:flex-start;font-size:14px;font-weight:650;position:relative;z-index:3}
+#fitlens-home-preview .fl-island{position:absolute;width:105px;height:29px;background:#202821;border-radius:24px;left:50%;top:10px;transform:translateX(-50%)}
+#fitlens-home-preview .fl-status-icons{display:flex;gap:4px;align-items:center}
+#fitlens-home-preview .fl-status-icons svg{width:14px;height:14px;stroke-width:2.2}
+#fitlens-home-preview .fl-status-icons svg:last-child{width:20px}
+/* Emotion colors are visual states, not an inferred health assessment. */
+#fitlens-home-preview .fl-hero{height:159px;position:relative;--mood-core:#72a8e8;--mood-edge:#9fcfd9;--mood-soft:#c7def2}
+#fitlens-home-preview .fl-hero[data-mood="calm"]{--mood-core:#87b9a5;--mood-edge:#b8cfb3;--mood-soft:#d9e5cb}
+#fitlens-home-preview .fl-hero[data-mood="tired"]{--mood-core:#eda86c;--mood-edge:#eac397;--mood-soft:#f4ddc1}
+#fitlens-home-preview .fl-hero[data-mood="angry"]{--mood-core:#e68072;--mood-edge:#eea479;--mood-soft:#f3c9b4}
+#fitlens-home-preview .fl-halo{position:absolute;width:350px;height:245px;left:50%;top:-45px;transform:translateX(-50%);background:radial-gradient(ellipse,var(--mood-core) 0%,var(--mood-edge) 33%,var(--mood-soft) 48%,#f7f6f200 73%);filter:blur(15px);opacity:.86;z-index:-1}
+#fitlens-home-preview .fl-halo-secondary{position:absolute;width:200px;height:160px;right:-35px;top:23px;background:radial-gradient(ellipse,var(--mood-soft),#f7f6f200 70%);filter:blur(18px);opacity:.65;z-index:-1}
+#fitlens-home-preview .fl-topline{display:flex;align-items:center;justify-content:space-between;padding:10px 24px 0}
+#fitlens-home-preview .fl-brand{font-size:11px;letter-spacing:2.7px;font-weight:650;color:#526454}
+#fitlens-home-preview .fl-profile{width:34px;height:34px;display:grid;place-items:center;background:#ffffff70;border:1px solid #ffffffb0;border-radius:50%;color:#657365}
+#fitlens-home-preview .fl-profile svg{width:17px;height:17px;stroke-width:1.6}
+#fitlens-home-preview .fl-face{width:180px;height:110px;position:absolute;left:50%;top:30px;transform:translateX(-50%) rotate(-4deg);overflow:visible}
+#fitlens-home-preview .fl-eye-shape,#fitlens-home-preview .fl-mouth-shape{fill:#1d2927}
+#fitlens-home-preview .fl-tongue{fill:#ef9b86}
+#fitlens-home-preview .fl-content{padding:0 24px}
+#fitlens-home-preview .fl-greeting{font-size:12px;color:#788274;margin:0 0 9px;letter-spacing:.05px}
+#fitlens-home-preview h1{font-size:39px;line-height:1.08;letter-spacing:-1.65px;font-weight:730;margin:0;color:#27362d}
+#fitlens-home-preview h1 span{background:linear-gradient(100deg,#4384de,#7670d0);-webkit-background-clip:text;background-clip:text;color:transparent}
+#fitlens-home-preview h2{font-size:17px;line-height:1.3;letter-spacing:-.35px;font-weight:650;margin:0}
+#fitlens-home-preview .fl-activity{margin-top:30px}
+#fitlens-home-preview .fl-bento{margin-top:13px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:94px 94px;gap:12px}
+#fitlens-home-preview .fl-tile{position:relative;border-radius:26px;background:#e5eddf;border:1px solid #ffffff85;box-shadow:inset 0 1px 0 #ffffff8c;overflow:hidden}
+#fitlens-home-preview .fl-steps{grid-row:span 2;padding:16px 15px}
+#fitlens-home-preview .fl-card-label{font-size:12px;font-weight:620;letter-spacing:-.1px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:3}
+#fitlens-home-preview .fl-card-label>svg{width:14px;height:14px;stroke-width:1.7;color:#667060}
+#fitlens-home-preview .fl-typical{font-size:10px;margin:4px 0 0;color:#6e7968;position:relative;z-index:3}
+#fitlens-home-preview .fl-orb{width:136px;height:136px;position:absolute;left:50%;bottom:11px;transform:translateX(-50%)}
+#fitlens-home-preview .fl-orb-base{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 44% 91%,#ffde16 0%,#ffc400 35%,#ffaf00 67%,#f69b42 100%)}
+#fitlens-home-preview .fl-orb-frost{position:absolute;left:-12px;right:-12px;top:-12px;height:66px;background:#e5eddf96;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);mask-image:linear-gradient(#000 0%,#000 66%,transparent 100%);-webkit-mask-image:linear-gradient(#000 0%,#000 66%,transparent 100%)}
+#fitlens-home-preview .fl-waterline{position:absolute;left:4px;right:4px;top:50px;height:1px;background:#fff076d1;box-shadow:0 -2px 7px 2px #ffec6e66}
+#fitlens-home-preview .fl-orb-data{position:absolute;inset:33px 0 0;display:flex;align-items:center;flex-direction:column;color:#fff16d;gap:6px}
+#fitlens-home-preview .fl-orb-data svg{width:17px;height:17px;stroke-width:2.4}
+#fitlens-home-preview .fl-orb-data strong{font-size:31px;font-weight:650;letter-spacing:-1px;line-height:1}
+#fitlens-home-preview .fl-time,#fitlens-home-preview .fl-energy{padding:15px}
+#fitlens-home-preview .fl-time{background:#e6ece7}
+#fitlens-home-preview .fl-energy{background:#eeece1}
+#fitlens-home-preview .fl-mini-data{display:flex;align-items:center;justify-content:space-between;margin-top:11px;gap:3px}
+#fitlens-home-preview .fl-mini-data strong{font-size:27px;font-weight:620;letter-spacing:-1px;line-height:1;white-space:nowrap}
+#fitlens-home-preview .fl-mini-data strong span{font-size:11px;font-weight:500;letter-spacing:0;margin-left:4px;color:#788172}
+#fitlens-home-preview .fl-icon-placeholder{color:#859c91;display:grid;place-items:center}
+#fitlens-home-preview .fl-energy .fl-icon-placeholder{color:#b5a17e}
+#fitlens-home-preview .fl-icon-placeholder svg{width:23px;height:23px;stroke-width:1.5}
+#fitlens-home-preview .fl-workout{margin-top:24px;border-radius:26px;padding:19px 18px;background:linear-gradient(125deg,#ffffffa3,#f0f0e9a1);border:1px solid #ffffffd9;box-shadow:inset 0 1px 0 #fff,0 4px 16px #445a3d04}
+#fitlens-home-preview .fl-workout-heading{display:flex;align-items:center;justify-content:space-between}
+#fitlens-home-preview .fl-workout h2{font-size:16px}
+#fitlens-home-preview .fl-small-dot{width:6px;height:6px;border-radius:50%;background:#aec3a5}
+#fitlens-home-preview .fl-workout p{font-size:12px;color:#71806f;margin:7px 0 20px;line-height:1.4}
+#fitlens-home-preview .fl-workout-bottom{display:flex;gap:9px;justify-content:space-between;align-items:center}
+#fitlens-home-preview .fl-workout-bottom>span{font-size:10px;line-height:1.5;color:#899183}
+#fitlens-home-preview .fl-choose{font:550 11px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;border:0;border-radius:14px;background:#344d3d;color:#f8faf5;display:flex;align-items:center;gap:9px;padding:13px 12px;white-space:nowrap}
+#fitlens-home-preview .fl-choose svg{width:14px;height:14px;stroke-width:1.7}
+#fitlens-home-preview .fl-bottom{padding:25px 34px 10px;position:relative}
+#fitlens-home-preview .fl-bottom:before{content:"";position:absolute;left:30px;right:30px;top:0;height:95px;background:radial-gradient(ellipse,#cfdfcb69,transparent 70%);z-index:-1}
+#fitlens-home-preview .fl-dock{width:278px;max-width:100%;margin:0 auto;display:flex;padding:6px;justify-content:space-between;gap:6px;border-radius:29px;background:linear-gradient(135deg,#ffffffa8,#e8eee595);border:1px solid #ffffffe8;box-shadow:inset 0 1px 1px #fff, inset 0 -1px 1px #a5b39d26,0 9px 24px #34492c12,0 1px 3px #34492c08;backdrop-filter:blur(18px)}
+#fitlens-home-preview .fl-dock-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 3px 7px;border-radius:23px;color:#84907f;font-size:10px;font-weight:550}
+#fitlens-home-preview .fl-dock-item svg{width:20px;height:20px;stroke-width:1.7}
+#fitlens-home-preview .fl-selected{background:linear-gradient(135deg,#dae5d3c9,#e6eddfe0);color:#344d3d;box-shadow:inset 0 1px 0 #ffffffb8}
+#fitlens-home-preview .fl-home-indicator{height:4px;width:110px;border-radius:8px;background:#27362d;margin:20px auto 0;opacity:.8}
+@media(max-width:380px){#fitlens-home-preview{padding:12px 0}#fitlens-home-preview .fl-phone{border-radius:30px}#fitlens-home-preview .fl-content{padding:0 19px}#fitlens-home-preview h1{font-size:36px}#fitlens-home-preview .fl-time,#fitlens-home-preview .fl-energy{padding:14px 11px}#fitlens-home-preview .fl-mini-data strong{font-size:25px}#fitlens-home-preview .fl-orb{width:125px;height:125px}#fitlens-home-preview .fl-workout-bottom>span{display:none}#fitlens-home-preview .fl-choose{margin-left:auto}}
+
+/* Editorial illustrations: reference traces from Gentler Streak screenshots. */
+#fitlens-home-preview .fl-metric-art{width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center}
+#fitlens-home-preview .fl-metric-art img{display:block;width:100%;height:100%;object-fit:contain}
+#fitlens-home-preview .fl-time .fl-mini-data,#fitlens-home-preview .fl-energy .fl-mini-data{margin-top:5px}
+@media(max-width:380px){#fitlens-home-preview .fl-metric-art{width:29px;height:32px;flex-basis:29px}#fitlens-home-preview .fl-mini-data strong{font-size:23px}}
+
+#fitlens-home-preview .fl-dock a{text-decoration:none}
+
+#fitlens-home-preview a.fl-steps{text-decoration:none;color:inherit;cursor:pointer;display:block;}
+
+#fitlens-home-preview a.fl-choose{text-decoration:none}

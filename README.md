@@ -22,14 +22,16 @@ This turns on the shared pre-commit check. It blocks commits that include a `.en
 
 ```
 FitLens/
+├── prototype/              # Interactive HTML/CSS/JS mobile UI prototype
 ├── mobile/                 # Mobile client app (Flutter / React Native)
 ├── backend/                # Backend API & safety router (FastAPI)
 ├── poc/
 │   └── plan_generator/     # Proof of concept: Gemini weekly workout plan generator
-├── docs/                   # System Blueprint, architecture, and meeting slides
+├── docs/                   # System Blueprint, Use Case diagram, and meeting slides
 │   └── reference/          # Course reports, data design notes, and security slide deck
 └── .githooks/              # Shared git hooks (blocks committed secrets & .env files)
 ```
+
 
 ## Branch & Pull Request (PR) Workflow
 

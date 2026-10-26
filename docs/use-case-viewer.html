@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FitLens — Use Case Diagram (UML 2.5)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent: #22c55e;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    header {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .actions {
+      display: flex;
+      gap: 12px;
+    }
+    button {
+      background: var(--primary);
+      color: #0f172a;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover { opacity: 0.9; }
+    button.secondary {
+      background: #334155;
+      color: var(--text);
+    }
+    .diagram-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      overflow-x: auto;
+      min-height: 600px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .mermaid {
+      width: 100%;
+      text-align: center;
+    }
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .note-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .note-card h3 {
+      color: var(--primary);
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .note-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      header, .actions, .notes-grid { display: none; }
+      .diagram-card { box-shadow: none; padding: 0; }
+    }
+  </style>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: false,
+        htmlLabels: true,
+        curve: 'basis'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>FITLENS — SƠ ĐỒ USE CASE DIAGRAM (UML 2.5)</h1>
+        <span class="badge">CSC10014 — Computational Thinking (Group_01)</span>
+      </div>
+      <div class="actions">
+        <button class="secondary" onclick="window.print()">In / Xuất PDF</button>
+        <button onclick="navigator.clipboard.writeText(location.href); alert('Đã sao chép đường dẫn!')">Sao chép Link</button>
+      </div>
+    </header>
+
+    <div class="diagram-card">
+      <div class="mermaid">
+flowchart LR
+    subgraph FitLens ["«system» FitLens Mobile System"]
+        direction TB
+
+        subgraph G1 ["Nhóm 1: Lập Kế Hoạch Thích Ứng & Tư Vấn An Toàn"]
+            UC_Plan(["Plan Adaptive Workout"])
+            UC_Custom(["Customize by Health Condition & Goal"])
+            UC_Prog(["Progressively Scale Difficulty"])
+            UC_Diet(["Suggest Nutrition & Balance Calories"])
+            UC_Consult(["Consult Fitness Safety"])
+            UC_RAG(["Query Medical RAG"])
+            UC_Doc(["Trigger Doctor Referral"])
+        end
+
+        subgraph G2 ["Nhóm 2: Luyện Tập & Kiểm Tra Kỹ Thuật"]
+            UC_Workout(["Perform Workout"])
+            UC_Save(["Save Workout Session"])
+            UC_CheckForm(["Check Posture with Camera (On-Demand)"])
+            UC_Space(["Check Space & Distance"])
+            UC_Track(["Track 33-Joint Posture"])
+            UC_Alert(["Emit Form Warning"])
+            UC_RPE(["Provide Difficulty Feedback (RPE)"])
+            UC_PostHeatmap(["View Workout Heatmap"])
+        end
+
+        subgraph G3 ["Nhóm 3: Thống Kê & Quyền Riêng Tư"]
+            UC_Dash(["View Progress Dashboard"])
+            UC_CumHeatmap(["View Cumulative Heatmap & Streak"])
+            UC_Privacy(["Manage Personal Privacy"])
+            UC_Delete(["Delete Personal Data"])
+        end
+    end
+
+    User["👤 User / Student\n(Primary Actor)"]
+    PoseTracker["📷 Camera / Pose Tracker\n(Secondary Actor)"]
+    AudioSys["🔊 Audio Alert System\n(Secondary Actor)"]
+    MedicalDB["📚 Medical RAG Database\n(Secondary Actor)"]
+
+    User --- UC_Plan
+    User --- UC_Consult
+    UC_Plan -.->|«include»| UC_Custom
+    UC_Plan -.->|«include»| UC_Prog
+    UC_Plan -.->|«include»| UC_Diet
+    UC_Consult -.->|«include»| UC_RAG
+    UC_Doc -.->|«extend»| UC_Consult
+    UC_RAG --- MedicalDB
+
+    User --- UC_Workout
+    UC_Workout -.->|«include»| UC_Save
+    UC_CheckForm -.->|«extend»| UC_Workout
+    UC_RPE -.->|«extend»| UC_Workout
+    UC_PostHeatmap -.->|«extend»| UC_Workout
+    UC_CheckForm -.->|«include»| UC_Space
+    UC_CheckForm -.->|«include»| UC_Track
+    UC_CheckForm -.->|«include»| UC_Alert
+    UC_Track --- PoseTracker
+    UC_Alert --- AudioSys
+
+    User --- UC_Dash
+    User --- UC_Privacy
+    UC_Dash -.->|«include»| UC_CumHeatmap
+    UC_Privacy -.->|«include»| UC_Delete
+      </div>
+    </div>
+
+    <div class="notes-grid">
+      <div class="note-card">
+        <h3>1. Camera On-Demand («extend»)</h3>
+        <p>Người dùng không bị ép bật camera suốt buổi tập. Chỉ kích hoạt khi muốn kiểm tra kỹ thuật động tác mới/khó, giúp tiết kiệm pin và tránh áp lực tâm lý.</p>
+      </div>
+      <div class="note-card">
+        <h3>2. Phân định Ranh Giới Chuẩn UML</h3>
+        <p>AI Engine nằm bên trong hệ thống. Các Secondary Actors bên ngoài chỉ bao gồm Camera/Pose Tracker, CSDL Y khoa độc lập và Hệ thống phát âm thanh OS.</p>
+      </div>
+      <div class="note-card">
+        <h3>3. An Toàn Y Tế & Chuyển Tuyến</h3>
+        <p>Khi người dùng báo đau nhói hoặc chấn thương, kịch bản <code>Trigger Doctor Referral</code> lập tức ngắt buổi tập/chat và khuyên đi khám bác sĩ.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

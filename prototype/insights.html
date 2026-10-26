@@ -1,0 +1,406 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>FitLens — Your Recaps & Insights</title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="insights.css">
+  <link rel="stylesheet" href="mobile-polish.css?v=1">
+</head>
+<body>
+<div id="fitlens-home-preview">
+  <div class="fl-phone insights-phone" aria-label="FitLens Insights design preview">
+
+    <!-- Top Status Bar -->
+    <div class="fl-status">
+      <span>9:41</span>
+      <div class="fl-island"></div>
+      <span class="fl-status-icons">
+        <svg data-icon="signal" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h2v-3H3zM8 20h2v-7H8zM13 20h2V9h-2zM18 20h2V5h-2z" fill="currentColor" stroke="none"/></svg>
+        <svg data-icon="wifi" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a15 15 0 0 1 18 0M6 12a10 10 0 0 1 12 0M9 15a5 5 0 0 1 6 0"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+        <svg data-icon="battery-full" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="17" height="12" rx="2"/><path d="M22 10v4"/><rect x="5" y="9" width="11" height="6" rx="1" fill="currentColor" stroke="none"/></svg>
+      </span>
+    </div>
+
+    <!-- Scrollable Main View -->
+    <div class="insights-scroll">
+      <header class="insights-header">
+        <div class="eyebrow">FITLENS / INSIGHTS</div>
+        <span class="profile" aria-label="Profile: demo user">T</span>
+        <h1>A little look<br>at a lot of effort<span class="title-dot">.</span></h1>
+        <p>Your movement. Your milestones. Your story.</p>
+      </header>
+
+      <main class="recap-library">
+        <!-- Year Recap -->
+        <section aria-labelledby="year-title">
+          <div class="section-heading">
+            <h2 id="year-title">Your year, reimagined</h2>
+            <span class="section-note">2025</span>
+          </div>
+          <article class="recap yearly" aria-label="2025 year recap preview">
+            <div class="year-art" aria-hidden="true">
+              <div class="year-orbit"></div>
+              <div class="year-stripe"></div>
+              <svg class="year-spark" viewBox="0 0 100 100"><path d="m50 0 10 30 28-18-12 29 24 9-24 10 12 28-28-17-10 29-10-29-28 17 12-28L0 50l24-9-12-29 28 18Z"/></svg>
+              <svg class="year-face" viewBox="0 0 100 100"><circle cx="33" cy="37" r="4"/><circle cx="67" cy="37" r="4"/><path d="M27 56 Q50 83 73 56" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
+            </div>
+            <div class="year-top">
+              <span class="tag">THE YEAR RECAP</span>
+              <span class="mini-brand">FITLENS</span>
+            </div>
+            <div class="year-number">20<br>25<span class="year-period">.</span></div>
+            <div class="year-bottom">
+              <div>
+                <h3>Look how far<br>you’ve come.</h3>
+                <p>A year of showing up.</p>
+              </div>
+              <span class="round-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>
+              </span>
+            </div>
+          </article>
+          <div class="archive-line">
+            <span>A good year deserves another look.</span>
+            <span>Past years &rarr;</span>
+          </div>
+        </section>
+
+        <!-- Weekly Track -->
+        <section class="weekly-section" aria-labelledby="week-title">
+          <div class="section-heading">
+            <h2 id="week-title">Little weeks. Big moves.</h2>
+            <span class="section-note">Weekly</span>
+          </div>
+          <div class="weekly-track" tabindex="0" aria-label="Weekly recaps, scroll horizontally for earlier weeks">
+            <article class="recap weekly current">
+              <div class="week-rings" aria-hidden="true"></div>
+              <span class="tag">THIS WEEK · SO FAR</span>
+              <h3>Keep your<br>good thing going.</h3>
+              <div class="week-footer">
+                <span>Oct 19–25</span>
+                <span>&rarr;</span>
+              </div>
+            </article>
+            <article class="recap weekly previous">
+              <svg class="week-spark" viewBox="0 0 100 100" aria-hidden="true"><path d="m50 0 10 30 28-18-12 29 24 9-24 10 12 28-28-17-10 29-10-29-28 17 12-28L0 50l24-9-12-29 28 18Z"/></svg>
+              <span class="tag">LAST WEEK</span>
+              <h3>You made<br>time for you.</h3>
+              <div class="week-footer">
+                <span>Oct 12–18</span>
+                <span>&rarr;</span>
+              </div>
+            </article>
+            <article class="recap weekly older">
+              <span class="tag">WEEKLY RECAP</span>
+              <h3>Small steps.<br>Real progress.</h3>
+              <div class="week-footer">
+                <span>Oct 5–11</span>
+                <span>&rarr;</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Monthly Section -->
+        <section class="monthly-section" aria-labelledby="month-title">
+          <div class="section-heading">
+            <h2 id="month-title">A month to remember</h2>
+            <span class="section-note">2026</span>
+          </div>
+          <a class="recap monthly september" href="monthly-recap.html" aria-label="Open September recap">
+            <div class="month-art" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="tag">MONTHLY RECAP</span>
+            <h3>September<span>Find your stride.</span></h3>
+            <div class="month-footer">
+              <span>All those little wins, together.</span>
+              <span class="round-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>
+              </span>
+            </div>
+          </a>
+          <article class="recap monthly august">
+            <svg class="august-art" viewBox="0 0 160 160" aria-hidden="true"><g fill="none" stroke="#f8bdcc" stroke-width="20"><circle cx="140" cy="30" r="37"/><circle cx="140" cy="30" r="72"/><circle cx="140" cy="30" r="107"/></g></svg>
+            <span class="tag">MONTHLY RECAP</span>
+            <h3>August<span>Made of momentum.</span></h3>
+            <div class="month-footer">
+              <span>A chapter worth revisiting.</span>
+              <span class="round-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>
+              </span>
+            </div>
+          </article>
+        </section>
+
+        <!-- =========================================================
+             NEW: DAILY INSIGHTS & GUIDES (BY CATEGORY)
+             ========================================================= -->
+        <section class="insights-guides-hub" aria-labelledby="guides-main-title">
+          <div class="guides-main-header">
+            <div class="eyebrow">FITLENS / ARCHIVE</div>
+            <h2 id="guides-main-title">Daily Insights<span class="title-dot">.</span></h2>
+            <p>Bite-sized science, actionable tips, and gentle guidance for everyday balance.</p>
+          </div>
+
+          <!-- Category 1: Healthy Eating -->
+          <section class="category-shelf cat-eating" aria-labelledby="cat-eating-title">
+            <div class="category-shelf-head">
+              <h3 id="cat-eating-title">Healthy Eating</h3>
+              <button type="button" class="see-all-btn" onclick="openCategory('eating')" aria-label="See all Healthy Eating articles">
+                See all <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <p class="category-desc">Practical ways to fuel your movement and recovery with real, whole foods.</p>
+            <div class="guide-track" tabindex="0" aria-label="Healthy Eating articles carousel">
+              <div class="guide-card" onclick="openArticle('eating', 'fats')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/fats.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Why Good Fats Matter</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('eating', 'carbs')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/carbs.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Carbs Are Clean Fuel</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('eating', 'protein')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/protein.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Protein for Daily Repair</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('eating', 'fuel')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/food-fuel.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Eating for Energy, Not Guilt</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('eating', 'nutrients')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/nutrients.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Eat the Colorful Rainbow</h4></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Category 2: Sleep Hygiene -->
+          <section class="category-shelf cat-sleep" aria-labelledby="cat-sleep-title">
+            <div class="category-shelf-head">
+              <h3 id="cat-sleep-title">Sleep Hygiene</h3>
+              <button type="button" class="see-all-btn" onclick="openCategory('sleep')" aria-label="See all Sleep Hygiene articles">
+                See all <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <p class="category-desc">Science-backed evening rituals to protect deep sleep and wake up truly restored.</p>
+            <div class="guide-track" tabindex="0" aria-label="Sleep Hygiene articles carousel">
+              <div class="guide-card" onclick="openArticle('sleep', 'sleep-basics')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/sleep-basics.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">The 7-Hour Foundation</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('sleep', 'sleep-cycles')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/sleep-cycles.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Deep vs. REM Sleep</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('sleep', 'sleep-hygiene')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/sleep-hygiene.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Evening Wind-Down Ritual</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('sleep', 'sleep-debt')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/sleep-debt.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Understanding Sleep Debt</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('sleep', 'napping')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/napping.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">The 20-Minute Power Nap</h4></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Category 3: Rest & Recovery -->
+          <section class="category-shelf cat-recovery" aria-labelledby="cat-rec-title">
+            <div class="category-shelf-head">
+              <h3 id="cat-rec-title">Rest & Recovery</h3>
+              <button type="button" class="see-all-btn" onclick="openCategory('recovery')" aria-label="See all Rest and Recovery articles">
+                See all <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <p class="category-desc">How intentional downtime and light movement rebuild your body stronger.</p>
+            <div class="guide-track" tabindex="0" aria-label="Rest and Recovery articles carousel">
+              <div class="guide-card" onclick="openArticle('recovery', 'rest-day')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/give-yourself-break.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">The Art of the Rest Day</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('recovery', 'active-recovery')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/active-recovery.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">What Is Active Recovery?</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('recovery', 'supercompensation')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/resting-fitter.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">You Grow When You Rest</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('recovery', 'burnout-signs')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/burnout-signs.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Spotting Early Fatigue</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('recovery', 'returning-break')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/returning-after-setback.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Restarting After a Break</h4></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Category 4: Workout Essentials -->
+          <section class="category-shelf cat-workout" aria-labelledby="cat-work-title">
+            <div class="category-shelf-head">
+              <h3 id="cat-work-title">Workout Essentials</h3>
+              <button type="button" class="see-all-btn" onclick="openCategory('workout')" aria-label="See all Workout Essentials articles">
+                See all <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <p class="category-desc">Building sustainable movement habits that stick without causing burnout.</p>
+            <div class="guide-track" tabindex="0" aria-label="Workout Essentials articles carousel">
+              <div class="guide-card" onclick="openArticle('workout', 'consistency')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/consistent-movement.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Consistency Beats Intensity</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('workout', 'variety')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/mix-workouts.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">The Power of Variety</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('workout', 'pacing')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/pacing.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Finding Your Natural Cadence</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('workout', 'steps-truth')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/10000-steps.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">The Truth About 10k Steps</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('workout', 'progressing-safely')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/safe-progress.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Progressing Safely</h4></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Category 5: Understanding Your Body -->
+          <section class="category-shelf cat-body" aria-labelledby="cat-body-title">
+            <div class="category-shelf-head">
+              <h3 id="cat-body-title">Understanding Your Body</h3>
+              <button type="button" class="see-all-btn" onclick="openCategory('body')" aria-label="See all Understanding Your Body articles">
+                See all <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <p class="category-desc">Demystifying heart rate zones, perceived effort, and physical fatigue signals.</p>
+            <div class="guide-track" tabindex="0" aria-label="Understanding Your Body articles carousel">
+              <div class="guide-card" onclick="openArticle('body', 'zone-2')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/heart-rate-zones.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Zone 2: The Magic Zone</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('body', 'rpe')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/rpe.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Trusting Your Perceived Exertion</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('body', 'vo2-max')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/vo2-max.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">VO2 Max Made Simple</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('body', 'rhr')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/listen-to-heart.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">What Your RHR Says</h4></div>
+              </div>
+              <div class="guide-card" onclick="openArticle('body', 'mental-health')" role="button" tabindex="0">
+                <div class="guide-card-icon"><img src="assets/svg/mental-health.svg" alt="" aria-hidden="true"></div>
+                <div class="guide-card-bottom"><h4 class="guide-card-title">Movement for the Mind</h4></div>
+              </div>
+            </div>
+          </section>
+
+        </section>
+      </main>
+    </div>
+
+    <!-- Bottom Navigation Dock -->
+    <footer class="fl-bottom insights-bottom">
+      <nav class="fl-dock" aria-label="Main navigation">
+        <a class="fl-dock-item" href="home.html">
+          <svg data-icon="house" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-8H9v8H4a1 1 0 0 1-1-1Z"/></svg>
+          <span>Today</span>
+        </a>
+        <a class="fl-dock-item" href="workouts.html">
+          <svg data-icon="dumbbell" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M4 8l4-4m8 16 4-4M2 6l4-4m12 20 4-4M3 9l6-6m6 18 6-6"/></svg>
+          <span>Workouts</span>
+        </a>
+        <div class="fl-dock-item fl-selected" aria-current="page">
+          <svg data-icon="chart-no-axes-combined" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V11m6 10V7m6 14v-7m6 7V3M3 7l6-4 6 6 6-8"/></svg>
+          <span>Insights</span>
+        </div>
+      </nav>
+      <div class="fl-home-indicator"></div>
+    </footer>
+
+    <!-- =========================================================
+         BOTTOM SHEETS (ARTICLE READER & CATEGORY COLLECTION)
+         ========================================================= -->
+    <!-- Backdrop -->
+    <div class="sheet-backdrop" id="sheet-backdrop" aria-hidden="true"></div>
+
+    <!-- Article Reader Sheet -->
+    <div class="bottom-sheet" id="article-reader-sheet" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+      <div class="sheet-drag-pill"></div>
+      <button type="button" class="sheet-close-btn" id="reader-close-btn" aria-label="Close article">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="reader-hero-wrapper">
+        <div class="reader-icon-box">
+          <img id="reader-icon" src="assets/svg/fats.svg" alt="" aria-hidden="true">
+        </div>
+        <span class="reader-badge" id="reader-cat-badge">HEALTHY EATING</span>
+        <h3 class="reader-title" id="reader-title">Why Good Fats Matter</h3>
+      </div>
+
+      <div class="reader-summary-callout" id="reader-summary">
+        Avocados, nuts, and olive oil provide steady, long-lasting energy while protecting your joints and balancing hormones.
+      </div>
+
+      <div class="reader-section">
+        <h5>The Science Simply Put</h5>
+        <p id="reader-science"></p>
+      </div>
+
+      <div class="reader-section">
+        <h5>Why It Matters for You</h5>
+        <p id="reader-why-matters"></p>
+      </div>
+
+      <div class="reader-section">
+        <h5>Everyday Practice</h5>
+        <p id="reader-practical"></p>
+      </div>
+
+      <div class="takeaway-card">
+        <div class="takeaway-icon">💡</div>
+        <p class="takeaway-text">
+          <strong>Key Takeaway</strong>
+          <span id="reader-takeaway"></span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Category Collection Sheet (See all) -->
+    <div class="bottom-sheet" id="category-collection-sheet" role="dialog" aria-modal="true" aria-labelledby="collection-title">
+      <div class="sheet-drag-pill"></div>
+      <button type="button" class="sheet-close-btn" id="collection-close-btn" aria-label="Close collection">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="collection-header">
+        <h3 id="collection-title">Healthy Eating</h3>
+        <p id="collection-desc">Practical ways to fuel your movement and recovery with real, whole foods.</p>
+      </div>
+
+      <div class="collection-list" id="collection-list">
+        <!-- Dynamically rendered by insights.js -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="insights.js"></script>
+</body>
+</html>

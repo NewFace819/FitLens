@@ -1,0 +1,156 @@
+/* Home-only styles: keep the shared phone and other FitLens screens intact. */
+@font-face{font-family:Nunito;src:url('assets/fonts/Nunito.ttf') format('truetype');font-weight:200 1000;font-display:swap}
+#fitlens-home-preview .fl-home-phone{height:878px;display:flex;flex-direction:column;font-family:Nunito,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.fl-home-phone [hidden]{display:none!important}
+.fl-home-phone button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.fl-home-phone a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.fl-home-phone :is(button,a):focus-visible{outline:3px solid #789aad;outline-offset:4px}
+#fitlens-home-preview .fl-home-phone .fl-status{flex-shrink:0}
+#fitlens-home-preview .fl-home-phone .fl-hero{height:110px;flex-shrink:0;z-index:1}
+#fitlens-home-preview .fl-home-phone .fl-halo{top:-81px;height:276px;width:385px;filter:blur(12px);opacity:.74;pointer-events:none;transition:opacity .4s ease}
+#fitlens-home-preview .fl-home-phone .fl-halo-secondary{top:-5px;pointer-events:none}
+#fitlens-home-preview .fl-home-phone .fl-topline{padding:7px 22px 0;align-items:center}
+#fitlens-home-preview .fl-home-phone .fl-brand{font-size:12px;font-weight:850;letter-spacing:2px}
+.fl-motion-toggle{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid #ffffffa3;background:#ffffff70;color:#486151;transition:background .2s,transform .2s}
+.fl-motion-toggle svg{width:20px;height:20px;grid-area:1/1}
+.fl-motion-toggle .motion-play{display:none}
+.fl-motion-toggle[aria-pressed=true] .motion-play{display:block}
+.fl-motion-toggle[aria-pressed=true] .motion-pause{display:none}
+.fl-motion-toggle:active{transform:scale(.93)}
+.fl-face-button{position:absolute;left:50%;top:8px;translate:-50% 0;width:194px;height:113px;padding:0;border:0;border-radius:48%;background:transparent;transform:rotate(-4deg);color:#fff8dd;isolation:isolate}
+#fitlens-home-preview .fl-home-phone .fl-face{position:static;display:block;width:180px;height:110px;margin:auto;transform:none;pointer-events:none;overflow:visible}
+.fl-home-phone .fl-eye-shape{transform-box:fill-box;transform-origin:center}
+.fl-face-button:focus-visible{outline-offset:0!important}
+.fl-face-spark{position:absolute;opacity:0;pointer-events:none;font-size:26px;line-height:1;text-shadow:0 1px 10px #c4e0f8}
+.fl-spark-one{left:2px;top:40px}
+.fl-spark-two{right:0;top:13px;font-size:33px}
+#fitlens-home-preview .fl-home-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;padding:7px 22px 12px;scroll-padding-top:18px}
+.fl-home-scroll::-webkit-scrollbar{display:none}
+#fitlens-home-preview .fl-home-phone .fl-greeting{font-size:15px;line-height:1.5;margin:0 0 8px;color:#6f7c68}
+#fitlens-home-preview .fl-home-phone h1{font-size:33px;line-height:1.14;letter-spacing:-1px;font-weight:900}
+#fitlens-home-preview .fl-home-phone h1 span{background:linear-gradient(100deg,#4180b0,#7772bc);background-clip:text;-webkit-background-clip:text}
+#fitlens-home-preview .fl-home-phone h2{font-size:20px;line-height:1.35;font-weight:850;letter-spacing:-.4px}
+.fl-last-checkin{display:flex;gap:8px;align-items:center;min-height:44px;margin:11px 0 -7px;font-size:14px;line-height:1.4;color:#66795b;text-decoration:none}
+.fl-last-checkin>span:nth-child(2){flex:1}
+.fl-last-checkin>svg{width:16px;height:16px;flex-shrink:0}
+.checkin-dot{width:7px;height:7px;border-radius:50%;background:#839775;flex-shrink:0}
+#fitlens-home-preview .fl-home-phone .fl-activity{margin-top:20px}
+.fl-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fl-section-heading>span{font-size:13px;color:#7b8770}
+#fitlens-home-preview .fl-home-phone .fl-bento{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:93px 93px;gap:12px;margin-top:14px}
+#fitlens-home-preview .fl-home-phone .fl-tile{border-radius:24px;border:1px solid #ffffff80;box-shadow:none}
+#fitlens-home-preview .fl-home-phone .fl-steps{background:#e4ecd9;padding:15px 14px;transition:transform .22s ease,box-shadow .22s ease}
+#fitlens-home-preview .fl-home-phone .fl-card-label{font-size:15px;line-height:1.25;font-weight:750;letter-spacing:-.25px}
+#fitlens-home-preview .fl-home-phone .fl-card-label>svg{width:16px;height:16px;flex-shrink:0}
+#fitlens-home-preview .fl-home-phone .fl-typical{font-size:13px;line-height:1.4;margin-top:5px;color:#68795d}
+#fitlens-home-preview .fl-home-phone .fl-orb{width:136px;height:136px;bottom:11px;isolation:isolate;transition:scale .2s ease}
+#fitlens-home-preview .fl-home-phone .fl-orb-base{background:linear-gradient(155deg,#f9edbc,#f5da83);box-shadow:inset 0 0 0 1px #fff6cc80}
+.fl-water{position:absolute;inset:0;overflow:hidden;border-radius:50%;transform:translateZ(0)}
+.fl-wave{position:absolute;inset:0 auto auto 0;width:272px;height:136px;max-width:none;animation:home-water 12s linear infinite;will-change:transform}
+.fl-wave-back{fill:#f6c743;opacity:.8;animation-duration:15s;animation-direction:reverse}
+.fl-wave-front{fill:#f2b921;opacity:.92}
+#fitlens-home-preview .fl-home-phone .fl-orb-data{inset:42px 0 0;color:#62491f;gap:7px;pointer-events:none}
+#fitlens-home-preview .fl-home-phone .fl-orb-data svg{width:18px;height:18px;stroke-width:2}
+#fitlens-home-preview .fl-home-phone .fl-orb-data strong{font-size:32px;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+#fitlens-home-preview .fl-home-phone .fl-time,#fitlens-home-preview .fl-home-phone .fl-energy{padding:15px 13px}
+#fitlens-home-preview .fl-home-phone .fl-time{background:#e1e9ee}
+#fitlens-home-preview .fl-home-phone .fl-energy{background:#eee5d7}
+#fitlens-home-preview .fl-home-phone .fl-mini-data{margin-top:12px;gap:1px}
+#fitlens-home-preview .fl-home-phone .fl-mini-data strong{font-size:28px;font-weight:850;letter-spacing:-1px}
+#fitlens-home-preview .fl-home-phone .fl-mini-data strong span{font-size:13px;font-weight:650;margin-left:3px;color:#647261}
+#fitlens-home-preview .fl-home-phone .fl-metric-art{width:34px;height:35px;flex-basis:34px}
+#fitlens-home-preview .fl-home-phone .fl-workout{margin-top:18px;padding:0;border:0;background:none;box-shadow:none;border-radius:0}
+.fl-session-card{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:174px;padding:20px 20px 14px;margin-top:12px;border-radius:26px;overflow:hidden;isolation:isolate;background:#29483b;color:#fff7df;text-decoration:none;transition:transform .22s ease,box-shadow .22s ease}
+.fl-session-card:before{content:'';position:absolute;inset:0 0 0 35%;background:radial-gradient(ellipse at 100% 0,#78977952,transparent 75%);z-index:-1}
+.fl-session-card h3{font-size:27px;line-height:1.15;letter-spacing:-.6px;font-weight:850;margin:0;width:68%;position:relative;z-index:1}
+.fl-session-art{position:absolute;right:-14px;top:-10px;width:151px;height:160px;pointer-events:none;transform:rotate(9deg);transition:transform .4s cubic-bezier(.2,.8,.3,1)}
+.fl-session-art>span{position:absolute;width:135px;height:135px;background:#789d8566;border-radius:50%;top:7px;right:2px}
+.fl-session-art img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 10px #0c211626)}
+.fl-session-action{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1;margin-top:20px;font-size:16px;font-weight:800;line-height:1.4}
+.fl-session-arrow{width:44px;height:44px;display:grid;place-items:center;background:#e7edce;color:#36543f;border-radius:50%;flex-shrink:0;transition:transform .25s ease,background .25s ease}
+.fl-session-arrow svg{width:21px;height:21px}
+#fitlens-home-preview .fl-home-phone .fl-bottom{padding:12px 25px 10px;flex-shrink:0;border-top:1px solid #e0e4d7;background:#f7f6f2;z-index:2}
+#fitlens-home-preview .fl-home-phone .fl-dock{width:290px;padding:5px}
+#fitlens-home-preview .fl-home-phone .fl-dock-item{font-size:12px;font-weight:750;min-height:54px;gap:4px;padding:7px 3px 6px}
+#fitlens-home-preview .fl-home-phone .fl-dock-item svg{width:21px;height:21px}
+#fitlens-home-preview .fl-home-phone .fl-home-indicator{margin-top:12px}
+.fl-home-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.fl-home-phone[data-motion=paused] .fl-wave,.fl-home-phone[data-running=false] .fl-wave{animation-play-state:paused;will-change:auto}
+.fl-home-phone[data-motion=paused] :is(.fl-steps,.fl-session-card,.fl-session-art,.fl-session-arrow,.fl-motion-toggle,.fl-orb){transition:none!important}
+@media(hover:hover){.fl-home-phone .fl-steps:hover{transform:translateY(-2px);box-shadow:0 7px 15px #354b2310!important}.fl-session-card:hover{transform:translateY(-2px);box-shadow:0 8px 18px #1732271c}.fl-session-card:hover .fl-session-art{transform:translateY(-4px) rotate(3deg)}.fl-session-card:hover .fl-session-arrow{transform:rotate(7deg);background:#f2f3d9}.fl-motion-toggle:hover{background:#ffffffe0}}
+.fl-home-phone .fl-steps:active .fl-orb{scale:.96}
+.fl-session-card:active{transform:scale(.985)}
+@keyframes home-water{to{transform:translateX(-136px)}}
+@media(max-width:380px){#fitlens-home-preview .fl-home-phone .fl-home-scroll{padding-left:19px;padding-right:19px}#fitlens-home-preview .fl-home-phone h1{font-size:30px}#fitlens-home-preview .fl-home-phone .fl-card-label{font-size:14px}#fitlens-home-preview .fl-home-phone .fl-time,#fitlens-home-preview .fl-home-phone .fl-energy{padding:15px 11px}#fitlens-home-preview .fl-home-phone .fl-mini-data strong{font-size:26px}#fitlens-home-preview .fl-home-phone .fl-metric-art{width:29px;flex-basis:29px}#fitlens-home-preview .fl-home-phone .fl-mini-data strong span{font-size:12px}.fl-session-card h3{font-size:25px}.fl-session-art{right:-23px;width:137px}.fl-session-card{padding-left:18px;padding-right:16px}.fl-session-action{font-size:15px}}
+@media(max-width:340px){#fitlens-home-preview .fl-home-phone h1{font-size:28px}#fitlens-home-preview .fl-home-phone .fl-bento{gap:9px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#fitlens-home-preview .fl-home-phone .fl-orb{width:122px;height:122px}.fl-session-card h3{font-size:23px}.fl-session-art{opacity:.85;right:-32px}}
+
+#fitlens-home-preview .fl-home-phone .fl-hero[data-mood=concerned]{--mood-core:#e99582;--mood-edge:#efb19a;--mood-soft:#f2d9c3}
+
+.fl-home-phone .fl-tongue{transition:opacity .2s ease}
+.fl-home-phone .fl-hero:is([data-mood=tired],[data-mood=concerned]) .fl-tongue{opacity:0}
+.fl-home-phone .fl-hero[data-mood=tired] .fl-eye-shape{transform:scaleY(.6)}
+.fl-home-phone[data-scrolled=true] .fl-home-scroll{mask-image:linear-gradient(transparent,#000 14px,#000);-webkit-mask-image:linear-gradient(transparent,#000 14px,#000)}
+
+.fl-session-card.has-weekly-plan{min-height:190px}.has-weekly-plan h3{font-size:25px;max-width:65%}.home-plan-meta{font-size:14px!important;line-height:1.5!important;color:#c9d7bc!important;margin:9px 0 0!important;position:relative;z-index:1}.has-weekly-plan .fl-session-action{margin-top:16px}
+
+/* Home screen - Food for today editorial row (task-0010) */
+#fitlens-home-preview .fl-phone .fl-food-preview {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.fl-food-divider {
+  height: 1px;
+  background-color: #D9DDD3;
+  margin-bottom: 16px;
+}
+.fl-food-heading {
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 850;
+  letter-spacing: -0.4px;
+  color: #27362D;
+  margin: 0 0 4px;
+}
+.fl-food-editorial-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 0;
+  text-decoration: none;
+  color: #27362D;
+  border-bottom: 1px solid #D9DDD3;
+  transition: opacity 0.18s ease;
+}
+.fl-food-editorial-row:hover {
+  opacity: 0.8;
+}
+.fl-food-editorial-row:focus-visible {
+  outline: 2px solid #233A31;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.fl-food-main-line {
+  font-size: 16px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: #27362D;
+}
+.fl-food-editorial-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #233A31;
+  flex-shrink: 0;
+}
+.fl-food-editorial-action svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.18s ease;
+}
+.fl-food-editorial-row:hover .fl-food-editorial-action svg {
+  transform: translateX(3px);
+}

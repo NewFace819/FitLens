@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="Illustrated meal">
+<defs><radialGradient id="bg"><stop stop-color="#e9d8bd"/><stop offset="1" stop-color="#d3c3ae"/></radialGradient>
+<radialGradient id="plate"><stop stop-color="#fffdf4"/><stop offset=".75" stop-color="#f5f0e5"/><stop offset="1" stop-color="#c9bbae"/></radialGradient>
+<filter id="shadow"><feGaussianBlur stdDeviation="19"/></filter></defs>
+<rect width="900" height="600" fill="url(#bg)"/>
+<path d="M0 480Q400 440 900 485V600H0Z" fill="#c7b8a4" opacity=".28"/>
+<ellipse cx="450" cy="327" rx="308" ry="216" fill="#5d5a4e" opacity=".17" filter="url(#shadow)"/>
+<ellipse cx="450" cy="305" rx="315" ry="218" fill="url(#plate)"/>
+<ellipse cx="450" cy="305" rx="258" ry="173" fill="#f7f3e9" stroke="#e3d9ca" stroke-width="7"/>
+<ellipse cx="450" cy="310" rx="218" ry="143" fill="#e3b85d"/>
+<g fill="#efc887"><ellipse cx="350" cy="249" rx="76" ry="39" transform="rotate(-18 350 249)"/><ellipse cx="548" cy="250" rx="79" ry="40" transform="rotate(17 548 250)"/>
+<ellipse cx="384" cy="363" rx="80" ry="37" transform="rotate(16 384 363)"/><ellipse cx="538" cy="366" rx="75" ry="39" transform="rotate(-17 538 366)"/></g>
+<g fill="#5e8b62"><path d="M449 211q-20-34-41-15 20 4 23 31Z"/><path d="M475 224q18-33 41-22-22 8-24 30Z"/>
+<path d="M307 317q-28-22-35 1 19-7 37 16Z"/><path d="M589 319q25-20 35 1-21-8-36 17Z"/>
+<circle cx="478" cy="306" r="9"/><circle cx="348" cy="338" r="8"/><circle cx="567" cy="292" r="7"/></g>
+<g fill="#fff7dc" opacity=".75"><ellipse cx="321" cy="226" rx="27" ry="8" transform="rotate(-18 321 226)"/>
+<ellipse cx="550" cy="238" rx="30" ry="8" transform="rotate(16 550 238)"/></g>
+</svg>

@@ -107,18 +107,21 @@ col1.line.width = Pt(1.5)
 tf = col1.text_frame
 tf.word_wrap = True
 p = tf.paragraphs[0]
-p.text = "Luồng 1: Tập Với Camera (On-Demand)"
+p.text = "Luồng 1: Tập Với Camera & Thích Ứng (RPE)"
 p.font.size = Pt(16)
 p.font.bold = True
 p.font.color.rgb = PRIMARY
 p2 = tf.add_paragraph()
 p2.text = (
-    "• Không ép bật camera: Chỉ kích hoạt khi muốn kiểm tra form động tác mới («extend» trong Use Case).\n"
-    "• MediaPipe trên RAM trích xuất 33 điểm khớp -> Tính góc ROM -> Phát Beep/Rung sửa tư thế.\n"
-    "• Kết thúc buổi: Chỉ gửi số reps, phút tập và đánh giá RPE (Dễ/Vừa/Mệt). Tuyệt đối không gửi ảnh/video.\n"
-    "• Nút 'Tôi bị đau': Dừng buổi tập ngay lập tức trên máy (offline) và khuyên đi khám bác sĩ."
+    "• Camera On-Demand: Chỉ bật khi check form bài mới («extend» trong Use Case). MediaPipe chạy trên RAM, zero video upload.\n"
+    "• Nút 'Tôi bị đau': Dừng tập tức thì ở client (offline) -> kích hoạt luật an toàn.\n"
+    "• Thang RPE 1–10 (UI) -> Map 3 dải (Backend):\n"
+    "  - 1–3 (Light): Tăng +2 reps / +5s plank, giảm nghỉ 10s.\n"
+    "  - 4–6 (Moderate): Giữ nguyên củng cố kỹ thuật.\n"
+    "  - 7–10 (Hard): Giảm 20–30% volume, chuyển biến thể nhẹ.\n"
+    "• Vòng lặp chấn thương: Vùng đau trên Body Map -> tự động gán avoid_tags loại bỏ bài tập tuần sau."
 )
-p2.font.size = Pt(13)
+p2.font.size = Pt(12)
 p2.font.color.rgb = TEXT_WHITE
 
 col2 = slide2.shapes.add_shape(1, Inches(6.9), Inches(2.2), Inches(5.6), Inches(4.5))
@@ -138,23 +141,27 @@ p2.text = (
     "• The LLM Boundary (Ẩn danh hóa): Chuyển tuổi -> age_band, cân nặng -> bmi_band, bệnh lý -> thẻ tránh (avoid_tags). Không gửi tên, email hay chẩn đoán thật.\n"
     "• Safety Router: Bắt từ khóa chấn thương -> Trả về kịch bản an toàn chuẩn y khoa.\n"
     "• Fallback khi Gemini 429/Offline:\n"
-    "  - Cache cục bộ kế hoạch tuần trong máy (SQLite).\n"
-    "  - Tự động chuyển sang kho câu trả lời soạn sẵn (Curated Knowledge) khi mất mạng/quá tải."
+    "  - Cache cục bộ kế hoạch tuần trong máy (SQLite/Hive).\n"
+    "  - Tự động chuyển sang kho câu trả lời soạn sẵn (Curated Knowledge) khi mất mạng/quá tải.\n"
+    "• Quyền xóa dữ liệu (Right to be Forgotten): Xóa sạch profile và lịch sử tập theo NĐ 13/2023/NĐ-CP."
 )
-p2.font.size = Pt(13)
+p2.font.size = Pt(12)
 p2.font.color.rgb = TEXT_WHITE
 
 slide2.notes_slide.notes_text_frame.text = (
     "[SLIDE 2 - KỊCH BẢN THUYẾT TRÌNH THA (7-8 phút)]:\n"
-    "Ở slide này em làm rõ 2 luồng dữ liệu cốt lõi:\n"
-    "1. Luồng Camera On-Demand:\n"
-    "   - Trong UML, ca sử dụng 'Check Posture with Camera' mở rộng («extend») vào 'Perform Workout'. Người dùng không bị ép soi camera suốt buổi, chỉ bật khi cần kiểm tra bài mới.\n"
-    "   - Nhờ xử lý on-device, nút 'Tôi bị đau' ngắt tập ngay trên máy không phụ thuộc internet.\n"
-    "2. Luồng Hỏi Coach & Sinh Lịch:\n"
-    "   - LLM không tự ý chọn bài tập nguy hiểm. Rules Engine chọn bài, LLM chỉ đóng vai trò diễn giải lời văn.\n"
-    "   - Cơ chế bảo vệ dữ liệu: Dữ liệu gửi sang Gemini được ẩn danh hoàn toàn (age_band, bmi_band, restriction tags).\n"
-    "   - Cơ chế dự phòng: Nếu API Free bị nghẽn 429, hệ thống có Exponential Backoff 5 lần và tự động kích hoạt câu trả lời soạn sẵn, đảm bảo ứng dụng không bao giờ bị đơ."
+    "Ở slide này em làm rõ 2 luồng dữ liệu cốt lõi và cơ chế thích ứng an toàn:\n"
+    "1. Luồng Camera On-Demand & Adaptive Pacing:\n"
+    "   - Tính năng 'Check Posture with Camera' là quan hệ mở rộng («extend») vào 'Perform Workout'. Không ép bật liên tục, bảo vệ pin và quyền riêng tư.\n"
+    "   - Nút 'Tôi bị đau' ngắt tập ngay trên máy không phụ thuộc internet.\n"
+    "   - Về đánh giá sau buổi tập: UI Prototype dùng thang trượt 1-10 (Borg CR10). Backend tự động quy đổi 3 dải: 1-3 tăng tiến volume, 4-6 giữ nguyên, 7-10 giảm tải để chống quá sức.\n"
+    "   - Khi người dùng chạm chọn vùng đau trên Body Map, hệ thống tự động loại bỏ các bài tập gây áp lực lên vùng đó ở tuần tiếp theo.\n"
+    "2. Luồng Hỏi Coach & Cơ Chế Dự Phòng (Fallback):\n"
+    "   - Rules Engine quyết định bài tập, LLM chỉ đóng vai trò diễn giải ngôn ngữ.\n"
+    "   - Dữ liệu gửi sang Gemini được ẩn danh hoàn toàn (age_band, bmi_band, avoid_tags).\n"
+    "   - Khi API Free nghẽn 429, hệ thống kích hoạt Exponential Backoff và câu trả lời soạn sẵn, đảm bảo không bao giờ gián đoạn."
 )
+
 
 # ==================== SLIDE 3 ====================
 slide3 = prs.slides.add_slide(blank_layout)

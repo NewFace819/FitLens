@@ -1,0 +1,74 @@
+/* Shared mobile legibility and floating liquid-glass navigation. */
+
+/* The dock floats above the scrolling canvas so the phone keeps its full height. */
+#fitlens-home-preview .fl-phone:is(.fl-home-phone,.steps-phone,.workouts-phone,.insights-phone){position:relative}
+#fitlens-home-preview .fl-phone:is(.fl-home-phone,.steps-phone,.workouts-phone,.insights-phone) .fl-bottom{
+  position:absolute!important;inset:auto 0 0;z-index:50!important;flex:none!important;
+  padding:13px 24px 8px!important;background:transparent!important;border:0!important;pointer-events:none
+}
+#fitlens-home-preview .fl-phone:is(.fl-home-phone,.steps-phone,.workouts-phone,.insights-phone) .fl-bottom:before{
+  content:""!important;display:block!important;position:absolute;inset:-34px 0 0;height:auto;
+  background:linear-gradient(to bottom,transparent 0%,rgba(244,246,240,.22) 42%,rgba(244,246,240,.6) 100%)!important;
+  pointer-events:none;z-index:-1
+}
+#fitlens-home-preview .fl-phone:is(.fl-home-phone,.steps-phone,.workouts-phone,.insights-phone) .fl-dock{
+  width:290px;max-width:calc(100% - 22px);padding:5px;pointer-events:auto;
+  background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(231,238,229,.5))!important;
+  border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 1px rgba(255,255,255,.9),0 11px 28px rgba(42,65,48,.16),0 2px 6px rgba(42,65,48,.08);
+  backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35)
+}
+#fitlens-home-preview .fl-phone:is(.fl-home-phone,.steps-phone,.workouts-phone,.insights-phone) .fl-dock-item{min-height:55px;font-size:13px!important;font-weight:780!important;line-height:1.1}
+#fitlens-home-preview .fl-phone:is(.fl-home-phone,.steps-phone,.workouts-phone,.insights-phone) .fl-home-indicator{margin-top:10px!important;pointer-events:auto}
+#fitlens-home-preview :is(.fl-home-scroll,.steps-scroll,.workouts-scroll,.insights-scroll){padding-bottom:132px!important;scroll-padding-bottom:132px}
+
+/* Home */
+#fitlens-home-preview .fl-home-phone .fl-brand{font-size:12px}
+@media(max-width:380px){#fitlens-home-preview .fl-home-phone .fl-mini-data strong span{font-size:13px}}
+
+/* Steps detail */
+.steps-phone .nav-eyebrow{font-size:13px}.steps-phone .hero-topline{font-size:11px;line-height:1.35;letter-spacing:.85px}.steps-phone .hero-comparison{font-size:12px;padding:6px 9px}
+.steps-phone .sun-orb-data>span{font-size:12px}.steps-phone .baseline-row span,.steps-phone .baseline-row .baseline-difference{font-size:13px}.steps-phone #baseline-info{font-size:12px}.steps-phone #baseline-info p{font-size:14px;line-height:1.55}
+.steps-phone .section-caption{font-size:13px}.steps-phone .day-name{font-size:12px}.steps-phone .day-num{font-size:14px}.steps-phone .week-note{font-size:13px;line-height:1.5}
+.steps-phone .bento-label{font-size:13px}.steps-phone .bento-stat span{font-size:13px}.steps-phone .bento-note{font-size:12px;line-height:1.4}
+.steps-phone .flow-time{font-size:12px}.steps-phone .flow-title{font-size:15px}.steps-phone .flow-steps span{font-size:12px}.steps-phone .closing-note{font-size:13px}
+.steps-phone .walk-banner-tag{font-size:11px}.steps-phone .walk-banner-title{font-size:16px}.steps-phone .walk-banner-meta{font-size:13px}
+@media(max-width:380px){.steps-phone .hero-topline{font-size:11px}.steps-phone .hero-comparison{font-size:11px}.steps-phone .baseline-row span,.steps-phone .baseline-row .baseline-difference{font-size:12px}.steps-phone .bento-label{font-size:12px}}
+
+/* Workout library and creation sheets */
+.workouts-phone .eyebrow{font-size:11px;line-height:1.4}.workouts-phone .header-caption{font-size:14px;line-height:1.5}.workouts-phone .today-top{font-size:11px;line-height:1.35}.workouts-phone .today-date{font-size:11px}
+.workouts-phone .today-body p{font-size:14px;line-height:1.5}.workouts-phone .choose-primary{font-size:15px;min-height:48px}.workouts-phone .create-action{font-size:14px;min-height:44px}.workouts-phone .section-note{font-size:13px}
+.workouts-phone .routine-copy strong{font-size:16px}.workouts-phone .routine-copy>span{font-size:13px;line-height:1.45}.workouts-phone .routine-row{min-height:76px}.workouts-phone .empty-workout{font-size:14px;min-height:44px}
+.workouts-phone .schedule-row{font-size:15px;min-height:58px}.workouts-phone .schedule-row small{font-size:13px;line-height:1.4}.workouts-phone .last-card strong{font-size:16px}.workouts-phone .last-card>div>span{font-size:13px}.workouts-phone .last-card button{font-size:14px;min-height:44px}
+.workouts-phone .sheet-heading .eyebrow{font-size:11px}.workouts-phone .sheet-intro{font-size:15px;line-height:1.55}.workouts-phone .picker-confirmation{font-size:13px}.workouts-phone .next-dismiss{font-size:16px;min-height:48px}
+@media(max-width:380px){.workouts-phone .header-caption{font-size:13px}.workouts-phone .today-top,.workouts-phone .today-date{font-size:11px}.workouts-phone .today-body p{font-size:13px}.workouts-phone .choose-primary{font-size:14px}.workouts-phone .create-action{font-size:13px}.workouts-phone .routine-copy>span{font-size:13px}}
+
+/* Insights library and reading surfaces */
+.insights-phone .eyebrow{font-size:11px;line-height:1.4}.insights-phone .insights-header p{font-size:14px;line-height:1.5}.insights-phone .section-note{font-size:13px}.insights-phone .tag,.insights-phone .mini-brand{font-size:11px}
+.insights-phone .year-bottom p{font-size:13px;line-height:1.45}.insights-phone .archive-line{font-size:12px;line-height:1.4}.insights-phone .week-footer{font-size:13px}.insights-phone .month-footer{font-size:12px}.insights-phone .sample-note{font-size:12px}
+.insights-phone .guides-main-header p{font-size:14px;line-height:1.5}.insights-phone .see-all-btn{font-size:14px;min-height:44px}.insights-phone .category-desc{font-size:14px;line-height:1.5}.insights-phone .guide-card-title{font-size:14px;line-height:1.35}.insights-phone .guide-card-category{font-size:11px}
+.insights-phone .reader-kicker,.insights-phone .collection-kicker{font-size:11px}.insights-phone .reader-body,.insights-phone .collection-description{font-size:16px;line-height:1.6}
+@media(max-width:380px){.insights-phone .archive-line{font-size:12px}}
+
+/* Session, review, plan and reminder screens */
+.details-phone .details-nav>span{font-size:12px}.session-phone .session-nav p{font-size:13px}.session-phone .chapter-line p{font-size:11px}.session-phone .next-line>span,.session-phone .safety-line>span{font-size:12px}
+.review-phone .review-hero .eyebrow{font-size:12px}.review-phone .body-orientation{font-size:12px}.setup-phone .week-art-top{font-size:12px}.setup-phone .mini-day{font-size:13px}
+.phone .period-label{font-size:12px}.phone .time-landmarks{font-size:12px}.phone .save-status{font-size:13px}
+
+/* Post-walk recap */
+.postwalk-phone .nav-eyebrow{font-size:12px}.postwalk-phone .walk-badge{font-size:13px}.postwalk-phone .telemetry-label{font-size:11px}.postwalk-phone .telemetry-val .unit{font-size:13px}.postwalk-phone .telemetry-sub{font-size:13px}
+.postwalk-phone .info-content strong{font-size:14px}.postwalk-phone .info-content span{font-size:13px}.postwalk-phone .sub-category-tag{font-size:11px}.postwalk-phone .gain-txt{font-size:12px}
+.postwalk-phone .chip-text strong{font-size:14px}.postwalk-phone .chip-text span{font-size:13px}.postwalk-phone .sync-status-row strong{font-size:14px}.postwalk-phone .sync-desc{font-size:13px}
+.postwalk-phone .cardio-sub{font-size:13px}.postwalk-phone .cardio-clinical-note{font-size:13px;line-height:1.5}.postwalk-phone .splits-guide-hint{font-size:12px}.postwalk-phone .split-tag{font-size:12px}
+.postwalk-phone .section-caption{font-size:14px}.postwalk-phone .brand-text{font-size:12px}.postwalk-phone .card-date-badge{font-size:11px}.postwalk-phone .card-time-cadence{font-size:13px}
+
+/* Workout recap cards embedded in the check-in */
+.review-phone .recap-eyebrow{font-size:12px}.review-phone .recap-done{font-size:13px}.review-phone .metric-label{font-size:12px}.review-phone .volume-footnote{font-size:13px}
+.review-phone .recap-bento .time-card .metric-label,.review-phone .recap-bento .sets-card .metric-label{font-size:12px}.review-phone .muscle-card-heading .recap-eyebrow{font-size:11px}.review-phone .muscle-badge{font-size:12px}
+.review-phone .muscle-figures figcaption{font-size:12px}.review-phone .heat-legend,.review-phone .muscle-tap-hint{font-size:13px}.review-phone .muscle-detail li>span:last-child{font-size:13px}
+.review-phone .discomfort-panel-heading>span{font-size:12px}.review-phone .note-writing label span{font-size:13px}.review-phone .finish-context{font-size:13px}
+
+/* Camera and recap use compact editorial labels; essential copy stays readable. */
+.camera-phone .exercise-heading p{font-size:11px}.camera-phone .viewfinder-top,.camera-phone .position-tip{font-size:12px}.camera-phone .observation-note{font-size:11px}.camera-phone .set-summary>div>span{font-size:11px}.camera-phone .set-summary-note{font-size:11px;line-height:1.35}
+.story-top{font-size:11px}.story-stage .eyebrow{font-size:11px}.journey-heading .eyebrow{font-size:11px}.trail-heading{font-size:11px}.chart-key{font-size:11px}
+.grid text,.axis text{font-size:11px}
+.month-summary>div>span{font-size:11px}.month-summary strong span{font-size:12px}.month-summary>div:last-of-type strong span{font-size:11px}.month-summary p{font-size:11px}.journey-bottom{font-size:13px}.story-footer>span{font-size:11px}

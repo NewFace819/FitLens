@@ -160,11 +160,32 @@ FitLens là ứng dụng thể hình cho giới trẻ, **tuyệt đối không �
    - Khi phát hiện người dùng có vấn đề cột sống/khớp gối, hệ thống tự động gán nhãn `avoid_tags: ["spinal_load", "high_impact"]`.
    - Rules Engine sẽ tự động loại bỏ các bài như Barbell Squat, Deadlift, Jumping Jacks khỏi danh mục trước khi đề xuất cho người dùng.
 
-### 3.2. Fallback khi lỗi API (Resilience & Zero-Downtime)
+### 3.2. Cơ chế Thích Ứng (Adaptive Pacing) & Đồng bộ thang RPE
+Để giải quyết bài toán chống nản ngày đầu và tăng tiến bền vững (Progressive Overload):
+1. **Đồng bộ Thang Đo Cảm Nhận RPE (UI 1–10 $\rightarrow$ Backend 3 Tầng):**
+   - **Trên Giao diện Client (UI):** Sử dụng thanh trượt 1–10 theo chuẩn Borg CR10 để người dùng dễ kéo thả cảm nhận:
+     - *1–3 (Light):* Vận động nhẹ nhàng, chưa mệt.
+     - *4–6 (Moderate):* Nỗ lực vừa sức, kiểm soát tốt.
+     - *7–10 (Hard / All-out):* Quá sức, kiệt sức, nhức mỏi.
+   - **Xử lý tại Backend (Rules Engine):** Ánh xạ tự động 3 dải giá trị này để điều chỉnh giáo án tuần tiếp theo:
+     - Dải 1–3 $\rightarrow$ Tăng +2 reps hoặc +5s giữ plank, giảm 10s nghỉ giữa hiệp.
+     - Dải 4–6 $\rightarrow$ Giữ nguyên khối lượng để củng cố kỹ thuật thêm 1–2 buổi.
+     - Dải 7–10 $\rightarrow$ Giảm 20–30% volume, tự động chuyển biến thể nhẹ hơn (vd: Barbell Squat $\rightarrow$ Goblet Squat / Chair Squat).
+
+2. **Vòng Lặp Phản Hồi Chấn Thương (Injury Feedback Loop):**
+   - Khi người dùng bấm *"Tôi bị đau"* hoặc chạm chọn vùng đau trên bản đồ cơ thể (*Body Map* ở màn hình Review), hệ thống tự động lưu vào bảng `health_conditions` (L3 Sensitive Health).
+   - Bộ lọc `setup-plan-model` tự động thêm thẻ cấm (ví dụ: `avoid_tags: ["knees", "spinal_load"]`), lập tức **loại bỏ các bài tập gây áp lực lên vùng đó** khỏi lịch tập thích ứng tuần tiếp theo.
+
+3. **Quyền Riêng Tư & Xóa Dữ Liệu Cá Nhân (Right to be Forgotten):**
+   - Tuân thủ Luật Bảo vệ Dữ liệu Cá nhân Việt Nam (NĐ 13/2023/NĐ-CP): Không thu thập GPS, danh bạ; camera chỉ chạy trên RAM (`Zero Video Retention`).
+   - Cung cấp tính năng xóa tài khoản (`Delete Personal Data`) với cơ chế `ON DELETE CASCADE` xóa sạch profile và log lịch sử tập luyện khỏi server.
+
+### 3.3. Fallback khi lỗi API (Resilience & Zero-Downtime)
 Vì sử dụng tầng miễn phí **Google Gemini API Free Tier**, hiện tượng nghẽn (HTTP 429) hoặc gián đoạn dịch vụ có thể xảy ra:
 - **Tầng 1 (Client Cache):** Lịch tập của tuần hiện tại luôn được cache cục bộ trong SQLite/Hive. Mất mạng người dùng vẫn mở app tập bình thường.
 - **Tầng 2 (Exponential Backoff):** Adapter gọi Gemini được cấu hình retry tối đa 5 lần với thời gian chờ tăng dần (`initial_delay = 2s`).
 - **Tầng 3 (Curated Knowledge Fallback):** Nếu retry thất bại hoặc Gemini quá tải, hệ thống tự động trả về câu trả lời từ kho tri thức y khoa đối soát sẵn (`docs/reference/Note.md` / `medical_knowledge`) thay vì báo lỗi crash màn hình.
+
 
 ---
 

@@ -38,19 +38,27 @@
 * **Cột 1 — Luồng 1: Tập Với Camera (On-Demand):**
   - Không ép bật camera: Chỉ kích hoạt khi muốn kiểm tra form động tác mới/khó (`«extend»` trong Use Case UML).
   - MediaPipe trên RAM trích xuất 33 điểm khớp $\rightarrow$ Tính góc ROM $\rightarrow$ Phát Beep/Rung sửa tư thế.
-  - Kết thúc buổi: Chỉ gửi số reps, phút tập và đánh giá RPE (Dễ/Vừa/Mệt). Tuyệt đối không gửi ảnh/video.
+  - Kết thúc buổi: Chỉ gửi số reps, phút tập và đánh giá RPE. Tuyệt đối không gửi ảnh/video.
   - Nút *"Tôi bị đau"*: Dừng buổi tập ngay lập tức trên máy (offline) và khuyên đi khám bác sĩ.
+  - **Đồng bộ RPE 1–10 (UI) $\rightarrow$ Map 3 dải (Backend):**
+    - *1–3 (Light):* Tăng +2 reps / +5s plank, giảm nghỉ 10s.
+    - *4–6 (Moderate):* Giữ nguyên củng cố kỹ thuật.
+    - *7–10 (Hard):* Giảm 20–30% volume, chuyển biến thể bài tập nhẹ hơn.
+  - **Vòng lặp chấn thương:** Vùng đau trên Body Map $\rightarrow$ Tự động gán `avoid_tags` loại bỏ các bài tập liên quan ở tuần kế tiếp.
 * **Cột 2 — Luồng 2: Hỏi Coach & Router An Toàn / Fallback:**
   - *The LLM Boundary (Ẩn danh hóa):* Chuyển tuổi $\rightarrow$ `age_band`, cân nặng $\rightarrow$ `bmi_band`, bệnh lý $\rightarrow$ `avoid_tags`. Không gửi tên, email hay chẩn đoán thật sang Gemini.
   - *Safety Router:* Bắt từ khóa chấn thương $\rightarrow$ Trả về kịch bản an toàn chuẩn y khoa.
   - *Fallback khi Gemini 429/Offline:* Cache cục bộ kế hoạch tuần trong máy; tự động chuyển sang kho câu trả lời soạn sẵn (Curated Knowledge) khi mất mạng/quá tải.
+  - *Quyền riêng tư (NĐ 13/2023/NĐ-CP):* Cho phép xóa sạch profile và lịch sử tập (`Delete Personal Data`).
 
 ### Speaker Notes (Lời thoại thuyết minh):
-> *"Sang slide thứ hai, em xin phân tích sâu vào 2 luồng dữ liệu cốt lõi và cách hệ thống xử lý rủi ro:*
+> *"Sang slide thứ hai, em xin phân tích sâu vào 2 luồng dữ liệu cốt lõi và cơ chế thích ứng an toàn:*
 >
-> *1. Luồng Tập Luyện với Camera:*
+> *1. Luồng Camera On-Demand & Adaptive Pacing:*
 > *- Trên phương diện phân tích Use Case, tính năng 'Check Posture with Camera' là quan hệ mở rộng («extend») vào ca sử dụng 'Perform Workout'. Người dùng không bị bắt ép phải soi camera suốt cả buổi tập để tránh gây áp lực tâm lý và hao pin, họ chỉ bấm bật camera khi cần kiểm tra kỹ thuật một bài tập mới.*
 > *- Ngay trên màn hình camera luôn có nút 'Tôi bị đau' nổi bật. Nút này được xử lý độc lập ngay ở Client, dù mất mạng vẫn ngắt camera tức thì và đưa ra cảnh báo chuẩn y tế.*
+> *- Về đánh giá sau buổi tập: Giao diện Prototype dùng thang trượt 1-10 (Borg CR10). Backend tự động quy đổi 3 dải: 1-3 tăng tiến volume, 4-6 giữ nguyên, 7-10 giảm tải để chống quá sức.*
+> *- Khi người dùng chạm chọn vùng đau trên Body Map, hệ thống tự động loại bỏ các bài tập gây áp lực lên vùng đó ở tuần tiếp theo.*
 >
 > *2. Luồng Hỏi Coach & Cơ Chế Dự Phòng (Fallback):*
 > *- Nhóm tuân thủ nguyên tắc: Rules Engine quyết định sự thật, LLM chỉ đóng vai trò diễn ngôn. LLM không bao giờ được tự ý thêm bớt bài tập nguy hiểm.*
