@@ -1,7 +1,6 @@
 # Kịch Bản Báo Cáo Blueprint Kiến Trúc FitLens (THA — 20 Phút)
 
 > **File trình chiếu:** [`docs/FitLens_Blueprint_THA.pptx`](FitLens_Blueprint_THA.pptx) (Đúng chuẩn 3 slide cô đọng)  
-> **Người trình bày:** Gia Huy (Phụ trách Blueprint kiến trúc + Repo)  
 > **Thời lượng:** ~15–18 phút trình bày + 2–5 phút Q&A
 
 ---

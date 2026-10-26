@@ -15,7 +15,7 @@ flowchart TB
     subgraph CLIENT ["📱 MOBILE CLIENT (Flutter / React Native)"]
         direction TB
         subgraph UI ["Giao Diện & Trải Nghiệm"]
-            SCREENS["Screens: Tập Luyện · Chat Coach · Dinh Dưỡng"]
+            SCREENS["Screens: Auth · Tập Luyện · Chat Coach · Dinh Dưỡng"]
             AVATAR["Growing Avatar (Tiến hóa theo Volume/Streak)"]
             HAPTIC["Phản hồi Rung (Haptic) & Âm thanh (Beep)"]
         end
@@ -44,24 +44,30 @@ flowchart TB
     subgraph STORAGE_SERVICES ["🗄️ STORAGE & THIRD-PARTY SERVICES"]
         direction TB
         DB_AUTH["Auth DB (Users, Password Hash Argon2id)"]
-        DB_L2["L2 Personal DB (Workout Logs, Meal Logs, Streaks)"]
-        DB_L3["L3 Sensitive Health DB (Bệnh lý, Chấn thương - Riêng biệt)"]
+        subgraph SUPABASE_DB ["Supabase PostgreSQL (RLS Protected)"]
+            DB_L2["L2 Personal Schema (Workout Logs, Meal Logs, Streaks)"]
+            DB_L3["L3 Sensitive Health Schema (Bệnh lý, Chấn thương, avoid_tags)"]
+        end
         GEMINI["Google Gemini API (gemini-3.8-flash Free Tier)"]
         PUSH_SVC["Push Notification Service (FCM)"]
     end
 
-    %% Kết nối
+    %% Kết nối Client & Gateway
     LOCAL_CORE -->|"Gửi số liệu (Reps, Điểm Form), KHÔNG gửi Video"| GATEWAY
-    UI -->|"Chat text, Meal text"| GATEWAY
+    LOCAL_DB <-->|"Sync lịch sử & Cache kế hoạch tuần (Khi có mạng)"| GATEWAY
+    UI -->|"Auth, Chat text, Meal text, Pain reports"| GATEWAY
+    
+    %% Xử lý Backend
     GATEWAY --> VALIDATE
+    VALIDATE -.-> DB_AUTH
     VALIDATE --> SAFETY_ROUTER
     
-    SAFETY_ROUTER -->|"Phát hiện đau / Nguy hiểm"| DB_L3
     SAFETY_ROUTER -->|"Bình thường"| RULES_ENGINE
+    SAFETY_ROUTER -->|"Phát hiện đau / Nguy hiểm"| RULES_ENGINE
     
+    RULES_ENGINE -.->|"Ghi log tập, Streak"| DB_L2
+    RULES_ENGINE -.->|"Cập nhật bảng sức khỏe / avoid_tags"| DB_L3
     RULES_ENGINE --> PSEUDO
-    RULES_ENGINE -.-> DB_L2
-    VALIDATE -.-> DB_AUTH
     
     PSEUDO -->|"Prompt ẩn danh (Bands & Tags)"| GEMINI
     GEMINI -.->|"Lỗi API / 429"| FALLBACK_HANDLER

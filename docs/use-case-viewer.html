@@ -72,14 +72,29 @@
       background: #334155;
       color: var(--text);
     }
+    .diagram-section {
+      margin-bottom: 32px;
+    }
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-title h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+    }
     .diagram-card {
       background: #ffffff;
       border-radius: 12px;
-      padding: 32px;
-      margin-bottom: 24px;
+      padding: 24px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
       overflow-x: auto;
-      min-height: 600px;
+      min-height: 360px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -144,86 +159,129 @@
       </div>
     </header>
 
-    <div class="diagram-card">
-      <div class="mermaid">
+    <!-- MAP 1 -->
+    <div class="diagram-section">
+      <div class="section-title">
+        <h2>Phân Hệ 1: Lập Kế Hoạch Thích Ứng & Tư Vấn An Toàn (Planning & Safety)</h2>
+        <span class="badge">Adaptive Overload · Guardrail · Gemini API</span>
+      </div>
+      <div class="diagram-card">
+        <div class="mermaid">
 flowchart LR
-    subgraph FitLens ["«system» FitLens Mobile System"]
+    subgraph Subsys1 ["«subsystem» Lập Kế Hoạch Thích Ứng & Tư Vấn An Toàn"]
         direction TB
-
-        subgraph G1 ["Nhóm 1: Lập Kế Hoạch Thích Ứng & Tư Vấn An Toàn"]
-            UC_Plan(["Plan Adaptive Workout"])
-            UC_Custom(["Customize by Health Condition & Goal"])
-            UC_Prog(["Progressively Scale Difficulty"])
-            UC_Diet(["Suggest Nutrition & Balance Calories"])
-            UC_Consult(["Consult Fitness Safety"])
-            UC_RAG(["Query Medical RAG"])
-            UC_Doc(["Trigger Doctor Referral"])
-        end
-
-        subgraph G2 ["Nhóm 2: Luyện Tập & Kiểm Tra Kỹ Thuật"]
-            UC_Workout(["Perform Workout"])
-            UC_Save(["Save Workout Session"])
-            UC_CheckForm(["Check Posture with Camera (On-Demand)"])
-            UC_Space(["Check Space & Distance"])
-            UC_Track(["Track 33-Joint Posture"])
-            UC_Alert(["Emit Form Warning"])
-            UC_RPE(["Provide Difficulty Feedback (RPE)"])
-            UC_PostHeatmap(["View Workout Heatmap"])
-        end
-
-        subgraph G3 ["Nhóm 3: Thống Kê & Quyền Riêng Tư"]
-            UC_Dash(["View Progress Dashboard"])
-            UC_CumHeatmap(["View Cumulative Heatmap & Streak"])
-            UC_Privacy(["Manage Personal Privacy"])
-            UC_Delete(["Delete Personal Data"])
-        end
+        UC_Plan(["Plan Adaptive Workout"])
+        UC_Custom(["Customize by Health Condition & Goal"])
+        UC_Prog(["Progressively Scale Difficulty"])
+        UC_Diet(["Suggest Nutrition & Balance Calories"])
+        UC_Consult(["Consult Fitness Safety"])
+        UC_SafetyRules(["Query Safety Rules & Knowledge"])
+        UC_Doc(["Trigger Doctor Referral"])
     end
 
     User["👤 User / Student\n(Primary Actor)"]
-    PoseTracker["📷 Camera / Pose Tracker\n(Secondary Actor)"]
-    AudioSys["🔊 Audio Alert System\n(Secondary Actor)"]
-    MedicalDB["📚 Medical RAG Database\n(Secondary Actor)"]
+    ExternalAI["☁️ External AI & Safety KB\n(Gemini API & Rules / Secondary Actor)"]
 
     User --- UC_Plan
     User --- UC_Consult
+
     UC_Plan -.->|«include»| UC_Custom
     UC_Plan -.->|«include»| UC_Prog
-    UC_Plan -.->|«include»| UC_Diet
-    UC_Consult -.->|«include»| UC_RAG
+    UC_Diet -.->|«extend»| UC_Plan
+
+    UC_Consult -.->|«include»| UC_SafetyRules
     UC_Doc -.->|«extend»| UC_Consult
-    UC_RAG --- MedicalDB
+    UC_SafetyRules --- ExternalAI
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP 2 -->
+    <div class="diagram-section">
+      <div class="section-title">
+        <h2>Phân Hệ 2: Luyện Tập & Kiểm Tra Kỹ Thuật (Workout & Form Inspection)</h2>
+        <span class="badge">On-Demand Camera · Zero Video Retention · Haptics/Audio</span>
+      </div>
+      <div class="diagram-card">
+        <div class="mermaid">
+flowchart LR
+    subgraph Subsys2 ["«subsystem» Luyện Tập & Kiểm Tra Kỹ Thuật"]
+        direction TB
+        UC_Workout(["Perform Workout"])
+        UC_Save(["Save Workout Session"])
+        UC_CheckForm(["Check Posture with Camera (On-Demand)"])
+        UC_Space(["Check Space & Distance"])
+        UC_Track(["Track 33-Joint Posture"])
+        UC_Alert(["Emit Form Warning"])
+        UC_RPE(["Provide Difficulty Feedback (RPE)"])
+        UC_PostHeatmap(["View Workout Heatmap"])
+    end
+
+    User["👤 User / Student\n(Primary Actor)"]
+    PoseTracker["📷 Device Camera / Vision Sensor\n(OS Subsystem / Secondary Actor)"]
+    AudioSys["🔊 Device Audio & Haptics\n(OS Subsystem / Secondary Actor)"]
 
     User --- UC_Workout
+
     UC_Workout -.->|«include»| UC_Save
     UC_CheckForm -.->|«extend»| UC_Workout
     UC_RPE -.->|«extend»| UC_Workout
     UC_PostHeatmap -.->|«extend»| UC_Workout
+
     UC_CheckForm -.->|«include»| UC_Space
     UC_CheckForm -.->|«include»| UC_Track
-    UC_CheckForm -.->|«include»| UC_Alert
+    UC_Alert -.->|«extend»| UC_CheckForm
+
     UC_Track --- PoseTracker
     UC_Alert --- AudioSys
+        </div>
+      </div>
+    </div>
 
+    <!-- MAP 3 -->
+    <div class="diagram-section">
+      <div class="section-title">
+        <h2>Phân Hệ 3: Tài Khoản, Thống Kê & Quyền Riêng Tư (Account & Privacy)</h2>
+        <span class="badge">Supabase Auth · NĐ 13/2023/NĐ-CP · Habit Dashboard</span>
+      </div>
+      <div class="diagram-card">
+        <div class="mermaid">
+flowchart LR
+    subgraph Subsys3 ["«subsystem» Tài Khoản, Thống Kê & Quyền Riêng Tư"]
+        direction TB
+        UC_Auth(["Authenticate & Setup Profile"])
+        UC_Dash(["View Progress Dashboard"])
+        UC_CumHeatmap(["View Cumulative Heatmap & Streak"])
+        UC_Privacy(["Manage Personal Privacy"])
+        UC_Delete(["Delete Personal Data"])
+    end
+
+    User["👤 User / Student\n(Primary Actor)"]
+
+    User --- UC_Auth
     User --- UC_Dash
     User --- UC_Privacy
+
     UC_Dash -.->|«include»| UC_CumHeatmap
-    UC_Privacy -.->|«include»| UC_Delete
+    UC_Delete -.->|«extend»| UC_Privacy
+        </div>
       </div>
     </div>
 
     <div class="notes-grid">
       <div class="note-card">
-        <h3>1. Camera On-Demand («extend»)</h3>
-        <p>Người dùng không bị ép bật camera suốt buổi tập. Chỉ kích hoạt khi muốn kiểm tra kỹ thuật động tác mới/khó, giúp tiết kiệm pin và tránh áp lực tâm lý.</p>
+        <h3>1. Phân Rã Thành 3 Phân Hệ Chuẩn UML</h3>
+        <p>Tách thành 3 bản đồ chuyên biệt giúp các nhóm chức năng không bị chồng lấn đường nối, làm nổi bật ranh giới hệ thống («subsystem») và các tác nhân tương tác.</p>
       </div>
       <div class="note-card">
-        <h3>2. Phân định Ranh Giới Chuẩn UML</h3>
-        <p>AI Engine nằm bên trong hệ thống. Các Secondary Actors bên ngoài chỉ bao gồm Camera/Pose Tracker, CSDL Y khoa độc lập và Hệ thống phát âm thanh OS.</p>
+        <h3>2. Chuẩn hóa Quan hệ «extend» & «include»</h3>
+        <p>Tính năng Camera On-Demand, Cảnh báo sai form và Xóa tài khoản đều dùng <code>«extend»</code> vì là luồng có điều kiện, loại bỏ triệt để các lỗi bắt bẻ logic thường gặp.</p>
       </div>
       <div class="note-card">
-        <h3>3. An Toàn Y Tế & Chuyển Tuyến</h3>
-        <p>Khi người dùng báo đau nhói hoặc chấn thương, kịch bản <code>Trigger Doctor Referral</code> lập tức ngắt buổi tập/chat và khuyên đi khám bác sĩ.</p>
+        <h3>3. An Toàn Y Tế & Xác Thực Nền Tảng</h3>
+        <p>Tích hợp ca sử dụng <code>Authenticate & Setup Profile</code> bảo vệ dữ liệu, cùng kịch bản <code>Trigger Doctor Referral</code> chuyển viện ngay khi người dùng báo đau.</p>
       </div>
+    </div>
     </div>
   </div>
 </body>
