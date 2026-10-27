@@ -1,8 +1,15 @@
 # FitLens — System Architecture Blueprint
 
-> **Phiên bản:** 1.0 (Bản nháp CP1)  
+> **Phiên bản:** 1.1 (Cập nhật chuẩn hóa CP1)  
 > **Tác giả:** Nhóm 01 (CSC10014 — Computational Thinking)  
 > **Phụ trách:** Gia Huy (Blueprint Kiến trúc + Repo)
+
+---
+
+> [!NOTE]
+> **Minh định về trạng thái triển khai:**
+> - **Hiện tại (Interactive UI Prototype & PoC):** Đã hiện thực hóa toàn bộ luồng tương tác của người dùng dưới dạng Web Prototype tương tác (`prototype/`) và PoC kết nối Gemini API (`poc/plan_generator/`) để kiểm chứng tính khả thi của giao diện và gợi ý kế hoạch. Module `setup-plan-model.js` trong thư mục này là mã JavaScript mô phỏng logic lọc bài tập ở client, chưa phải service backend hoàn chỉnh.
+> - **Kiến trúc mục tiêu (Target Architecture):** Mô hình MediaPipe Pose chạy on-device native trên Flutter, backend FastAPI, Supabase PostgreSQL, SQLite cache offline-first và bộ quy tắc đối soát tĩnh (curated safety rules) là bản thiết kế hệ thống hoàn thiện cho giai đoạn MVP.
 
 ---
 
@@ -36,7 +43,7 @@ flowchart TB
         direction TB
         VALIDATE["Validate & Sanitize (Lọc rác & PII)"]
         SAFETY_ROUTER{"Safety Router (Luật An Toàn / Báo Đau)"}
-        RULES_ENGINE["Rules Engine (Lên Lịch, Tính Reps, Bù Calo, Streak)"]
+        RULES_ENGINE["Rules Engine (Lên Lịch, Tính Reps, Thích Ứng, Streak)"]
         PSEUDO["Pseudonymizer (Ẩn danh hóa dữ liệu trước khi gửi LLM)"]
         FALLBACK_HANDLER["Fallback Handler (Xử lý khi Gemini 429/Offline)"]
     end
@@ -46,7 +53,7 @@ flowchart TB
         DB_AUTH["Auth DB (Users, Password Hash Argon2id)"]
         subgraph SUPABASE_DB ["Supabase PostgreSQL (RLS Protected)"]
             DB_L2["L2 Personal Schema (Workout Logs, Meal Logs, Streaks)"]
-            DB_L3["L3 Sensitive Health Schema (Bệnh lý, Chấn thương, avoid_tags)"]
+            DB_L3["L3 Sensitive Health Schema (Bệnh lý, avoid_tags đã xác nhận)"]
         end
         GEMINI["Google Gemini API (gemini-3.8-flash Free Tier)"]
         PUSH_SVC["Push Notification Service (FCM)"]
@@ -55,7 +62,7 @@ flowchart TB
     %% Kết nối Client & Gateway
     LOCAL_CORE -->|"Gửi số liệu (Reps, Điểm Form), KHÔNG gửi Video"| GATEWAY
     LOCAL_DB <-->|"Sync lịch sử & Cache kế hoạch tuần (Khi có mạng)"| GATEWAY
-    UI -->|"Auth, Chat text, Meal text, Pain reports"| GATEWAY
+    UI -->|"Auth, Chat text, Meal log, Pain reports"| GATEWAY
     
     %% Xử lý Backend
     GATEWAY --> VALIDATE
@@ -63,16 +70,18 @@ flowchart TB
     VALIDATE --> SAFETY_ROUTER
     
     SAFETY_ROUTER -->|"Bình thường"| RULES_ENGINE
-    SAFETY_ROUTER -->|"Phát hiện đau / Nguy hiểm"| RULES_ENGINE
+    SAFETY_ROUTER -->|"Báo đau / Chấn thương cấp"| GATEWAY
     
     RULES_ENGINE -.->|"Ghi log tập, Streak"| DB_L2
-    RULES_ENGINE -.->|"Cập nhật bảng sức khỏe / avoid_tags"| DB_L3
+    RULES_ENGINE -.->|"Lưu thẻ hạn chế sau khi xác nhận"| DB_L3
     RULES_ENGINE --> PSEUDO
     
     PSEUDO -->|"Prompt ẩn danh (Bands & Tags)"| GEMINI
-    GEMINI -.->|"Lỗi API / 429"| FALLBACK_HANDLER
-    FALLBACK_HANDLER -.->|"Câu trả lời soạn sẵn"| GATEWAY
-    PSEUDO -.->|"JSON Plan hợp lệ"| GATEWAY
+    GEMINI -->|"JSON Plan hợp lệ"| RULES_ENGINE
+    RULES_ENGINE -->|"Kế hoạch hoàn chỉnh"| GATEWAY
+    
+    GEMINI -.->|"Lỗi API / 429 / Timeout"| FALLBACK_HANDLER
+    FALLBACK_HANDLER -.->|"Kế hoạch dự phòng soạn sẵn"| GATEWAY
     
     RULES_ENGINE --> PUSH_SVC
     PUSH_SVC -->|"Generic Notification"| UI
@@ -82,8 +91,8 @@ flowchart TB
 
 ## 2. Hai luồng dữ liệu chính (Two Core Data Flows)
 
-### Luồng 1: Tập với Camera (On-Demand Posture Tracking & Rep Counting)
-Tính năng camera là **On-Demand** (chỉ bật khi người dùng cần kiểm tra kỹ thuật động tác mới/khó, quan hệ `«extend»` trong Use Case), không ép bật liên tục.
+### Luồng 1: Tập với Camera & Chốt Chặn Báo Đau (On-Demand Tracking & Safety Stop)
+Tính năng camera là **On-Demand** (chỉ bật khi người dùng cần kiểm tra kỹ thuật động tác mới/khó), không ép bật liên tục. Nút *"Tôi bị đau"* luôn hiển thị nổi bật để dừng tập offline tức thì.
 
 ```mermaid
 sequenceDiagram
@@ -107,18 +116,22 @@ sequenceDiagram
             RepEngine-->>App: Tăng đếm Rep +1
         end
     end
-    User->>App: Hoàn thành hiệp tập (Tắt Camera)
-    App->>User: Hỏi đánh giá cảm nhận RPE (1-Quá dễ / 2-Vừa sức / 3-Quá mệt)
-    App->>Backend: Gửi số liệu tổng hợp (Reps, Thời gian, Lỗi form, RPE)
+    opt Báo đau khẩn cấp khi đang tập
+        User->>App: Bấm "Tôi bị đau"
+        App-->>User: Ngắt camera, dừng bài tập offline tức thì & khuyên sơ cứu
+    end
+    User->>App: Hoàn thành buổi tập (Tắt Camera)
+    App->>User: Thu thập đánh giá nỗ lực RPE (Thanh trượt 1-10 Borg CR10 sau buổi)
+    App->>Backend: Gửi số liệu tổng hợp (Reps, Thời gian, Lỗi form, RPE 1-10)
     Note over App,Backend: ZERO VIDEO RETENTION: Không có ảnh/video nào rời khỏi máy!
     Backend->>DB: Lưu lịch sử buổi tập
-    Backend-->>App: Cập nhật Streak & Tăng cơ/kinh nghiệm cho Growing Avatar
+    Backend-->>App: Cập nhật Streak & Tăng kinh nghiệm cho Growing Avatar
 ```
 
 ---
 
 ### Luồng 2: Hỏi Coach & Sinh Kế Hoạch Tập Luyện (Ask Coach & Plan Generation)
-Luồng này thực hiện việc trò chuyện với PT ảo hoặc sinh lịch tập cá nhân hóa.
+Luồng này thực hiện việc trò chuyện với PT ảo hoặc sinh lịch tập cá nhân hóa. Dinh dưỡng là module gợi ý bữa ăn độc lập theo mục tiêu và dị ứng, hoàn toàn không có cơ chế bù calo.
 
 ```mermaid
 sequenceDiagram
@@ -135,19 +148,21 @@ sequenceDiagram
     User->>App: Gửi câu hỏi hoặc Yêu cầu sinh lịch tập mới
     App->>Gateway: POST /api/coach/chat hoặc /api/plan/generate (kèm JWT)
     Gateway->>Safety: Kiểm tra từ khóa sức khỏe / báo đau
-    alt Người dùng báo đau / chấn thương
+    alt Người dùng báo đau / chấn thương qua chat
         Safety-->>App: KÍCH HOẠT LUẬT AN TOÀN: Dừng tập, khuyên gặp bác sĩ ngay
     else Bình thường
-        Safety->>Rules: Truy xuất thông số người dùng & Danh mục bài tập
+        Safety->>Rules: Truy xuất thông số người dùng & Danh mục bài tập an toàn
         Rules->>Pseudo: Gói dữ liệu ẩn danh (Tuổi -> age_band, Cân nặng -> bmi_band)
         Note over Pseudo: Bỏ hoàn toàn: Tên, Email, SĐT, User ID thật
         Pseudo->>Gemini: Gửi Prompt có System Instruction & Structured Output Schema
-        alt Gemini phản hồi thành công
+        alt Gemini phản hồi thành công (200 OK)
             Gemini-->>Rules: JSON WorkoutPlan / Lời khuyên
             Rules->>Rules: Validate: Đảm bảo không bịa bài tập nguy hiểm
             Rules-->>App: Trả về kết quả hiển thị cho người dùng
         else Gemini bị Rate Limit (429) hoặc Lỗi Mạng (503)
-            Fallback-->>App: Trả về câu tư vấn soạn sẵn / Lịch tập mẫu offline
+            Rules->>Fallback: Lấy câu tư vấn soạn sẵn / Lịch tập mẫu offline
+            Fallback-->>Rules: Dữ liệu fallback an toàn
+            Rules-->>App: Trả về kế hoạch dự phòng (Không gián đoạn)
         end
     end
 ```
@@ -162,25 +177,23 @@ FitLens là ứng dụng thể hình cho giới trẻ, **tuyệt đối không �
    - Nút *"Tôi bị đau"* luôn hiển thị nổi bật trên màn hình tập luyện.
    - Khi bấm, app ngắt camera và dừng bài tập **ngay lập tức ở tầng Client** mà không cần kết nối internet.
    - Hiển thị khuyến nghị an toàn chuẩn mực: *"Dừng buổi tập ngay, chườm lạnh/nghỉ ngơi và đi khám chuyên khoa nếu cơn đau kéo dài"*.
-2. **Gắn nhãn hạn chế (Condition Tagging):**
-   - Khi phát hiện người dùng có vấn đề cột sống/khớp gối, hệ thống tự động gán nhãn `avoid_tags: ["spinal_load", "high_impact"]`.
-   - Rules Engine sẽ tự động loại bỏ các bài như Barbell Squat, Deadlift, Jumping Jacks khỏi danh mục trước khi đề xuất cho người dùng.
+2. **Quy trình ghi nhận phản hồi & Quản lý vùng cần tránh:**
+   - Khi người dùng báo đau trong buổi tập hoặc chạm chọn vùng khó chịu trên bản đồ cơ thể sau buổi tập, hệ thống ghi nhận khó chịu tạm thời vào nhật ký buổi tập đó.
+   - Người dùng có màn hình **chủ động xem xét và xác nhận/sửa các vùng cơ thể cần hạn chế vận động (`avoid_tags`)** cho các tuần sau (ví dụ: `avoid_tags: ["spinal_load", "high_impact"]`).
+   - Hệ thống **không tự động biến một lần báo đau tức thời thành bệnh lý vĩnh viễn**. Rules Engine chỉ lọc bỏ bài tập khi người dùng xác nhận tình trạng cần tránh.
 
-### 3.2. Cơ chế Thích Ứng (Adaptive Pacing) & Đồng bộ thang RPE
+### 3.2. Cơ chế Thích Ứng (Adaptive Pacing) & Thống Nhất Thang RPE
 Để giải quyết bài toán chống nản ngày đầu và tăng tiến bền vững (Progressive Overload):
-1. **Đồng bộ Thang Đo Cảm Nhận RPE (UI 1–10 $\rightarrow$ Backend 3 Tầng):**
-   - **Trên Giao diện Client (UI):** Sử dụng thanh trượt 1–10 theo chuẩn Borg CR10 để người dùng dễ kéo thả cảm nhận:
-     - *1–3 (Light):* Vận động nhẹ nhàng, chưa mệt.
-     - *4–6 (Moderate):* Nỗ lực vừa sức, kiểm soát tốt.
-     - *7–10 (Hard / All-out):* Quá sức, kiệt sức, nhức mỏi.
-   - **Xử lý tại Backend (Rules Engine):** Ánh xạ tự động 3 dải giá trị này để điều chỉnh giáo án tuần tiếp theo:
-     - Dải 1–3 $\rightarrow$ Tăng +2 reps hoặc +5s giữ plank, giảm 10s nghỉ giữa hiệp.
-     - Dải 4–6 $\rightarrow$ Giữ nguyên khối lượng để củng cố kỹ thuật thêm 1–2 buổi.
-     - Dải 7–10 $\rightarrow$ Giảm 20–30% volume, tự động chuyển biến thể nhẹ hơn (vd: Barbell Squat $\rightarrow$ Goblet Squat / Chair Squat).
+1. **Thống nhất Thang Đo Cảm Nhận RPE (1–10 Borg CR10 sau buổi tập):**
+   - RPE được thu thập **duy nhất một lần sau khi hoàn thành buổi tập**, không ngắt quãng người dùng sau từng hiệp.
+   - Tách biệt rõ ràng: **RPE đo mức độ gắng sức thể lực (Exertion)**, hoàn toàn khác với **tín hiệu chấn thương (Pain Stop)**.
+     - *1–3 (Light):* Vận động nhẹ nhàng, chưa mệt $\rightarrow$ Tăng +2 reps hoặc +5s giữ plank, giảm 10s nghỉ giữa hiệp.
+     - *4–6 (Moderate):* Nỗ lực vừa sức, kiểm soát tốt $\rightarrow$ Giữ nguyên khối lượng để củng cố kỹ thuật.
+     - *7–10 (Hard / All-out):* Nỗ lực rất cao, kiệt sức $\rightarrow$ Giảm 20–30% volume buổi sau để chống quá tải (Overtraining). **Mức 7–10 không tự động coi là chấn thương**.
 
-2. **Vòng Lặp Phản Hồi Chấn Thương (Injury Feedback Loop):**
-   - Khi người dùng bấm *"Tôi bị đau"* hoặc chạm chọn vùng đau trên bản đồ cơ thể (*Body Map* ở màn hình Review), hệ thống tự động lưu vào bảng `health_conditions` (L3 Sensitive Health).
-   - Bộ lọc `setup-plan-model` tự động thêm thẻ cấm (ví dụ: `avoid_tags: ["knees", "spinal_load"]`), lập tức **loại bỏ các bài tập gây áp lực lên vùng đó** khỏi lịch tập thích ứng tuần tiếp theo.
+2. **Dinh Dưỡng Độc Lập (Không Có Cơ Chế "Bù Calo"):**
+   - Module dinh dưỡng đưa ra gợi ý bữa ăn sinh viên lành mạnh dựa trên mục tiêu thể trạng và dị ứng thực phẩm, độc lập với kế hoạch tập luyện.
+   - Bỏ hoàn toàn cơ chế "ăn thêm thì phạt tập thêm hiệp" để xây dựng mối quan hệ lành mạnh với ăn uống và vận động.
 
 3. **Quyền Riêng Tư & Xóa Dữ Liệu Cá Nhân (Right to be Forgotten):**
    - Tuân thủ Luật Bảo vệ Dữ liệu Cá nhân Việt Nam (NĐ 13/2023/NĐ-CP): Không thu thập GPS, danh bạ; camera chỉ chạy trên RAM (`Zero Video Retention`).
@@ -190,8 +203,7 @@ FitLens là ứng dụng thể hình cho giới trẻ, **tuyệt đối không �
 Vì sử dụng tầng miễn phí **Google Gemini API Free Tier**, hiện tượng nghẽn (HTTP 429) hoặc gián đoạn dịch vụ có thể xảy ra:
 - **Tầng 1 (Client Cache):** Lịch tập của tuần hiện tại luôn được cache cục bộ trong SQLite/Hive. Mất mạng người dùng vẫn mở app tập bình thường.
 - **Tầng 2 (Exponential Backoff):** Adapter gọi Gemini được cấu hình retry tối đa 5 lần với thời gian chờ tăng dần (`initial_delay = 2s`).
-- **Tầng 3 (Curated Knowledge Fallback):** Nếu retry thất bại hoặc Gemini quá tải, hệ thống tự động trả về câu trả lời từ kho tri thức y khoa đối soát sẵn (`docs/reference/Note.md` / `medical_knowledge`) thay vì báo lỗi crash màn hình.
-
+- **Tầng 3 (Curated Knowledge Fallback):** Nếu retry thất bại hoặc Gemini quá tải, hệ thống tự động trả về câu trả lời từ bộ quy tắc đối soát tĩnh và mẫu bài tập soạn sẵn (`docs/reference/Note.md`) thay vì báo lỗi crash màn hình.
 
 ---
 

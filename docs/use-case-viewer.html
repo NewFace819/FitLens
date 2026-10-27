@@ -162,32 +162,34 @@
     <!-- MAP 1 -->
     <div class="diagram-section">
       <div class="section-title">
-        <h2>Phân Hệ 1: Lập Kế Hoạch Thích Ứng & Tư Vấn An Toàn (Planning & Safety)</h2>
-        <span class="badge">Adaptive Overload · Guardrail · Gemini API</span>
+        <h2>Phân Hệ 1: Lập Kế Hoạch, Dinh Dưỡng & Tư Vấn An Toàn</h2>
+        <span class="badge">Adaptive Overload · Meal Suggestions (No Calorie Compensation) · Safety Guard</span>
       </div>
       <div class="diagram-card">
         <div class="mermaid">
 flowchart LR
-    subgraph Subsys1 ["«subsystem» Lập Kế Hoạch Thích Ứng & Tư Vấn An Toàn"]
+    subgraph Subsys1 ["«subsystem» Lập Kế Hoạch, Dinh Dưỡng & Tư Vấn An Toàn"]
         direction TB
         UC_Plan(["Plan Adaptive Workout"])
-        UC_Custom(["Customize by Health Condition & Goal"])
+        UC_Custom(["Customize by Health & Goal"])
         UC_Prog(["Progressively Scale Difficulty"])
-        UC_Diet(["Suggest Nutrition & Balance Calories"])
+        
+        UC_Diet(["Suggest Meals & Log Nutrition"])
+        
         UC_Consult(["Consult Fitness Safety"])
-        UC_SafetyRules(["Query Safety Rules & Knowledge"])
+        UC_SafetyRules(["Query Curated Safety Rules"])
         UC_Doc(["Trigger Doctor Referral"])
     end
 
     User["👤 User / Student\n(Primary Actor)"]
-    ExternalAI["☁️ External AI & Safety KB\n(Gemini API & Rules / Secondary Actor)"]
+    ExternalAI["☁️ External AI / Safety Rules\n(Gemini & Templates / Secondary Actor)"]
 
     User --- UC_Plan
+    User --- UC_Diet
     User --- UC_Consult
 
     UC_Plan -.->|«include»| UC_Custom
     UC_Plan -.->|«include»| UC_Prog
-    UC_Diet -.->|«extend»| UC_Plan
 
     UC_Consult -.->|«include»| UC_SafetyRules
     UC_Doc -.->|«extend»| UC_Consult
@@ -199,21 +201,23 @@ flowchart LR
     <!-- MAP 2 -->
     <div class="diagram-section">
       <div class="section-title">
-        <h2>Phân Hệ 2: Luyện Tập & Kiểm Tra Kỹ Thuật (Workout & Form Inspection)</h2>
-        <span class="badge">On-Demand Camera · Zero Video Retention · Haptics/Audio</span>
+        <h2>Phân Hệ 2: Luyện Tập, Kiểm Tra Kỹ Thuật & Chốt Chặn Báo Đau</h2>
+        <span class="badge">Stop on Pain · On-Demand Camera · Post-Workout RPE 1-10</span>
       </div>
       <div class="diagram-card">
         <div class="mermaid">
 flowchart LR
-    subgraph Subsys2 ["«subsystem» Luyện Tập & Kiểm Tra Kỹ Thuật"]
+    subgraph Subsys2 ["«subsystem» Luyện Tập & Chốt Chặn An Toàn"]
         direction TB
         UC_Workout(["Perform Workout"])
         UC_Save(["Save Workout Session"])
+        UC_PainStop(["Report Pain (Stop on Pain)"])
+        
         UC_CheckForm(["Check Posture with Camera (On-Demand)"])
-        UC_Space(["Check Space & Distance"])
         UC_Track(["Track 33-Joint Posture"])
         UC_Alert(["Emit Form Warning"])
-        UC_RPE(["Provide Difficulty Feedback (RPE)"])
+        
+        UC_RPE(["Provide Post-Workout RPE (1-10)"])
         UC_PostHeatmap(["View Workout Heatmap"])
     end
 
@@ -224,11 +228,11 @@ flowchart LR
     User --- UC_Workout
 
     UC_Workout -.->|«include»| UC_Save
+    UC_PainStop -.->|«extend»| UC_Workout
     UC_CheckForm -.->|«extend»| UC_Workout
     UC_RPE -.->|«extend»| UC_Workout
     UC_PostHeatmap -.->|«extend»| UC_Workout
 
-    UC_CheckForm -.->|«include»| UC_Space
     UC_CheckForm -.->|«include»| UC_Track
     UC_Alert -.->|«extend»| UC_CheckForm
 
@@ -241,28 +245,37 @@ flowchart LR
     <!-- MAP 3 -->
     <div class="diagram-section">
       <div class="section-title">
-        <h2>Phân Hệ 3: Tài Khoản, Thống Kê & Quyền Riêng Tư (Account & Privacy)</h2>
-        <span class="badge">Supabase Auth · NĐ 13/2023/NĐ-CP · Habit Dashboard</span>
+        <h2>Phân Hệ 3: Hồ Sơ, Thói Quen, Nhắc Lịch & Quyền Riêng Tư</h2>
+        <span class="badge">Profile & Avoided Areas · Reminders · Streak & Mascot</span>
       </div>
       <div class="diagram-card">
         <div class="mermaid">
 flowchart LR
-    subgraph Subsys3 ["«subsystem» Tài Khoản, Thống Kê & Quyền Riêng Tư"]
+    subgraph Subsys3 ["«subsystem» Hồ Sơ, Thói Quen & Quyền Riêng Tư"]
         direction TB
-        UC_Auth(["Authenticate & Setup Profile"])
+        UC_Profile(["Manage Profile & Health Baseline"])
+        UC_ReviewAvoid(["Review & Edit Avoided Areas"])
+        
+        UC_Remind(["Set Workout Reminders"])
+        
         UC_Dash(["View Progress Dashboard"])
-        UC_CumHeatmap(["View Cumulative Heatmap & Streak"])
+        UC_MascotStreak(["Track Mascot Growth & Streak"])
+        UC_CumHeatmap(["View Cumulative Heatmap"])
+        
         UC_Privacy(["Manage Personal Privacy"])
         UC_Delete(["Delete Personal Data"])
     end
 
     User["👤 User / Student\n(Primary Actor)"]
 
-    User --- UC_Auth
+    User --- UC_Profile
+    User --- UC_Remind
     User --- UC_Dash
     User --- UC_Privacy
 
-    UC_Dash -.->|«include»| UC_CumHeatmap
+    UC_ReviewAvoid -.->|«extend»| UC_Profile
+    UC_Dash -.->|«include»| UC_MascotStreak
+    UC_CumHeatmap -.->|«extend»| UC_Dash
     UC_Delete -.->|«extend»| UC_Privacy
         </div>
       </div>
@@ -270,16 +283,16 @@ flowchart LR
 
     <div class="notes-grid">
       <div class="note-card">
-        <h3>1. Phân Rã Thành 3 Phân Hệ Chuẩn UML</h3>
-        <p>Tách thành 3 bản đồ chuyên biệt giúp các nhóm chức năng không bị chồng lấn đường nối, làm nổi bật ranh giới hệ thống («subsystem») và các tác nhân tương tác.</p>
+        <h3>1. Bỏ Cơ Chế "Bù Calo" & Dinh Dưỡng Độc Lập</h3>
+        <p>Gợi ý bữa ăn sinh viên dựa trên mục tiêu thể trạng và dị ứng, hoàn toàn độc lập với việc lên lịch tập. Không phạt tập thêm hiệp khi ăn nhiều.</p>
       </div>
       <div class="note-card">
-        <h3>2. Chuẩn hóa Quan hệ «extend» & «include»</h3>
-        <p>Tính năng Camera On-Demand, Cảnh báo sai form và Xóa tài khoản đều dùng <code>«extend»</code> vì là luồng có điều kiện, loại bỏ triệt để các lỗi bắt bẻ logic thường gặp.</p>
+        <h3>2. Nút "Tôi Bị Đau" Là Chốt Chặn Khẩn Cấp</h3>
+        <p>Đặt làm <code>«extend»</code> ngay trong <code>Perform Workout</code>: ngắt camera và dừng tập tức thì ở Client. Tách biệt mức gắng sức RPE (1–10) sau buổi tập khỏi tín hiệu chấn thương.</p>
       </div>
       <div class="note-card">
-        <h3>3. An Toàn Y Tế & Xác Thực Nền Tảng</h3>
-        <p>Tích hợp ca sử dụng <code>Authenticate & Setup Profile</code> bảo vệ dữ liệu, cùng kịch bản <code>Trigger Doctor Referral</code> chuyển viện ngay khi người dùng báo đau.</p>
+        <h3>3. Chuẩn Hóa Quan Hệ «extend» vs «include»</h3>
+        <p>Tạo/sửa hồ sơ, nhắc lịch, xóa dữ liệu và xem heatmap tích lũy đều được gắn quan hệ đúng ngữ nghĩa UML 2.5, phản ánh chính xác nghiệp vụ F1–F7.</p>
       </div>
     </div>
     </div>
