@@ -25,7 +25,7 @@ FitLens/
 ├── prototype/              # Interactive HTML/CSS/JS mobile UI prototype
 ├── design/
 │   └── ui-snapshots/       # Tagged UI screenshots (open <date>/index.html in a browser)
-├── mobile/                 # Mobile client app (Flutter / React Native)
+├── mobile/                 # Mobile client app (React Native, Android only)
 ├── backend/                # Backend API & safety router (FastAPI)
 ├── poc/
 │   └── plan_generator/     # Proof of concept: Gemini weekly workout plan generator

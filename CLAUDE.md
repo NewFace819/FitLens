@@ -6,13 +6,13 @@
 
 FitLens is a mobile app that acts as an **AI virtual personal trainer**. The goal is to do what a real PT does, at an "OK" level, for students and young people who can't afford or don't have access to one.
 
+Out of scope (dropped by the team on 2026-11-14): **nutrition/meal guidance** and **chat with the trainer**. Don't build or re-add them without asking.
+
 Current core ideas (any of these may change):
 
 - **Camera-based coaching** – the user exercises in front of the phone camera; the app gives feedback on form/reps.
 - **Personalized training plan** – workout schedule adapted to the user's goals, level and progress.
-- **Nutrition guidance** – meal suggestions/plans that fit the training goal.
 - **Reminders & accountability** – nudges to keep the user on schedule.
-- **Chat with the trainer** – an LLM-powered conversational coach.
 - **Growing avatar** – a virtual avatar representing the user that gets stronger (not bigger) as they keep training.
 
 ## Context
@@ -25,12 +25,14 @@ Current core ideas (any of these may change):
 
 - **Free AI APIs / free tiers only** – no paid services.
 - Small team, one term → prefer simple, working solutions over ambitious ones.
-- Fitness and nutrition advice must stay general and safe; never present output as medical advice.
+- Fitness advice must stay general and safe; never present output as medical advice.
 
 ## Tech stack
 
 _TBD – fill in once decided (mobile framework, backend, AI/LLM provider, pose-estimation approach, database)._
 
+- **Mobile:** React Native, **Android only** (decided 2026-11-14). No iOS.
+- **Backend (target):** FastAPI; DB Supabase PostgreSQL; local cache SQLite; on-device pose estimation with MediaPipe (integration approach on React Native not chosen yet). See `docs/ARCHITECTURE_LITE.md`.
 - **App language:** English.
 - **LLM (PoC):** Google Gemini API free tier, `gemini-3.8-flash` (see `poc/plan_generator/`). Free-tier prompts may be used by Google to improve its products, so never send real personal data on the free tier.
 
