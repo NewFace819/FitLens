@@ -1,0 +1,27 @@
+{
+  "id": "061",
+  "title": "Profile — chỉnh space",
+  "file": "09-profile/061__edit-space.png",
+  "tags": [
+    "profile",
+    "edit",
+    "space",
+    "form",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:23.061Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trong profile preview, dữ liệu lưu trong bộ nhớ tạm.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nMake room to move\n×\n\nWhat do you usually have to work with?\n\nYour usual space\nNot added yet\nAt home\nAt the gym\nEquipment you can use\nBodyweight\nDumbbells\nResistance bands\nA mat\nA bench\nSave changes\nCancel",
+  "sha256": "13e1d78df25ac7ea176e3b05b576bb3a2766e9d22839f01c65bbfa70e8d460e1",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

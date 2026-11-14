@@ -1,0 +1,26 @@
+{
+  "id": "024",
+  "title": "Nhập tên",
+  "file": "01-onboarding/024__name-entry.png",
+  "tags": [
+    "onboarding",
+    "name",
+    "first-visit",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:04:59.167Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nWhat should\nI call you?\nYour name",
+  "sha256": "91c68feac4ae0ed6cfb7220d523a82c3444c21363dcd95efb031fd38fb56e63f",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

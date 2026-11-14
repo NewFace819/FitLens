@@ -1,0 +1,27 @@
+{
+  "id": "233",
+  "title": "Mascot — Energized",
+  "file": "12-brand/233__mascot-energized.png",
+  "tags": [
+    "brand",
+    "mascot",
+    "expression",
+    "energized",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "face-expressions.html",
+  "capturedAt": "2026-10-28T14:11:56.117Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Thư viện biểu cảm chung của FitLens.",
+  "text": "FITLENS / THE EXPRESSION LIBRARY\n\nA face for every\nlittle moment.\n\nOne familiar face. A few different ways to feel.\n\nEnergized\n\nFeeling energized · a personal milestone\n\nReplay expression ↺\nHappy\nHome · everyday encouragement\nContent\nA session finished · a little satisfaction\nWaiting\nNo data yet · getting started\nCalm\nRest day · recovery · a peaceful walk\nEnergized\nFeeling energized · a personal milestone\nTired\nA demanding session · time to recover\nSpent\nUser reports all-out effort · a moment to pause\nHere for you\nDiscomfort reported · listen and pause\nShared SVG faces · select a face to preview the transition.\nOpen Home ↗ Workout check-in ↗",
+  "sha256": "09427e3c5d101178cda24746ddcbbf4c801087d4e6b94a106b4884a0be5ba450",
+  "group": "12-brand",
+  "groupTitle": "Mascot / Brand",
+  "tagsEmbeddedInPNG": true
+}

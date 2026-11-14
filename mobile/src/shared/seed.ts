@@ -3,13 +3,13 @@
  * unset. Each owner seeds only their own data; this file just calls them.
  * All data is synthetic.
  */
-import { seedHistory } from '../modules/history/history.ts';
-import { seedProfile } from '../modules/profile/profile.ts';
-import { seedReminders } from '../modules/reminders/reminders.ts';
-import { seedRhythm } from '../modules/rhythm/rhythm.ts';
-import { seedSchedule } from '../modules/workouts/schedule.ts';
-import { toDateKey, weekStartOf } from './dates.ts';
-import { KEYS, clearAll, has, write } from './storage.ts';
+import { seedHistory } from '../modules/history/history';
+import { seedProfile } from '../modules/profile/profile';
+import { seedReminders } from '../modules/reminders/reminders';
+import { seedRhythm } from '../modules/rhythm/rhythm';
+import { seedSchedule } from '../modules/workouts/schedule';
+import { toDateKey, weekStartOf } from './dates';
+import { KEYS, clearAll, has, write } from './storage';
 
 export function seedAll(now: Date = new Date()): void {
   const today = toDateKey(now);

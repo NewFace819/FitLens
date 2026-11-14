@@ -1,0 +1,27 @@
+{
+  "id": "123",
+  "title": "Feedback tùy chọn cuối review",
+  "file": "03-workouts/123__review-optional-feedback.png",
+  "tags": [
+    "workouts",
+    "review",
+    "optional-feedback",
+    "notes",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-review.html?routine=upper&completed=workout-1793196459950",
+  "capturedAt": "2026-10-28T14:07:48.641Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nSkip\nA little stronger.\n\nRecord how this session felt.\n\nTODAY’S LITTLE BIG THINGS\n\nUpper Body.\n✓ Complete\n\nTOTAL VOLUME\n\n200\nkg\n\nA whole\nbear squad.\n\nAbout 1 bears’ worth.\nOne rep at a time.\n\nAdded up across every set\n\nTIME FOR YOU\n\n<1 min\n\n≈ 0 quick matches.\nReal-life level up.\n\nSHOWING UP\n\n1 set\n\n6 exercises.\nA lot of little wins.\n\nYOUR FOCUS\nBench Press\nOct 28\n20 kg × 10\n\nLast 1 session · heaviest completed set shown.\n\nHow we counted\n＋\nTraining focus\n\n1 completed set\n\nFront\nBack\nLess\nMore\nMuscle groups\nChest\n\n1 direct · 0 supporting sets\n\nBench Press\nMain · 1 set\nHow this map works\nHow did it feel?\ni\n\nThink about the whole session.\n\nExtremely hard\n9 / 10\n\nClose to your limit. Keeping going took a lot of effort.\n\nAbove usual range\n↔ As usual\nVery light\nAll-out\nYour usual range\n4–6 · demo baseline\nHow does your body feel?\nAnything feeling\nuncomfortable?\nAdd an area\nAnything you’d change?\nReflect on individual exercises\n＋\nAnything worth remembering?\nA thought for your next session\n＋\n\nExtremely hard effort · Your moment to reflect\n\nFinish check-in\n✓",
+  "sha256": "5c0da4d3e4ee1053408241848d69e60a25fba238a955ded92274eb5f5e25f1fb",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "013",
+  "title": "Recap tháng — trang bìa",
+  "file": "08-insights/013__monthly-cover.png",
+  "tags": [
+    "insights",
+    "monthly-recap",
+    "story",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "monthly-recap.html",
+  "capturedAt": "2026-10-28T14:04:27.919Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Recap mẫu.",
+  "text": "9:41\nFITLENS\nSEPTEMBER ’26\n01 / 02\n\nYOUR MONTH IN MOTION\n\nSep\ntember.\nA month of\nshowing up.\n\nEvery session became\npart of your story.\n\nTap to see your month\n↻ Replay animation\nPage 1 of 2. Your September recap.",
+  "sha256": "30a4c63415ba5624a033daf74d2c9c1d1cb2ae49fef210de55d0ba03a0a9c3db",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

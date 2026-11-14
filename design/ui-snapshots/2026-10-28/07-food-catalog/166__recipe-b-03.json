@@ -1,0 +1,28 @@
+{
+  "id": "166",
+  "title": "Cháo gà nấm",
+  "file": "07-food-catalog/166__recipe-b-03.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "breakfast",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=b-03",
+  "capturedAt": "2026-10-28T14:09:44.292Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n03\n\nIllustrative photo of the main dish; side dishes may differ.\n\nBreakfast at home\n\nCháo gà nấm\n\nChicken and shiitake rice porridge with spring onion\n\nAPPROX. PREP TIME\n15 min\nMAKES\n1 serving\n\nCooked rice, shredded cooked chicken and stock are ready. Starting with raw rice or chicken takes longer.\n\nEquipment: Small saucepan\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Fish. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 5 ready\n\nTick off ingredients as you get them ready.\n\n1 bowl cooked rice\n100 g cooked chicken, shredded\n3–4 fresh shiitake mushrooms, sliced\n1 small piece of ginger\nSpring onion, fried shallots, ground pepper and fish sauce\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nSoften the rice\n\nSimmer the rice in chicken stock, stirring until the grains soften into porridge.\n\n02\nAdd mushrooms\n\nAdd the mushrooms and ginger and simmer for 5 minutes.\n\n03\nStir in chicken\n\nStir in the cooked chicken and season with fish sauce.\n\n04\nFinish the bowl\n\nLadle into a bowl and finish with spring onion, pepper and fried shallots.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "887c9039ab1bf926a00878a4d9a3c7aaeec6033c860516ca06a0438b9d30e4dc",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

@@ -13,7 +13,7 @@
  * sessions add nothing; a week in progress never breaks the streak; paused
  * weeks protect the streak without adding; a finished week below goal resets it.
  */
-import { addDays, isDateKey, nextMonday, weekStartOf, type DateKey } from '../../shared/dates.ts';
+import { addDays, isDateKey, nextMonday, weekStartOf, type DateKey } from '../../shared/dates';
 
 export const GOAL_OPTIONS = [2, 3, 4, 5] as const;
 const MIN_GOAL = 1;

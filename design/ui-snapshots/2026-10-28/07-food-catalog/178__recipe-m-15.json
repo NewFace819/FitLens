@@ -1,0 +1,28 @@
+{
+  "id": "178",
+  "title": "Canh chua cá lóc & cơm",
+  "file": "07-food-catalog/178__recipe-m-15.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-15",
+  "capturedAt": "2026-10-28T14:09:52.503Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n15\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCanh chua cá lóc & cơm\n\nSour fish soup with pineapple, tomato and bean sprouts, served with rice\n\nAPPROX. PREP TIME\n25 min\nMAKES\n1 serving\n\nRice is cooked; fish is cleaned and cut and vegetables are prepared.\n\nEquipment: Soup pot\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Fish. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 5 ready\n\nTick off ingredients as you get them ready.\n\n150 g cleaned snakehead fish\n¼ pineapple, sliced, and 1 tomato, cut into wedges\n3 okra pods and a handful of bean sprouts\nTamarind liquid, rice-paddy herb, sawtooth coriander, chilli and fish sauce\n1 bowl cooked rice\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nCook the fish\n\nBring water and strained tamarind liquid to a simmer. Add the fish and cook through, then lift onto a plate.\n\n02\nAdd pineapple and tomato\n\nAdd pineapple and tomato and cook until softened.\n\n03\nAdd greens and season\n\nAdd okra and bean sprouts; season with fish sauce and a little sugar.\n\n04\nFinish with herbs\n\nFinish with herbs and serve the soup, fish and rice together.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "a8e670052af4ec34612dd857694baefbc93e908f35d26b45d0dde5aa7d4ddaa0",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

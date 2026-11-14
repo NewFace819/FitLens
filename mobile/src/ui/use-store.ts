@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { getVersion, subscribe } from '../shared/storage.ts';
+import { getVersion, subscribe } from '../shared/storage';
 
 /**
  * Re-render when shared storage changes. Screens then just call the sync

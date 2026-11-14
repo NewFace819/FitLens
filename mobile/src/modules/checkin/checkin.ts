@@ -3,12 +3,12 @@
  * Reads the finished session through Đức Huy / Hải, saves only through
  * appendReview() (Tu never writes history) and sets the mascot through Đỗ Huy.
  */
-import { addDays, toDateKey, weekStartOf } from '../../shared/dates.ts';
-import { appendReview, getHistory, getReview, getReviews, type HistoryEntry } from '../history/history.ts';
-import { setMascotMood } from '../mascot/mascot.ts';
-import { getExercise } from '../workouts/exercises.ts';
-import { getWorkout } from '../workouts/schedule.ts';
-import { buildReview, moodAfterReview, weeklyLoadAdjust, type Review, type ReviewDraft } from './review-model.ts';
+import { addDays, toDateKey, weekStartOf } from '../../shared/dates';
+import { appendReview, getHistory, getReview, getReviews, type HistoryEntry } from '../history/history';
+import { setMascotMood } from '../mascot/mascot';
+import { getExercise } from '../workouts/exercises';
+import { getWorkout } from '../workouts/schedule';
+import { buildReview, moodAfterReview, weeklyLoadAdjust, type Review, type ReviewDraft } from './review-model';
 
 export type CheckInContext = {
   entry: HistoryEntry;

@@ -2,15 +2,15 @@
  * Rhythm public API — OWNER: Tu. Contract: getRhythm(date) → Rhythm (sync).
  * Writes only `fitlens.rhythm`; reads history and profile through their owners.
  */
-import { toDateKey, type DateKey } from '../../shared/dates.ts';
-import { KEYS, read, write } from '../../shared/storage.ts';
-import { getHistory } from '../history/history.ts';
-import { getProfile } from '../profile/profile.ts';
-import { getWorkout } from '../workouts/schedule.ts';
+import { toDateKey, type DateKey } from '../../shared/dates';
+import { KEYS, read, write } from '../../shared/storage';
+import { getHistory } from '../history/history';
+import { getProfile } from '../profile/profile';
+import { getWorkout } from '../workouts/schedule';
 import {
   EMPTY_STATE, computeRhythm, parseState, withPause, withResume, withWeeklyGoal,
   type Rhythm, type RhythmState,
-} from './rhythm-model.ts';
+} from './rhythm-model';
 
 const VERSION = 1;
 const loadState = (): RhythmState => read(KEYS.rhythm, EMPTY_STATE, { version: VERSION, parse: parseState });

@@ -1,0 +1,25 @@
+{
+  "id": "016",
+  "title": "Profile có lựa chọn mẫu",
+  "file": "09-profile/016__profile-filled.png",
+  "tags": [
+    "profile",
+    "filled",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:04:30.063Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Chế độ preview có sẵn.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView",
+  "sha256": "f5bbb9bb65811dedf72919de8e5f715d02ebb9adcf9be59ed5851ab47e2a053a",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

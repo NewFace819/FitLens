@@ -1,0 +1,26 @@
+{
+  "id": "022",
+  "title": "Thư viện biểu cảm mascot",
+  "file": "12-brand/022__mascot-library.png",
+  "tags": [
+    "brand",
+    "mascot",
+    "design-system",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "face-expressions.html",
+  "capturedAt": "2026-10-28T14:04:34.111Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trang mẫu thiết kế, không phải một feature người dùng bắt buộc đi qua.",
+  "text": "FITLENS / THE EXPRESSION LIBRARY\n\nA face for every\nlittle moment.\n\nOne familiar face. A few different ways to feel.\n\nContent\n\nA session finished · a little satisfaction\n\nReplay expression ↺\nHappy\nHome · everyday encouragement\nContent\nA session finished · a little satisfaction\nWaiting\nNo data yet · getting started\nCalm\nRest day · recovery · a peaceful walk\nEnergized\nFeeling energized · a personal milestone\nTired\nA demanding session · time to recover\nSpent\nUser reports all-out effort · a moment to pause\nHere for you\nDiscomfort reported · listen and pause\nShared SVG faces · select a face to preview the transition.\nOpen Home ↗ Workout check-in ↗",
+  "sha256": "15c63f1f6a2ac1eec98a3d1f8275eb529ce352f1caf434c98c3487637c9d4b05",
+  "group": "12-brand",
+  "groupTitle": "Mascot / Brand",
+  "tagsEmbeddedInPNG": true
+}

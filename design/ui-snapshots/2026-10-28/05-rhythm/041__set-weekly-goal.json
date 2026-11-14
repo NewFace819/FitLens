@@ -1,0 +1,26 @@
+{
+  "id": "041",
+  "title": "Thiết lập mục tiêu tuần",
+  "file": "05-rhythm/041__set-weekly-goal.png",
+  "tags": [
+    "rhythm",
+    "weekly-goal",
+    "form",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "streak.html?preview=new",
+  "capturedAt": "2026-10-28T14:05:10.725Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▂▄▆ ▰\nYOUR RHYTHM\n•••\n\nWEEKLY PROGRESS\n\nSet your weekly goal\nSession 1\nNot done\nSession 2\nNot done\nSession 3\nNot done\nSessions per week\n\nChoose how many sessions you want to complete each week. You can schedule the days later.\n\nSet a weekly goal\nCompleted weeks\n\nYour completed weeks and sessions remain in your history.\n\nComplete your weekly goal\nto see it here.\n\n0\nweeks completed\n0\nlongest rhythm\n0\nsessions recorded\nExplore this week’s training focus\nHow your rhythm works\nMore about your rhythm\nConsistency Beats Intensity\nThe Art of the Rest Day\nRestarting After a Break\nSpotting Early Fatigue\n\nSet your weekly goal\n×\n\nHow many sessions would you like to make time for? You can do them on the days that suit you.\n\nSessions per week\n2\n3\n4\n5\nStart next Monday\n\nRest days are part of your week. A weekly schedule is optional.\n\nSet my goal",
+  "sha256": "796ead69657687d1252fe7ffa5416657afbb672b973877ef9b7353e4943ba741",
+  "group": "05-rhythm",
+  "groupTitle": "Streak / Weekly goal",
+  "tagsEmbeddedInPNG": true
+}

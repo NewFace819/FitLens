@@ -1,0 +1,27 @@
+{
+  "id": "159",
+  "title": "Khôi phục món vừa bỏ",
+  "file": "07-food/159__meal-restored.png",
+  "tags": [
+    "food",
+    "meal-log",
+    "undo",
+    "restored",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-11",
+  "capturedAt": "2026-10-28T14:09:39.101Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Đã bấm Undo.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n11\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm đậu hũ sốt cà\n\nTofu in tomato sauce with rice and dried-shrimp greens soup\n\nAPPROX. PREP TIME\n18 min\nMAKES\n1 serving\n\nRice and dried-shrimp soup are cooked ahead; tofu is already lightly fried.\n\nEquipment: Frying pan\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Soy, Shellfish, Fish. Check the labels on sauces, seasonings and packaged ingredients.\n\n✓ Saved for later\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n1 / 5 ready\n\nTick off ingredients as you get them ready.\n\n2 blocks lightly fried tofu\n2 ripe tomatoes\nSpring onion and chopped shallot\n1 tbsp fish sauce and a little pepper\nCooked rice and prepared sweet-leaf soup with dried shrimp\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n✓\nPrepare the tofu\n\nCut the pre-fried tofu into bite-sized pieces. Starting with raw tofu needs extra frying time.\n\n02\nCook the tomatoes\n\nFry the shallot, then add chopped tomatoes and cook into a sauce.\n\n03\nSimmer in sauce\n\nAdd tofu, fish sauce and pepper; simmer gently for 5 minutes.\n\n04\nServe with rice and soup\n\nFinish with spring onion and serve with rice and the prepared soup.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nLog another meal\n+\n✓ Logged today · View or edit\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table\nMeal restored.\nToday’s meals.\n×\n\nWednesday 28 October\n\nLog a meal\n+\n\nMeal restored.\n\nDinner\n1 dish\nĐậu hũ sốt cà\nPortion not noted\nRemove",
+  "sha256": "d416a86b8a7b7d29ce834efe40494c53a7226d5643572ab741d1c960e909c667",
+  "group": "07-food",
+  "groupTitle": "Món ăn / Nhật ký ăn",
+  "tagsEmbeddedInPNG": true
+}

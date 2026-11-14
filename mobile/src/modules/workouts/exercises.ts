@@ -2,7 +2,7 @@
  * Exercise catalogue — OWNER: Hải (contract: shared/exercises).
  * ⚠️ PLACEHOLDER by Tu: only the exercises the sample data uses.
  */
-import type { Equipment, Muscle, Region } from '../../shared/constants.ts';
+import type { Equipment, Muscle, Region } from '../../shared/constants';
 
 export type Exercise = {
   id: string;

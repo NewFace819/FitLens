@@ -2,8 +2,8 @@
  * Mascot mood — OWNER: Đỗ Huy.
  * ⚠️ PLACEHOLDER by Tu: contract function setMascotMood(mood) (DATA_CONTRACT §6).
  */
-import { MOODS, isOneOf, type Mood } from '../../shared/constants.ts';
-import { KEYS, read, write } from '../../shared/storage.ts';
+import { MOODS, isOneOf, type Mood } from '../../shared/constants';
+import { KEYS, read, write } from '../../shared/storage';
 
 export function setMascotMood(mood: Mood): void {
   if (!isOneOf(MOODS, mood)) {

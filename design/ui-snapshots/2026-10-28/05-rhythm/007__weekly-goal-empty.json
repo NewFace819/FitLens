@@ -1,0 +1,27 @@
+{
+  "id": "007",
+  "title": "Streak / weekly goal chưa thiết lập",
+  "file": "05-rhythm/007__weekly-goal-empty.png",
+  "tags": [
+    "rhythm",
+    "streak",
+    "weekly-goal",
+    "empty",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "streak.html",
+  "capturedAt": "2026-10-28T14:02:16.673Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▂▄▆ ▰\nYOUR RHYTHM\n•••\n\nWEEKLY PROGRESS\n\nSet your weekly goal\nSession 1\nNot done\nSession 2\nNot done\nSession 3\nNot done\nSessions per week\n\nChoose how many sessions you want to complete each week. You can schedule the days later.\n\nSet a weekly goal\nCompleted weeks\n\nYour completed weeks and sessions remain in your history.\n\nComplete your weekly goal\nto see it here.\n\n0\nweeks completed\n0\nlongest rhythm\n0\nsessions recorded\nExplore this week’s training focus\nHow your rhythm works\nMore about your rhythm\nConsistency Beats Intensity\nThe Art of the Rest Day\nRestarting After a Break\nSpotting Early Fatigue",
+  "sha256": "4148a12843992ee748c493b9394aa31b0e7c68db5698572563774821f932aed7",
+  "group": "05-rhythm",
+  "groupTitle": "Streak / Weekly goal",
+  "tagsEmbeddedInPNG": true
+}

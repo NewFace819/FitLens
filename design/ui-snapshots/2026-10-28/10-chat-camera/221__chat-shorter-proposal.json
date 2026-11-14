@@ -1,0 +1,27 @@
+{
+  "id": "221",
+  "title": "Chat gợi ý phiên tập ngắn hơn",
+  "file": "10-chat-camera/221__chat-shorter-proposal.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "adapt-duration",
+    "proposal",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "chat.html?context=chat-mvs6zbbc-3kl9x4",
+  "capturedAt": "2026-10-28T14:10:42.547Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Phản hồi mẫu.",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\nASKING ABOUT\nUpper Body\n6 exercises · Your current session\n\nI only have 20 minutes\n\nFitLens\n\nWe can make the session smaller rather than rush through every exercise.\n\nHere’s an option with up to three exercises and two sets each. Keep your breaks; the total time will depend on your pace. Nothing changes until you review and confirm.\n\nA shorter session\n\nBench Press · 2 sets\nLat Pulldown · 2 sets\nSeated Row · 2 sets\n\nReview changes\nKeep my session\nYour message\n\nUI preview · sample replies, no live AI",
+  "sha256": "e20aee33c16b8f422e8bdbec7a45086aa13cd5798755921faaeec8239bb23a66",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

@@ -6,8 +6,8 @@
 import {
   EQUIPMENT, EXPERIENCES, GOALS, REGIONS, isOneOf,
   type Equipment, type Experience, type Goal, type Region,
-} from '../../shared/constants.ts';
-import { KEYS, read, write } from '../../shared/storage.ts';
+} from '../../shared/constants';
+import { KEYS, read, write } from '../../shared/storage';
 
 export type Profile = {
   id: string;

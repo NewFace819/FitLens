@@ -1,0 +1,29 @@
+{
+  "id": "135",
+  "title": "Ghi hoạt động ngoài workout",
+  "file": "06-walking/135__manual-activity-form.png",
+  "tags": [
+    "walking",
+    "manual-log",
+    "walk",
+    "run",
+    "cycle",
+    "swim",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workouts.html",
+  "capturedAt": "2026-10-28T14:07:57.824Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / WORKOUTS\nNew\nChoose your\nworkout.\n\nStart now, or add a workout to your week.\n\nYour workouts\n1 saved\nMy Upper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nYOUR FOCUS\nChange\n★\nBench Press\nOct 28\n20 kg × 10\n\nLast 1 session · heaviest completed set shown.\n\nA place to start\n4 workouts\nUpper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nLower Body\n5 exercises · 40 min\nStart now\nSchedule for later\nFull Body\n5 exercises · 45 min\nStart now\nSchedule for later\nBodyweight Foundations\n3 exercises · 20 min\nStart now\nSchedule for later\nCreate your own workout\nView your weekly plan\nMore about training\nConsistency Beats Intensity\nThe Power of Variety\nProgressing Safely\nTrusting Your Perceived Exertion\nYour recent sessions\n2\nDid something else?\n\nAdd a little context for your next workout.\n\nToday\nWorkouts\nPlan\nInsights\nTRAINING CONTEXT\nOutside your workout.\nWalk\nRun\nRide\nSwim\nOther\nDay\nDuration · min\n\nHow did it feel? optional\n\nEasy\nSteady\nHard\nA note\noptional\n\nExtra context for your PT. It won’t count as a planned workout.\n\nSave",
+  "sha256": "8a473eb1f4237fccf010406af609aa479ddbb576a029587b4cf665d6adf5c9f8",
+  "group": "06-walking",
+  "groupTitle": "Đi bộ / Steps / Activity log",
+  "tagsEmbeddedInPNG": true
+}

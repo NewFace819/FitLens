@@ -1,0 +1,27 @@
+{
+  "id": "027",
+  "title": "Các loại dữ liệu Health có thể đọc",
+  "file": "01-onboarding/027__health-read-types.png",
+  "tags": [
+    "onboarding",
+    "health",
+    "disclosure",
+    "preview",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:05:00.970Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Không kết nối dữ liệu thật.",
+  "text": "FITLENS\nSee your movement\ncome to life.\n\nBring your daily activity into FitLens with Apple Health.\n\nYour day so far\nPreview\nSteps\n6,240 steps\n\nIllustrative activity data\n\n5k\n10k\n00:00\n12:00\n24:00\nNow\nExample steps\nExample comparison\nDistance\n4.2 km\nWalking Time\n32 min\nActive Energy\n185 kcal\n\nHeart rate, when available\n\nWhat FitLens can read\nDaily steps.\nDistance from walking and running.\nWalking Time from recorded walking workouts, not estimated from steps.\nActive Energy from all physical activity, not only walking.\nHeart rate, when available.\n\nFitLens requests read access only. You can change access later in your health app. Your FitLens workouts still work without a connection.\n\nConnect Apple Health\nNot now\n\nYou choose what to share.",
+  "sha256": "9eec61fd4a3ef91a591b8c49f9c55cc975f65b8477d1461259d75803e511b553",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

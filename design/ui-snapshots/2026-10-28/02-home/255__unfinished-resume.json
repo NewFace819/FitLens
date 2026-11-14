@@ -1,0 +1,26 @@
+{
+  "id": "255",
+  "title": "Home có session chưa kết thúc",
+  "file": "02-home/255__unfinished-resume.png",
+  "tags": [
+    "home",
+    "resume-workout",
+    "unfinished",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "home.html",
+  "capturedAt": "2026-10-28T14:13:47.615Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS\n✦\n✧\nGood evening\nA little movement.\nA brighter day.\nTODAY, AT YOUR PACE\nYour plan\nResume your workout\n\nUpper Body\n\nResume workout\nTHIS WEEK\nYour rhythm\nSet your weekly goal\n\nChoose how many sessions fit your week. You can decide the days later.\n\nSet a weekly goal\nToday’s activity\nSteps\n\nBelow your usual\n\n3.150\nWorkout Time\n0min\nSets completed\n0sets\nFood for today\nThree meals to make at home\nExplore meals\nDaily reading\nMovement for the Mind\nEvening Wind-Down Ritual\nEating for Energy, Not Guilt\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "8e30df83ad9afeebaf9716db3fb02b12b2d53a0f9f1fc841a12d07ab1b3f6723",
+  "group": "02-home",
+  "groupTitle": "Home",
+  "tagsEmbeddedInPNG": true
+}

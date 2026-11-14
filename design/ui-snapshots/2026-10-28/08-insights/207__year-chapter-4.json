@@ -1,0 +1,27 @@
+{
+  "id": "207",
+  "title": "Recap năm — Your familiar moves",
+  "file": "08-insights/207__year-chapter-4.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "chapter-4",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:27.622Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Lịch sử năm 2025 hư cấu có sẵn trong app.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n04 / 08\n×\n\nA LITTLE LIKE A SIGNATURE\n\nThese moves.\nVery you.\nBench Press\n\n30 sessions\n\n01\nGoblet Squat\n\n28 sessions\n\n02\nSeated Row\n\n26 sessions\n\n03\nFamiliar, for a reason.\n\nThree exercises you kept coming back to.\nA little practice, over and over.\n\nA session counts once for each exercise you completed.\n\nDemo year · About these numbers\n\nChapter 4 of 8. Your familiar moves.",
+  "sha256": "99ce07d3b77be5ebfb809e22674d86116cfded1a2de66701b3853336b0312cf4",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

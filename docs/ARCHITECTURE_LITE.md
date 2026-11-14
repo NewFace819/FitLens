@@ -7,7 +7,7 @@
 > [!NOTE]
 > **Trạng thái triển khai:**
 > - **Đã có (Interactive UI Prototype):** Giao diện web mô phỏng đầy đủ luồng người dùng (`prototype/`) và PoC gọi Gemini API (`poc/plan_generator/`). Module `setup-plan-model.js` là mã JS mô phỏng logic UI, chưa phải backend production.
-> - **Kiến trúc mục tiêu (Target Architecture):** MediaPipe chạy on-device trên Flutter, backend FastAPI, Supabase DB và cache SQLite là thiết kế triển khai cho giai đoạn MVP.
+> - **Kiến trúc mục tiêu (Target Architecture):** MediaPipe chạy on-device trên React Native (Android), backend FastAPI, Supabase DB và cache SQLite là thiết kế triển khai cho giai đoạn MVP.
 
 ---
 
@@ -19,7 +19,7 @@ Kiến trúc FitLens phân tách rõ ràng giữa **xử lý cục bộ trên m�
 flowchart LR
     subgraph CLIENT ["📱 Mobile Client (Offline-First)"]
         direction TB
-        UI["Flutter UI & Growing Avatar"]
+        UI["React Native UI & Growing Avatar"]
         VISION["MediaPipe Pose (RAM Only)"]
         LOCAL_DB[("SQLite Cache")]
         UI <--> LOCAL_DB
@@ -89,8 +89,8 @@ sequenceDiagram
 
 ---
 
-### Luồng 2: Hỏi Coach & Chốt Chặn An Toàn (AI Coach & Safety Router)
-*Bộ não phân luồng an toàn: Rules Engine kiểm soát sự thật, LLM chỉ đóng vai trò diễn ngôn. Dinh dưỡng là module độc lập không bù calo.*
+### Luồng 2: Sinh Lịch Tập & Chốt Chặn An Toàn (Plan Generation & Safety Router)
+*Bộ não phân luồng an toàn: Rules Engine kiểm soát sự thật, LLM chỉ đóng vai trò diễn ngôn. Chat với PT ảo và Dinh dưỡng đã bị loại khỏi phạm vi.*
 
 ```mermaid
 sequenceDiagram
@@ -101,9 +101,9 @@ sequenceDiagram
     participant Gemini as ☁️ Gemini 3.8 Flash
     participant Fallback as 📚 Curated Knowledge
 
-    User->>App: Gửi câu hỏi hoặc Yêu cầu sinh lịch tập
+    User->>App: Yêu cầu sinh lịch tập
     App->>Backend: Gửi request kèm JWT
-    Backend->>Backend: Kiểm tra từ khóa báo đau / nguy cơ chấn thương
+    Backend->>Backend: Kiểm tra vùng cần tránh / báo đau chưa xử lý
     alt Phát hiện báo đau / chấn thương
         Backend-->>App: DỪNG TẬP NGAY: Kích hoạt khuyến nghị an toàn y tế
     else Bình thường
@@ -123,7 +123,7 @@ sequenceDiagram
 
 ---
 
-## 3. Bốn Nguyên Tắc Cốt Lõi (Core Principles)
+## 3. Ba Nguyên Tắc Cốt Lõi (Core Principles)
 
 1. **Zero Video Retention (Bảo Mật Tuyệt Đối):**
    - MediaPipe Pose xử lý frame trực tiếp trên RAM điện thoại rồi hủy ngay.
@@ -137,18 +137,15 @@ sequenceDiagram
    - Thu thập duy nhất 1 lần sau buổi tập bằng thanh trượt Borg CR10 (1–10) để đo mức độ gắng sức thể lực (Exertion).
    - Mức 7–10 biểu thị nỗ lực cao / kiệt sức để giảm 20–30% volume tuần sau tránh quá tải (Overtraining), **không tự động coi là chấn thương**.
 
-4. **Dinh Dưỡng Độc Lập (Không Có Cơ Chế "Bù Calo"):**
-   - Gợi ý bữa ăn sinh viên dựa theo mục tiêu và dị ứng, hoàn toàn không phạt tập thêm hiệp khi ăn nhiều.
-
 ---
 
 ## 4. Bảng Công Nghệ Rút Gọn (Tech Stack Summary)
 
 | Khối | Công nghệ | Ưu điểm cốt lõi | Chi phí |
 | :--- | :--- | :--- | :---: |
-| **Mobile App** | **Flutter** | 1 Codebase iOS & Android, offline SQLite, render Growing Avatar | **0đ** |
+| **Mobile App** | **React Native (Android)** | JS/TS, build cho Android, offline SQLite, render Growing Avatar | **0đ** |
 | **Computer Vision** | **Google MediaPipe Pose** | Chạy 100% on-device trên RAM, 33 khớp 3D, zero video retention | **0đ** |
 | **Backend API** | **FastAPI (Python)** | Xử lý bất đồng bộ cực nhẹ, tích hợp chặt chẽ Pydantic validation | **0đ** |
 | **Cơ sở dữ liệu** | **Supabase (PostgreSQL)** | Free Tier 500 MB (~1.000 user-năm), tích hợp sẵn Auth & RLS bảo mật | **0đ** |
 | **AI Coach (LLM)** | **Gemini 3.8 Flash** | Tốc độ cao, JSON Schema chuẩn, hoàn toàn miễn phí qua AI Studio | **0đ** |
-| **Bộ nhớ cục bộ** | **SQLite / Hive** | Hỗ trợ Offline-first, mở app tập ngay cả khi mất mạng | **0đ** |
+| **Bộ nhớ cục bộ** | **SQLite** | Hỗ trợ Offline-first, mở app tập ngay cả khi mất mạng | **0đ** |

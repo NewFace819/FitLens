@@ -1,0 +1,27 @@
+{
+  "id": "223",
+  "title": "Chat có đính kèm công thức",
+  "file": "10-chat-camera/223__chat-recipe-context.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "food-context",
+    "recipe",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "chat.html?context=food-mvs6zden-gfz970",
+  "capturedAt": "2026-10-28T14:10:44.111Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Context từ công thức; trả lời mẫu.",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\nASKING ABOUT\nĐậu hũ sốt cà\nRecipe ingredients and preparation\n\nAT THE TABLE\n\nMake it work for you.\n\nA missing ingredient, a different pan, or a little less time.\n\nI’m missing an ingredient\nI have less time\n\nTap the context above to see exactly what is attached.\n\nYour message\n\nUI preview · sample replies, no live AI",
+  "sha256": "3d3aec699fa0e8b8234498c0593f676ad424e498805b12070f9d904f1c9f4299",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

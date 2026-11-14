@@ -1,0 +1,27 @@
+{
+  "id": "119",
+  "title": "Chuyển giữa các động tác trong buổi",
+  "file": "03-workouts/119__active-lineup.png",
+  "tags": [
+    "workouts",
+    "active-session",
+    "lineup",
+    "progress",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper",
+  "capturedAt": "2026-10-28T14:07:45.891Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nUpper Body\n\n00:04\nelapsed\n\n01 / 06\nBENCH\nPRESS.\nBarbell · Chest\nExercise guide\n★ Your focus\nLast 3 sessions\nYour sets.\n3 × 8–12 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n—\n02\n—\n•\n03\n—\n·\n＋ Add set\nRest 90 sec\n\nTotal bar weight, including the bar.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nLat Pulldown\n02 / 06\nSET 02 / 03\nComplete Set 2\n＋ I feel pain\n1 set complete\n\nYOUR SESSION\n\n×\nThe lineup.\n01\nBench Press\n1/3\n02\nLat Pulldown\n0/3\n03\nSeated Row\n0/3\n04\nShoulder Press\n0/3\n05\nLateral Raise\n0/3\n06\nTriceps Pushdown\n0/3\n\nSet 1 complete. Rest timer started.\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "20e71c3a7649337c8ac077a025ba6111177e5567f0e8a760aa7f28613c285a0c",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

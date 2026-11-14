@@ -4,14 +4,14 @@
  *   setReminder(sessionId, {enabled, minutesBefore}) → Reminder
  * Sync, no React Native imports. Device notifications live in notifications.ts.
  */
-import { addDays, toDateKey, weekStartOf } from '../../shared/dates.ts';
-import { newId } from '../../shared/ids.ts';
-import { KEYS, read, write } from '../../shared/storage.ts';
-import { getWeekSchedule, getWorkout } from '../workouts/schedule.ts';
+import { addDays, toDateKey, weekStartOf } from '../../shared/dates';
+import { newId } from '../../shared/ids';
+import { KEYS, read, write } from '../../shared/storage';
+import { getWeekSchedule, getWorkout } from '../workouts/schedule';
 import {
   MINUTES_BEFORE, notificationPlan, parseReminders, resolveReminder,
   type MinutesBefore, type PlannedSession, type Reminder, type ScheduledNotification,
-} from './reminder-model.ts';
+} from './reminder-model';
 
 const load = () => read(KEYS.reminders, [] as Reminder[], { parse: parseReminders });
 

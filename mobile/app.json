@@ -1,29 +1,4 @@
 {
-  "expo": {
-    "name": "FitLens",
-    "slug": "fitlens",
-    "scheme": "fitlens",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "android": {
-      "package": "com.csc10014.fitlens",
-      "adaptiveIcon": {
-        "backgroundColor": "#F7F6F2",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
-      },
-      "predictiveBackGestureEnabled": false
-    },
-    "plugins": [
-      "expo-router",
-      "expo-status-bar",
-      "expo-notifications"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
-  }
+  "name": "FitLens",
+  "displayName": "FitLens"
 }

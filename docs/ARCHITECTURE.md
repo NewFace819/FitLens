@@ -9,7 +9,7 @@
 > [!NOTE]
 > **Minh định về trạng thái triển khai:**
 > - **Hiện tại (Interactive UI Prototype & PoC):** Đã hiện thực hóa toàn bộ luồng tương tác của người dùng dưới dạng Web Prototype tương tác (`prototype/`) và PoC kết nối Gemini API (`poc/plan_generator/`) để kiểm chứng tính khả thi của giao diện và gợi ý kế hoạch. Module `setup-plan-model.js` trong thư mục này là mã JavaScript mô phỏng logic lọc bài tập ở client, chưa phải service backend hoàn chỉnh.
-> - **Kiến trúc mục tiêu (Target Architecture):** Mô hình MediaPipe Pose chạy on-device native trên Flutter, backend FastAPI, Supabase PostgreSQL, SQLite cache offline-first và bộ quy tắc đối soát tĩnh (curated safety rules) là bản thiết kế hệ thống hoàn thiện cho giai đoạn MVP.
+> - **Kiến trúc mục tiêu (Target Architecture):** Mô hình MediaPipe Pose chạy on-device native trên React Native (chỉ Android), backend FastAPI, Supabase PostgreSQL, SQLite cache offline-first và bộ quy tắc đối soát tĩnh (curated safety rules) là bản thiết kế hệ thống hoàn thiện cho giai đoạn MVP.
 
 ---
 
@@ -19,10 +19,10 @@ Hệ thống FitLens được thiết kế theo nguyên tắc **Offline-First**,
 
 ```mermaid
 flowchart TB
-    subgraph CLIENT ["📱 MOBILE CLIENT (Flutter / React Native)"]
+    subgraph CLIENT ["📱 MOBILE CLIENT (React Native - Android)"]
         direction TB
         subgraph UI ["Giao Diện & Trải Nghiệm"]
-            SCREENS["Screens: Auth · Tập Luyện · Chat Coach · Dinh Dưỡng"]
+            SCREENS["Screens: Auth · Hồ Sơ · Tập Luyện · Lịch Tuần · Insights"]
             AVATAR["Growing Avatar (Tiến hóa theo Volume/Streak)"]
             HAPTIC["Phản hồi Rung (Haptic) & Âm thanh (Beep)"]
         end
@@ -30,7 +30,7 @@ flowchart TB
             CAM_RAM["Camera Feed (RAM Only - Không lưu trữ)"]
             POSE["MediaPipe Pose Tracker (33 Tọa Độ Khớp)"]
             REP_LOGIC["Rep Counter & Form Analyzer (Tính Góc Khớp)"]
-            LOCAL_DB["Local Cache (SQLite / Hive - Offline First)"]
+            LOCAL_DB["Local Cache (SQLite - Offline First)"]
         end
         UI <--> LOCAL_CORE
     end
@@ -52,7 +52,7 @@ flowchart TB
         direction TB
         DB_AUTH["Auth DB (Users, Password Hash Argon2id)"]
         subgraph SUPABASE_DB ["Supabase PostgreSQL (RLS Protected)"]
-            DB_L2["L2 Personal Schema (Workout Logs, Meal Logs, Streaks)"]
+            DB_L2["L2 Personal Schema (Workout Logs, Streaks)"]
             DB_L3["L3 Sensitive Health Schema (Bệnh lý, avoid_tags đã xác nhận)"]
         end
         GEMINI["Google Gemini API (gemini-3.8-flash Free Tier)"]
@@ -62,7 +62,7 @@ flowchart TB
     %% Kết nối Client & Gateway
     LOCAL_CORE -->|"Gửi số liệu (Reps, Điểm Form), KHÔNG gửi Video"| GATEWAY
     LOCAL_DB <-->|"Sync lịch sử & Cache kế hoạch tuần (Khi có mạng)"| GATEWAY
-    UI -->|"Auth, Chat text, Meal log, Pain reports"| GATEWAY
+    UI -->|"Auth, Yêu cầu sinh lịch, Pain reports"| GATEWAY
     
     %% Xử lý Backend
     GATEWAY --> VALIDATE
@@ -130,8 +130,8 @@ sequenceDiagram
 
 ---
 
-### Luồng 2: Hỏi Coach & Sinh Kế Hoạch Tập Luyện (Ask Coach & Plan Generation)
-Luồng này thực hiện việc trò chuyện với PT ảo hoặc sinh lịch tập cá nhân hóa. Dinh dưỡng là module gợi ý bữa ăn độc lập theo mục tiêu và dị ứng, hoàn toàn không có cơ chế bù calo.
+### Luồng 2: Sinh Kế Hoạch Tập Luyện (Plan Generation)
+Luồng này sinh lịch tập cá nhân hóa bằng LLM. Chat với PT ảo và module Dinh dưỡng đã được loại khỏi phạm vi.
 
 ```mermaid
 sequenceDiagram
@@ -145,10 +145,10 @@ sequenceDiagram
     participant Gemini as Gemini API (3.8 Flash)
     participant Fallback as Curated Fallback Templates
 
-    User->>App: Gửi câu hỏi hoặc Yêu cầu sinh lịch tập mới
-    App->>Gateway: POST /api/coach/chat hoặc /api/plan/generate (kèm JWT)
-    Gateway->>Safety: Kiểm tra từ khóa sức khỏe / báo đau
-    alt Người dùng báo đau / chấn thương qua chat
+    User->>App: Yêu cầu sinh lịch tập mới
+    App->>Gateway: POST /api/plan/generate (kèm JWT)
+    Gateway->>Safety: Kiểm tra vùng cần tránh / báo đau
+    alt Hồ sơ có báo đau / chấn thương chưa xử lý
         Safety-->>App: KÍCH HOẠT LUẬT AN TOÀN: Dừng tập, khuyên gặp bác sĩ ngay
     else Bình thường
         Safety->>Rules: Truy xuất thông số người dùng & Danh mục bài tập an toàn
@@ -191,17 +191,13 @@ FitLens là ứng dụng thể hình cho giới trẻ, **tuyệt đối không �
      - *4–6 (Moderate):* Nỗ lực vừa sức, kiểm soát tốt $\rightarrow$ Giữ nguyên khối lượng để củng cố kỹ thuật.
      - *7–10 (Hard / All-out):* Nỗ lực rất cao, kiệt sức $\rightarrow$ Giảm 20–30% volume buổi sau để chống quá tải (Overtraining). **Mức 7–10 không tự động coi là chấn thương**.
 
-2. **Dinh Dưỡng Độc Lập (Không Có Cơ Chế "Bù Calo"):**
-   - Module dinh dưỡng đưa ra gợi ý bữa ăn sinh viên lành mạnh dựa trên mục tiêu thể trạng và dị ứng thực phẩm, độc lập với kế hoạch tập luyện.
-   - Bỏ hoàn toàn cơ chế "ăn thêm thì phạt tập thêm hiệp" để xây dựng mối quan hệ lành mạnh với ăn uống và vận động.
-
-3. **Quyền Riêng Tư & Xóa Dữ Liệu Cá Nhân (Right to be Forgotten):**
+2. **Quyền Riêng Tư & Xóa Dữ Liệu Cá Nhân (Right to be Forgotten):**
    - Tuân thủ Luật Bảo vệ Dữ liệu Cá nhân Việt Nam (NĐ 13/2023/NĐ-CP): Không thu thập GPS, danh bạ; camera chỉ chạy trên RAM (`Zero Video Retention`).
    - Cung cấp tính năng xóa tài khoản (`Delete Personal Data`) với cơ chế `ON DELETE CASCADE` xóa sạch profile và log lịch sử tập luyện khỏi server.
 
 ### 3.3. Fallback khi lỗi API (Resilience & Zero-Downtime)
 Vì sử dụng tầng miễn phí **Google Gemini API Free Tier**, hiện tượng nghẽn (HTTP 429) hoặc gián đoạn dịch vụ có thể xảy ra:
-- **Tầng 1 (Client Cache):** Lịch tập của tuần hiện tại luôn được cache cục bộ trong SQLite/Hive. Mất mạng người dùng vẫn mở app tập bình thường.
+- **Tầng 1 (Client Cache):** Lịch tập của tuần hiện tại luôn được cache cục bộ trong SQLite. Mất mạng người dùng vẫn mở app tập bình thường.
 - **Tầng 2 (Exponential Backoff):** Adapter gọi Gemini được cấu hình retry tối đa 5 lần với thời gian chờ tăng dần (`initial_delay = 2s`).
 - **Tầng 3 (Curated Knowledge Fallback):** Nếu retry thất bại hoặc Gemini quá tải, hệ thống tự động trả về câu trả lời từ bộ quy tắc đối soát tĩnh và mẫu bài tập soạn sẵn (`docs/reference/Note.md`) thay vì báo lỗi crash màn hình.
 
@@ -211,12 +207,12 @@ Vì sử dụng tầng miễn phí **Google Gemini API Free Tier**, hiện tư�
 
 | Thành phần | Công nghệ chọn | Lý do quyết định | Phương án dự phòng |
 | :--- | :--- | :--- | :--- |
-| **Mobile App** | **Flutter** (hoặc React Native) | • Viết 1 lần chạy cả iOS và Android.<br>• Hỗ trợ truy cập camera native mượt mà.<br>• Dễ dàng render UI động và nhân vật Growing Avatar. | React Native |
+| **Mobile App** | **React Native** (Android) | • Dùng JavaScript/TypeScript, chỉ build cho Android.<br>• Hỗ trợ truy cập camera native mượt mà.<br>• Dễ dàng render UI động và nhân vật Growing Avatar. | React Native |
 | **Pose Estimation** | **Google MediaPipe Pose** | • Chạy On-Device 100% trên RAM của điện thoại (Zero Video Retention).<br>• Trích xuất chuẩn xác 33 keypoints 3D mà không tốn chi phí server GPU. | ML Kit Pose Detection |
 | **Backend API** | **FastAPI (Python)** | • Tốc độ cao, asynchronous native.<br>• Tích hợp mượt mà với SDK Gemini (`google-genai`) và Pydantic validation.<br>• Viết ít code, nhẹ nhàng, triển khai nhanh. | Express.js (Node.js) |
 | **Cơ sở dữ liệu** | **Supabase (PostgreSQL)** | • Free tier rộng rãi: 500 MB (chứa ~1.000 user-năm), 50.000 MAU.<br>• Tích hợp sẵn Auth (hash mật khẩu an toàn) và Row-Level Security (RLS). | Turso (LibSQL/SQLite) |
 | **Trí tuệ nhân tạo (LLM)** | **Google Gemini 3.8 Flash** | • Miễn phí 100% qua Google AI Studio.<br>• Hỗ trợ Structured JSON Output với độ trễ thấp.<br>• Phù hợp với tiêu chí đồ án 0đ. | Groq / OpenRouter Free |
-| **Bộ nhớ cục bộ** | **SQLite / Hive** | • Hỗ trợ Offline-first, mở app lên là tập được ngay cả khi mất mạng. | Shared Preferences |
+| **Bộ nhớ cục bộ** | **SQLite** | • Hỗ trợ Offline-first, mở app lên là tập được ngay cả khi mất mạng. | Shared Preferences |
 
 ---
 

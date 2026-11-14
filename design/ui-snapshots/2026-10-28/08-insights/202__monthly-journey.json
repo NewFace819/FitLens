@@ -1,0 +1,27 @@
+{
+  "id": "202",
+  "title": "Recap tháng — biểu đồ hành trình",
+  "file": "08-insights/202__monthly-journey.png",
+  "tags": [
+    "insights",
+    "monthly-recap",
+    "story",
+    "chart",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "monthly-recap.html",
+  "capturedAt": "2026-10-28T14:10:23.314Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Số liệu tháng 9 minh họa.",
+  "text": "9:41\nFITLENS\nSEPTEMBER ’26\n02 / 02\n\nLITTLE DAYS. LASTING EFFORT.\n\nYou showed up.\n12\nworkouts\nthis month\nYOUR TRAINING DAYS\nSEP 30\n24\n16\n8\nSEP 1\nSEP 15\nSEP 30\n\nOne dot, one workout\n/\nWorking sets on the left\n\nTIME WELL SPENT\n8h 24m\nYOUR RHYTHM\n3\nsessions / week*\n\n*Average across September’s 30 days.\n\nExplore September’s training focus\n\nTap to replay your month\n↻ Replay animation\nPage 2 of 2. You showed up. 12 workouts in September.",
+  "sha256": "a644abdac46062aa0d20739b3b410c0b0522253ba37177ad98220a6ae9fdf071",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

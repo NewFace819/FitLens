@@ -1,0 +1,27 @@
+{
+  "id": "232",
+  "title": "Mascot — Calm",
+  "file": "12-brand/232__mascot-calm.png",
+  "tags": [
+    "brand",
+    "mascot",
+    "expression",
+    "calm",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "face-expressions.html",
+  "capturedAt": "2026-10-28T14:11:55.503Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Thư viện biểu cảm chung của FitLens.",
+  "text": "FITLENS / THE EXPRESSION LIBRARY\n\nA face for every\nlittle moment.\n\nOne familiar face. A few different ways to feel.\n\nCalm\n\nRest day · recovery · a peaceful walk\n\nReplay expression ↺\nHappy\nHome · everyday encouragement\nContent\nA session finished · a little satisfaction\nWaiting\nNo data yet · getting started\nCalm\nRest day · recovery · a peaceful walk\nEnergized\nFeeling energized · a personal milestone\nTired\nA demanding session · time to recover\nSpent\nUser reports all-out effort · a moment to pause\nHere for you\nDiscomfort reported · listen and pause\nShared SVG faces · select a face to preview the transition.\nOpen Home ↗ Workout check-in ↗",
+  "sha256": "c46232a8f56834bcd12acf674b1a4abb5781181d32ade9d0eb064649d5ac0403",
+  "group": "12-brand",
+  "groupTitle": "Mascot / Brand",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "209",
+  "title": "Recap năm — Heavier than you think",
+  "file": "08-insights/209__year-chapter-6.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "chapter-6",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:28.741Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Lịch sử năm 2025 hư cấu có sẵn trong app.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n06 / 08\n×\n\nONE REP AT A TIME\n\nHeavier than\nyou think.\n84,200\nkg of total lifting volume\nABOUT\n\n14\nCITY BUSES\nBy bus\nOr by bear?\nNo parking space required.\n\n72 workouts. One set at a time.\n\nApprox. 6,000 kg per bus · Volume = weight × reps.\nDemo year · About these numbers\n\nChapter 6 of 8. Heavier than you think.",
+  "sha256": "8ad6cbde82960389f0aed6ab8cfacf68b62809e6cfe38f02e96b863233c53cb4",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

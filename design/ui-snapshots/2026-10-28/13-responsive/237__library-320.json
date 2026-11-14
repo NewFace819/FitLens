@@ -1,0 +1,26 @@
+{
+  "id": "237",
+  "title": "Workout List ở rộng 320px",
+  "file": "13-responsive/237__library-320.png",
+  "tags": [
+    "responsive",
+    "library",
+    "width-320",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workouts.html",
+  "capturedAt": "2026-10-28T14:11:59.236Z",
+  "viewport": {
+    "width": 320,
+    "height": 700
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / WORKOUTS\nNew\nChoose your\nworkout.\n\nStart now, or add a workout to your week.\n\nA place to start\n4 workouts\nUpper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nLower Body\n5 exercises · 40 min\nStart now\nSchedule for later\nFull Body\n5 exercises · 45 min\nStart now\nSchedule for later\nBodyweight Foundations\n3 exercises · 20 min\nStart now\nSchedule for later\n☆\nOne move to make yours.\n＋\nCreate your own workout\nView your weekly plan\nMore about training\nConsistency Beats Intensity\nThe Power of Variety\nProgressing Safely\nTrusting Your Perceived Exertion\nDid something else?\n\nAdd a little context for your next workout.\n\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "a6bf9f939e2d21f9096bc7046bf8d70e3e0f36e01c1c4baa3633c65718c17c68",
+  "group": "13-responsive",
+  "groupTitle": "Kích thước mobile bổ sung",
+  "tagsEmbeddedInPNG": true
+}

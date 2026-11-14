@@ -1,0 +1,26 @@
+{
+  "id": "086",
+  "title": "Chỉnh giờ ngay trong lịch",
+  "file": "04-planning/086__time-sheet.png",
+  "tags": [
+    "planning",
+    "time-editor",
+    "sheet",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "plan.html?week=2026-10-26&added=session-mvs6v24k-pa5cl86",
+  "capturedAt": "2026-10-28T14:07:23.577Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n1 planned · 1/1 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n18:30\nPreview\nThu\n29\nNo workout planned\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nNo workout planned\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nWorkout scheduled. Find it in your week.\nWednesday, Oct 28\nUpper Body\n×\n18:30\n✎\n\nTap to type, or slide to choose.\n\n00:00\n06:00\n12:00\n18:00\n23:55\nReminder preview\nAt start\nRemove time\nSave time",
+  "sha256": "e1995ce4c9b05369c761dc234c7772563c45f30daaddee2f4175e6dd0eeabc96",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

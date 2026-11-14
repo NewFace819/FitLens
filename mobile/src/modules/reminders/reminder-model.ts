@@ -3,7 +3,7 @@
  * { id, sessionId (null = default for the whole schedule), enabled, minutesBefore }.
  * The workout *time* belongs to Hải's Session.time; reminders only add the lead.
  */
-import { isDateKey, toLocalDate, type DateKey, type TimeOfDay } from '../../shared/dates.ts';
+import { isDateKey, toLocalDate, type DateKey, type TimeOfDay } from '../../shared/dates';
 
 export const MINUTES_BEFORE = [0, 15, 30] as const;
 export type MinutesBefore = (typeof MINUTES_BEFORE)[number];

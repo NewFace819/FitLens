@@ -1,0 +1,26 @@
+{
+  "id": "012",
+  "title": "Training focus có dữ liệu minh họa",
+  "file": "08-insights/012__training-focus-sample.png",
+  "tags": [
+    "insights",
+    "muscle-map",
+    "sample",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "training-focus.html?demo=1&period=week&date=2026-10-28",
+  "capturedAt": "2026-10-28T14:04:27.291Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Chế độ sample có sẵn của ứng dụng.",
+  "text": "9:41\nInsights\nTraining focus\nWeek\nMonth\nYear\n26 Oct – 1 Nov 2026\nSample data\nUse my data\n\nCompleted sets\n\n28\n\n2 sessions\n\nFront\nBack\nLess\nMore\nMuscle groups\nGlutes\n\n9 direct · 0 supporting sets\n\nGoblet Squat\nMain · 5 sets\nRomanian Deadlift\nMain · 2 sets\nGlute Bridge\nMain · 2 sets\nHow this map works",
+  "sha256": "1592dc6713623e961eb9a37aa400e676f24a6f9731ddfd41c5b87f6dd3028438",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

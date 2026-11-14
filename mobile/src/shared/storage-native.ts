@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PREFIX, type Persistence } from './storage.ts';
+import { PREFIX, type Persistence } from './storage';
 
 /** AsyncStorage-backed persistence for the shared storage cache. */
 export const nativePersistence: Persistence = {

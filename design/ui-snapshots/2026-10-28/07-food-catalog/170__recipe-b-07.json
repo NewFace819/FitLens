@@ -1,0 +1,28 @@
+{
+  "id": "170",
+  "title": "Khoai hấp & trứng luộc",
+  "file": "07-food-catalog/170__recipe-b-07.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "breakfast",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=b-07",
+  "capturedAt": "2026-10-28T14:09:46.957Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n07\n\nIllustrative photo of the main dish; side dishes may differ.\n\nBreakfast at home\n\nKhoai hấp & trứng luộc\n\nSteamed sweet potato, two boiled eggs and cherry tomatoes\n\nAPPROX. PREP TIME\n15 min\nMAKES\n1 serving\n\nThe potato is washed and cut into small pieces. Steam it while boiling the eggs; timing depends on potato size.\n\nEquipment: Saucepan, Steamer\n\nABOUT THIS DISH\n\nA meat-free option for your next meal.\n\nIngredients to note: Egg. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 4 ready\n\nTick off ingredients as you get them ready.\n\n1 medium sweet potato, about 150 g\n2 eggs\n5 cherry tomatoes\nSalt, pepper and lime\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nSteam the potato\n\nWash and cut the sweet potato, then steam until tender, allowing about 15 minutes.\n\n02\nBoil the eggs\n\nBoil the eggs in a separate saucepan while the potato steams.\n\n03\nPeel and halve\n\nCool, peel and halve the eggs.\n\n04\nServe together\n\nServe with the potato, cherry tomatoes and a little lime, salt and pepper.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "fbb8db4fd8c48a5472abec25d94e1362cc655d7a5ad7f56e1c274227d54839e2",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

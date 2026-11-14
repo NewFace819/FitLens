@@ -23,7 +23,9 @@ This turns on the shared pre-commit check. It blocks commits that include a `.en
 ```
 FitLens/
 ├── prototype/              # Interactive HTML/CSS/JS mobile UI prototype
-├── mobile/                 # Android app: React Native + Expo (see mobile/README.md)
+├── design/
+│   └── ui-snapshots/       # Tagged UI screenshots (open <date>/index.html in a browser)
+├── mobile/                 # Mobile client app (React Native, Android only)
 ├── backend/                # Backend API & safety router (FastAPI)
 ├── poc/
 │   └── plan_generator/     # Proof of concept: Gemini weekly workout plan generator

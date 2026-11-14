@@ -1,0 +1,1822 @@
+[
+  {
+    "id": "001",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 44.67901787875699,
+    "file": "01-onboarding/001__welcome.png"
+  },
+  {
+    "id": "002",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 78.51202824785503,
+    "file": "02-home/002__home-first-visit.png"
+  },
+  {
+    "id": "003",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.37006515468049,
+    "file": "03-workouts/003__library-starters.png"
+  },
+  {
+    "id": "004",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.57230930561914,
+    "file": "03-workouts/004__details-upper.png"
+  },
+  {
+    "id": "005",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.761867113641834,
+    "file": "03-workouts/005__create-empty.png"
+  },
+  {
+    "id": "006",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 34.0846923219301,
+    "file": "04-planning/006__week-empty.png"
+  },
+  {
+    "id": "007",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.333820862298516,
+    "file": "05-rhythm/007__weekly-goal-empty.png"
+  },
+  {
+    "id": "008",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.75683779138549,
+    "file": "06-walking/008__steps-today.png"
+  },
+  {
+    "id": "009",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 64.13757271533994,
+    "file": "07-food/009__food-overview.png"
+  },
+  {
+    "id": "010",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.14036748679401,
+    "file": "08-insights/010__insights-overview.png"
+  },
+  {
+    "id": "011",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 29.454958017875757,
+    "file": "08-insights/011__training-focus-empty.png"
+  },
+  {
+    "id": "012",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 34.40598808398915,
+    "file": "08-insights/012__training-focus-sample.png"
+  },
+  {
+    "id": "013",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 55.36085154581449,
+    "file": "08-insights/013__monthly-cover.png"
+  },
+  {
+    "id": "014",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 41.85328730186868,
+    "file": "08-insights/014__yearly-cover.png"
+  },
+  {
+    "id": "015",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.65204232966777,
+    "file": "09-profile/015__profile-empty.png"
+  },
+  {
+    "id": "016",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 37.5459998540907,
+    "file": "09-profile/016__profile-filled.png"
+  },
+  {
+    "id": "017",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 42.57304781776102,
+    "file": "09-profile/017__profile-setup.png"
+  },
+  {
+    "id": "018",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.18461987569092,
+    "file": "10-chat-camera/018__chat-welcome.png"
+  },
+  {
+    "id": "019",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 60.5124540184218,
+    "file": "10-chat-camera/019__camera-ready.png"
+  },
+  {
+    "id": "020",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.63753036550298,
+    "file": "04-planning/020__reminders-empty.png"
+  },
+  {
+    "id": "021",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.35409427418676,
+    "file": "11-legacy-studies/021__legacy-plan-builder.png"
+  },
+  {
+    "id": "022",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.426462707158855,
+    "file": "12-brand/022__mascot-library.png"
+  },
+  {
+    "id": "023",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 52.43680726513606,
+    "file": "11-legacy-studies/023__steps-orb-study.png"
+  },
+  {
+    "id": "024",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 23.338896813417772,
+    "file": "01-onboarding/024__name-entry.png"
+  },
+  {
+    "id": "025",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 42.829628177303626,
+    "file": "01-onboarding/025__personal-greeting.png"
+  },
+  {
+    "id": "026",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.715969097184804,
+    "file": "01-onboarding/026__health-permission-explainer.png"
+  },
+  {
+    "id": "027",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.56477088781683,
+    "file": "01-onboarding/027__health-read-types.png"
+  },
+  {
+    "id": "028",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 41.96813876201844,
+    "file": "01-onboarding/028__health-skipped.png"
+  },
+  {
+    "id": "029",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 44.50099158058648,
+    "file": "01-onboarding/029__notifications-explainer.png"
+  },
+  {
+    "id": "030",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 42.05147305440017,
+    "file": "01-onboarding/030__notifications-skipped.png"
+  },
+  {
+    "id": "031",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 22.65461624828996,
+    "file": "01-onboarding/031__discover-next.png"
+  },
+  {
+    "id": "032",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 78.51111866416859,
+    "file": "02-home/032__personalized-home.png"
+  },
+  {
+    "id": "033",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 63.16534400997699,
+    "file": "02-home/033__weekly-goal-and-activity.png"
+  },
+  {
+    "id": "034",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.58724544905002,
+    "file": "02-home/034__food-reading-entry.png"
+  },
+  {
+    "id": "035",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.52755019655495,
+    "file": "05-rhythm/035__streak-active.png"
+  },
+  {
+    "id": "036",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 37.46476000522904,
+    "file": "05-rhythm/036__streak-complete.png"
+  },
+  {
+    "id": "037",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 34.772942695194104,
+    "file": "05-rhythm/037__streak-recovery.png"
+  },
+  {
+    "id": "038",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 33.90341964035472,
+    "file": "05-rhythm/038__streak-comeback.png"
+  },
+  {
+    "id": "039",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 31.381614639836855,
+    "file": "05-rhythm/039__completed-weeks.png"
+  },
+  {
+    "id": "040",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 39.86816383379321,
+    "file": "05-rhythm/040__completed-week-detail.png"
+  },
+  {
+    "id": "041",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 54.74649862646188,
+    "file": "05-rhythm/041__set-weekly-goal.png"
+  },
+  {
+    "id": "042",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 54.876021608860334,
+    "file": "05-rhythm/042__goal-start-next-monday.png"
+  },
+  {
+    "id": "043",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.26856681771886,
+    "file": "05-rhythm/043__goal-scheduled.png"
+  },
+  {
+    "id": "044",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.74870979659732,
+    "file": "05-rhythm/044__rhythm-settings.png"
+  },
+  {
+    "id": "045",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 54.162195592168196,
+    "file": "05-rhythm/045__change-goal-next-week.png"
+  },
+  {
+    "id": "046",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.18770192780772,
+    "file": "05-rhythm/046__pause-goal-confirm.png"
+  },
+  {
+    "id": "047",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.28607054036764,
+    "file": "05-rhythm/047__goal-paused.png"
+  },
+  {
+    "id": "048",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.765822409981574,
+    "file": "05-rhythm/048__resume-goal-confirm.png"
+  },
+  {
+    "id": "049",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 41.467579938176414,
+    "file": "05-rhythm/049__counting-rules.png"
+  },
+  {
+    "id": "050",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.53508954038085,
+    "file": "06-walking/050__usual-steps-explained.png"
+  },
+  {
+    "id": "051",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.51150737040186,
+    "file": "06-walking/051__previous-day.png"
+  },
+  {
+    "id": "052",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.86843799237462,
+    "file": "06-walking/052__hourly-chart-inspection.png"
+  },
+  {
+    "id": "053",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 41.17899575844876,
+    "file": "06-walking/053__steps-overview-14-days.png"
+  },
+  {
+    "id": "054",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 39.11412649143198,
+    "file": "06-walking/054__distance-overview.png"
+  },
+  {
+    "id": "055",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 39.08505577645163,
+    "file": "06-walking/055__flights-seven-days.png"
+  },
+  {
+    "id": "056",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.10250424737506,
+    "file": "06-walking/056__daily-breakdown.png"
+  },
+  {
+    "id": "057",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.24777119132646,
+    "file": "09-profile/057__edit-name.png"
+  },
+  {
+    "id": "058",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.523746588554296,
+    "file": "09-profile/058__edit-appearance.png"
+  },
+  {
+    "id": "059",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.540241814903546,
+    "file": "09-profile/059__edit-identity.png"
+  },
+  {
+    "id": "060",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.05391688640913,
+    "file": "09-profile/060__edit-training.png"
+  },
+  {
+    "id": "061",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.1198307622821,
+    "file": "09-profile/061__edit-space.png"
+  },
+  {
+    "id": "062",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.373570265572674,
+    "file": "09-profile/062__edit-body.png"
+  },
+  {
+    "id": "063",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 55.47645402426244,
+    "file": "09-profile/063__body-areas.png"
+  },
+  {
+    "id": "064",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 39.272956974667544,
+    "file": "09-profile/064__edit-food.png"
+  },
+  {
+    "id": "065",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 43.44143772630118,
+    "file": "09-profile/065__your-data.png"
+  },
+  {
+    "id": "066",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.567388575531176,
+    "file": "09-profile/066__clear-data-confirmation.png"
+  },
+  {
+    "id": "067",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 39.91634830208043,
+    "file": "09-profile/067__setup-training.png"
+  },
+  {
+    "id": "068",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 38.73858277625983,
+    "file": "09-profile/068__setup-equipment.png"
+  },
+  {
+    "id": "069",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 78.51111866416859,
+    "file": "02-home/069__after-profile-setup.png"
+  },
+  {
+    "id": "070",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.39837470509085,
+    "file": "03-workouts/070__exercise-lineup.png"
+  },
+  {
+    "id": "071",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.26261308497529,
+    "file": "03-workouts/071__exercise-editor.png"
+  },
+  {
+    "id": "072",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.594730005722596,
+    "file": "03-workouts/072__reorder-exercises.png"
+  },
+  {
+    "id": "073",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.156098304887884,
+    "file": "03-workouts/073__exercise-library.png"
+  },
+  {
+    "id": "074",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.78637846966433,
+    "file": "03-workouts/074__adapt-time.png"
+  },
+  {
+    "id": "075",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.58268887658402,
+    "file": "03-workouts/075__adapt-time-preview.png"
+  },
+  {
+    "id": "076",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.133974804840655,
+    "file": "03-workouts/076__adapt-equipment.png"
+  },
+  {
+    "id": "077",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.46362651368201,
+    "file": "03-workouts/077__adapt-equipment-preview.png"
+  },
+  {
+    "id": "078",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.76500403400181,
+    "file": "03-workouts/078__adapt-energy.png"
+  },
+  {
+    "id": "079",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.715219998583194,
+    "file": "03-workouts/079__adapt-energy-preview.png"
+  },
+  {
+    "id": "080",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.501836449003406,
+    "file": "03-workouts/080__unsaved-workout.png"
+  },
+  {
+    "id": "081",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.28974157016197,
+    "file": "03-workouts/081__workout-saved.png"
+  },
+  {
+    "id": "082",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 39.55435300361759,
+    "file": "03-workouts/082__library-with-saved.png"
+  },
+  {
+    "id": "083",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.24419653397002,
+    "file": "04-planning/083__schedule-optional-time.png"
+  },
+  {
+    "id": "084",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.03306989127671,
+    "file": "04-planning/084__schedule-reminder-preview.png"
+  },
+  {
+    "id": "085",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.62443760297032,
+    "file": "04-planning/085__scheduled-success.png"
+  },
+  {
+    "id": "086",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.28682952065202,
+    "file": "04-planning/086__time-sheet.png"
+  },
+  {
+    "id": "087",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.75558359897148,
+    "file": "04-planning/087__time-morning-reminder.png"
+  },
+  {
+    "id": "088",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.57407597923079,
+    "file": "04-planning/088__time-saved.png"
+  },
+  {
+    "id": "089",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 42.70101000474148,
+    "file": "04-planning/089__schedule-conflict.png"
+  },
+  {
+    "id": "090",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 39.14052364783072,
+    "file": "04-planning/090__week-options.png"
+  },
+  {
+    "id": "091",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 41.004810268634024,
+    "file": "04-planning/091__builder-focus.png"
+  },
+  {
+    "id": "092",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.27141966418689,
+    "file": "04-planning/092__builder-days.png"
+  },
+  {
+    "id": "093",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 42.63070126056078,
+    "file": "04-planning/093__builder-equipment.png"
+  },
+  {
+    "id": "094",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.44335318488182,
+    "file": "04-planning/094__draft-week.png"
+  },
+  {
+    "id": "095",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.68278823290749,
+    "file": "04-planning/095__week-multiple-workouts.png"
+  },
+  {
+    "id": "096",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.26323022541674,
+    "file": "04-planning/096__batch-selection.png"
+  },
+  {
+    "id": "097",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.13766514339539,
+    "file": "04-planning/097__batch-time-editor.png"
+  },
+  {
+    "id": "098",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.057213602114246,
+    "file": "04-planning/098__batch-time-saved.png"
+  },
+  {
+    "id": "099",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.803160794092626,
+    "file": "04-planning/099__session-options.png"
+  },
+  {
+    "id": "100",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.40337807951723,
+    "file": "04-planning/100__move-session.png"
+  },
+  {
+    "id": "101",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.28408317277837,
+    "file": "04-planning/101__replace-picker.png"
+  },
+  {
+    "id": "102",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.32906037761629,
+    "file": "04-planning/102__remove-with-undo.png"
+  },
+  {
+    "id": "103",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.32462208398241,
+    "file": "04-planning/103__undo-restored.png"
+  },
+  {
+    "id": "104",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.43281818203696,
+    "file": "04-planning/104__copy-week-target.png"
+  },
+  {
+    "id": "105",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 45.268640176636744,
+    "file": "04-planning/105__copy-week-preview.png"
+  },
+  {
+    "id": "106",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.02587107176231,
+    "file": "04-planning/106__copy-week-success.png"
+  },
+  {
+    "id": "107",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.31340841764847,
+    "file": "04-planning/107__copy-last-week.png"
+  },
+  {
+    "id": "108",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 44.19426303123986,
+    "file": "04-planning/108__copy-last-week-preview.png"
+  },
+  {
+    "id": "109",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 43.48951669600854,
+    "file": "04-planning/109__copy-week-conflict.png"
+  },
+  {
+    "id": "110",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.663044970604226,
+    "file": "03-workouts/110__active-empty-set.png"
+  },
+  {
+    "id": "111",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.16377525615786,
+    "file": "03-workouts/111__exercise-guide.png"
+  },
+  {
+    "id": "112",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.63257143019738,
+    "file": "03-workouts/112__pinned-focus.png"
+  },
+  {
+    "id": "113",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 58.15037441264638,
+    "file": "03-workouts/113__set-entered.png"
+  },
+  {
+    "id": "114",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.44803481953286,
+    "file": "03-workouts/114__rest-running.png"
+  },
+  {
+    "id": "115",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.35517898392174,
+    "file": "03-workouts/115__rest-plus-15.png"
+  },
+  {
+    "id": "117",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.36300184547514,
+    "file": "03-workouts/117__session-paused.png"
+  },
+  {
+    "id": "118",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.81680928656714,
+    "file": "03-workouts/118__resume-in-menu.png"
+  },
+  {
+    "id": "119",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.69822476844721,
+    "file": "03-workouts/119__active-lineup.png"
+  },
+  {
+    "id": "120",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 71.60457798297216,
+    "file": "03-workouts/120__review-recorded.png"
+  },
+  {
+    "id": "121",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 54.33253552442519,
+    "file": "03-workouts/121__review-high-effort.png"
+  },
+  {
+    "id": "122",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.104297589678744,
+    "file": "03-workouts/122__review-muscle-map.png"
+  },
+  {
+    "id": "123",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 53.392858790840414,
+    "file": "03-workouts/123__review-optional-feedback.png"
+  },
+  {
+    "id": "124",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.43648237667861,
+    "file": "03-workouts/124__body-area-picker.png"
+  },
+  {
+    "id": "125",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.12349830333607,
+    "file": "03-workouts/125__discomfort-noted.png"
+  },
+  {
+    "id": "126",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.82029909780422,
+    "file": "03-workouts/126__checkin-saved.png"
+  },
+  {
+    "id": "127",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 76.76427640270333,
+    "file": "02-home/127__after-workout.png"
+  },
+  {
+    "id": "128",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.88376456115157,
+    "file": "03-workouts/128__history-list.png"
+  },
+  {
+    "id": "129",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 70.91133853444275,
+    "file": "03-workouts/129__history-reopened.png"
+  },
+  {
+    "id": "130",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.67245224929341,
+    "file": "03-workouts/130__use-last-time-before.png"
+  },
+  {
+    "id": "131",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 58.02704081269849,
+    "file": "03-workouts/131__use-last-time-after.png"
+  },
+  {
+    "id": "132",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.8801715538886,
+    "file": "03-workouts/132__exercise-history.png"
+  },
+  {
+    "id": "133",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 54.83077526327401,
+    "file": "03-workouts/133__pain-stop.png"
+  },
+  {
+    "id": "134",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 65.35458381272689,
+    "file": "03-workouts/134__stopped-review.png"
+  },
+  {
+    "id": "135",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.312436372574666,
+    "file": "06-walking/135__manual-activity-form.png"
+  },
+  {
+    "id": "136",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.08892249592125,
+    "file": "06-walking/136__walk-entry-edit.png"
+  },
+  {
+    "id": "137",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 83.61497544788425,
+    "file": "07-food/137__context-workout.png"
+  },
+  {
+    "id": "138",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 83.58186450594192,
+    "file": "07-food/138__context-walk.png"
+  },
+  {
+    "id": "139",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 83.6274463476347,
+    "file": "07-food/139__context-ordinary.png"
+  },
+  {
+    "id": "140",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 61.614789747737056,
+    "file": "07-food/140__suggest-breakfast.png"
+  },
+  {
+    "id": "141",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 83.6274463476347,
+    "file": "07-food/141__suggest-lunch.png"
+  },
+  {
+    "id": "142",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 64.13756180310627,
+    "file": "07-food/142__suggest-dinner.png"
+  },
+  {
+    "id": "143",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 71.81712664933913,
+    "file": "07-food/143__suggest-snack.png"
+  },
+  {
+    "id": "144",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.126793718636414,
+    "file": "07-food/144__why-these-meals.png"
+  },
+  {
+    "id": "145",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 52.63899380722637,
+    "file": "07-food/145__food-preferences.png"
+  },
+  {
+    "id": "146",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 55.380422509674645,
+    "file": "07-food/146__vegetarian-suggestions.png"
+  },
+  {
+    "id": "147",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.56426220188109,
+    "file": "07-food/147__recipe-filters.png"
+  },
+  {
+    "id": "148",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.4255960731314,
+    "file": "07-food/148__filtered-recipes.png"
+  },
+  {
+    "id": "149",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.03568204325708,
+    "file": "07-food/149__search-empty.png"
+  },
+  {
+    "id": "150",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.734982622308415,
+    "file": "07-food/150__search-vietnamese.png"
+  },
+  {
+    "id": "151",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.76229093760562,
+    "file": "07-food/151__recipe-detail.png"
+  },
+  {
+    "id": "152",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.459123445792336,
+    "file": "07-food/152__recipe-saved.png"
+  },
+  {
+    "id": "153",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 33.872554846930846,
+    "file": "07-food/153__ingredients-checked.png"
+  },
+  {
+    "id": "154",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.75486370898375,
+    "file": "07-food/154__method-step-checked.png"
+  },
+  {
+    "id": "155",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.011824061908705,
+    "file": "07-food/155__portion-picker.png"
+  },
+  {
+    "id": "156",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 55.39250492540361,
+    "file": "07-food/156__meal-diary-filled.png"
+  },
+  {
+    "id": "157",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.944915012092814,
+    "file": "07-food/157__edit-portion.png"
+  },
+  {
+    "id": "158",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.72394331257804,
+    "file": "07-food/158__remove-meal-undo.png"
+  },
+  {
+    "id": "159",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 55.3903269549992,
+    "file": "07-food/159__meal-restored.png"
+  },
+  {
+    "id": "160",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 42.34916111702094,
+    "file": "07-food/160__meal-log-picker.png"
+  },
+  {
+    "id": "161",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.69074413902418,
+    "file": "07-food/161__custom-meal-form.png"
+  },
+  {
+    "id": "162",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.97472693280887,
+    "file": "07-food/162__diary-custom-and-recipe.png"
+  },
+  {
+    "id": "163",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 37.54709626125605,
+    "file": "07-food/163__saved-recipe-filter.png"
+  },
+  {
+    "id": "164",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 66.48540478727482,
+    "file": "07-food-catalog/164__recipe-b-01.png"
+  },
+  {
+    "id": "165",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 72.77970226175292,
+    "file": "07-food-catalog/165__recipe-b-02.png"
+  },
+  {
+    "id": "166",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.175060602733375,
+    "file": "07-food-catalog/166__recipe-b-03.png"
+  },
+  {
+    "id": "167",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 85.89603902114771,
+    "file": "07-food-catalog/167__recipe-b-04.png"
+  },
+  {
+    "id": "168",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 77.93755750799983,
+    "file": "07-food-catalog/168__recipe-b-05.png"
+  },
+  {
+    "id": "169",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 70.44406675398201,
+    "file": "07-food-catalog/169__recipe-b-06.png"
+  },
+  {
+    "id": "170",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 71.35037764322644,
+    "file": "07-food-catalog/170__recipe-b-07.png"
+  },
+  {
+    "id": "171",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 91.3320397174143,
+    "file": "07-food-catalog/171__recipe-b-08.png"
+  },
+  {
+    "id": "172",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 48.45334451504124,
+    "file": "07-food-catalog/172__recipe-m-09.png"
+  },
+  {
+    "id": "173",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.636574937025806,
+    "file": "07-food-catalog/173__recipe-m-10.png"
+  },
+  {
+    "id": "174",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.76229093760562,
+    "file": "07-food-catalog/174__recipe-m-11.png"
+  },
+  {
+    "id": "175",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 91.44274572577682,
+    "file": "07-food-catalog/175__recipe-m-12.png"
+  },
+  {
+    "id": "176",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 69.3348611047839,
+    "file": "07-food-catalog/176__recipe-m-13.png"
+  },
+  {
+    "id": "177",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 74.1014143115628,
+    "file": "07-food-catalog/177__recipe-m-14.png"
+  },
+  {
+    "id": "178",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.176015576082044,
+    "file": "07-food-catalog/178__recipe-m-15.png"
+  },
+  {
+    "id": "179",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 72.49532747902634,
+    "file": "07-food-catalog/179__recipe-m-16.png"
+  },
+  {
+    "id": "180",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.70943878349683,
+    "file": "07-food-catalog/180__recipe-m-17.png"
+  },
+  {
+    "id": "181",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 85.13333354176676,
+    "file": "07-food-catalog/181__recipe-m-18.png"
+  },
+  {
+    "id": "182",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 72.98069813230411,
+    "file": "07-food-catalog/182__recipe-m-19.png"
+  },
+  {
+    "id": "183",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 81.95282491954427,
+    "file": "07-food-catalog/183__recipe-m-20.png"
+  },
+  {
+    "id": "184",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 67.44280370190539,
+    "file": "07-food-catalog/184__recipe-m-21.png"
+  },
+  {
+    "id": "185",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 71.68296857091426,
+    "file": "07-food-catalog/185__recipe-m-22.png"
+  },
+  {
+    "id": "186",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.92357869798468,
+    "file": "07-food-catalog/186__recipe-m-23.png"
+  },
+  {
+    "id": "187",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 62.25020461602886,
+    "file": "07-food-catalog/187__recipe-m-24.png"
+  },
+  {
+    "id": "188",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 50.81019855629733,
+    "file": "07-food-catalog/188__recipe-m-25.png"
+  },
+  {
+    "id": "189",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.98638241892013,
+    "file": "07-food-catalog/189__recipe-m-26.png"
+  },
+  {
+    "id": "190",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 86.80752230433188,
+    "file": "07-food-catalog/190__recipe-s-27.png"
+  },
+  {
+    "id": "191",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 78.14176022398755,
+    "file": "07-food-catalog/191__recipe-s-28.png"
+  },
+  {
+    "id": "192",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 68.99977883948765,
+    "file": "07-food-catalog/192__recipe-s-29.png"
+  },
+  {
+    "id": "193",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.52252875542339,
+    "file": "07-food-catalog/193__recipe-s-30.png"
+  },
+  {
+    "id": "194",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 62.11766195773041,
+    "file": "08-insights/194__recap-cards.png"
+  },
+  {
+    "id": "195",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 52.21582940888219,
+    "file": "08-insights/195__article-category-1.png"
+  },
+  {
+    "id": "196",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 44.84846739391426,
+    "file": "08-insights/196__article-category-2.png"
+  },
+  {
+    "id": "197",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 44.237990003225036,
+    "file": "08-insights/197__article-category-3.png"
+  },
+  {
+    "id": "198",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 45.936409799182805,
+    "file": "08-insights/198__article-category-4.png"
+  },
+  {
+    "id": "199",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.376545984130466,
+    "file": "08-insights/199__article-category-5.png"
+  },
+  {
+    "id": "200",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 45.438994296130836,
+    "file": "08-insights/200__article-reader.png"
+  },
+  {
+    "id": "201",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 43.83703486018046,
+    "file": "08-insights/201__article-takeaway.png"
+  },
+  {
+    "id": "202",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 69.69538517827336,
+    "file": "08-insights/202__monthly-journey.png"
+  },
+  {
+    "id": "203",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 68.57129355330717,
+    "file": "08-insights/203__monthly-replay.png"
+  },
+  {
+    "id": "204",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 41.85328730186868,
+    "file": "08-insights/204__year-chapter-1.png"
+  },
+  {
+    "id": "205",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 47.59466327761069,
+    "file": "08-insights/205__year-chapter-2.png"
+  },
+  {
+    "id": "206",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 51.10940941827881,
+    "file": "08-insights/206__year-chapter-3.png"
+  },
+  {
+    "id": "207",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 34.18049718757417,
+    "file": "08-insights/207__year-chapter-4.png"
+  },
+  {
+    "id": "208",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.74687020481753,
+    "file": "08-insights/208__year-chapter-5.png"
+  },
+  {
+    "id": "209",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.54130402231352,
+    "file": "08-insights/209__year-chapter-6.png"
+  },
+  {
+    "id": "210",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 38.8466245850697,
+    "file": "08-insights/210__year-chapter-7.png"
+  },
+  {
+    "id": "211",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 82.19274219786216,
+    "file": "08-insights/211__year-chapter-8.png"
+  },
+  {
+    "id": "212",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 87.74088462172263,
+    "file": "08-insights/212__yearly-data-explanation.png"
+  },
+  {
+    "id": "213",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 34.40598808398915,
+    "file": "08-insights/213__focus-week.png"
+  },
+  {
+    "id": "214",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.57530233019759,
+    "file": "08-insights/214__focus-month.png"
+  },
+  {
+    "id": "215",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.352810832926004,
+    "file": "08-insights/215__focus-year.png"
+  },
+  {
+    "id": "216",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 43.63402806682971,
+    "file": "08-insights/216__focus-date-picker.png"
+  },
+  {
+    "id": "217",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.39429497441937,
+    "file": "10-chat-camera/217__chat-general-reply.png"
+  },
+  {
+    "id": "218",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.18047654428191,
+    "file": "10-chat-camera/218__chat-options.png"
+  },
+  {
+    "id": "219",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.762795129470824,
+    "file": "10-chat-camera/219__chat-workout-context.png"
+  },
+  {
+    "id": "220",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.2212629336069,
+    "file": "10-chat-camera/220__chat-visible-context.png"
+  },
+  {
+    "id": "221",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.36470336293058,
+    "file": "10-chat-camera/221__chat-shorter-proposal.png"
+  },
+  {
+    "id": "222",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.57764186296043,
+    "file": "10-chat-camera/222__chat-review-proposal.png"
+  },
+  {
+    "id": "223",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.86996441806776,
+    "file": "10-chat-camera/223__chat-recipe-context.png"
+  },
+  {
+    "id": "224",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 34.32529493946033,
+    "file": "10-chat-camera/224__chat-food-reply.png"
+  },
+  {
+    "id": "225",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 56.4568512817879,
+    "file": "10-chat-camera/225__camera-adjust-framing.png"
+  },
+  {
+    "id": "226",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.002121079123434,
+    "file": "10-chat-camera/226__camera-mirrored.png"
+  },
+  {
+    "id": "227",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.03198697558444,
+    "file": "08-insights/227__focus-muscle-detail.png"
+  },
+  {
+    "id": "228",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.92322391829557,
+    "file": "08-insights/228__muscle-map-explained.png"
+  },
+  {
+    "id": "229",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 40.135486661795575,
+    "file": "12-brand/229__mascot-happy.png"
+  },
+  {
+    "id": "230",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.426462707158855,
+    "file": "12-brand/230__mascot-content.png"
+  },
+  {
+    "id": "231",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 34.624467054905,
+    "file": "12-brand/231__mascot-waiting.png"
+  },
+  {
+    "id": "232",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.28253251545919,
+    "file": "12-brand/232__mascot-calm.png"
+  },
+  {
+    "id": "233",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 38.749135484272806,
+    "file": "12-brand/233__mascot-energized.png"
+  },
+  {
+    "id": "234",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 32.10795644898491,
+    "file": "12-brand/234__mascot-tired.png"
+  },
+  {
+    "id": "235",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 42.93217749006339,
+    "file": "12-brand/235__mascot-exhausted.png"
+  },
+  {
+    "id": "236",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 35.560204208840126,
+    "file": "12-brand/236__mascot-concerned.png"
+  },
+  {
+    "id": "237",
+    "width": 320,
+    "height": 700,
+    "meanStdDev": 44.145680711860315,
+    "file": "13-responsive/237__library-320.png"
+  },
+  {
+    "id": "238",
+    "width": 320,
+    "height": 700,
+    "meanStdDev": 53.02002486878916,
+    "file": "13-responsive/238__details-320.png"
+  },
+  {
+    "id": "239",
+    "width": 320,
+    "height": 700,
+    "meanStdDev": 60.022774406174506,
+    "file": "13-responsive/239__active-320.png"
+  },
+  {
+    "id": "240",
+    "width": 430,
+    "height": 932,
+    "meanStdDev": 37.5122430286908,
+    "file": "13-responsive/240__library-430.png"
+  },
+  {
+    "id": "241",
+    "width": 430,
+    "height": 932,
+    "meanStdDev": 47.46903833063025,
+    "file": "13-responsive/241__details-430.png"
+  },
+  {
+    "id": "242",
+    "width": 430,
+    "height": 932,
+    "meanStdDev": 54.98636478628159,
+    "file": "13-responsive/242__active-430.png"
+  },
+  {
+    "id": "252",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 77.7942310656715,
+    "file": "02-home/252__today-planned.png"
+  },
+  {
+    "id": "253",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 49.51022738493541,
+    "file": "03-workouts/253__planned-details.png"
+  },
+  {
+    "id": "254",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.71774247040222,
+    "file": "04-planning/254__time-from-details.png"
+  },
+  {
+    "id": "255",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 76.59186607880623,
+    "file": "02-home/255__unfinished-resume.png"
+  },
+  {
+    "id": "256",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 54.98888375027166,
+    "file": "03-workouts/256__exercise-complete-next.png"
+  },
+  {
+    "id": "257",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 55.56729536399649,
+    "file": "03-workouts/257__next-exercise-active.png"
+  },
+  {
+    "id": "258",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 53.9177568628614,
+    "file": "03-workouts/258__all-sets-complete.png"
+  },
+  {
+    "id": "259",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 71.48218774224655,
+    "file": "03-workouts/259__full-workout-review.png"
+  },
+  {
+    "id": "260",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 55.14475524376282,
+    "file": "03-workouts/260__effort-scale-help.png"
+  },
+  {
+    "id": "261",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 53.16980710806067,
+    "file": "03-workouts/261__exercise-feedback.png"
+  },
+  {
+    "id": "262",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 52.905623669766236,
+    "file": "03-workouts/262__session-note.png"
+  },
+  {
+    "id": "263",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 31.52586092159356,
+    "file": "04-planning/263__completed-calendar.png"
+  },
+  {
+    "id": "264",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 36.40913925168733,
+    "file": "03-workouts/264__completed-details-readonly.png"
+  },
+  {
+    "id": "265",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 58.21027818645223,
+    "file": "03-workouts/265__bodyweight-logging.png"
+  },
+  {
+    "id": "266",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 72.60668030029713,
+    "file": "03-workouts/266__bodyweight-review.png"
+  },
+  {
+    "id": "267",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 59.452915694626135,
+    "file": "03-workouts/267__discomfort-back-view.png"
+  },
+  {
+    "id": "268",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 57.278262359584666,
+    "file": "03-workouts/268__skip-checkin-confirmation.png"
+  },
+  {
+    "id": "269",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 46.952860270667834,
+    "file": "03-workouts/269__rest-expired.png"
+  },
+  {
+    "id": "270",
+    "width": 390,
+    "height": 844,
+    "meanStdDev": 41.19400990546439,
+    "file": "07-food/270__saved-recipe-results.png"
+  }
+]

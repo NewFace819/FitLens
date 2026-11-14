@@ -1,0 +1,26 @@
+{
+  "id": "021",
+  "title": "Plan builder cũ — màn mở đầu",
+  "file": "11-legacy-studies/021__legacy-plan-builder.png",
+  "tags": [
+    "legacy-studies",
+    "legacy",
+    "builder",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "setup-plan.html",
+  "capturedAt": "2026-10-28T14:04:33.347Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Route cũ vẫn render; không coi là luồng planning chính.",
+  "text": "9:41\nLater\n\nA LITTLE ABOUT YOU\n\nWhat moves you?\n\nChoose what matters most right now.\n\nBuild a habit\n✓\nGet stronger\n✓\nBuild muscle\n✓\nImprove stamina\n✓\nHow have you been training?\nJust starting\nComing back\nTraining regularly\n\nChoose your goal to get started.\n\nContinue",
+  "sha256": "b12fe9d1d6785d384ad9aad60068b8cc44bdbfafda7d78fb51c04d10fe5d1a61",
+  "group": "11-legacy-studies",
+  "groupTitle": "Legacy / Design studies",
+  "tagsEmbeddedInPNG": true
+}

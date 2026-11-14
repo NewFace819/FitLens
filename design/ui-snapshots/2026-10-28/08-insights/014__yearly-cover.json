@@ -1,0 +1,26 @@
+{
+  "id": "014",
+  "title": "Recap năm — trang bìa",
+  "file": "08-insights/014__yearly-cover.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:04:28.703Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Recap năm 2025 mẫu.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n01 / 08\n×\n\nONE WORKOUT. THEN ANOTHER.\n\n20\n25.\nYour year.\nQuite a story.\n\nThong, look at all\nthose training days.\n\nLet’s take a look\nDemo year · About these numbers\n\nChapter 1 of 8. Your year in motion.",
+  "sha256": "55ad654e4d98bfe302de3b55b9072c4c36418fbd743245982841d72ba4ce4b8c",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

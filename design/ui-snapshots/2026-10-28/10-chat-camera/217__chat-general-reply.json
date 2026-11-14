@@ -1,0 +1,27 @@
+{
+  "id": "217",
+  "title": "Hội thoại từ câu hỏi gợi ý",
+  "file": "10-chat-camera/217__chat-general-reply.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "suggested-question",
+    "reply",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "chat.html",
+  "capturedAt": "2026-10-28T14:10:39.855Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Câu trả lời mẫu, không gọi AI thật.",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\n\nHow do I get started?\n\nFitLens\n\nStart in Workouts with a session you’d like to try. You can review its exercises before starting; a weekly plan is optional.\n\nIf a move is unfamiliar, open its settings and choose “Ask about this exercise”. We’ll keep the conversation tied to that move.\n\nHow do I choose a weight?\nYour message\n\nUI preview · sample replies, no live AI",
+  "sha256": "687963a868886d653dce34ca32974d2c98e197040ad03641c0bb234e60210f8b",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "028",
+  "title": "Bỏ qua Health",
+  "file": "01-onboarding/028__health-skipped.png",
+  "tags": [
+    "onboarding",
+    "health",
+    "skipped",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:05:01.561Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nNo worries, Minh!\n\nYou can always connect later.\n\nContinue",
+  "sha256": "00109b360650d35e47b4fb333a0781893c3dda6f97c790ac3ffd2bf3a8a5f6a1",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

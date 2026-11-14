@@ -1,0 +1,27 @@
+{
+  "id": "034",
+  "title": "Lối vào món ăn và bài đọc",
+  "file": "02-home/034__food-reading-entry.png",
+  "tags": [
+    "home",
+    "food-entry",
+    "articles",
+    "navigation",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "home.html",
+  "capturedAt": "2026-10-28T14:05:05.595Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS\nM\n✦\n✧\nGood evening, Minh\nA little movement.\nA brighter day.\nTODAY, AT YOUR PACE\nYour plan\nChoose your next workout\n\nStart a workout now or add one to your plan.\n\nChoose a workout\nTHIS WEEK\nYour rhythm\nSet your weekly goal\n\nChoose how many sessions fit your week. You can decide the days later.\n\nSet a weekly goal\nToday’s activity\nSteps\n\nBelow your usual\n\n3.150\nWorkout Time\n0min\nSets completed\n0sets\nFood for today\nThree meals to make at home\nExplore meals\nDaily reading\nMovement for the Mind\nEvening Wind-Down Ritual\nEating for Energy, Not Guilt\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "47a1ebe5f8bc050509b956063bac6dc5cd105662c050b5aa97e543fc243d0d03",
+  "group": "02-home",
+  "groupTitle": "Home",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,28 @@
+{
+  "id": "181",
+  "title": "Cơm trộn Bibimbap bò",
+  "file": "07-food-catalog/181__recipe-m-18.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-18",
+  "capturedAt": "2026-10-28T14:09:54.708Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n18\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm trộn Bibimbap bò\n\nRice bowl with minced beef, egg, kimchi and vegetables\n\nAPPROX. PREP TIME\n20 min\nMAKES\n1 serving\n\nRice, stir-fried beef, vegetables and kimchi are ready. Timing covers the egg and assembly.\n\nEquipment: Frying pan, Large bowl\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Egg, Sesame, Soy, Wheat, Fish, Shellfish. Packaged kimchi and sauces may contain fish or shellfish. Check the labels on the products you use.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 5 ready\n\nTick off ingredients as you get them ready.\n\n1 bowl warm cooked rice\n80 g cooked minced beef with garlic\n1 fried egg\nCarrot, spinach and cabbage kimchi\nGochujang, sesame oil and sesame seeds\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nArrange the bowl\n\nPut rice in a bowl and arrange the prepared vegetables, kimchi and beef around it.\n\n02\nAdd the egg\n\nPlace the fried egg in the centre.\n\n03\nSpoon over the sauce\n\nAdd a spoonful of gochujang and a little sesame oil.\n\n04\nMix and enjoy\n\nMix together and serve warm.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "dca08d13444a7a3fcbcf5c6207b60abfbd160c6cd8da8e29b22e4f94b895f412",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

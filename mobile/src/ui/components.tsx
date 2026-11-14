@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SvgCss } from 'react-native-svg/css';
-import { router } from 'expo-router';
+import { goBackOrHome, useAppNavigation } from '../navigation';
 import { MASCOT_SVG, type MascotMood } from './mascot-svgs';
 import { colors, radius, space, type } from './theme';
 
@@ -21,9 +21,10 @@ export function Mascot({ mood, size = 64 }: { mood: MascotMood; size?: number })
 
 /** Top bar: back button, centred eyebrow title, optional right action. */
 export function TopBar({ title, right }: { title?: string; right?: ReactNode }) {
+  const nav = useAppNavigation();
   return (
     <View style={styles.topBar}>
-      <IconButton label="Back" onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}>
+      <IconButton label="Back" onPress={() => goBackOrHome(nav)}>
         ‹
       </IconButton>
       <Text style={[type.eyebrow, styles.topTitle]}>{title}</Text>

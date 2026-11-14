@@ -1,0 +1,27 @@
+{
+  "id": "222",
+  "title": "Review thay đổi workout từ chat",
+  "file": "10-chat-camera/222__chat-review-proposal.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "proposal",
+    "confirmation",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "chat.html?context=chat-mvs6zbbc-3kl9x4",
+  "capturedAt": "2026-10-28T14:10:43.117Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\nASKING ABOUT\nUpper Body\n6 exercises · Your current session\n\nI only have 20 minutes\n\nFitLens\n\nWe can make the session smaller rather than rush through every exercise.\n\nHere’s an option with up to three exercises and two sets each. Keep your breaks; the total time will depend on your pace. Nothing changes until you review and confirm.\n\nA shorter session\n\nBench Press · 2 sets\nLat Pulldown · 2 sets\nSeated Row · 2 sets\n\nReview changes\nKeep my session\nYour message\n\nUI preview · sample replies, no live AI\n\nA shorter session\n×\n\n6 exercises to 3 exercises. Only this session’s exercise list and set counts will change.\n\nBench Press · 2 sets × 8–12 reps\nLat Pulldown · 2 sets × 10–12 reps\nSeated Row · 2 sets × 10–12 reps\n\nYour actual time will depend on your pace and breaks. Your training days and reminders stay the same.\n\nUse this versionKeep my session",
+  "sha256": "b4046aee5d77eac71767a2c39cb6fdd3b3de32c7ab56588b463d25a1213f16bc",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

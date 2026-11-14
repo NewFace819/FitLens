@@ -1,0 +1,10 @@
+{
+  "images": 260,
+  "allImagesAndSidecarsExist": true,
+  "tagsPresent": true,
+  "defaultCount": true,
+  "searchBeforeAfter": 2,
+  "recipeCatalog": 30,
+  "fixtureFilter": true,
+  "pageErrors": []
+}

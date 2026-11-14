@@ -1,0 +1,28 @@
+{
+  "id": "177",
+  "title": "Bún đậu hũ sả ớt",
+  "file": "07-food-catalog/177__recipe-m-14.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-14",
+  "capturedAt": "2026-10-28T14:09:51.829Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n14\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nBún đậu hũ sả ớt\n\nRice vermicelli with lemongrass tofu, fresh greens and soy dressing\n\nAPPROX. PREP TIME\n15 min\nMAKES\n1 serving\n\nFresh noodles, fried tofu and washed, sliced vegetables are ready.\n\nEquipment: Frying pan\n\nABOUT THIS DISH\n\nA meat-free option for your next meal.\n\nIngredients to note: Soy, Wheat. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 5 ready\n\nTick off ingredients as you get them ready.\n\n150 g fresh rice vermicelli\n2 blocks tofu, fried and cut into strips\n2 tbsp finely chopped lemongrass and chilli\nLettuce, bean sprouts, cucumber and herbs\nSweet-and-sour soy dressing with garlic and chilli\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nWarm the tofu\n\nWarm the pre-fried tofu in a pan. Frying raw tofu takes extra time.\n\n02\nAdd lemongrass\n\nToss the tofu with lemongrass and chilli.\n\n03\nArrange noodles and greens\n\nArrange noodles, lettuce, bean sprouts and cucumber in a bowl.\n\n04\nDress and serve\n\nTop with tofu and spoon over the soy dressing.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "19df5f6b3798881e0bcdce021d94572bcd81323c408ce6f4befd56d66c1d18bf",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

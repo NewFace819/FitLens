@@ -1,0 +1,28 @@
+{
+  "id": "215",
+  "title": "Training focus — year",
+  "file": "08-insights/215__focus-year.png",
+  "tags": [
+    "insights",
+    "training-focus",
+    "muscle-map",
+    "year",
+    "sample",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "training-focus.html?demo=1&period=year&date=2026-10-28",
+  "capturedAt": "2026-10-28T14:10:32.539Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Dữ liệu lịch sử mẫu tích hợp.",
+  "text": "9:41\nInsights\nTraining focus\nWeek\nMonth\nYear\n2026\nSample data\nUse my data\n\nCompleted sets\n\n1.752\n\n128 sessions\n\nFront\nBack\nLess\nMore\nMuscle groups\nGlutes\n\n442 direct · 0 supporting sets\n\nGoblet Squat\nMain · 223 sets\nRomanian Deadlift\nMain · 112 sets\nGlute Bridge\nMain · 107 sets\nHow this map works",
+  "sha256": "229046b2aa0259226a933d9804eb429643cce5d18405f118572cf404eb0532cd",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "268",
+  "title": "Bỏ qua check-in",
+  "file": "03-workouts/268__skip-checkin-confirmation.png",
+  "tags": [
+    "workouts",
+    "review",
+    "skip",
+    "confirmation",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-review.html?routine=full&completed=workout-1793196835970",
+  "capturedAt": "2026-10-28T14:13:58.606Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nSkip\nA little stronger.\n\nHow did this session feel?\n\nTODAY’S LITTLE BIG THINGS\n\nBodyweight Foundations.\n✓ Complete\n\nTOTAL VOLUME\n\n0\nkg\n\nA whole\nbear squad.\n\nBodyweight work counts, too.\n\nAdded up across every set\n\nTIME FOR YOU\n\n<1 min\n\n≈ 0 quick matches.\nReal-life level up.\n\nSHOWING UP\n\n1 set\n\n3 exercises.\nA lot of little wins.\n\nHow we counted\n＋\nTraining focus\n\n1 completed set\n\nFront\nBack\nLess\nMore\nMuscle groups\nQuads\n\n1 direct · 0 supporting sets\n\nChair Squat\nMain · 1 set\nHow this map works\nHow did it feel?\ni\n\nThink about the whole session.\n\nModerate\n5 / 10\n\nA steady effort. You worked, with room to keep going.\n\nWithin usual range\n↔ As usual\nVery light\nAll-out\nYour usual range\n4–6 · demo baseline\nHow does your body feel?\nAnything feeling\nuncomfortable?\nAdd an area\nAnything you’d change?\nReflect on individual exercises\n＋\nAnything worth remembering?\nA thought for your next session\n＋\n\nModerate effort · Your moment to reflect\n\nFinish check-in\n✓\n✓\nYour session counts.\n\nYou can take a moment to reflect another time.\n\nUI preview · sample workout\nFeedback stays here while this page is open.\n\nBack to Today\nKeep editing",
+  "sha256": "8e5c3df525858721455f734f2d968a2d457535c8aadb0b4c905f3031683e3ad0",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

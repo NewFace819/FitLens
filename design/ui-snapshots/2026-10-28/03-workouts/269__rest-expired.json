@@ -1,0 +1,27 @@
+{
+  "id": "269",
+  "title": "Nghỉ hết giờ — sẵn sàng set tiếp",
+  "file": "03-workouts/269__rest-expired.png",
+  "tags": [
+    "workouts",
+    "rest-timer",
+    "expired",
+    "clock-advanced",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper",
+  "capturedAt": "2026-10-28T14:17:09.131Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Đồng hồ thử nghiệm được gắn trước khi tải trang, chạy các tick đến 00:00; không đo thiết bị thật.",
+  "text": "9:41\nUpper Body\n\n01:32\nelapsed\n\n01 / 06\nBENCH\nPRESS.\nBarbell · Chest\nExercise guide\n☆ Pin as focus\nLast 3 sessions\nYour sets.\n3 × 8–12 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n—\n02\n—\n•\n03\n—\n·\n＋ Add set\nRest 90 sec\n\nTotal bar weight, including the bar.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nLat Pulldown\n02 / 06\nYOUR NEXT SET\nReady when\nyou are.\n00:00\n\nNext: Set 2 · 20 kg · 8–12 reps\n\n＋15 sec\nBack to sets\n＋ I feel pain\n1 set complete\n\nRest finished. Start your next set when you are ready.\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "dc8fe3d4b0f1865d0f993a7e6b00d1d225b88aa6a5d81aea06ae4fae234615f2",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

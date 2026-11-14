@@ -5,9 +5,9 @@
  * The Review *shape* is Tu's (modules/checkin/review-model.ts); storing it is
  * Đức Huy's. Đức Huy replaces the implementation, keeping these signatures.
  */
-import { addDays, isDateKey, toDateKey, type DateKey } from '../../shared/dates.ts';
-import { KEYS, read, write } from '../../shared/storage.ts';
-import { parseReview, type Review } from '../checkin/review-model.ts';
+import { addDays, isDateKey, toDateKey, type DateKey } from '../../shared/dates';
+import { KEYS, read, write } from '../../shared/storage';
+import { parseReview, type Review } from '../checkin/review-model';
 
 export type SetRecord = { exerciseId: string; kg: number | null; reps: number };
 

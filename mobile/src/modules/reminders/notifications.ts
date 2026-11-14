@@ -1,53 +1,57 @@
 /**
- * Device notifications for reminders (expo-notifications). OWNER: Tu.
+ * Device notifications for reminders. OWNER: Tu.
+ *
  * Mirrors pendingNotifications() onto the phone: cancel ours, schedule again.
  * Call after any change to reminders or session times, and on app start.
+ *
+ * The native notification library is NOT chosen yet (needs an Android build
+ * to verify, see docs/design/RHYTHM_CHECKIN_REMINDER.md). Until a scheduler is
+ * plugged in with setNotificationScheduler(), this runs in "preview" mode:
+ * it computes exactly what would be sent but sends nothing — the same
+ * behaviour as the HTML prototype.
  */
-import { Platform } from 'react-native';
-import * as Notifications from 'expo-notifications';
-import { pendingNotifications } from './reminders.ts';
+import { pendingNotifications } from './reminders';
+import type { ScheduledNotification } from './reminder-model';
 
-const CHANNEL_ID = 'workout-reminders';
+export type NotificationScheduler = {
+  /** Ask (if `ask`) and report whether notifications are allowed. */
+  ensurePermission(ask: boolean): Promise<boolean>;
+  /** Cancel every notification this app scheduled. */
+  cancelAll(): Promise<void>;
+  schedule(n: ScheduledNotification): Promise<void>;
+};
 
-export function configureNotifications() {
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowBanner: true,
-      shouldShowList: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
+let scheduler: NotificationScheduler | null = null;
+
+export function setNotificationScheduler(s: NotificationScheduler | null) {
+  scheduler = s;
 }
 
-/** Android 13+: create the channel before asking, or the prompt won't show. */
-export async function ensurePermission(ask: boolean): Promise<boolean> {
-  if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
-      name: 'Workout reminders',
-      importance: Notifications.AndroidImportance.HIGH,
-    });
+export type SyncResult =
+  | { mode: 'device'; scheduled: number }
+  | { mode: 'denied'; pending: number }
+  | { mode: 'preview'; pending: number };
+
+export async function syncReminderNotifications(options: { ask?: boolean } = {}, now: Date = new Date()): Promise<SyncResult> {
+  const plan = pendingNotifications(now);
+  if (!scheduler) return { mode: 'preview', pending: plan.length };
+  if (!(await scheduler.ensurePermission(options.ask === true && plan.length > 0))) {
+    return plan.length ? { mode: 'denied', pending: plan.length } : { mode: 'device', scheduled: 0 };
   }
-  const current = await Notifications.getPermissionsAsync();
-  if (current.granted) return true;
-  if (!ask || !current.canAskAgain) return false;
-  return (await Notifications.requestPermissionsAsync()).granted;
+  await scheduler.cancelAll();
+  for (const n of plan) await scheduler.schedule(n);
+  return { mode: 'device', scheduled: plan.length };
 }
 
-/**
- * Returns how many notifications are scheduled, or null when notifications
- * aren't allowed (reminders are still saved).
- */
-export async function syncReminderNotifications(options: { ask?: boolean } = {}): Promise<number | null> {
-  const plan = pendingNotifications(new Date());
-  if (!(await ensurePermission(options.ask === true && plan.length > 0))) return plan.length ? null : 0;
-  // FitLens schedules no other local notifications, so clearing all is safe.
-  await Notifications.cancelAllScheduledNotificationsAsync();
-  for (const n of plan) {
-    await Notifications.scheduleNotificationAsync({
-      content: { title: n.title, body: n.body, data: { session: n.sessionId } },
-      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: n.at, channelId: CHANNEL_ID },
-    });
+export function describeSync(r: SyncResult): string {
+  switch (r.mode) {
+    case 'preview':
+      return r.pending
+        ? `Saved. Preview only — ${r.pending} ${r.pending === 1 ? 'reminder' : 'reminders'} would be sent in the next two weeks.`
+        : 'Saved. No reminders planned.';
+    case 'denied':
+      return 'Saved. Notifications are off for FitLens — turn them on in Android settings to get reminders.';
+    default:
+      return r.scheduled ? `Saved. ${r.scheduled} ${r.scheduled === 1 ? 'reminder' : 'reminders'} scheduled for the next two weeks.` : 'Saved. No reminders scheduled.';
   }
-  return plan.length;
 }

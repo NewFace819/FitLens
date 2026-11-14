@@ -1,0 +1,26 @@
+{
+  "id": "001",
+  "title": "Chào mừng",
+  "file": "01-onboarding/001__welcome.png",
+  "tags": [
+    "onboarding",
+    "first-visit",
+    "entry",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:02:09.968Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nWelcome to\nFitLens.\n\nYour pace. Your way.\n\nGet Started",
+  "sha256": "ad282ef9fd3745a27a9b02454debddd61b8fea48c1aba5f47b3229713219aea0",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

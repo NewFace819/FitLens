@@ -4,9 +4,9 @@
  * (DATA_CONTRACT §6): getWorkout, getWeekSchedule, updateSession,
  * getNextSession, markSessionDone. Hải replaces this file.
  */
-import { SESSION_STATUSES, isOneOf, type SessionStatus } from '../../shared/constants.ts';
-import { addDays, isDateKey, isTime, toDateKey, toMinutes, type DateKey, type TimeOfDay } from '../../shared/dates.ts';
-import { KEYS, read, write } from '../../shared/storage.ts';
+import { SESSION_STATUSES, isOneOf, type SessionStatus } from '../../shared/constants';
+import { addDays, isDateKey, isTime, toDateKey, toMinutes, type DateKey, type TimeOfDay } from '../../shared/dates';
+import { KEYS, read, write } from '../../shared/storage';
 
 export type WorkoutItem = { exerciseId: string; sets: number; reps: number };
 export type Workout = { id: string; name: string; items: WorkoutItem[] };

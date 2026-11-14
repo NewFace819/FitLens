@@ -9,8 +9,8 @@
 import {
   EXERCISE_FEEDBACK, REGIONS, isOneOf,
   type ExerciseFeedback, type Region, type Rpe,
-} from '../../shared/constants.ts';
-import { newId } from '../../shared/ids.ts';
+} from '../../shared/constants';
+import { newId } from '../../shared/ids';
 
 /** Sensation for a discomfort region (Tu's extra detail; the region list is the contract field). */
 export const SENSATIONS = ['tightness', 'soreness', 'pain', 'unsure'] as const;

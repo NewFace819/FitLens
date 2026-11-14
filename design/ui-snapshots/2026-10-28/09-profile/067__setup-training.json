@@ -1,0 +1,27 @@
+{
+  "id": "067",
+  "title": "Setup — mục tiêu và kinh nghiệm",
+  "file": "09-profile/067__setup-training.png",
+  "tags": [
+    "profile",
+    "setup",
+    "training",
+    "form",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "profile-setup.html",
+  "capturedAt": "2026-10-28T14:05:26.552Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nSkip for now\n\n2 of 3\n\nYour kind of training.\n\nSet a starting point for planning your week.\n\nYour training goal\nChoose later\nBuild a habit\nGet stronger\nBuild muscle\nImprove stamina\nYour experience\nChoose later\nJust starting\nComing back\nTraining regularly\nDays per week\nChoose later\n2 days\n3 days\n4 days\n5 days\nMinutes per session\nChoose later\n20 min\n30 min\n45 min\n\nBack\nContinue\n\nYour choices stay in this browser. Every field is optional, and you can change them in Profile.",
+  "sha256": "8a5eb447f73e51ab12e334eb1f29c7cf71ff467322d3239169273246fda54907",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

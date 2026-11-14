@@ -1,0 +1,28 @@
+{
+  "id": "109",
+  "title": "Copy lịch bỏ qua ngày bị trùng",
+  "file": "04-planning/109__copy-week-conflict.png",
+  "tags": [
+    "planning",
+    "copy-week",
+    "conflict",
+    "keep-existing",
+    "fixture",
+    "status:fixture",
+    "data:synthetic"
+  ],
+  "route": "plan.html?week=2026-11-02",
+  "capturedAt": "2026-10-28T14:07:39.563Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "fixture",
+  "data": "demo/synthetic",
+  "note": "Tuần nguồn và xung đột là fixture; preview được mở bằng UI.",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nNov 2 – Nov 8\nM\n2\nT\n3\nW\n4\nT\n5\nF\n6\nS\n7\nS\n8\n3 planned · 3/3 times set\nAdd\nMon\n2\nUpper Body\n45 min\n07:00\nTue\n3\nNo workout planned\nWed\n4\nUpper Body\n45 min\n07:00\nThu\n5\nNo workout planned\nFri\n6\nUpper Body\n45 min\n07:00\nSat\n7\nNo workout planned\nSun\n8\nNo workout planned\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nCOPY A WEEK\nYour next week, previewed.\n\nNov 9 – Nov 15\n\n2 to add\n1 conflicting day skipped. Existing workouts stay in place.\nUpper Body\nMon, Nov 9 · 07:00\nKeep existing\nAlready planned: Lower Body\nUpper Body\nWed, Nov 11 · 07:00\nAdd\nUpper Body\nFri, Nov 13 · 07:00\nAdd\n\nCompletion records stay in the original week. Reminders start off.\n\nChange week\nCopy 2 workouts",
+  "sha256": "3dfc231979248f573e723b57eeb9e6846fcb55648ea1651039d09191a10c8241",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

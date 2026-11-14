@@ -1,0 +1,28 @@
+{
+  "id": "093",
+  "title": "Gợi ý tuần — dụng cụ và vùng cần lưu ý",
+  "file": "04-planning/093__builder-equipment.png",
+  "tags": [
+    "planning",
+    "builder",
+    "equipment",
+    "body-areas",
+    "step-3",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:28.552Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n1 planned · 1/1 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n07:00\nPreview\nThu\n29\nNo workout planned\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nNo workout planned\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nSUGGEST MY WEEK\nSpace & equipment\n✓\nFocus\n✓\nWeek\n3\nSetup\nMake this week yours\n\nYour space\n\nAt home\nAt the gym\n\nWhat can you use?\n\nBodyweight\nDumbbells\nBands\nA mat\nA bench\nAreas to avoid\nNone selected\n2 new workouts\nBuild a habit · 30 min each\n\nExercises included. Everything stays editable.\n\nBack\nPreview my week",
+  "sha256": "7085b2d23cb898ad9715bd0b77c19e8df998b4b6824596d9469eef31981ebe9f",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

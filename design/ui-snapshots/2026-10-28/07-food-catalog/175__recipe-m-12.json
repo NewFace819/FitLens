@@ -1,0 +1,28 @@
+{
+  "id": "175",
+  "title": "Cơm thịt băm xào sả",
+  "file": "07-food-catalog/175__recipe-m-12.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-12",
+  "capturedAt": "2026-10-28T14:09:50.433Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n12\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm thịt băm xào sả\n\nLemongrass minced pork with rice, cucumber and winter melon soup\n\nAPPROX. PREP TIME\n15 min\nMAKES\n1 serving\n\nRice and soup are cooked ahead; vegetables, lemongrass and shallot are prepared.\n\nEquipment: Frying pan\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Fish. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 4 ready\n\nTick off ingredients as you get them ready.\n\n120 g minced pork\n2 stalks lemongrass and 1 red chilli, finely chopped\n1 chopped shallot, fish sauce, sugar and pepper\nCooked rice, sliced cucumber and prepared winter melon soup\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nSeason the pork\n\nSeason the pork with fish sauce, pepper and shallot for 5 minutes.\n\n02\nFry the aromatics\n\nFry the lemongrass and chilli until fragrant.\n\n03\nStir-fry the pork\n\nAdd the pork and stir-fry, breaking it up, until cooked through.\n\n04\nServe with sides\n\nAdjust seasoning and serve over rice with cucumber and the prepared soup.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "38feeb98683dfb52b7333d54b7af605fb0d9e28e7505490f65d13ffc797efc0e",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

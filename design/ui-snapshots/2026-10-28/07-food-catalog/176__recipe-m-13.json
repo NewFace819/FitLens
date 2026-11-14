@@ -1,0 +1,28 @@
+{
+  "id": "176",
+  "title": "Cơm nấm kho tiêu",
+  "file": "07-food-catalog/176__recipe-m-13.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-13",
+  "capturedAt": "2026-10-28T14:09:51.149Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n13\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm nấm kho tiêu\n\nPepper-braised mushrooms with rice and leafy-greens soup\n\nAPPROX. PREP TIME\n20 min\nMAKES\n1 serving\n\nRice and soup are cooked ahead; mushrooms are washed and cut.\n\nEquipment: Small saucepan\n\nABOUT THIS DISH\n\nA meat-free option for your next meal.\n\nIngredients to note: Soy, Wheat. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 4 ready\n\nTick off ingredients as you get them ready.\n\n150 g king oyster mushrooms, cut into chunks\nGreen peppercorns or crushed black pepper\n2 tbsp soy sauce and 1 tbsp palm sugar\nSliced leek, cooked rice and prepared Malabar spinach and loofah soup\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nCut the mushrooms\n\nClean and cut the mushrooms, lightly scoring the surface if you like.\n\n02\nCook with leek\n\nFry the leek, add the mushrooms and stir until they begin to soften.\n\n03\nBraise with pepper\n\nAdd soy sauce, sugar and pepper; cover and simmer gently for about 15 minutes.\n\n04\nServe with the sides\n\nServe with the prepared rice and soup.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "84441395228628b46f512b0ea57b44899a5cb1e9d6423332c014746788314e80",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

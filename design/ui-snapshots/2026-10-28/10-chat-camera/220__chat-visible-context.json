@@ -1,0 +1,27 @@
+{
+  "id": "220",
+  "title": "Xem chính xác context được đính kèm",
+  "file": "10-chat-camera/220__chat-visible-context.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "context",
+    "privacy",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "chat.html?context=chat-mvs6zbbc-3kl9x4",
+  "capturedAt": "2026-10-28T14:10:41.969Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\nASKING ABOUT\nUpper Body\n6 exercises · Your current session\n\nLET’S WORK IT OUT\n\nLet’s talk about your session.\n\nA move you’re unsure of, or a little less time today.\n\nI only have 20 minutes\nHow do I choose a weight?\nI’m not sure about a move\n\nTap the context above to see what’s included.\n\nYour message\n\nUI preview · sample replies, no live AI\n\nWhat FitLens can see\n×\n\nUpper Body\n\nBench Press · 3 sets × 8–12 reps\nLat Pulldown · 3 sets × 10–12 reps\nSeated Row · 3 sets × 10–12 reps\nShoulder Press · 3 sets × 8–12 reps\nLateral Raise · 3 sets × 12–15 reps\nTriceps Pushdown · 3 sets × 10–15 reps\n\nYour profile, health history and camera are not included in this conversation preview.\n\nGot it",
+  "sha256": "82e6aa2921098289c8056e5ea38c725b89fbd9e4704553cd7c3be494d88defd3",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

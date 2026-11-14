@@ -1,0 +1,26 @@
+{
+  "id": "132",
+  "title": "Lịch sử theo động tác",
+  "file": "03-workouts/132__exercise-history.png",
+  "tags": [
+    "workouts",
+    "exercise-history",
+    "last-sessions",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper",
+  "capturedAt": "2026-10-28T14:07:55.519Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Có một session được ghi trong phiên này.",
+  "text": "9:41\nUpper Body\n\n00:01\nelapsed\n\n01 / 06\nBENCH\nPRESS.\nBarbell · Chest\nExercise guide\n★ Your focus\nLast 3 sessions\nYour sets.\n3 × 8–12 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n20 kg × 10\nUse last time\n•\n02\n—\n·\n03\n—\n·\n＋ Add set\nRest 90 sec\n\nTotal bar weight, including the bar.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nLat Pulldown\n02 / 06\nSET 01 / 03\nComplete Set 1\n＋ I feel pain\n0 sets complete\n\nPrevious values filled. Complete the set when you have done it.\n\nUI STUDY\nSample values · no workout is saved to your account\nBench Press\n×\n\nYour last three recorded sessions.\n\nOct 28\n20 kg × 10\n\nLast 1 session · heaviest completed set shown.\n\nUnpin this exercise",
+  "sha256": "c5a7c7ee844058f961ae6b7ef858e915400744ebaeb8df901d959bbc9ed99694",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

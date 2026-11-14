@@ -1,0 +1,26 @@
+{
+  "id": "011",
+  "title": "Training focus chưa có bản ghi",
+  "file": "08-insights/011__training-focus-empty.png",
+  "tags": [
+    "insights",
+    "muscle-map",
+    "empty",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "training-focus.html?period=week&date=2026-10-28",
+  "capturedAt": "2026-10-28T14:04:26.547Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nInsights\nTraining focus\nWeek\nMonth\nYear\n26 Oct – 1 Nov 2026\nYour data\nView sample\n\nCompleted sets\n\n0\n\n0 sessions\n\nNo completed sets to map for this period.\n\nChoose a workout",
+  "sha256": "3d49748adddd52a38a84a57e46af11768eddc1b80c440977293ef226a603dc06",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

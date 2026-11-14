@@ -1,0 +1,26 @@
+{
+  "id": "103",
+  "title": "Khôi phục buổi vừa bỏ",
+  "file": "04-planning/103__undo-restored.png",
+  "tags": [
+    "planning",
+    "undo",
+    "restored",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:34.498Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Đã bấm Undo.",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n3 planned · 3/3 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n18:45\nPreview\nThu\n29\nBodyweight foundations\n30 min\n18:45\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nMove at your pace\n30 min\n18:45\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nChange undone.",
+  "sha256": "36e4a661784e0331af4714b8866722c6e8be4abad49179f5a1629385c7db2f81",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}
