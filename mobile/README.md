@@ -50,4 +50,4 @@ Rules (from the contract):
 - Missing or broken data never crashes a screen; readers return defaults.
 - The placeholder modules implement the contract signatures so Tu's screens work. Each owner replaces their own folder and keeps the signatures.
 
-Tu's data details: `docs/design/RHYTHM_CHECKIN_REMINDER.md`.
+Tu's data details: `docs/design/RHYTHM_CHECKIN_REMINDER.md` (separate PR: branch `docs/rhythm-checkin-design`).
