@@ -2,7 +2,7 @@
  'use strict';
  const timing={slide:240,digitStart:120,stagger:32,digitDuration:360,surfaceDelay:30,surfaceDuration:260};
  const smooth=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
- const format=n=>n.toLocaleString('en-US');
+ const format=n=>n.toLocaleString('de-DE');
  const feet='<svg viewBox="0 0 64 70" fill="currentColor" aria-hidden="true"><g transform="rotate(-15 19 46)"><ellipse cx="19" cy="47" rx="9" ry="15"/><ellipse cx="9" cy="28" rx="2.5" ry="3.3"/><ellipse cx="14" cy="23" rx="3" ry="4"/><ellipse cx="21" cy="21" rx="3.6" ry="4.8"/><ellipse cx="28" cy="25" rx="3.6" ry="5.3"/></g><g transform="rotate(16 44 28)"><ellipse cx="44" cy="31" rx="9" ry="15"/><ellipse cx="34" cy="10" rx="3.9" ry="5.4"/><ellipse cx="42" cy="7" rx="3.4" ry="4.7"/><ellipse cx="49" cy="10" rx="2.9" ry="4"/><ellipse cx="55" cy="15" rx="2.3" ry="3.3"/></g></svg>';
  function surface(steps,baseline){const ratio=baseline>0?steps/baseline:0,bloom=smooth(.90,1.04,ratio),fog=1-smooth(.92,1,ratio);return {cover:Math.max(0,(1-ratio)*100),fog,line:.34*fog,rim:(.25+.45*bloom)/.766,glow:.30+.22*bloom};}
  function mount(root,initial,{compact=false,showData=true,countId}={}){

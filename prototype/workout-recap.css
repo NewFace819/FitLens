@@ -36,3 +36,5 @@
 .note-section summary:hover .note-art img{transform:rotate(1deg)}
 .note-section summary{min-height:112px;gap:14px;padding:17px 0}
 @media(max-width:360px){.note-art{width:65px}.note-art img{width:66px;height:57px}.note-section summary{gap:11px}}
+
+.review-stopped .volume-card{min-height:0;background:#52685d}.review-stopped .volume-card::after,.review-stopped .recap-bear,.review-stopped .bear-copy h3,.review-stopped .volume-footnote{display:none}.review-stopped .bear-copy{max-width:100%;margin-top:8px}.review-stopped .time-card,.review-stopped .sets-card{min-height:0}.review-stopped .time-card>img{display:none}

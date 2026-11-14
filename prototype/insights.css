@@ -73,6 +73,21 @@
 
 .recap-library a.recap{display:block;text-decoration:none;color:inherit}.recap-library a.september{color:#303e42}.recap-library a.recap:focus-visible{outline:3px solid #214f48;outline-offset:4px}
 
+/* Recap hierarchy: the year is a poster; weeks are quiet, compact notes. */
+#fitlens-home-preview .recap-library a.yearly{color:#fff2cc}
+.yearly .year-top,.yearly .year-number,.yearly .year-bottom{position:relative;z-index:2}
+.yearly .year-number{color:#fff2cc}
+.yearly .year-bottom h3{color:#fff2cc;font-size:23px;font-weight:900;line-height:1.1}
+.yearly .year-bottom p{color:#e6ecd9}
+.yearly .year-art{left:auto;width:45%;z-index:0;pointer-events:none}
+.yearly .year-stripe{right:-8px;width:80px;opacity:.85}
+.yearly .round-arrow{background:#fff2cc;color:#214f48;border-color:#fff2cc;width:40px;height:40px}
+.weekly-track .weekly{flex-basis:228px;min-height:142px;padding:17px 18px;border-radius:17px;background:#e2e8dc;color:#29483b;border:1px solid #d5ddce;box-shadow:none}
+.weekly-track .weekly .tag{font-size:10px;letter-spacing:1px;color:#61745c}
+.weekly-track .weekly h3{font-size:19px;line-height:1.2;letter-spacing:-.4px;margin:11px 0 16px;font-weight:850}
+.weekly-track .weekly .week-footer{font-size:12px;color:#536b50}
+.weekly-track .weekly.current{background:#dce5d4;border-color:#cedac5}
+
 
 /* =========================================================
    INSIGHTS GUIDES & WISDOM HUB (CATEGORIES & SHELVES)
@@ -166,120 +181,6 @@
   margin: 4px 0 14px;
 }
 
-/* Horizontal Track: 2 cards visible, snaps to 24px left margin */
-.guide-track {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  margin: 0 -24px;
-  padding: 0 24px 8px;
-  scroll-padding-left: 24px;
-  scroll-padding-right: 24px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.guide-track::-webkit-scrollbar {
-  display: none;
-}
-
-/* Card Base: 150px width fits 2 cards comfortably, snaps to 24px left margin */
-.guide-card {
-  flex: 0 0 150px;
-  width: 150px;
-  min-height: 138px;
-  border-radius: 20px;
-  padding: 10px 10px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-  cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 14px rgba(33, 49, 37, 0.04);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-  user-select: none;
-}
-
-.guide-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(33, 49, 37, 0.08);
-}
-
-.guide-card:active {
-  transform: scale(0.98);
-}
-
-/* Soft Category Tints */
-.cat-eating .guide-card {
-  background: #faf0e8;
-  border-color: rgba(255, 238, 226, 0.95);
-}
-
-.cat-sleep .guide-card {
-  background: #edeaf5;
-  border-color: rgba(240, 235, 250, 0.95);
-}
-
-.cat-recovery .guide-card {
-  background: #e3ede5;
-  border-color: rgba(234, 245, 237, 0.95);
-}
-
-.cat-workout .guide-card {
-  background: #faf3de;
-  border-color: rgba(252, 245, 226, 0.95);
-}
-
-.cat-body .guide-card {
-  background: #e5eff5;
-  border-color: rgba(234, 244, 250, 0.95);
-}
-
-/* Compact Icon: 68x68 */
-.guide-card-icon {
-  width: 68px;
-  height: 68px;
-  margin: 0 auto;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  box-shadow: none;
-  flex-shrink: 0;
-}
-
-.guide-card-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.04));
-}
-
-.guide-card-bottom {
-  margin-top: 8px;
-  padding-top: 0;
-  width: 100%;
-}
-
-.guide-card-title {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.24;
-  color: #27362d;
-  margin: 0;
-  text-align: center;
-  letter-spacing: -0.2px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
 /* =========================================================
    SHEETS & MODALS (READER & CATEGORY COLLECTION)
    ========================================================= */
@@ -363,133 +264,6 @@
 
 .sheet-close-btn:hover {
   background: #dce3d5;
-}
-
-/* Article Reader Content Styling */
-.reader-hero-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px 0 16px;
-  text-align: center;
-}
-
-.reader-icon-box {
-  width: 80px;
-  height: 80px;
-  border-radius: 24px;
-  background: #f0f3ec;
-  padding: 8px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 16px rgba(33, 49, 37, 0.06);
-}
-
-.reader-icon-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.reader-badge {
-  font-size: 9px;
-  font-weight: 850;
-  letter-spacing: 1.5px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.badge-eating { background: #fae9dc; color: #874921; }
-.badge-sleep { background: #ebe6f5; color: #4e407a; }
-.badge-recovery { background: #dfede2; color: #2e5939; }
-.badge-workout { background: #faf0d2; color: #7d6118; }
-.badge-body { background: #e0eef7; color: #235678; }
-
-.reader-title {
-  font-size: 24px;
-  font-weight: 850;
-  line-height: 1.22;
-  letter-spacing: -0.6px;
-  color: #27362d;
-  margin: 0 0 12px;
-}
-
-.reader-summary-callout {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #52634e;
-  background: #eef3e9;
-  border-left: 3px solid #7ea87a;
-  border-radius: 14px;
-  padding: 12px 14px;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.reader-section {
-  margin-bottom: 18px;
-  text-align: left;
-}
-
-.reader-section h5 {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #465942;
-  margin: 0 0 6px;
-}
-
-.reader-section p {
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: #556450;
-  margin: 0;
-}
-
-.takeaway-card {
-  background: linear-gradient(135deg, #e4ede2 0%, #edf4eb 100%);
-  border: 1px solid #ffffff;
-  border-radius: 20px;
-  padding: 14px 16px;
-  margin-top: 10px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  box-shadow: 0 3px 12px rgba(45, 68, 48, 0.05);
-  text-align: left;
-}
-
-.takeaway-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #ffffff;
-  display: grid;
-  place-items: center;
-  color: #4b7454;
-  flex-shrink: 0;
-  font-size: 14px;
-}
-
-.takeaway-text {
-  font-size: 12px;
-  line-height: 1.48;
-  color: #3b503d;
-  margin: 0;
-}
-
-.takeaway-text strong {
-  display: block;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #27362d;
-  margin-bottom: 2px;
 }
 
 /* Category Collection Sheet (See all) */
@@ -584,3 +358,21 @@
   color: #7b8875;
   flex-shrink: 0;
 }
+
+.yearly .year-art{width:46%;right:0;overflow:hidden;opacity:.95}.year-ribbon{height:100%;width:100%;object-fit:cover;display:block}.yearly .year-bottom{margin-top:26px}.yearly .year-bottom h3{max-width:210px}.yearly .year-bottom p{font-size:12px}.monthly-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -24px;padding:3px 24px 8px;scroll-padding-inline:24px;overscroll-behavior-x:contain}.monthly-track::-webkit-scrollbar{display:none}.monthly-track>.monthly{flex:0 0 91%;margin:0;scroll-snap-align:start;min-width:0;height:211px;box-sizing:border-box}.monthly-track .monthly h3{font-size:31px}.monthly-track .month-footer{font-size:11px;line-height:1.35}.monthly-track .month-footer>span:first-child{max-width:75%}.monthly-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;color:#687b60;font-size:12px}.monthly-controls>div{display:flex;gap:5px}.monthly-controls button{width:36px;height:36px;border:1px solid #d3dcc7;border-radius:50%;background:transparent;color:#29483b;font-size:18px;cursor:pointer}.monthly-controls button:disabled{opacity:.3}.monthly-track:focus-visible{outline:2px solid #78996d;outline-offset:-3px}
+@media(max-width:380px){.monthly-track{margin-inline:-20px;padding-inline:20px;scroll-padding-inline:20px}.monthly-track>.monthly{flex-basis:94%}.monthly-track .monthly h3{font-size:27px}.yearly .year-art{width:44%}.yearly .year-bottom h3{font-size:22px}}
+
+.yearly .year-art{width:44%;right:-3px}.year-line{display:block;transform-origin:50% 55%}.year-line:first-child{transform:rotate(-6deg);margin-left:2px}.year-line:last-child{transform:rotate(4deg);margin-left:18px}.yearly .year-number{font-size:100px;line-height:.84;margin-top:23px}.yearly .year-bottom{margin-top:24px}.yearly .year-bottom h3{font-size:22px}.yearly .year-art svg{height:100%;width:100%;display:block}
+.guide-card-title{font-size:14px;line-height:1.35;-webkit-line-clamp:3}.guide-card{min-height:171px}.reader-title{font-size:27px;line-height:1.2}.reader-badge{font-size:11px;letter-spacing:1px}.reader-summary-callout{font-size:15px;line-height:1.6}.reader-section h4{font-size:19px;line-height:1.3}.reader-section p,.reader-section li{font-size:16px;line-height:1.65}.reader-section ul{padding-left:20px}.collection-header h3{font-size:24px}.collection-header p{font-size:15px;line-height:1.5}.collection-item-info h4{font-size:16px;line-height:1.35}.collection-item-info p{font-size:14px;line-height:1.5;-webkit-line-clamp:3}.collection-item{padding-top:14px;padding-bottom:14px}.category-desc{font-size:14px;line-height:1.55}.archive-line{font-size:11px;line-height:1.4;gap:12px}
+@media(max-width:350px){.yearly .year-number{font-size:91px}.yearly .year-bottom h3{font-size:21px}.guide-card-title{font-size:14px}.reader-title{font-size:25px}}
+
+.reader-section h5{font-size:14px;line-height:1.4}.takeaway-text{font-size:15px;line-height:1.6}.takeaway-text strong{font-size:12px}
+
+/* Annual recap gets its own warm poster palette, distinct from the sage weekly notes. */
+#fitlens-home-preview .recap-library a.yearly{height:360px;background:#d96b49;color:#fff2d3;border:1px solid #e9a188;box-shadow:0 10px 25px #9b533e16,inset 0 1px 0 #ffe1bb66}.yearly .year-top .tag{background:#29483b;color:#fff2d3;border-radius:20px;padding:7px 10px;font-size:10px;letter-spacing:1px}.yearly .mini-brand{color:#29483b;letter-spacing:1.5px}.yearly .year-number{font-size:111px;color:#fff2d3;margin-top:22px;letter-spacing:-8px}.yearly .year-period{color:#29483b}.yearly .year-art{width:44%;right:-9px;opacity:1}.yearly .year-bottom{position:absolute;left:21px;right:21px;bottom:22px;margin:0;gap:12px}.yearly .year-bottom h3{font-size:24px;font-weight:950;color:#243f38;line-height:1.06}.yearly .year-bottom p{color:#304a3c;font-size:12px;margin-top:9px;font-weight:750}.yearly .round-arrow{background:#29483b;color:#fff2d3;border-color:#29483b;width:43px;height:43px;flex-shrink:0}.yearly .year-art svg{height:100%;width:100%}
+@media(max-width:350px){#fitlens-home-preview .recap-library a.yearly{height:345px}.yearly .year-number{font-size:102px}.yearly .year-bottom{left:19px;right:19px;bottom:20px}.yearly .year-bottom h3{font-size:22px}.yearly .year-art{width:40%}}
+
+#fitlens-home-preview .recap-library a.yearly{height:376px}@media(max-width:350px){#fitlens-home-preview .recap-library a.yearly{height:361px}}
+
+/* Discrete heatmap tones become a quiet, full-bleed layered background. */
+#fitlens-home-preview .training-focus-entry{display:flex;align-items:center;position:relative;isolation:isolate;margin:0 0 24px;padding:22px 20px;border-radius:22px;background:#edf0e7;border:1px solid #cdd7c4;text-decoration:none;color:#294638;overflow:hidden;min-height:145px}.focus-entry-copy{min-width:0;position:relative;z-index:1;max-width:76%}.focus-entry-copy strong{display:block;font-size:22px;font-weight:800;line-height:1.2;letter-spacing:-.4px}.focus-entry-copy>span{display:block;font-size:14px;line-height:1.5;margin-top:7px;color:#4b6246}.focus-entry-copy small{display:block;font-size:13px;line-height:1.4;font-weight:700;margin-top:13px;color:#4b6246}.focus-entry-layers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}#fitlens-home-preview .training-focus-entry:focus-visible{outline:3px solid #8b662f;outline-offset:3px}@media(max-width:350px){#fitlens-home-preview .training-focus-entry{padding:20px 17px}.focus-entry-copy strong{font-size:21px}}

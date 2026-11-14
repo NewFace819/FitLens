@@ -1,0 +1,3 @@
+workout-time.svg: screenshot IMG_6331.PNG, Use RPE illustration.
+active-energy.svg: screenshot IMG_6340.PNG, Burnout Signs illustration.
+Automatically traced reference artwork from Gentler Streak; not original vector assets.

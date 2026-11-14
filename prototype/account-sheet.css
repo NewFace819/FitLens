@@ -1,0 +1,14 @@
+/* The modal lives in the phone, not in the surrounding desktop preview. */
+#fitlens-home-preview .account-modal{position:absolute;inset:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;padding:0;border:0;background:transparent;color:#294638;overflow:hidden;z-index:100;font-family:Nunito,system-ui,sans-serif}
+.account-modal::backdrop{background:transparent}
+.account-backdrop{position:absolute;inset:0;background:rgba(20,32,24,.18);opacity:0}
+.account-panel{position:absolute;left:0;right:0;bottom:0;top:var(--account-top,60px);display:flex;flex-direction:column;background:#f7f6f0;border-radius:30px 30px 0 0;overflow:hidden;transform:translateY(100%);will-change:transform}
+.account-sheet-header{position:relative;flex:none;min-height:73px;padding:23px 22px 8px;display:flex;align-items:center;justify-content:space-between;touch-action:none;cursor:grab}
+.account-sheet-header:active{cursor:grabbing}
+.account-grabber{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:34px;height:4px;border-radius:4px;background:#c4cbbb}
+.account-sheet-header h2{font:850 22px/1.3 Nunito,system-ui,sans-serif;letter-spacing:-.5px;margin:0}
+.account-close{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:#e8ecdf;color:#294638;cursor:pointer;font-size:28px;line-height:1}
+.account-close:focus-visible{outline:2px solid #476c50;outline-offset:3px}
+.account-content{flex:1;min-height:0;display:block}
+@media(prefers-contrast:more),(prefers-reduced-transparency:reduce){.account-backdrop{background:rgba(20,32,24,.28)}#fitlens-home-preview .home-scroll-edge{background:#faf9f5}}
+@media(forced-colors:active){.account-panel{border:1px solid CanvasText}.account-backdrop{background:Canvas}}
