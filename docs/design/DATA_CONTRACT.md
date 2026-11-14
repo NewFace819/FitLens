@@ -117,8 +117,8 @@ Mỗi người xuất một đối tượng `window.FitLens<Tên>`. Kiểu trả
 | `getWorkout(id)` | Hải | `Workout \| null` | Đức Huy, Đỗ Huy |
 | `updateWorkout(id, patch)` | Hải | `Workout` | Hải (Builder) |
 | `getWeekSchedule(weekStart)` | Hải | `Session[]` sắp theo ngày rồi giờ | Tu, Đỗ Huy, Thông |
-| `markSessionDone(sessionId)` | Hải | `Session` | Đức Huy |
-| `updateSession(id, {date?, time?})` | Hải | `Session` (chỉ đổi ngày/giờ, kiểm tra không trùng) | Tu, Hải (Plan) |
+| `markSessionDone(sessionId)` | Hải | `Session \| null` (`null` nếu không tìm thấy) | Đức Huy |
+| `updateSession(id, {date?, time?})` | Hải | `{ok:true, session}` hoặc `{ok:false, reason}` với `reason` là `notFound`, `invalidDate`, `invalidTime`, `conflict` (cùng ngày cùng giờ), `storage`. Chỉ đổi ngày/giờ. | Tu, Hải (Plan) |
 | `getNextSession(now)` | Hải | `Session \| null` (buổi `planned` gần nhất từ `now`) | Đỗ Huy, Tu |
 | `getHistory(filter?)` | Đức Huy | `HistoryEntry[]` mới nhất trước. `filter = {from?, to?, workoutId?, exerciseId?}` (ngày bao gồm hai đầu) | Tu, Thông, Đỗ Huy, Hải |
 | `getLastSets(exerciseId)` | Đức Huy | `SetRecord[]` của lần tập gần nhất, hoặc `[]` | Đức Huy (màn tập) |

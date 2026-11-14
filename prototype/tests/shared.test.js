@@ -31,6 +31,10 @@ test('todayStr uses Ho Chi Minh time zone',()=>{
  assert.equal(D.todayStr(new Date('2026-11-14T18:00:00Z')),'2026-11-15');
  assert.equal(D.todayStr(new Date('2026-11-14T16:00:00Z')),'2026-11-14');
 });
+test('nowTimeStr uses Ho Chi Minh time zone',()=>{
+ assert.equal(D.nowTimeStr(new Date('2026-11-14T16:30:00Z')),'23:30');
+ assert.equal(D.nowTimeStr(new Date('2026-11-14T17:05:00Z')),'00:05');
+});
 test('storage: round trip, bad JSON, wrong shape fall back',()=>{
  const s=new MemoryStorage();
  assert.deepEqual(S.read(s,'k',[]),[]);
