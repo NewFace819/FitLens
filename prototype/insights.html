@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="insights.css">
   <link rel="stylesheet" href="mobile-polish.css?v=1">
-</head>
+<script src="navigation.js" defer></script><link rel="stylesheet" href="related-insights.css?v=1"><script src="insights-data.js?v=1" defer></script><script src="related-insights.js?v=1" defer></script><link rel="stylesheet" href="fitlens-ui.css?v=editorial-1"><link rel="stylesheet" href="profile-entry.css"><script src="profile-model.js?v=1" defer></script><script src="profile-entry.js" defer></script></head>
 <body>
 <div id="fitlens-home-preview">
   <div class="fl-phone insights-phone" aria-label="FitLens Insights design preview">
@@ -28,40 +28,33 @@
     <div class="insights-scroll">
       <header class="insights-header">
         <div class="eyebrow">FITLENS / INSIGHTS</div>
-        <span class="profile" aria-label="Profile: demo user">T</span>
-        <h1>A little look<br>at a lot of effort<span class="title-dot">.</span></h1>
+        <a class="fl-profile-entry insights-profile-entry" href="profile.html?from=insights" aria-label="Open your profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></a>
+        <h1>Your activity,<br>in perspective<span class="title-dot">.</span></h1>
         <p>Your movement. Your milestones. Your story.</p>
       </header>
 
-      <main class="recap-library">
+      <main class="recap-library"><a href="training-focus.html?demo=1" class="training-focus-entry"><div class="focus-entry-copy"><strong>Training focus</strong><span>Your sets, by muscle group.</span><small>Week · Month · Year</small></div><svg class="focus-entry-layers" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true"><path fill="#dce2d6" d="M321 0C329 27 291 34 288 65C285 97 229 101 201 122C179 140 101 151 48 160L136 160C188 150 248 132 270 113C295 96 308 87 311 65C315 43 333 26 336 0Z"/><path fill="#bdd0b0" d="M336 0C333 26 315 43 311 65C308 87 295 96 270 113C248 132 188 150 136 160L222 160C262 148 309 135 315 113C320 96 341 82 337 63C332 41 350 25 351 0Z"/><path fill="#91b083" d="M351 0C350 25 332 41 337 63C341 82 320 96 315 113C309 135 262 148 222 160L302 160C338 145 331 131 346 112C364 90 356 80 360 61C365 39 369 21 366 0Z"/><path fill="#64865d" d="M366 0C369 21 365 39 360 61C356 80 364 90 346 112C331 131 338 145 302 160L375 160C366 142 384 131 380 111C375 90 391 76 385 59C378 39 385 20 381 0Z"/><path fill="#355a46" d="M381 0C385 20 378 39 385 59C391 76 375 90 380 111C384 131 366 142 375 160H400V0Z"/></svg></a>
         <!-- Year Recap -->
         <section aria-labelledby="year-title">
           <div class="section-heading">
             <h2 id="year-title">Your year, reimagined</h2>
             <span class="section-note">2025</span>
           </div>
-          <article class="recap yearly" aria-label="2025 year recap preview">
-            <div class="year-art" aria-hidden="true">
-              <div class="year-orbit"></div>
-              <div class="year-stripe"></div>
-              <svg class="year-spark" viewBox="0 0 100 100"><path d="m50 0 10 30 28-18-12 29 24 9-24 10 12 28-28-17-10 29-10-29-28 17 12-28L0 50l24-9-12-29 28 18Z"/></svg>
-              <svg class="year-face" viewBox="0 0 100 100"><circle cx="33" cy="37" r="4"/><circle cx="67" cy="37" r="4"/><path d="M27 56 Q50 83 73 56" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>
-            </div>
+          <a class="recap yearly" href="yearly-recap.html" style="display:block;text-decoration:none" aria-label="Open your 2025 year recap">
+            <div class="year-art" aria-hidden="true"><svg class="year-ribbon" viewBox="0 0 180 300"><path d="M195-40C48 22 172 88 111 150S45 245 210 290" fill="none" stroke="#ada6c8" stroke-width="48"/><path d="M195-40C48 22 172 88 111 150S45 245 210 290" fill="none" stroke="#f5dbb6" stroke-width="24"/><path d="M195-40C48 22 172 88 111 150S45 245 210 290" fill="none" stroke="#db875e" stroke-width="2" transform="translate(-7 0)"/></svg></div>
             <div class="year-top">
               <span class="tag">THE YEAR RECAP</span>
               <span class="mini-brand">FITLENS</span>
             </div>
-            <div class="year-number">20<br>25<span class="year-period">.</span></div>
+            <div class="year-number"><span class="year-line">20</span><span class="year-line">25<span class="year-period">.</span></span></div>
             <div class="year-bottom">
               <div>
                 <h3>Look how far<br>you’ve come.</h3>
                 <p>A year of showing up.</p>
               </div>
-              <span class="round-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>
-              </span>
+
             </div>
-          </article>
+          </a>
           <div class="archive-line">
             <span>A good year deserves another look.</span>
             <span>Past years &rarr;</span>
@@ -76,7 +69,6 @@
           </div>
           <div class="weekly-track" tabindex="0" aria-label="Weekly recaps, scroll horizontally for earlier weeks">
             <article class="recap weekly current">
-              <div class="week-rings" aria-hidden="true"></div>
               <span class="tag">THIS WEEK · SO FAR</span>
               <h3>Keep your<br>good thing going.</h3>
               <div class="week-footer">
@@ -85,7 +77,6 @@
               </div>
             </article>
             <article class="recap weekly previous">
-              <svg class="week-spark" viewBox="0 0 100 100" aria-hidden="true"><path d="m50 0 10 30 28-18-12 29 24 9-24 10 12 28-28-17-10 29-10-29-28 17 12-28L0 50l24-9-12-29 28 18Z"/></svg>
               <span class="tag">LAST WEEK</span>
               <h3>You made<br>time for you.</h3>
               <div class="week-footer">
@@ -110,15 +101,13 @@
             <h2 id="month-title">A month to remember</h2>
             <span class="section-note">2026</span>
           </div>
-          <a class="recap monthly september" href="monthly-recap.html" aria-label="Open September recap">
+          <div class="monthly-track" id="monthly-track" tabindex="0" aria-label="Monthly recaps. Swipe left or right for earlier months."><a class="recap monthly september" href="monthly-recap.html" aria-label="Open September recap">
             <div class="month-art" aria-hidden="true"><i></i><i></i><i></i></div>
             <span class="tag">MONTHLY RECAP</span>
             <h3>September<span>Find your stride.</span></h3>
             <div class="month-footer">
               <span>All those little wins, together.</span>
-              <span class="round-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>
-              </span>
+
             </div>
           </a>
           <article class="recap monthly august">
@@ -127,12 +116,10 @@
             <h3>August<span>Made of momentum.</span></h3>
             <div class="month-footer">
               <span>A chapter worth revisiting.</span>
-              <span class="round-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>
-              </span>
+
             </div>
           </article>
-        </section>
+        </div><div class="monthly-controls"><span id="monthly-position" aria-live="polite">September · 1 / 2</span><div><button type="button" data-month-shift="-1" aria-label="Previous month card"><svg class="fl-direction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;vertical-align:middle"><path d="m14 5-7 7 7 7"/></svg></button><button type="button" data-month-shift="1" aria-label="Next month card"><svg class="fl-direction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;vertical-align:middle"><path d="m9 5 7 7-7 7"/></svg></button></div></div></section>
 
         <!-- =========================================================
              NEW: DAILY INSIGHTS & GUIDES (BY CATEGORY)
@@ -338,49 +325,6 @@
     <!-- Backdrop -->
     <div class="sheet-backdrop" id="sheet-backdrop" aria-hidden="true"></div>
 
-    <!-- Article Reader Sheet -->
-    <div class="bottom-sheet" id="article-reader-sheet" role="dialog" aria-modal="true" aria-labelledby="reader-title">
-      <div class="sheet-drag-pill"></div>
-      <button type="button" class="sheet-close-btn" id="reader-close-btn" aria-label="Close article">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-
-      <div class="reader-hero-wrapper">
-        <div class="reader-icon-box">
-          <img id="reader-icon" src="assets/svg/fats.svg" alt="" aria-hidden="true">
-        </div>
-        <span class="reader-badge" id="reader-cat-badge">HEALTHY EATING</span>
-        <h3 class="reader-title" id="reader-title">Why Good Fats Matter</h3>
-      </div>
-
-      <div class="reader-summary-callout" id="reader-summary">
-        Avocados, nuts, and olive oil provide steady, long-lasting energy while protecting your joints and balancing hormones.
-      </div>
-
-      <div class="reader-section">
-        <h5>The Science Simply Put</h5>
-        <p id="reader-science"></p>
-      </div>
-
-      <div class="reader-section">
-        <h5>Why It Matters for You</h5>
-        <p id="reader-why-matters"></p>
-      </div>
-
-      <div class="reader-section">
-        <h5>Everyday Practice</h5>
-        <p id="reader-practical"></p>
-      </div>
-
-      <div class="takeaway-card">
-        <div class="takeaway-icon">💡</div>
-        <p class="takeaway-text">
-          <strong>Key Takeaway</strong>
-          <span id="reader-takeaway"></span>
-        </p>
-      </div>
-    </div>
-
     <!-- Category Collection Sheet (See all) -->
     <div class="bottom-sheet" id="category-collection-sheet" role="dialog" aria-modal="true" aria-labelledby="collection-title">
       <div class="sheet-drag-pill"></div>
@@ -401,6 +345,6 @@
   </div>
 </div>
 
-<script src="insights.js"></script>
+<script src="insights.js" defer></script>
 </body>
 </html>

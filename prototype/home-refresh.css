@@ -6,7 +6,8 @@
 .fl-home-phone a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .fl-home-phone :is(button,a):focus-visible{outline:3px solid #789aad;outline-offset:4px}
 #fitlens-home-preview .fl-home-phone .fl-status{flex-shrink:0}
-#fitlens-home-preview .fl-home-phone .fl-hero{height:110px;flex-shrink:0;z-index:1}
+#fitlens-home-preview .fl-home-phone .fl-hero{height:110px;flex-shrink:0;z-index:1;transition:margin-top .32s cubic-bezier(.2,.8,.25,1),opacity .26s ease}
+#fitlens-home-preview .fl-home-phone[data-scrolled-deep="true"] .fl-hero{margin-top:-110px;opacity:0;pointer-events:none}
 #fitlens-home-preview .fl-home-phone .fl-halo{top:-81px;height:276px;width:385px;filter:blur(12px);opacity:.74;pointer-events:none;transition:opacity .4s ease}
 #fitlens-home-preview .fl-home-phone .fl-halo-secondary{top:-5px;pointer-events:none}
 #fitlens-home-preview .fl-home-phone .fl-topline{padding:7px 22px 0;align-items:center}
@@ -154,3 +155,10 @@
 .fl-food-editorial-row:hover .fl-food-editorial-action svg {
   transform: translateX(3px);
 }
+
+.home-welcome{position:relative;margin:0 0 10px;padding:6px 0 10px}.home-welcome-art{position:absolute;right:0;bottom:2px;width:58px;height:63px;pointer-events:none}.home-welcome h1{position:relative;z-index:1}.home-welcome:after{content:'';position:absolute;right:-8px;bottom:-3px;width:86px;height:67px;background:radial-gradient(ellipse,#e6e9d6a8,transparent 70%);z-index:0;pointer-events:none}.home-welcome-art{z-index:1}#fitlens-home-preview .fl-phone .fl-food-preview{padding:18px;background:#efe8d9;border:1px solid #e5ddcb;border-radius:25px;margin-top:26px;margin-bottom:24px}.fl-food-divider{display:none}#fitlens-home-preview .fl-food-heading{font-size:20px;margin-bottom:15px}.fl-food-editorial-row{display:grid;grid-template-columns:minmax(0,1fr);gap:13px;border:0;padding:0;min-width:0}.food-preview-photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;height:94px}.food-preview-photos img{width:100%;height:94px;object-fit:cover;border-radius:13px}.food-preview-photos img:nth-child(2){object-position:50% 55%}.fl-food-main-line{font-size:18px;font-weight:850;line-height:1.25;max-width:230px}.fl-food-editorial-action{display:flex;align-items:center;justify-content:space-between;width:100%;font-size:13px;padding-top:11px;border-top:1px solid #d8d0bf;color:#536b4e}.fl-food-editorial-action svg{width:17px;height:17px}.fl-food-editorial-row:focus-visible{border-radius:14px}
+@media(max-width:370px){.home-welcome-art,.home-welcome:after{display:none}.food-preview-photos,.food-preview-photos img{height:78px}#fitlens-home-preview .fl-phone .fl-food-preview{padding:16px}}
+
+#use-profile-goal{font:inherit;cursor:pointer;width:100%;box-sizing:border-box;border:0}#home-rhythm #use-profile-goal+.hub-link{display:inline-flex;align-items:center;min-height:44px;font-size:13px}
+
+.home-training-card p{max-width:100%;text-wrap:pretty}.home-training-card h3{margin:8px 0 16px}.home-training-card .hub-button{min-height:46px}

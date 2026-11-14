@@ -1,0 +1,274 @@
+@font-face{font-family:Nunito;src:url("assets/fonts/Nunito.ttf") format("truetype");font-weight:200 1000;font-display:swap}
+/* Horizontal Track: 2 cards visible, snaps to 24px left margin */
+.guide-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  margin: 0 -24px;
+  padding: 0 24px 8px;
+  scroll-padding-left: 24px;
+  scroll-padding-right: 24px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.guide-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card Base: 150px width fits 2 cards comfortably, snaps to 24px left margin */
+.guide-card {
+  flex: 0 0 150px;
+  width: 150px;
+  min-height: 138px;
+  border-radius: 20px;
+  padding: 10px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 14px rgba(33, 49, 37, 0.04);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  user-select: none;
+}
+
+.guide-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(33, 49, 37, 0.08);
+}
+
+.guide-card:active {
+  transform: scale(0.98);
+}
+
+/* Soft Category Tints */
+.cat-eating .guide-card {
+  background: #faf0e8;
+  border-color: rgba(255, 238, 226, 0.95);
+}
+
+.cat-sleep .guide-card {
+  background: #edeaf5;
+  border-color: rgba(240, 235, 250, 0.95);
+}
+
+.cat-recovery .guide-card {
+  background: #e3ede5;
+  border-color: rgba(234, 245, 237, 0.95);
+}
+
+.cat-workout .guide-card {
+  background: #faf3de;
+  border-color: rgba(252, 245, 226, 0.95);
+}
+
+.cat-body .guide-card {
+  background: #e5eff5;
+  border-color: rgba(234, 244, 250, 0.95);
+}
+
+/* Compact Icon: 68x68 */
+.guide-card-icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: none;
+  flex-shrink: 0;
+}
+
+.guide-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.04));
+}
+
+.guide-card-bottom {
+  margin-top: 8px;
+  padding-top: 0;
+  width: 100%;
+}
+
+.guide-card-title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.24;
+  color: #27362d;
+  margin: 0;
+  text-align: center;
+  letter-spacing: -0.2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+/* Article Reader Content Styling */
+.reader-hero-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0 16px;
+  text-align: center;
+}
+
+.reader-icon-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: #f0f3ec;
+  padding: 8px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(33, 49, 37, 0.06);
+}
+
+.reader-icon-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.reader-badge {
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.5px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.badge-eating { background: #fae9dc; color: #874921; }
+.badge-sleep { background: #ebe6f5; color: #4e407a; }
+.badge-recovery { background: #dfede2; color: #2e5939; }
+.badge-workout { background: #faf0d2; color: #7d6118; }
+.badge-body { background: #e0eef7; color: #235678; }
+
+.reader-title {
+  font-size: 24px;
+  font-weight: 850;
+  line-height: 1.22;
+  letter-spacing: -0.6px;
+  color: #27362d;
+  margin: 0 0 12px;
+}
+
+.reader-summary-callout {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #52634e;
+  background: #eef3e9;
+  border-left: 3px solid #7ea87a;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.reader-section {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.reader-section h5 {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #465942;
+  margin: 0 0 6px;
+}
+
+.reader-section p {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #556450;
+  margin: 0;
+}
+
+.takeaway-card {
+  background: linear-gradient(135deg, #e4ede2 0%, #edf4eb 100%);
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  padding: 14px 16px;
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 0 3px 12px rgba(45, 68, 48, 0.05);
+  text-align: left;
+}
+
+.takeaway-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  color: #4b7454;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.takeaway-text {
+  font-size: 12px;
+  line-height: 1.48;
+  color: #3b503d;
+  margin: 0;
+}
+
+.takeaway-text strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #27362d;
+  margin-bottom: 2px;
+}
+
+
+/* Shared mobile card sizing, including the original Insights shelves. */
+.guide-card{box-sizing:border-box;font-family:Nunito,sans-serif;min-height:171px;text-decoration:none}
+.guide-card-title{font-family:Nunito,sans-serif;font-size:14px;line-height:1.35;-webkit-line-clamp:3}
+.guide-card.cat-eating{background:#faf0e8;border-color:#ffeee2f2}.guide-card.cat-sleep{background:#edeaf5;border-color:#f0ebfaf2}.guide-card.cat-recovery{background:#e3ede5;border-color:#eaf5edf2}.guide-card.cat-workout{background:#faf3de;border-color:#fcf5e2f2}.guide-card.cat-body{background:#e5eff5;border-color:#ecf5fcf2}
+.related-insights{--reading-gutter:0px;margin-top:28px;padding-top:22px;padding-bottom:20px;border-top:1px solid #29463818;font-family:Nunito,sans-serif;color:#273d30;min-width:0}
+.related-insights.related-insights-edge{--reading-gutter:22px;padding-left:var(--reading-gutter);padding-right:var(--reading-gutter)}
+#fitlens-home-preview .related-insights .related-insights-title,.related-insights .related-insights-title{font:750 21px/1.3 Nunito,sans-serif;letter-spacing:-.4px;margin:0 0 16px;color:#273d30;text-transform:none}
+.related-insights .guide-track{margin:0 calc(-1 * var(--reading-gutter));padding:0 var(--reading-gutter) 10px;scroll-padding-inline:var(--reading-gutter);gap:12px;align-items:stretch}
+.related-insights .guide-card{appearance:none;min-width:150px;max-width:150px;min-height:171px;border-style:solid;border-width:1px;padding:10px 10px 12px;letter-spacing:normal;line-height:normal;cursor:pointer;position:relative;transform:none}
+.related-insights .guide-card:focus-visible{outline:2px solid #577e5d;outline-offset:-3px}
+.related-insights .guide-card-title{font-size:14px;font-weight:700;line-height:1.35;letter-spacing:-.2px;color:#27362d;text-transform:none}
+.related-insights .guide-card-icon{width:68px;height:68px;flex:none;margin:0 auto}
+.related-insights .guide-card-icon img{width:100%;height:100%;max-width:none;object-fit:contain;border-radius:0}
+.related-insights .guide-card-bottom{margin-top:8px;padding:0}
+.related-reader{position:fixed;top:auto;right:auto;margin:0;padding:0;border:0;border-radius:30px 30px 0 0;box-sizing:border-box;background:#fafaf7;color:#27362d;overflow:hidden;max-width:100vw;font:400 16px/1.6 Nunito,sans-serif;box-shadow:0 -10px 40px #00000029}
+.related-reader[open]{display:flex;flex-direction:column}
+.related-reader::backdrop{background:#17261c6b;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.related-reader-toolbar{height:62px;min-height:62px;position:relative;display:flex;justify-content:center;padding:12px 20px;background:#fafaf7;z-index:1}
+.related-reader-pill{display:block;width:40px;height:4px;border-radius:4px;background:#d4dcce}
+.related-reader-close{position:absolute;right:14px;top:10px;width:44px;height:44px;border:0;border-radius:50%;background:#e9ede3;color:#4b5847;font:400 28px/1 Nunito,sans-serif;cursor:pointer}
+.related-reader-body{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:0 24px max(32px,env(safe-area-inset-bottom));scrollbar-width:thin}
+.related-reader .reader-hero-wrapper{flex:none;margin-top:0}.related-reader .reader-title{font:850 27px/1.2 Nunito,sans-serif;margin:0 0 12px;letter-spacing:-.6px;color:#27362d}
+.related-reader .reader-badge{font-size:12px;font-weight:800;letter-spacing:.7px}
+.related-reader .reader-summary-callout{font-size:16px;line-height:1.6;margin-top:0}
+.related-reader .reader-section h3{font:800 14px/1.4 Nunito,sans-serif;text-transform:uppercase;letter-spacing:.5px;margin:0 0 6px;color:#465942}
+.related-reader .reader-section p,.related-reader .takeaway-text{font-size:16px;line-height:1.65}
+.related-reader .takeaway-text strong{font-size:13px}
+.related-reader button:focus-visible{outline:2px solid #577e5d;outline-offset:2px}
+@media(max-width:350px){.related-insights.related-insights-edge{--reading-gutter:19px}.related-reader-body{padding-left:20px;padding-right:20px}.related-reader .reader-title{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.guide-card{transition:none}.related-insights .guide-track{scroll-behavior:auto}}

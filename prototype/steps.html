@@ -1,81 +1,13 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>FitLens — Step Rhythm</title>
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="steps.css">
-  <link rel="stylesheet" href="steps-sun.css?v=sun-1">
-  <link rel="stylesheet" href="mobile-polish.css?v=1">
-  <script src="steps-sun-data.js?v=sun-2" defer></script>
-  <script src="steps-sun.js?v=sun-1" defer></script>
-</head>
-<body>
-
-<div id="fitlens-home-preview">
-  <div class="steps-phone" aria-label="FitLens Steps Detail preview"><div class="steps-page">
-
-    <div class="fl-status">
-      <span>9:41</span>
-      <div class="fl-island"></div>
-      <span class="fl-status-icons">
-        <svg data-icon="signal" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h2v-3H3zM8 20h2v-7H8zM13 20h2V9h-2zM18 20h2V5h-2z" fill="currentColor" stroke="none"/></svg>
-        <svg data-icon="wifi" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a15 15 0 0 1 18 0M6 12a10 10 0 0 1 12 0M9 15a5 5 0 0 1 6 0"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
-        <svg data-icon="battery-full" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="17" height="12" rx="2"/><path d="M22 10v4"/><rect x="5" y="9" width="11" height="6" rx="1" fill="currentColor" stroke="none"/></svg>
-      </span>
-    </div>    <header class="steps-nav">
-      <a href="home.html" class="nav-back" aria-label="Back to Today">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      </a>
-      <div class="nav-title-group">
-        <div class="nav-eyebrow" id="nav-date-label">Today · Friday, Oct 23</div>
-        <h1 class="nav-heading">Steps</h1>
-      </div>
-      <button type="button" class="nav-action" aria-label="Explain the baseline comparison" aria-controls="baseline-info" aria-expanded="false">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      </button>
-    </header>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>FitLens — Steps</title><link rel="stylesheet" href="home.css"><link rel="stylesheet" href="steps-sun.css?v=sun-1"><link rel="stylesheet" href="steps.css?v=compact-5"><script src="steps-sun-data.js?v=sun-2" defer></script><script src="steps-sun.js?v=sun-1" defer></script><script src="steps-detail-model.js?v=2" defer></script><script src="steps-chart.js" defer></script><script src="steps.js?v=compact-5" defer></script><link rel="stylesheet" href="mobile-polish.css?v=nav-4"><script src="navigation.js" defer></script><link rel="stylesheet" href="related-insights.css?v=1"><script src="insights-data.js?v=1" defer></script><script src="related-insights.js?v=1" defer></script><link rel="stylesheet" href="fitlens-ui.css?v=editorial-1"></head>
+<body><div id="fitlens-home-preview"><div class="fl-phone steps-phone"><div class="steps-top"><div class="fl-status" aria-hidden="true"><span>9:41</span><div class="fl-island"></div><span>▂▄▆ ▰</span></div>
+<header class="steps-nav"><a class="nav-back" href="home.html" aria-label="Back to Today"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></a><div><h1>Steps</h1><label class="date-picker"><span class="sr-only">Choose a day</span><select id="steps-day" aria-label="Choose a day"></select></label></div><button class="nav-action" id="steps-info" aria-label="About your usual steps" aria-haspopup="dialog"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg></button></header></div>
 <main class="steps-scroll" id="steps-main">
-<section class="sun-hero-card" aria-label="Steps compared with your usual day">
-<div class="hero-topline"><span id="hero-period">TODAY’S STEPS</span><span class="hero-comparison" id="hero-badge-text">30% below usual</span></div>
-<div class="detail-steps-sun" id="sun-stage"></div>
-<div class="baseline-row"><div><span id="baseline-label">Usual Friday</span><strong id="baseline-count">4,500</strong></div><span class="baseline-difference" id="baseline-difference">−1,350 steps</span></div>
-<details id="baseline-info"><summary>How the sun works</summary><p>In this preview, your typical is the average step count by 19:00 across four recent matching weekdays. Missing sunshine stays behind a soft mist. At your typical level the whole sun is revealed, with a gentle outer glow. This is a comparison, not a daily target. All values are sample data.</p></details>
-</section>
-<section class="section-block" aria-labelledby="week-heading"><div class="section-head"><h2 id="week-heading">This week’s rhythm</h2><span class="section-caption">Oct 19–25</span></div><div class="week-grid" role="group" aria-label="Choose a day"><button class="day-card" type="button" data-date="19" aria-pressed="false" aria-label="October 19, 4,920 steps"><span class="day-name">M</span><span class="day-num">19</span><span class="mini-orb-wrapper" style="--mini-cover:41.43%"><span class="mini-sun-base"></span><span class="mini-sun-frost"></span></span></button><button class="day-card" type="button" data-date="20" aria-pressed="false" aria-label="October 20, 5,410 steps"><span class="day-name">T</span><span class="day-num">20</span><span class="mini-orb-wrapper" style="--mini-cover:43.65%"><span class="mini-sun-base"></span><span class="mini-sun-frost"></span></span></button><button class="day-card" type="button" data-date="21" aria-pressed="false" aria-label="October 21, 2,800 steps"><span class="day-name">W</span><span class="day-num">21</span><span class="mini-orb-wrapper" style="--mini-cover:65.00%"><span class="mini-sun-base"></span><span class="mini-sun-frost"></span></span></button><button class="day-card" type="button" data-date="22" aria-pressed="false" aria-label="October 22, 4,650 steps"><span class="day-name">T</span><span class="day-num">22</span><span class="mini-orb-wrapper" style="--mini-cover:45.93%"><span class="mini-sun-base"></span><span class="mini-sun-frost"></span></span></button><button class="day-card active" type="button" data-date="23" aria-pressed="true" aria-label="October 23, 3,150 steps"><span class="day-name">F</span><span class="day-num">23</span><span class="mini-orb-wrapper" style="--mini-cover:42.21%"><span class="mini-sun-base"></span><span class="mini-sun-frost"></span></span></button><div class="day-card upcoming" aria-label="October 24, upcoming"><span class="day-name">S</span><span class="day-num">24</span><span class="mini-orb-wrapper"></span></div><div class="day-card upcoming" aria-label="October 25, upcoming"><span class="day-name">S</span><span class="day-num">25</span><span class="mini-orb-wrapper"></span></div></div><p class="week-note">3 of 5 days above their usual weekday level.</p></section>
-<section class="section-block" aria-label="Selected day details"><div class="bento-row"><article class="bento-card"><div class="bento-header"><span class="bento-label">Distance</span><img src="assets/svg/walking-medicine.svg" alt=""></div><div class="bento-stat" id="distance-value">3.9<span>km</span></div><p class="bento-note">Across the day</p></article><article class="bento-card"><div class="bento-header"><span class="bento-label">Walking time</span><img src="assets/icons/workout-time.svg" alt=""></div><div class="bento-stat" id="duration-value">1<span>h</span> 55<span>m</span></div><p class="bento-note">Time spent walking</p></article></div></section>
-<section class="section-block" aria-label="Recent outdoor walk">
-  <a href="post-walk-restored.html" class="walk-banner-link">
-    <div class="walk-banner-left">
-      <span class="walk-banner-tag">RECORDED OUTDOOR WALK</span>
-      <strong class="walk-banner-title">Morning Lake Loop</strong>
-      <span class="walk-banner-meta">4.85 km • 51 min • 6,420 steps</span>
-    </div>
-    <div class="walk-banner-arrow" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-    </div>
-  </a>
-</section>
-<section class="section-block" aria-labelledby="flow-heading"><div class="section-head"><h2 id="flow-heading">Movement flow</h2><span class="section-caption" id="flow-caption">Today</span></div><div class="flow-list" id="flow-list"></div></section>
-<p class="closing-note" id="closing-note">Your reference is your own recent Fridays.</p>
-</main>
-    <footer class="fl-bottom">
-      <nav class="fl-dock" aria-label="Main navigation">
-        <a class="fl-dock-item fl-selected" href="home.html" aria-current="page">
-          <svg data-icon="house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-8H9v8H4a1 1 0 0 1-1-1Z"/></svg>
-          <span>Today</span>
-        </a>
-        <a class="fl-dock-item" href="workouts.html">
-          <svg data-icon="dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M4 8l4-4m8 16 4-4M2 6l4-4m12 20 4-4M3 9l6-6m6 18 6-6"/></svg>
-          <span>Workouts</span>
-        </a>
-        <a class="fl-dock-item" href="insights.html">
-          <svg data-icon="chart-no-axes-combined" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V11m6 10V7m6 14v-7m6 7V3M3 7l6-4 6 6 6-8"/></svg>
-          <span>Insights</span>
-        </a>
-      </nav>
-      <div class="fl-home-indicator"></div>
-    </footer>
-</div></div></div><script src="steps.js?v=sun-1" defer></script></body></html>
+<section class="steps-hero" aria-label="Your daily steps"><div class="detail-steps-sun" id="sun-stage"></div></section>
+<section class="day-metrics" aria-label="Selected day totals"><div><span>Total distance</span><strong id="distance-value"></strong></div><div><span>Walking time</span><strong id="duration-value"></strong></div><div><span>Flights climbed</span><strong id="floors-value"></strong></div><div><span>Walking heart rate</span><strong>—<small>bpm</small></strong></div></section>
+<section class="day-progress" aria-labelledby="progress-title"><h2 id="progress-title">Your day so far</h2><p class="progress-caption" id="progress-caption"></p><svg id="progress-chart" viewBox="0 0 360 252" role="group" tabindex="0" aria-label="Explore hourly steps" aria-describedby="progress-chart-desc chart-keyboard-help"><title id="progress-chart-title">Steps across the day</title><desc id="progress-chart-desc"></desc><g id="progress-grid"></g><g id="progress-lines"></g><g id="progress-bars"></g><g id="progress-cursor"></g><g id="progress-axis"></g></svg>
+<p class="sr-only" id="chart-keyboard-help">Use left and right arrows to compare each hour. Home selects midnight; End returns to the latest time. Escape closes the reading.</p><div id="chart-announcement" class="sr-only" role="status" aria-live="polite"></div></section>
+<section class="steps-overview" aria-labelledby="overview-title"><div class="overview-heading"><h2 id="overview-title">Short-term overview</h2><label><span class="sr-only">Overview period</span><select id="overview-range" aria-label="Overview period"><option value="7">7 days</option><option value="14" selected>14 days</option></select></label></div><div class="metric-switch" role="group" aria-label="Overview measure"><button data-metric="steps" aria-pressed="true">Steps</button><button data-metric="distance" aria-pressed="false">Distance</button><button data-metric="floors" aria-pressed="false">Flights</button></div><div class="overview-stats"><div><span>Total</span><strong id="overview-total"></strong></div><div><span>Daily average</span><strong id="overview-average"></strong></div></div><svg id="overview-chart" viewBox="0 0 360 276" role="img" aria-labelledby="overview-chart-title overview-chart-desc"><title id="overview-chart-title">Recent daily steps</title><desc id="overview-chart-desc"></desc><g id="overview-drawing"></g></svg><p class="overview-note">Average includes today so far.</p><details class="daily-table"><summary>Daily breakdown</summary><table><caption class="sr-only">Daily totals for the selected period</caption><thead><tr><th scope="col">Date</th><th scope="col" id="table-metric">Steps</th></tr></thead><tbody id="daily-totals"></tbody></table></details></section>
+<p class="sample-note">Design preview · Sample activity through Oct 23 at 19:00.</p>
+</main><footer class="fl-bottom"><nav class="fl-dock" aria-label="Main navigation"></nav><div class="fl-home-indicator"></div></footer>
+<dialog id="steps-about" aria-labelledby="about-title"><button id="close-about" aria-label="Close explanation">×</button><h2 id="about-title">Your usual step count</h2><p>Compare your steps with recent days on the same weekday, at the same time. A quieter day is simply a quieter day.</p><p>The pale line after “Now” shows your usual pattern for the rest of the day. It isn’t a forecast or a target.</p><p>The sun shows how today compares at that same time. Its colour stays warm, even on quieter days.</p><p class="about-sample">This prototype uses illustrated hourly patterns and sample totals, not live health data. Today is captured at 19:00; earlier dates show complete days. A real account would need enough history before showing a usual pattern.</p></dialog>
+</div></div></body></html>

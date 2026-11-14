@@ -39,7 +39,7 @@ function show(next,preview=false){cancelAnimationFrame(frame);if(preview)explici
  document.querySelector('#page-announcement').textContent=page?'Page 2 of 2. You showed up. 12 workouts in September.':'Page 1 of 2. Your September recap.';
  if(page===1){draw(reduced.matches&&!explicitMotion?1:0);if(!reduced.matches||explicitMotion){started=performance.now();frame=requestAnimationFrame(tick)}}
 }
-stage.addEventListener('click',()=>show(1));
+let swipeStart=null,suppressTapUntil=0;stage.style.touchAction='pan-y';stage.addEventListener('pointerdown',e=>{if(e.target.closest('button,a'))return;swipeStart={x:e.clientX,y:e.clientY};});stage.addEventListener('pointerup',e=>{if(!swipeStart)return;const dx=e.clientX-swipeStart.x,dy=e.clientY-swipeStart.y;swipeStart=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3){suppressTapUntil=performance.now()+400;show(page+(dx<0?1:-1));}});stage.addEventListener('pointercancel',()=>swipeStart=null);stage.addEventListener('click',()=>{if(performance.now()>suppressTapUntil)show(1);});
 document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();show(page-1)}if(e.key==='ArrowRight'||((e.key==='Enter'||e.key===' ')&&document.activeElement===stage)){e.preventDefault();show(1)}if(e.key==='Escape')location.href='insights.html'});
 document.querySelector('#replay-animation').addEventListener('click',()=>show(page,true));
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')show(page);else cancelAnimationFrame(frame)});

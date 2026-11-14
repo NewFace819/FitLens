@@ -1,0 +1,100 @@
+/* Task 02.2 visibility and visual polish; Task 02 uses the same phone, navigation and face as Task 01. */
+.onboarding[data-stage="health"]{--health-space:12px;--health-muted:#42583f;--health-chart-gold:#b8870b;--health-chart-gray:#8c8e95;background:#e9efe5}
+.onboarding[data-stage="health"] .mascot{flex:0 0 72px;min-height:0;height:72px;margin:0 -26px 6px}
+.onboarding[data-stage="health"] .mascot svg{width:116px}
+.onboarding[data-stage="health"] .mascot-color{inset:-12px -6px -6px;filter:blur(12px);opacity:.55}
+.onboarding[data-stage="health"] .onboarding-scenes{overflow:hidden}
+.health-scene{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:8px;min-height:0}
+.health-content-wrap{min-height:0;display:grid;grid-template-rows:minmax(0,1fr) 12px}
+.health-content{min-height:0;min-width:0;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none;padding:3px 0 14px;margin:0}
+.health-content::-webkit-scrollbar{display:none;width:0;height:0}
+.health-heading h1{font-size:32px;line-height:1.1;letter-spacing:-1px;text-wrap:initial}
+.health-heading>p{font-size:15px;line-height:1.5;color:#52674d;margin:8px 0 12px}
+.health-preview{background:#fffefa;border:1px solid #e3e5d9;border-radius:23px;padding:12px 14px;isolation:isolate}
+.health-preview-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.health-preview-header h2{font-size:18px;font-weight:750;letter-spacing:-.45px;line-height:1.25;margin:0}
+.health-example-label{font-size:12px;font-weight:650;line-height:1.5;color:var(--health-muted);background:#f1f1e9;border-radius:6px;padding:4px 7px;margin:0}
+.health-sun-summary{display:flex;align-items:center;gap:16px;margin:4px 0 0}
+#health-steps-sun{width:88px;height:88px;flex-shrink:0;--ss-panel:#fffefa}
+#health-steps-sun .ss-count{display:none}
+#health-steps-sun .ss-copy{top:34%}
+#health-steps-sun .ss-copy>svg{width:28cqw;height:30cqw;margin:0}
+.health-steps-label{display:block;font-size:13px;line-height:1.5;color:var(--health-muted)}
+.health-sun-summary strong{display:block;font-size:36px;letter-spacing:-1px;line-height:1.18;font-weight:850;font-variant-numeric:tabular-nums}
+.health-sun-summary strong small{font-size:13px;font-weight:650;letter-spacing:0}
+.health-sun-summary p{font-size:12px;line-height:1.5;color:var(--health-muted);margin:4px 0 0}
+#health-steps-chart{display:block;width:100%;height:auto;overflow:visible}
+#health-steps-chart text{font-family:var(--fl-ui-font);font-size:var(--health-axis-font,18px);font-weight:600;fill:#52614e;letter-spacing:0}
+#health-steps-chart .grid-line{stroke:#dedfe0;stroke-dasharray:2 4;stroke-width:1}
+#health-steps-chart .chart-base{stroke:#dcdbe0;stroke-width:1;fill:none}
+#health-steps-chart .chart-actual{stroke:var(--health-chart-gold);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#health-steps-chart .chart-usual{stroke:var(--health-chart-gray);stroke-width:2.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#health-steps-chart .chart-future{stroke:var(--health-chart-gray);stroke-dasharray:3 4;stroke-width:2.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#health-steps-chart .chart-now{font-weight:650;fill:#262926}
+.health-chart-legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;font-weight:650;line-height:1.5;color:var(--health-muted);margin:8px 0 16px}
+.health-chart-legend>span{display:flex;align-items:center;gap:5px}
+.health-chart-legend i{display:inline-block;width:14px;height:3px;border-radius:3px}
+.actual-key{background:var(--health-chart-gold)}.usual-key{background:var(--health-chart-gray)}
+.health-supporting-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-top:1px solid #e4e4df;padding-top:12px}
+.health-supporting-metrics>div{min-width:0}
+.health-supporting-metrics>div>span{display:block;font-size:13px;font-weight:650;color:var(--health-muted);min-height:38px;line-height:1.45}
+.health-supporting-metrics strong{display:block;font-size:23px;font-weight:750;line-height:1.25;letter-spacing:-.6px;margin-top:4px}
+.health-supporting-metrics small{font-size:12px;font-weight:650;letter-spacing:0}
+.health-heart{display:flex;align-items:center;gap:7px;color:#52674d;font-size:13px;margin:16px 0 0;line-height:1.5}
+.health-heart svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:#7e8d78;stroke-width:1.5;stroke-linejoin:round}
+.health-details{font-size:14px;line-height:1.6;margin-top:16px;color:#52674d}
+.health-details summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:7px;font-weight:750}
+.health-details summary::after{content:"+";margin-left:auto;font-size:19px}
+.health-details[open] summary::after{content:"−"}
+.health-details p{margin:0 0 12px}
+.health-details ul{margin:0 0 12px;padding-left:19px}
+.health-details li+li{margin-top:6px}
+.health-actions{padding-top:8px;border-top:1px solid #ccd8c3;background:#e9efe5}
+.health-actions .primary{font-size:16px;min-height:52px;padding:13px 10px}
+.health-secondary{display:block;width:100%;min-height:44px;padding:10px 8px;border:0;background:transparent;color:#355a46;font-size:15px;font-weight:750;border-radius:12px}
+.health-secondary:hover{background:#355a4609}
+.health-privacy{font-size:13px;font-weight:650;color:#42583f;text-align:center;margin:4px 0 0;line-height:1.5}
+.health-request-status{font-size:13px;line-height:1.4;color:#52674d;margin:0 0 8px;text-align:center}
+.health-requesting .health-preview{opacity:.65}
+.health-response-scene h1{font-size:37px;overflow-wrap:anywhere}
+.health-response-detail{font-size:14px!important;line-height:1.6!important;color:#62715d!important}
+.health-response-scene .scene-actions{padding-bottom:6px}
+.health-response-scene #health-options{font-size:13px;margin-top:5px}
+.onboarding[data-outcome="readable"]{background:#edf3df}
+.onboarding[data-outcome="skipped"]{background:#f3efdf}
+.onboarding:is([data-outcome="no-data"],[data-outcome="unavailable"],[data-outcome="error"]){background:#eef0e5}
+.health-demo-controls{max-width:430px;margin:22px auto 0;padding:18px;border:1px dashed #52674d;border-radius:16px;font-size:13px;color:#294638;background:#fffdf1}
+.health-demo-controls strong,.health-demo-controls label{display:block;margin-bottom:10px}
+.health-demo-controls select{width:100%;min-height:44px;font:inherit;padding:8px;border:1px solid #86967a;border-radius:8px;background:#fffdf1;color:#294638}
+.health-demo-controls p{margin-bottom:0;line-height:1.5}
+.health-demo-badge{display:inline-block;font-size:10px;letter-spacing:1px;font-weight:850;color:#785d2e;border-bottom:1px dashed #aa8a49;padding-bottom:5px;margin-bottom:17px}
+.onboarding[data-simulation="true"] #health-title::before{content:"DEMO · SIMULATED HEALTH STATES";display:block;font-size:10px;letter-spacing:1px;font-weight:850;color:#785d2e;margin-bottom:12px}
+.onboarding.compact[data-stage="health"] .mascot{flex-basis:64px;height:64px}
+.onboarding.compact[data-stage="health"] .mascot svg{width:104px}
+.compact .health-heading h1{font-size:30px}
+.compact .health-heading>p{font-size:15px}
+.compact .health-actions .primary{min-height:48px}
+.compact .health-response-scene h1{font-size:31px}
+.onboarding.short[data-stage="health"] .mascot{flex-basis:56px;height:56px}
+.onboarding.short[data-stage="health"] .mascot svg{width:92px}
+.onboarding.short[data-stage="health"] .health-actions{padding-top:5px}
+.onboarding.short[data-stage="health"] .health-actions .primary{min-height:44px;padding-top:10px;padding-bottom:10px}
+.short .health-scene{gap:6px}
+@media(prefers-reduced-motion:reduce){.health-preview{transition:none}}
+
+.onboarding.compact[data-stage="health"]{padding-bottom:max(24px,env(safe-area-inset-bottom))}
+
+@media(max-width:350px){
+ .health-sun-summary{gap:8px}
+ #health-steps-sun{width:80px;height:80px}
+ .health-sun-summary strong{font-size:34px}
+ .health-preview{padding-left:12px;padding-right:12px}
+ .health-preview-header h2{font-size:17px}
+ .health-supporting-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .health-supporting-metrics>div:last-child{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;column-gap:10px;align-items:center;border-top:1px solid #e4e4df;padding-top:9px}
+ .health-supporting-metrics>div:last-child>span{min-height:0}
+ .health-supporting-metrics>div:last-child strong{grid-column:2;grid-row:1;margin:0}
+}
+
+.health-scroll-cue{pointer-events:none;opacity:0;background:radial-gradient(ellipse at bottom,rgba(82,103,77,.16),transparent 72%);transition:opacity 160ms ease}
+.health-content-wrap[data-more-below="true"] .health-scroll-cue{opacity:1}

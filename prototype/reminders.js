@@ -1,5 +1,21 @@
 (() => {
 'use strict';
+const legacyParams=new URLSearchParams(location.search);
+if(legacyParams.get('from')!=='draft'&&!legacyParams.has('sessions')){
+ const state=FitLensTraining.read();let id=null;
+ if(legacyParams.has('single'))id=state.legacyImports?.['single:'+legacyParams.get('single')]?.sessionId;
+ else{let old;try{old=JSON.parse(sessionStorage.getItem('fitlens:weekly-plan'));}catch{}
+ const requested=legacyParams.get('session'),day=legacyParams.has('day')?Number(legacyParams.get('day')):null;
+ const entry=old?.days?.find((d,i)=>d&&(requested?d.sessionId===requested:day!==null?i===day:true));
+ if(entry)id=state.legacyImports?.['week:'+old.weekStart+':'+(entry.sessionId||old.days.indexOf(entry)+'-'+entry.id)]?.sessionId;
+ if(!id&&requested){const matches=Object.entries(state.legacyImports||{}).filter(([key])=>key.startsWith('week:')&&key.endsWith(':'+requested)).map(([,value])=>state.sessions.find(s=>s.id===value.sessionId)).filter(s=>s&&s.status==='planned').sort((a,b)=>a.date.localeCompare(b.date));id=matches.find(s=>s.date>=FitLensTraining.today())?.id||matches[0]?.id;}
+ if(!id&&!requested&&day===null)id=FitLensTraining.next(state)?.id;
+ }
+ // Let the existing canonical time editor handle old bookmarked links, even if unavailable.
+ legacyParams.set('sessions',id||'unavailable');legacyParams.delete('draft');
+ history.replaceState(null,'',location.pathname+'?'+legacyParams);
+}
+if(new URLSearchParams(location.search).has('sessions'))return;
 const $=s=>document.querySelector(s),m=FitLensReminders,params=new URLSearchParams(location.search);
 const draft=params.get('from')==='draft',singleId=params.get('single'),planKey=draft?'fitlens:weekly-plan-edit':'fitlens:weekly-plan';
 const names=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
@@ -70,7 +86,7 @@ if(plan){const picker=$('#day-picker');if(!picker.children.length)names.forEach(
 [...picker.children].forEach((b,i)=>{b.disabled=!available.includes(i);b.tabIndex=i===selected?0:-1;b.setAttribute('aria-checked',String(i===selected));b.classList.toggle('has-time',Boolean(plan.days[i]?.timing));b.setAttribute('aria-label',`${names[i]}, ${plan.days[i]?plan.days[i].title+(plan.days[i].timing?', '+plan.days[i].timing.time:', no time set'):'rest day'}`);});
 $('#day-times').replaceChildren(...available.map(i=>{const row=document.createElement('div');row.className='day-time-row';const day=document.createElement('span'),value=document.createElement('span');day.textContent=names[i];value.textContent=plan.days[i].timing?plan.days[i].timing.time+(plan.days[i].timing.enabled?' · Reminder on':''):'Not set';row.append(day,value);return row;}));}
 }
-function renderSingles(){if(draft){$('#individual-list').hidden=true;return;}let all=[];try{all=m.singles(localStorage).filter(s=>s.schedule&&s.id!==singleId);}catch{}$('#individual-list').hidden=!all.length;if(!plan&&!session&&all.length){$('#empty-state h2').textContent='Your sessions, your time.';$('#empty-state p').textContent='Choose an individual session below, or create another workout.';}$('#individual-links').replaceChildren(...all.map(s=>{const link=document.createElement('a'),text=document.createElement('span'),meta=document.createElement('small'),arrow=document.createElement('span');link.href='reminders.html?single='+encodeURIComponent(s.id)+'&v=sky-9';text.textContent=s.name;meta.textContent=dateLabel(s.schedule.date)+' · '+s.schedule.time;arrow.textContent='›';text.append(meta);link.append(text,arrow);return link;}));}
+function renderSingles(){if(draft){$('#individual-list').hidden=true;return;}let all=[];try{all=m.singles(localStorage).filter(s=>s.schedule&&s.id!==singleId);}catch{}$('#individual-list').hidden=!all.length;if(!plan&&!session&&all.length){$('#empty-state h2').textContent='Your sessions, your time.';$('#empty-state p').textContent='Choose an individual session below, or create another workout.';}$('#individual-links').replaceChildren(...all.map(s=>{const link=document.createElement('a'),text=document.createElement('span'),meta=document.createElement('small'),arrow=document.createElement('span');link.href='reminders.html?single='+encodeURIComponent(s.id)+'&v=sky-9';text.textContent=s.name;meta.textContent=dateLabel(s.schedule.date)+' · '+s.schedule.time;arrow.innerHTML='<svg class="fl-direction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;vertical-align:middle"><path d="m9 5 7 7-7 7"/></svg>';text.append(meta);link.append(text,arrow);return link;}));}
 function selectDay(day){if(!available.includes(day)||day===selected)return;selected=day;current=getTiming()||{time:'18:30',enabled:false,before:0};render();}
 exact.addEventListener('input',()=>{if(m.validTime(exact.value)){current.time=exact.value;stage();}});exact.addEventListener('blur',()=>{if(!exact.value)exact.value=current.time;});exact.addEventListener('click',()=>{try{exact.showPicker();}catch{}});
 slider.addEventListener('input',()=>{current.time=format(Number(slider.value));stage();});$('#use-time').addEventListener('click',stage);

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#ed7853">
+  <title>FitLens — Your 2025 in Training</title>
+  <link rel="stylesheet" href="yearly-recap.css">
+  <script src="yearly-recap.js" defer></script>
+</head>
+<body>
+<main class="year-phone" aria-label="Your yearly activity recap">
+  <div class="status" aria-hidden="true"><span>9:41</span><span class="island"></span><span class="status-symbols">▮▮▮ <svg viewBox="0 0 24 15"><path d="M1 4q11-8 22 0M5 8q7-5 14 0M10 12q2-2 4 0"/></svg><svg viewBox="0 0 26 14"><rect x="1" y="1" width="21" height="12" rx="3"/><path d="M25 5v4"/><rect x="4" y="4" width="15" height="6" fill="currentColor" stroke="none"/></svg></span></div>
+  <header class="story-header">
+    <div class="story-top"><button id="prev" class="chapter-arrow" type="button" aria-label="Previous chapter"><svg class="fl-direction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;vertical-align:middle"><path d="m14 5-7 7 7 7"/></svg></button><div class="chapter-heading"><span>YOUR 2025 RECAP</span><span id="page-number" aria-hidden="true">01 / 08</span></div><div class="chapter-actions"><button id="next" class="chapter-arrow" type="button" aria-label="Next chapter"><svg class="fl-direction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;vertical-align:middle"><path d="m9 5 7 7-7 7"/></svg></button><a class="close" href="insights.html" aria-label="Close recap">×</a></div></div>
+    <nav class="progress" aria-label="Recap chapters"></nav>
+  </header>
+  <div id="stage" class="stage" aria-roledescription="carousel" aria-label="Your year in motion">
+    <section class="scene cover" data-title="Your year in motion" aria-labelledby="cover-title">
+      <div class="cover-decoration" aria-hidden="true"><div class="cover-orbit"></div><div class="cover-ribbon"></div></div>
+      <p class="eyebrow enter">ONE WORKOUT. THEN ANOTHER.</p>
+      <h1 id="cover-title" class="cover-year"><span>20</span><span>25<span class="year-dot">.</span></span></h1>
+      <div class="marker enter"><h2>Your year.<br>Quite a story.</h2></div>
+      <div class="cover-bottom enter"><p>Thong, look at all<br>those training days.</p><div class="smile" aria-hidden="true"><i></i><i></i><b></b></div></div>
+      <button class="start-button" type="button" data-next>Let’s take a look </button>
+    </section>
+
+    <section class="scene consistency-scene" data-title="You made room" aria-labelledby="consistency-title" hidden>
+      <p class="eyebrow enter">ALL THOSE TIMES YOU SHOWED UP</p><h2 class="headline enter" id="consistency-title">A little room.<br><em>Again and again.</em></h2>
+      <div class="training-count enter"><strong data-count="72">72</strong><span>workouts<br>completed</span></div><div class="year-week-grid" role="img" aria-label="32 weeks with a workout, across 52 weeks"></div>
+      <div class="scene-bottom enter"><h3>32 weeks with time for you.</h3><p>Some busy months. Some quieter ones.<br>You kept finding room.</p></div><div class="month-bars" aria-label="Monthly completed workout counts"></div><p class="footnote enter">Every dot is a week. Every filled dot holds a workout.</p>
+    </section>
+
+    <section class="scene time-scene" data-title="Time you made" aria-labelledby="time-title" hidden>
+      <p class="eyebrow enter">TIME YOU MADE FOR YOURSELF</p>
+      <h2 id="time-title" class="headline enter">Little windows.<br><em>A lot of time.</em></h2>
+      <div class="big-number enter"><strong data-count="54">54</strong><span>hours<br>in training</span></div>
+      <div class="time-art" aria-hidden="true"><div class="ticket ticket-one"><img src="assets/recap-year/cinema-ticket.svg" alt=""></div><div class="ticket ticket-two"><img src="assets/recap-year/cinema-ticket.svg" alt=""></div><div class="ticket ticket-three"><img src="assets/recap-year/cinema-ticket.svg" alt=""></div><span class="time-sticker">108<br><small>EPISODES!</small></span></div>
+      <div class="scene-bottom enter"><h3>That’s quite a watchlist.</h3><p>Enough time for 108 half-hour episodes.<br>Your series came with a little more effort.</p><small>54 hours across 72 completed workouts.</small></div>
+    </section>
+
+    <section class="scene signature-scene" data-title="Your familiar moves" aria-labelledby="signature-title" hidden>
+      <p class="eyebrow enter">A LITTLE LIKE A SIGNATURE</p><h2 class="headline enter" id="signature-title">These moves.<br><em>Very you.</em></h2>
+      <div class="signature-lineup"><div class="signature-move" style="--i:0"><span><img src="assets/icons/exercise-bench.svg" alt=""></span><div><h3>Bench Press</h3><p>30 sessions</p></div><strong>01</strong></div><div class="signature-move" style="--i:1"><span><img src="assets/workout_illustrations/gobletsquat.svg" alt=""></span><div><h3>Goblet Squat</h3><p>28 sessions</p></div><strong>02</strong></div><div class="signature-move" style="--i:2"><span><img src="assets/workout_illustrations/seatedrow.svg" alt=""></span><div><h3>Seated Row</h3><p>26 sessions</p></div><strong>03</strong></div></div>
+      <div class="scene-bottom enter"><h3>Familiar, for a reason.</h3><p>Three exercises you kept coming back to.<br>A little practice, over and over.</p></div><p class="footnote enter">A session counts once for each exercise you completed.</p>
+    </section>
+
+    <section class="scene progress-scene" data-title="A step forward" aria-labelledby="progress-title" hidden>
+      <p class="eyebrow enter">A SMALL CHANGE. A REAL STEP.</p><h2 class="headline enter" id="progress-title">You grew<br><em>into it.</em></h2>
+      <div class="progress-exercise"><img src="assets/workout_illustrations/gobletsquat.svg" alt=""><span>GOBLET SQUAT</span></div><div class="progress-pair"><div><span>YOUR FIRST LOG · JAN 8</span><strong>12 <small>kg</small></strong><p>8 reps</p></div><span class="progress-direction" aria-hidden="true"><svg class="fl-direction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;vertical-align:middle"><path d="m7 17 10-10M7 7h10v10"/></svg></span><div><span>A LATER LOG · DEC 14</span><strong>16 <small>kg</small></strong><p>10 reps</p></div></div>
+      <div class="scene-bottom enter"><h3>A little heavier.<br>A couple more reps.</h3><p>Progress can look like this, too.</p><small>Same exercise · Weight of one dumbbell.<br>Two logged sets, not a test of your maximum.</small></div>
+    </section>
+
+    <section class="scene strength-scene" data-title="Heavier than you think" aria-labelledby="strength-title" hidden>
+      <p class="eyebrow enter">ONE REP AT A TIME</p>
+      <h2 id="strength-title" class="headline enter">Heavier than<br><em>you think.</em></h2>
+      <div class="strength-total enter"><strong data-count="84200">84,200</strong><span>kg of total lifting volume</span></div>
+      <div class="weight-art" aria-hidden="true"><div class="weight-floor"></div><img class="weight-object" src="assets/recap-year/city-bus.svg" alt=""><span class="weight-sticker">ABOUT<br><b id="comparison-number">14</b><span id="comparison-label">CITY BUSES</span></span></div>
+      <div class="comparison-tabs enter" role="group" aria-label="Compare lifting volume"><button type="button" data-unit="bus" aria-pressed="true">By bus</button><button type="button" data-unit="bear" aria-pressed="false">Or by bear?</button></div>
+      <div class="scene-bottom enter"><h3 id="comparison-joke">No parking space required.</h3><p>72 workouts. One set at a time.</p><small id="comparison-basis">Approx. 6,000 kg per bus · Volume = weight × reps.</small></div>
+    </section>
+
+    <section class="scene comeback-scene" data-title="You came back" aria-labelledby="comeback-title" hidden>
+      <p class="eyebrow enter">ONE MOMENT TO KEEP</p><h2 class="headline enter" id="comeback-title">And then,<br><em>you came back.</em></h2>
+      <div class="return-paper"><span class="paper-date">7 SEPTEMBER 2025</span><div class="return-thread" aria-hidden="true"><i></i><i></i><span></span><i></i></div><strong>17 <small>days away</small></strong><div class="return-workout"><img src="assets/illustrations/full.svg" alt=""><div><h3>Full Body</h3><p>35 minutes · At your own pace</p></div></div><p>A place to begin again.</p></div>
+      <div class="scene-bottom enter"><h3>You didn’t have to make up for it.</h3><p>You just made room for the next session.</p><small>A gap between recorded workouts, followed by a completed session.</small></div>
+    </section>
+
+    <section class="scene finale-scene" data-title="Your year, to keep" aria-labelledby="finale-title" hidden>
+      <p class="eyebrow enter">A YEAR OF SHOWING UP</p>
+      <h2 id="finale-title" class="headline enter">All those days.<br><em>All yours.</em></h2>
+      <div class="keepsake" id="keepsake"><div class="keepsake-top"><span>FITLENS</span><span>THONG’S YEAR</span></div><strong class="poster-year">2025</strong><div class="poster-art"><img src="assets/planning/movement-starter.svg" alt=""><img src="assets/illustrations/dumbbells.svg" alt=""><img src="assets/recap-year/cinema-ticket.svg" alt=""></div><div class="poster-stats"><div><strong>72</strong><span>workouts</span></div><div><strong>54 h</strong><span>in training</span></div><div><strong>864</strong><span>working sets</span></div><div><strong>84,200 kg</strong><span>lifting volume</span></div></div><p>Built one little day at a time.</p><span class="poster-demo">ILLUSTRATIVE DEMO YEAR</span></div>
+      <div class="finale-actions enter"><button type="button" id="save-poster">Save your poster <span>↓</span></button><button type="button" id="restart">↻ Watch it again</button></div>
+    </section>
+  </div>
+  <div class="phone-bottom"><button id="about" type="button">Demo year · About these numbers</button><div class="home-indicator" aria-hidden="true"></div></div>
+  <p id="announcement" class="sr-only" aria-live="polite"></p>
+  <dialog id="data-dialog"><button class="dialog-close" type="button" aria-label="Close information">×</button><p class="eyebrow">ABOUT THIS RECAP</p><h2>Your training year, illustrated.</h2><p>This preview uses a fictional 2025 training history: 72 workouts, 54 hours, 864 working sets and 84,200 kg of lifting volume. It does not read your personal records yet.</p><p>Monthly workout counts add to 72. A week is highlighted when it includes a completed workout. Exercise appearances can overlap within a session.</p><p>The Goblet Squat comparison uses two illustrative sets of the same exercise and the same load convention: one dumbbell. It is not a maximum-strength test.</p><p>Volume = logged weight × completed reps. Playful comparisons use approximate weights: 6,000 kg per bus and 180 kg per bear. Each TV episode is 30 minutes.</p><p>The return after 17 days describes a gap between recorded workouts; it does not assume why you took a break. Rest is part of training.</p><button class="dialog-done" type="button">Got it</button></dialog>
+</main>
+</body>
+</html>
