@@ -1,0 +1,8 @@
+{
+  "name": "fitlens-prototype",
+  "private": true,
+  "description": "Browser prototype. package.json exists only to run the pure-JS model tests with Node's built-in test runner (no dependencies).",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}

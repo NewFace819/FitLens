@@ -18,10 +18,10 @@
 | Enum | Giá trị | Ghi chú |
 | :-- | :-- | :-- |
 | `Region` | `knees`, `back`, `wrists`, `shoulders`, `ankles`, `hips` | Vùng cơ thể: vừa là "vùng cần tránh" (Thông), vừa là vùng chịu tải của bài (Hải), vừa là vùng khó chịu sau buổi (Tu). Nếu cần thêm vùng, thêm ở đây. |
-| `Equipment` | `dumbbells`, `bands` | `[]` nghĩa là không cần dụng cụ. Không có giá trị `"none"`. |
+| `Equipment` | `dumbbells`, `bands`, `mat`, `bench` | `[]` nghĩa là không cần dụng cụ. Không có giá trị `"none"` (form onboarding cũ có lựa chọn `none`, khi lưu đổi thành `[]`). Khớp `setup-plan-model.js`. |
 | `Goal` | `habit`, `strength`, `muscle`, `endurance` | Lấy từ `setup-plan-model.js` hiện có. |
-| `Experience` | `beginner`, `intermediate`, `advanced` | **[ĐỀ XUẤT]** Thông xác nhận lại tên mức. |
-| `Place` | `home`, `gym`, `outdoor` | **[ĐỀ XUẤT]** Nơi tập. Thông xác nhận. |
+| `Experience` | `new`, `returning`, `regular` | Khớp `setup-plan-model.js` đang dùng. Thông xác nhận. |
+| `Place` | `home`, `gym` | Khớp `setup-plan-model.js`. Thêm giá trị khi UI thật sự cần. |
 | `SessionStatus` | `planned`, `done`, `skipped` | Chủ sở hữu: Hải. Buổi dừng vì đau vẫn là `done`, cờ `stoppedByPain` nằm ở `HistoryEntry`. |
 | `ActivityType` | `walk`, `run`, `cycle`, `swim`, `other` | Đỗ Huy. |
 | `Muscle` | `chest`, `back`, `shoulders`, `arms`, `legs`, `glutes`, `core` | **[ĐỀ XUẤT]** Nhóm cơ của bài tập, dùng cho training focus (Thông). |
@@ -35,7 +35,7 @@ Quy tắc: giá trị enum luôn là chuỗi chữ thường, `camelCase` nếu 
 
 | Thứ | Định dạng | Ví dụ | Ghi chú |
 | :-- | :-- | :-- | :-- |
-| Ngày | `YYYY-MM-DD` | `2026-11-16` | Ngày theo giờ địa phương máy, không phải UTC. Không lưu giờ cùng ngày. |
+| Ngày | `YYYY-MM-DD` | `2026-11-16` | Ngày theo múi giờ `Asia/Ho_Chi_Minh` (hằng số duy nhất trong `shared/dates.js`, giống `setup-plan-model.js`), không phải UTC. Không lưu giờ cùng ngày. |
 | Giờ trong ngày | `HH:mm` 24h | `18:30` | Tùy chọn, có thể `null`. |
 | Thời điểm tạo/sửa | ISO 8601 UTC | `2026-11-14T09:30:00Z` | Chỉ dùng cho `createdAt`, `updatedAt`. |
 | Đầu tuần | **Thứ Hai** | `weekStart = 2026-11-09` | **[CHỐT]** Tuần là thứ Hai đến Chủ nhật (quen thuộc ở Việt Nam). Hàm `weekStartOf(date)` ở `shared/dates.js`, mọi người dùng chung, không tự tính. |
@@ -168,7 +168,7 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 | Activity, Mascot, Route | Đỗ Huy | _chưa có_ |
 
 **Trường tối thiểu mà người khác cần đọc** (phần giao nhau, người sở hữu có thể thêm trường nhưng không được bỏ các trường này):
-- `Profile`: `goal`, `experience`, `daysPerWeek`, `minutes`, `equipment`, `avoidRegions`. Mặc định khi chưa onboarding: `habit`, `beginner`, `3`, `30`, `[]`, `[]`.
+- `Profile`: `goal`, `experience`, `daysPerWeek`, `minutes`, `equipment`, `avoidRegions`. Mặc định khi chưa onboarding: `habit`, `new`, `3`, `30`, `[]`, `[]`.
 - `Session`: `id`, `workoutId`, `date`, `time`, `status`.
 - `HistoryEntry`: `id`, `sessionId`, `workoutId`, `date`, `durationSec`, `stoppedByPain`.
 - `Review`: `id`, `historyId`, `rpe`, `discomfortRegions`, `exerciseFeedback` (`[{exerciseId, feedback: ExerciseFeedback}]`).
