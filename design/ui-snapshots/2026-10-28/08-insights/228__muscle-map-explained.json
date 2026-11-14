@@ -1,0 +1,26 @@
+{
+  "id": "228",
+  "title": "Giải thích cách tính bản đồ cơ",
+  "file": "08-insights/228__muscle-map-explained.png",
+  "tags": [
+    "insights",
+    "muscle-map",
+    "explanation",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "training-focus.html?demo=1&period=week&date=2026-10-28",
+  "capturedAt": "2026-10-28T14:11:52.870Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Không phải dữ liệu activation/recovery từ cảm biến.",
+  "text": "9:41\nInsights\nTraining focus\nWeek\nMonth\nYear\n26 Oct – 1 Nov 2026\nSample data\nUse my data\n\nCompleted sets\n\n28\n\n2 sessions\n\nFront\nBack\nLess\nMore\nMuscle groups\nChest\n\n3 direct · 0 supporting sets\n\nBench Press\nMain · 3 sets\nHow this map works\n\nEach set contributes 1 point to its main groups and 0.5 to supporting groups. One set can involve several groups. Colors are relative to the highest score in this view; use the set counts when comparing periods. This is a simplified exercise-based overview, not measured activation or recovery. Both sides show the same exercise history.",
+  "sha256": "c05f7f7d84047df1c4490413f9e90efbafd07a525fe90ada76f85a299dbdb36c",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

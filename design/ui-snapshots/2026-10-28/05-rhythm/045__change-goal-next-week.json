@@ -1,0 +1,27 @@
+{
+  "id": "045",
+  "title": "Đổi mục tiêu áp dụng tuần sau",
+  "file": "05-rhythm/045__change-goal-next-week.png",
+  "tags": [
+    "rhythm",
+    "weekly-goal",
+    "change",
+    "scheduled",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "streak.html?preview=active",
+  "capturedAt": "2026-10-28T14:05:13.269Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▂▄▆ ▰\nYOUR RHYTHM\n•••\n\nWEEKLY PROGRESS\n\nThis week\n\nOct 26 – Nov 1\n\n2 of 3\n\nsessions completed\n\nWorkout\nOct 26\nWorkout\nOct 27\nSession 3\nNot done\n\n1 more session to meet your weekly goal.\n\nChoose your next session\n6\nweeks in a row\nCompleted weeks\n\nYour completed weeks and sessions remain in your history.\n\nOct 19 – Oct 25\n3 sessions\nOct 12 – Oct 18\n3 sessions\nOct 5 – Oct 11\n3 sessions\nSep 28 – Oct 4\n3 sessions\nPage 1 of 2\n6\nweeks completed\n6\nlongest rhythm\n20\nsessions recorded\nExplore this week’s training focus\nHow your rhythm works\nMore about your rhythm\nConsistency Beats Intensity\nThe Art of the Rest Day\nRestarting After a Break\nSpotting Early Fatigue\n\nChange weekly goal\n×\n\nHow many sessions would you like to make time for? You can do them on the days that suit you.\n\nSessions per week\n2\n3\n4\n5\n\nYour updated goal starts next Monday.\n\nRest days are part of your week. A weekly schedule is optional.\n\nSave weekly goal",
+  "sha256": "ef0ec0cb820f08c13d62e337341fbd8033b0342da10444d1babb6abcbbc091e8",
+  "group": "05-rhythm",
+  "groupTitle": "Streak / Weekly goal",
+  "tagsEmbeddedInPNG": true
+}

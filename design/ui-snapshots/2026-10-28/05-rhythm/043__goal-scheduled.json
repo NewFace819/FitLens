@@ -1,0 +1,26 @@
+{
+  "id": "043",
+  "title": "Mục tiêu bắt đầu tuần sau",
+  "file": "05-rhythm/043__goal-scheduled.png",
+  "tags": [
+    "rhythm",
+    "weekly-goal",
+    "scheduled",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "streak.html?preview=new",
+  "capturedAt": "2026-10-28T14:05:11.904Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Thao tác thực trên state preview, không ghi tài khoản.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR RHYTHM\n•••\n\nWEEKLY PROGRESS\n\nStarting next week\n\nNov 2 – Nov 8\n\n3 sessions, starting Monday.\n\nThere is nothing to catch up on this week. Your goal begins Nov 2.\n\nExplore workouts\nCompleted weeks\n\nYour completed weeks and sessions remain in your history.\n\nComplete your weekly goal\nto see it here.\n\n0\nweeks completed\n0\nlongest rhythm\n0\nsessions recorded\nExplore this week’s training focus\nHow your rhythm works\nMore about your rhythm\nConsistency Beats Intensity\nThe Art of the Rest Day\nRestarting After a Break\nSpotting Early Fatigue\n\nYour weekly goal is saved.",
+  "sha256": "d556b40a7039d89f510c4a3cb8e9590a04dd2f7174fab99ebc2282278ae839e9",
+  "group": "05-rhythm",
+  "groupTitle": "Streak / Weekly goal",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "242",
+  "title": "Active Session ở rộng 430px",
+  "file": "13-responsive/242__active-430.png",
+  "tags": [
+    "responsive",
+    "active-session",
+    "width-430",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper",
+  "capturedAt": "2026-10-28T14:12:03.150Z",
+  "viewport": {
+    "width": 430,
+    "height": 932
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nUpper Body\n\n00:00\nelapsed\n\n01 / 06\nBENCH\nPRESS.\nBarbell · Chest\nExercise guide\n☆ Pin as focus\nLast 3 sessions\nYour sets.\n3 × 8–12 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n—\n•\n02\n—\n·\n03\n—\n·\n＋ Add set\nRest 90 sec\n\nTotal bar weight, including the bar.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nLat Pulldown\n02 / 06\nSET 01 / 03\nComplete Set 1\n＋ I feel pain\n0 sets complete\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "8c7d4a6c3abf6c111cec6b4ef252fcb2ba48ffaf524219c63b23c0514d9846e1",
+  "group": "13-responsive",
+  "groupTitle": "Kích thước mobile bổ sung",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "059",
+  "title": "Profile — chỉnh identity",
+  "file": "09-profile/059__edit-identity.png",
+  "tags": [
+    "profile",
+    "edit",
+    "identity",
+    "form",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:21.883Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trong profile preview, dữ liệu lưu trong bộ nhớ tạm.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nGender (optional)\n×\n\nYou can leave this blank. Your body illustration is a separate preference.\n\nGender\nNot added yet\nMale\nFemale\nAnother identity\nPrefer not to say\nSave changes\nCancel",
+  "sha256": "1c3d30d9e0a90676006d148b459338e90b48b5a84d19b55def63bc0a2706ee13",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

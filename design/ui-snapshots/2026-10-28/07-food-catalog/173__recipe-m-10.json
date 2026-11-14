@@ -1,0 +1,28 @@
+{
+  "id": "173",
+  "title": "Cơm chả trứng hấp",
+  "file": "07-food-catalog/173__recipe-m-10.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-10",
+  "capturedAt": "2026-10-28T14:09:49.089Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n10\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm chả trứng hấp\n\nSteamed pork and egg loaf with rice, cucumber and greens soup\n\nAPPROX. PREP TIME\n20 min\nMAKES\n1 serving\n\nRice and soup are already cooked; wood ear mushrooms and glass noodles are soaked. Timing covers the egg loaf only.\n\nEquipment: Steamer or rice cooker\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Egg, Fish. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 5 ready\n\nTick off ingredients as you get them ready.\n\n100 g minced pork\n2 eggs, with 1 yolk reserved\nSoaked wood ear mushrooms and glass noodles, chopped\nShallot, black pepper and fish sauce\nCooked rice, sliced cucumber and prepared bok choy soup\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nMix the filling\n\nMix pork, mushrooms, noodles, shallot, pepper, one whole egg and the remaining egg white.\n\n02\nSteam the loaf\n\nPut in an oiled heatproof bowl and steam for about 15 minutes, until cooked through.\n\n03\nAdd the egg topping\n\nBrush the reserved yolk over the top and steam for another 2 minutes.\n\n04\nSlice and serve\n\nSlice and serve with the prepared rice, cucumber and soup.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "1b8e0287921d61dc66c082b43cce0ff6b01937bb2e44ac5277175fc8da7699d1",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

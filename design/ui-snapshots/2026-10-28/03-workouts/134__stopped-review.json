@@ -1,0 +1,27 @@
+{
+  "id": "134",
+  "title": "Review khi dừng vì đau",
+  "file": "03-workouts/134__stopped-review.png",
+  "tags": [
+    "workouts",
+    "stopped",
+    "review",
+    "mascot",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "workout-review.html?routine=upper&completed=workout-1793196579820",
+  "capturedAt": "2026-10-28T14:07:56.850Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Dừng bằng UI; không nhập thông tin sức khỏe thật.",
+  "text": "9:41\nSkip\nYou listened to your body.\n\nYour session is saved. Take a moment to check in.\n\nWHAT YOU RECORDED\n\nUpper Body.\nStopped\n\nTOTAL VOLUME\n\n0\nkg\n\nOnly the sets you marked complete.\n\nTIME FOR YOU\n\n<1 min\n\nTime recorded before stopping.\n\nSHOWING UP\n\n0 sets\n\nRecorded before stopping.\n\nYOUR FOCUS\nBench Press\nOct 28\n20 kg × 10\n\nLast 1 session · heaviest completed set shown.\n\nHow we counted\n＋\nTraining focus\n\n0 completed sets\n\n1 record has no completed-set details.\n\nNo completed sets to map for this period.\n\nHow did it feel?\ni\n\nThink about the whole session.\n\nModerate\n5 / 10\n\nA steady effort. You worked, with room to keep going.\n\nWithin usual range\n↔ As usual\nVery light\nAll-out\nYour usual range\n4–6 · demo baseline\nHow does your body feel?\nAnything feeling\nuncomfortable?\nAdd an area\nAnything you’d change?\nReflect on individual exercises\n＋\nAnything worth remembering?\nA thought for your next session\n＋\n\nModerate effort · Your moment to reflect\n\nFinish check-in\n✓",
+  "sha256": "3c636cbaf72cffc18eea67eb9d6f6e238195b7e5445255f99fe4f9851534e263",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

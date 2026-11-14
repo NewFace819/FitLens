@@ -1,0 +1,26 @@
+{
+  "id": "219",
+  "title": "Chat có đính kèm workout",
+  "file": "10-chat-camera/219__chat-workout-context.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "workout-context",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "chat.html?context=chat-mvs6zbbc-3kl9x4",
+  "capturedAt": "2026-10-28T14:10:41.387Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Handoff từ Details qua UI.",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\nASKING ABOUT\nUpper Body\n6 exercises · Your current session\n\nLET’S WORK IT OUT\n\nLet’s talk about your session.\n\nA move you’re unsure of, or a little less time today.\n\nI only have 20 minutes\nHow do I choose a weight?\nI’m not sure about a move\n\nTap the context above to see what’s included.\n\nYour message\n\nUI preview · sample replies, no live AI",
+  "sha256": "d5e34c26743beac852c83dfa763ea7587868a096cec0478fb6352ef013e2d9f7",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "260",
+  "title": "Hướng dẫn đánh giá effort",
+  "file": "03-workouts/260__effort-scale-help.png",
+  "tags": [
+    "workouts",
+    "review",
+    "effort",
+    "help",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-review.html?routine=upper&completed=session-mvs738kk-nww5ym5",
+  "capturedAt": "2026-10-28T14:13:52.472Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nSkip\nA little stronger.\n\nHow did this session feel?\n\nTODAY’S LITTLE BIG THINGS\n\nUpper Body.\n✓ Complete\n\nTOTAL VOLUME\n\n3.600\nkg\n\nA whole\nbear squad.\n\nAbout 20 bears’ worth.\nOne rep at a time.\n\nAdded up across every set\n\nTIME FOR YOU\n\n<1 min\n\n≈ 0 quick matches.\nReal-life level up.\n\nSHOWING UP\n\n18 sets\n\n6 exercises.\nA lot of little wins.\n\nHow we counted\n＋\nTraining focus\n\n18 completed sets\n\nFront\nBack\nLess\nMore\nMuscle groups\nShoulders\n\n6 direct · 6 supporting sets\n\nBench Press\nSupporting · 3 sets\nSeated Row\nSupporting · 3 sets\nShoulder Press\nMain · 3 sets\nLateral Raise\nMain · 3 sets\nHow this map works\nHow did it feel?\ni\n\nThink about the whole session.\n\nModerate\n5 / 10\n\nA steady effort. You worked, with room to keep going.\n\nWithin usual range\n↔ As usual\nVery light\nAll-out\nYour usual range\n4–6 · demo baseline\nHow does your body feel?\nAnything feeling\nuncomfortable?\nAdd an area\nAnything you’d change?\nReflect on individual exercises\n＋\nAnything worth remembering?\nA thought for your next session\n＋\n\nModerate effort · Your moment to reflect\n\nFinish check-in\n✓\nYour effort,\nyour scale.\n×\n\nHow demanding did the whole session feel? Think about your breathing and the effort in your muscles.\n\n1–3 · Light\nComfortable movement with plenty left.\n4–6 · Moderate to hard\nNoticeable effort, still feeling in control.\n7–9 · Very hard\nDemanding work with little left to give.\n10 · All-out\nYour highest effort for this session.\nPain is a separate check-in. You can tell us about it under How’s your body?\nExpressive animations\nTurn off for gentler, reduced motion.\nGot it\n✓",
+  "sha256": "29c0f02e020d13b84724f1649376bd618882ffb6980e3eb84251d94e20673f8f",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

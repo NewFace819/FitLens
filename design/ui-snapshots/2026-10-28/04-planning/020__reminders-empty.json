@@ -1,0 +1,26 @@
+{
+  "id": "020",
+  "title": "Reminder chưa chọn buổi tập",
+  "file": "04-planning/020__reminders-empty.png",
+  "tags": [
+    "planning",
+    "reminders",
+    "empty",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "reminders.html",
+  "capturedAt": "2026-10-28T14:04:32.672Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nTime & reminder\n\nYOUR SCHEDULE\n\nA time for you.\n\nA little structure, at your own pace.\n\nYour next session starts here.\n\nCreate a workout or a weekly plan, then choose when it fits.\n\nChoose a workout",
+  "sha256": "8f31ddb594ba0fbdd016d8fabdb5ae2b323ca328b0a5d2e6ef37532f896233b7",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

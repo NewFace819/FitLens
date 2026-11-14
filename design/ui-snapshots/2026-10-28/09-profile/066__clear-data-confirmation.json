@@ -1,0 +1,27 @@
+{
+  "id": "066",
+  "title": "Cảnh báo trước khi xóa dữ liệu",
+  "file": "09-profile/066__clear-data-confirmation.png",
+  "tags": [
+    "profile",
+    "data",
+    "destructive",
+    "confirmation",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:25.845Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "Chỉ mở cảnh báo; không xóa dữ liệu.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nStart fresh?\n×\n\nYour profile, saved meals, meal notes, rhythm, and plans in this tab will be cleared. This can’t be undone.\n\nContinue\nKeep my data",
+  "sha256": "748488b41360291c143e0261ede891b716c0873f4fafa12c7eb848c29264e1a8",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

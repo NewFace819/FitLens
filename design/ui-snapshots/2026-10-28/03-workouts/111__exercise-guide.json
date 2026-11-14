@@ -1,0 +1,26 @@
+{
+  "id": "111",
+  "title": "Exercise guide",
+  "file": "03-workouts/111__exercise-guide.png",
+  "tags": [
+    "workouts",
+    "exercise-guide",
+    "preview",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper",
+  "capturedAt": "2026-10-28T14:07:41.127Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung hướng dẫn hiện tại là placeholder.",
+  "text": "9:41\nUpper Body\n\n00:01\nelapsed\n\n01 / 06\nBENCH\nPRESS.\nBarbell · Chest\nExercise guide\n☆ Pin as focus\nLast 3 sessions\nYour sets.\n3 × 8–12 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n—\n•\n02\n—\n·\n03\n—\n·\n＋ Add set\nRest 90 sec\n\nTotal bar weight, including the bar.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nLat Pulldown\n02 / 06\nSET 01 / 03\nComplete Set 1\n＋ I feel pain\n0 sets complete\n\nEXERCISE GUIDE\n\n×\nBench Press\n\nBarbell · Chest. Your plan: 3 sets of 8–12 reps. Rest 90 seconds between sets.\n\nIllustration placeholder · detailed movement guide to follow.\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "95aa03278df50df1747b68b72bbbb5cee42329f423060e4d412adbbf4645456c",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

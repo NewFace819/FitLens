@@ -1,0 +1,28 @@
+{
+  "id": "090",
+  "title": "Các cách xây lịch tuần",
+  "file": "04-planning/090__week-options.png",
+  "tags": [
+    "planning",
+    "week-options",
+    "manual",
+    "suggested",
+    "copy-week",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:26.793Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n1 planned · 1/1 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n07:00\nPreview\nThu\n29\nNo workout planned\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nNo workout planned\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nA LITTLE STRUCTURE\nYour week, your call.\n\nOct 26 – Nov 1. Keep your existing workouts and choose how to fill the rest.\n\nI’ll arrange it.\nAdd workouts from your library.\nSuggest my week.\nGet workouts with exercises included.\nCopy this week",
+  "sha256": "730f8bfdb74e876f7e87fbb8e55a0620ae73240aecb8f23ee9940adbcd7cb165",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

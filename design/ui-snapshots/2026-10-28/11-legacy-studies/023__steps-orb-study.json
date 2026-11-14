@@ -1,0 +1,26 @@
+{
+  "id": "023",
+  "title": "Steps orb — design study",
+  "file": "11-legacy-studies/023__steps-orb-study.png",
+  "tags": [
+    "legacy-studies",
+    "study",
+    "steps",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "steps-orb-study.html",
+  "capturedAt": "2026-10-28T14:04:34.892Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trang nghiên cứu thị giác.",
+  "text": "FITLENS / VISUAL STUDY 01\n\nA little sun. Your own rhythm.\n\nTwo reference states · isolated from the current Home and Steps screens.\n\nReplay opening\n↗\n01 / BELOW TYPICAL\n18:57 · 8,202 / 10,710 steps\n18:57\nSteps\n\nSaturday, 24 October ›\n\n8.202\n\n⌄\nBelow Typical Saturday\n\nTotal Distance\n\n5,7 km\n\nTotal Duration\n\n1h 17m\n\nFlights Climbed\n\n15 floors\n\nWalking Heart Rate\n\n- bpm\nProgress\n\nvs. typical Saturday · 10710 steps by 19:00\n\n12,7K\n10K\n5K\nStreak\nActivities\nInsights\n02 / ABOVE TYPICAL\n19:42 · 13,347 / 12,633 steps\n19:42\nSteps\n\nSaturday, 24 October ›\n\n13.347\n\n⌃\nAbove Typical Saturday\n\nTotal Distance\n\n8,6 km\n\nTotal Duration\n\n1h 50m\n\nFlights Climbed\n\n15 floors\n\nWalking Heart Rate\n\n- bpm\nProgress\n\nvs. typical Saturday · 12633 steps by 20:00\n\n12,7K\n10K\n5K\nStreak\nActivities\nInsights\nExplore the frosted edge\n\nChanges the left preview. The right preview stays at the supplied reference.\n\nSteps\n8,202\n\nIllustrative typical Saturday by 19:00: 10,710 steps · 76.6%\n\n90%\n99%\n100%\n105%\nReset reference ↺\n\nVisual reconstruction from screenshots. The level mapping is an approximation, not Gentler Streak’s verified algorithm.",
+  "sha256": "50e493d7075029758f62056039f08d068e302cce50c201ab9e4c63ffca0d77f7",
+  "group": "11-legacy-studies",
+  "groupTitle": "Legacy / Design studies",
+  "tagsEmbeddedInPNG": true
+}

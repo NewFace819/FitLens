@@ -1,0 +1,28 @@
+{
+  "id": "075",
+  "title": "Preview điều chỉnh — time",
+  "file": "03-workouts/075__adapt-time-preview.png",
+  "tags": [
+    "workouts",
+    "adapt",
+    "time",
+    "preview",
+    "before-after",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-details.html?workout=upper",
+  "capturedAt": "2026-10-28T14:07:16.279Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nTHE WORKOUT\n\nYOUR ROUTINE / YOUR WORKOUT\n\nUpper Body\n6 exercises\nAbout 45 min\n\nStart now, or add to your week.\n\nMake it fit today.\nTHIS SESSION\n◷ Time\n◇ Equipment\n♡ Effort\nWorkout details\nname & duration\nYour lineup\nEdit\n01\nBench Press\n3 sets × 8–12 reps\n02\nLat Pulldown\n3 sets × 10–12 reps\n03\nSeated Row\n3 sets × 10–12 reps\n04\nShoulder Press\n3 sets × 8–12 reps\n05\nLateral Raise\n3 sets × 12–15 reps\n06\nTriceps Pushdown\n3 sets × 10–15 reps\n＋\nAdd Exercise\nTraining focus\n\nWorkout preview · planned sets\n\n18 planned sets\n\nFront\nBack\nLess\nMore\nMuscle groups\nShoulders\n\n6 direct · 6 supporting planned sets\n\nBench Press\nSupporting · 3 sets\nSeated Row\nSupporting · 3 sets\nShoulder Press\nMain · 3 sets\nLateral Raise\nMain · 3 sets\nHow this map works\nWhat you’ll need\nBased on the exercises you add.\nAsk about this workout\nBring this session into the conversation\n\nSave your own version to keep these changes.\n\nMore about your training\nProgressing Safely\nTrusting Your Perceived Exertion\nConsistency Beats Intensity\nStart Workout\nSchedule for later\nYour session, adjusted.\n×\nChange choice\nBefore\n6 exercises\n18 sets\nAfter\n6 exercises\n11 sets\n\n20-minute version · planned rests kept.\n\nBench Press\n3 sets · 8–12 reps · 90s rest\n2 sets · 8–12 reps · 90s rest\nLat Pulldown\n3 sets · 10–12 reps · 90s rest\n2 sets · 10–12 reps · 90s rest\nSeated Row\n3 sets · 10–12 reps · 90s rest\n2 sets · 10–12 reps · 90s rest\nLateral Raise\n3 sets · 12–15 reps · 60s rest\n1 sets · 12–15 reps · 60s rest\nTriceps Pushdown\n3 sets · 10–15 reps · 60s rest\n1 sets · 10–15 reps · 60s rest\n\nTarget: 20 min · about 18 min from planned sets and rests. Your pace may vary.\n\nApply to this session",
+  "sha256": "74dc6b0659600633a4e309b3daa8afaf4295cf7fe0819ae745d5cb1d51e0230c",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

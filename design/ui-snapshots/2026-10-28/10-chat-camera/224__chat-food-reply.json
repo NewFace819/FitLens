@@ -1,0 +1,27 @@
+{
+  "id": "224",
+  "title": "Hỏi thay thế nguyên liệu",
+  "file": "10-chat-camera/224__chat-food-reply.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "ingredients",
+    "reply",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "chat.html?context=food-mvs6zden-gfz970",
+  "capturedAt": "2026-10-28T14:10:44.757Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Phản hồi mẫu, không có AI backend.",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\nASKING ABOUT\nĐậu hũ sốt cà\nRecipe ingredients and preparation\n\nI do not have tomatoes. What can I use?\n\nFitLens\n\nThis preview has sample replies for missing ingredients, preparation time and kitchen equipment. It does not generate a new recipe or change the one you opened.\n\nI’m missing an ingredient\nI have less time\nYour message\n\nUI preview · sample replies, no live AI",
+  "sha256": "0aab83a00855e2a0a11425567598d570ab51b9a8909a0a037763af8b9068f8ec",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

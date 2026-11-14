@@ -1,0 +1,27 @@
+{
+  "id": "206",
+  "title": "Recap năm — Time you made",
+  "file": "08-insights/206__year-chapter-3.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "chapter-3",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:27.058Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Lịch sử năm 2025 hư cấu có sẵn trong app.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n03 / 08\n×\n\nTIME YOU MADE FOR YOURSELF\n\nLittle windows.\nA lot of time.\n54\nhours\nin training\n108\n\nEPISODES!\nThat’s quite a watchlist.\n\nEnough time for 108 half-hour episodes.\nYour series came with a little more effort.\n\n54 hours across 72 completed workouts.\nDemo year · About these numbers\n\nChapter 3 of 8. Time you made.",
+  "sha256": "545fe399bc17d5de506024f7530914b648a8eeb4f9ac950fa231547a546eefbe",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

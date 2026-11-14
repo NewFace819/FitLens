@@ -1,0 +1,27 @@
+{
+  "id": "026",
+  "title": "Giải thích kết nối Health",
+  "file": "01-onboarding/026__health-permission-explainer.png",
+  "tags": [
+    "onboarding",
+    "health",
+    "permission",
+    "preview",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:05:00.419Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Chỉ màn giải thích, không cấp quyền sức khỏe thật.",
+  "text": "FITLENS\nSee your movement\ncome to life.\n\nBring your daily activity into FitLens with Apple Health.\n\nYour day so far\nPreview\nSteps\n6,240 steps\n\nIllustrative activity data\n\n5k\n10k\n00:00\n12:00\n24:00\nNow\nExample steps\nExample comparison\nDistance\n4.2 km\nWalking Time\n32 min\nActive Energy\n185 kcal\n\nHeart rate, when available\n\nWhat FitLens can read\nConnect Apple Health\nNot now\n\nYou choose what to share.",
+  "sha256": "4ab44a50dcbde4a6e68ea119777035d0d2ec92cdb2180c247952dfba80592834",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

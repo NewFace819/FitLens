@@ -1,0 +1,28 @@
+{
+  "id": "192",
+  "title": "Khoai hấp hoặc bắp luộc",
+  "file": "07-food-catalog/192__recipe-s-29.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "ready",
+    "snack",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=s-29",
+  "capturedAt": "2026-10-28T14:10:03.528Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n29\n\nIllustrative photo of the main dish; side dishes may differ.\n\nA little something\n\nKhoai hấp hoặc bắp luộc\n\nOne cooked sweet potato or corn on the cob\n\nAPPROX. PREP TIME\n2 min\nMAKES\n1 serving\n\nUse a sweet potato or corn already cooked or bought ready to eat. The 2 minutes covers serving only.\n\nABOUT THIS DISH\n\nA meat-free option for your next meal.\n\nIngredients and seasonings are listed below. Ingredients vary by seller. Ask about the ingredients, broth and sauces.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 1 ready\n\nTick off ingredients as you get them ready.\n\n1 cooked sweet potato or corn on the cob\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nChoose the cooked vegetable\n\nChoose a ready-cooked sweet potato or corn.\n\n02\nPeel\n\nRemove the skin or husk.\n\n03\nServe\n\nServe when comfortable to eat.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "50ec07a3c5c0569370368bc3ff8cd1ac2cbaee4c37883674650dcb3258ef9936",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

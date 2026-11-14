@@ -1,0 +1,26 @@
+{
+  "id": "019",
+  "title": "Camera / form check — trạng thái Ready",
+  "file": "10-chat-camera/019__camera-ready.png",
+  "tags": [
+    "chat-camera",
+    "camera",
+    "form-check",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "camera-setup.html",
+  "capturedAt": "2026-10-28T14:04:32.032Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Camera là UI study; chưa chứng minh camera thật/AI form analysis.",
+  "text": "9:41\n\nUPPER BODY\nSET 01 / 03\n\nLateral Raise\nPREVIEW\nFront view\nReady\n\nFull body and weights in view.\n\nWEIGHT\n5 kg / hand\nTARGET\n12–15 reps\nStart Set\nBack to workout\nUI PREVIEW\nReady\nAdjust view\n\nIllustrated placeholder · Camera is off",
+  "sha256": "69b64408f335ae8e1638f9f9cd30e89d766c9ffe99847b1d927b049e92c11dc8",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

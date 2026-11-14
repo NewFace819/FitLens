@@ -1,0 +1,29 @@
+{
+  "id": "092",
+  "title": "Gợi ý tuần — số buổi và ngày tập",
+  "file": "04-planning/092__builder-days.png",
+  "tags": [
+    "planning",
+    "builder",
+    "frequency",
+    "duration",
+    "days",
+    "step-2",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:27.969Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n1 planned · 1/1 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n07:00\nPreview\nThu\n29\nNo workout planned\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nNo workout planned\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nSUGGEST MY WEEK\nYour weekly schedule\n✓\nFocus\n2\nWeek\n3\nSetup\nBuild a habit\nChange\n105\nminutes\nfor yourself this week\n\nWorkouts this week\n\n2\n3\n4\n5\n\nMinutes per workout\n\n20 min\n30 min\n45 min\n\nDays that work for you\n\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n\n1 kept · 2 new workouts · 2 available days\n\nBack\nContinue",
+  "sha256": "d0c261a6ac5df1d6406fd667172eb0327163550cd15e66c61c6ff540f31d1236",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

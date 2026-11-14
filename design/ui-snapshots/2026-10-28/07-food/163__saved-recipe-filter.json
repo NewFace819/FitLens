@@ -1,0 +1,29 @@
+{
+  "id": "163",
+  "title": "Chỉ xem món đã lưu",
+  "file": "07-food/163__saved-recipe-filter.png",
+  "tags": [
+    "food",
+    "saved-recipes",
+    "filter",
+    "results",
+    "status:ui-observed",
+    "data:synthetic",
+    "empty",
+    "empty"
+  ],
+  "route": "food.html",
+  "capturedAt": "2026-10-28T14:09:41.960Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": " Kết quả đang trống trong lượt chụp này; không dùng ảnh làm bằng chứng có món đã lưu. Kết quả đang trống trong lượt chụp này; không dùng ảnh làm bằng chứng có món đã lưu.",
+  "text": "9:41\n▂▄▆\nFITLENS\nTHE EVERYDAY TABLE\nLog meal\n2\nAt the table.\n☼\nA meal for the day ahead.\nChoose what works for you.\nIDEAS FOR\nBreakfast\nLunch\nDinner\nSnack\nWhy these?\n\nChosen around your food preferences.\n\n01\n\n20 min · Budget-friendly\n\nNấm kho tiêu\n\nA meat-free option for your next meal.\n\nSee the recipe\n02\n\n15 min · Budget-friendly\n\nBún đậu hũ sả ớt\n\nA meat-free option for your next meal.\n\nSee the recipe\n01 / 02\nVegetarian\nEdit\nNothing quite right?\nTell FitLens what you have at home.\n\nTHE EVERYDAY KITCHEN\n\nFind something else.\nFilters · 1\nSaved\nClear\n\n0 recipes\n\nNo recipes match yet.\n\nTry another ingredient or fewer filters. Ingredient exclusions stay in place; restaurant dishes with unconfirmed ingredients may be hidden.\n\nClear search & filters\nReview food preferences\n\nTODAY’S MEALS\n\n2 meals logged.\n\nLook back at your meals, or add something you just ate.\n\nView today’s meals\nMore about eating well\nEating for Energy, Not Guilt\nCarbs Are Clean Fuel\nProtein for Daily Repair\nWhy Good Fats Matter\nBack to your day",
+  "sha256": "9407816c1a594438d95beb8828db7be935339ba529fdf7feff753fd77caf767e",
+  "group": "07-food",
+  "groupTitle": "Món ăn / Nhật ký ăn",
+  "tagsEmbeddedInPNG": true
+}

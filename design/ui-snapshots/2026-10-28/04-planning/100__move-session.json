@@ -1,0 +1,27 @@
+{
+  "id": "100",
+  "title": "Chọn ngày khác cho buổi tập",
+  "file": "04-planning/100__move-session.png",
+  "tags": [
+    "planning",
+    "move-workout",
+    "date",
+    "form",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:32.631Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n3 planned · 3/3 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n18:45\nPreview\nThu\n29\nBodyweight foundations\n30 min\n18:45\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nMove at your pace\n30 min\n18:45\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nMAKE IT YOURS\nA different day.\n\nUpper Body. If the day has a planned workout, the two will swap. Their times stay with them.\n\nMove to\nMove workout\n\nTime saved. Your workout stays in your week.",
+  "sha256": "999e28327d62bf1f4cf710c9d6b39e8d627f784b387cd0ac1deae747f23ab1e9",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

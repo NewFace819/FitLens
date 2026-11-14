@@ -1,0 +1,27 @@
+{
+  "id": "057",
+  "title": "Profile — chỉnh name",
+  "file": "09-profile/057__edit-name.png",
+  "tags": [
+    "profile",
+    "edit",
+    "name",
+    "form",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:20.730Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trong profile preview, dữ liệu lưu trong bộ nhớ tạm.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nWhat should we call you?\n×\n\nA first name, a nickname, or nothing at all. It’s up to you.\n\nYour name (optional)\nSave changes\nCancel",
+  "sha256": "8ff08e92857648084a1e41dd6fd706ea3fd9228da73e17153600fb8fbd2e8d91",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

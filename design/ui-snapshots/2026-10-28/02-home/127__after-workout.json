@@ -1,0 +1,27 @@
+{
+  "id": "127",
+  "title": "Home sau session đã lưu",
+  "file": "02-home/127__after-workout.png",
+  "tags": [
+    "home",
+    "recorded",
+    "success",
+    "workout-entry",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "home.html",
+  "capturedAt": "2026-10-28T14:07:51.398Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS\n✦\n✧\nGood evening\nA moment to pause.\nWe’re listening.\nLatest workout check-in\nTODAY, AT YOUR PACE\nYour plan\nUpper Body\n\nToday · 18:45 · 45 min\n\nView workout\nAlready done? Log it\nYOUR WORKOUTS TODAY\nSee all\nUpper Body\n1 min · Completed\nTHIS WEEK\nYour rhythm\nSet your weekly goal\n\nChoose how many sessions fit your week. You can decide the days later.\n\nSet a weekly goal\nToday’s activity\nSteps\n\nBelow your usual\n\n3.150\nWorkout Time\n0min\nSets completed\n1set\nFood for today\nThree meals to make at home\nExplore meals\nDaily reading\nMovement for the Mind\nEvening Wind-Down Ritual\nEating for Energy, Not Guilt\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "e3b4788bf7cd4ac15200e2e3613b824fa38b7ee734a8a9962ee540a7f7c1d2ee",
+  "group": "02-home",
+  "groupTitle": "Home",
+  "tagsEmbeddedInPNG": true
+}

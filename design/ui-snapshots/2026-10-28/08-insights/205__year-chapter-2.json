@@ -1,0 +1,27 @@
+{
+  "id": "205",
+  "title": "Recap năm — You made room",
+  "file": "08-insights/205__year-chapter-2.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "chapter-2",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:26.464Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Lịch sử năm 2025 hư cấu có sẵn trong app.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n02 / 08\n×\n\nALL THOSE TIMES YOU SHOWED UP\n\nA little room.\nAgain and again.\n72\nworkouts\ncompleted\n32 weeks with time for you.\n\nSome busy months. Some quieter ones.\nYou kept finding room.\n\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\n\nEvery dot is a week. Every filled dot holds a workout.\n\nDemo year · About these numbers\n\nChapter 2 of 8. You made room.",
+  "sha256": "7cb1435a6d780c73aa884e9131fdf57e858663fc5c197116e54b326878c79af4",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

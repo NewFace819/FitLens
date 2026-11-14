@@ -1,0 +1,28 @@
+{
+  "id": "179",
+  "title": "Cơm gà luộc gừng",
+  "file": "07-food-catalog/179__recipe-m-16.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-16",
+  "capturedAt": "2026-10-28T14:09:53.298Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n16\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm gà luộc gừng\n\nGinger-turmeric chicken with rice, cabbage salad and light broth\n\nAPPROX. PREP TIME\n30 min\nMAKES\n1 serving\n\nUse cooked rice for the 30-minute version. Cooking rice in the chicken broth takes extra time.\n\nEquipment: Saucepan, Mixing bowl\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients and seasonings are listed below. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 4 ready\n\nTick off ingredients as you get them ready.\n\n1 chicken leg quarter, about 250 g\nGinger, shallot and a little turmeric\nFinely sliced cabbage and lime leaves\nRice, salt, pepper and lime\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nSimmer the chicken\n\nPut chicken in a saucepan with water, ginger, shallot and turmeric. Simmer until cooked through, allowing about 20 minutes depending on size.\n\n02\nPrepare the rice\n\nLift out the chicken. Use ready-cooked rice for the quicker version; allow extra time if cooking rice in the broth.\n\n03\nMake the salad\n\nCut the chicken and toss the cabbage with lime, salt and pepper.\n\n04\nBring it to the table\n\nServe chicken and rice with the cabbage salad and a small bowl of broth.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "ec5d04d313a140563e7a5203dc036bdc1906286e2e0bbd571786b63643adb9df",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

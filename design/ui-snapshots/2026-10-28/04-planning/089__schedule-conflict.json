@@ -1,0 +1,27 @@
+{
+  "id": "089",
+  "title": "Ngày đã có workout — cảnh báo xung đột",
+  "file": "04-planning/089__schedule-conflict.png",
+  "tags": [
+    "planning",
+    "schedule",
+    "conflict",
+    "disabled",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "workouts.html",
+  "capturedAt": "2026-10-28T14:07:25.824Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Đã chọn ngày đang có Upper Body; kiểm tra trạng thái không thể submit.",
+  "text": "9:41\nFITLENS / WORKOUTS\nNew\nChoose your\nworkout.\n\nStart now, or add a workout to your week.\n\nYour workouts\n1 saved\nMy Upper Body\n6 exercises · 45 min\nStart now\nSchedule for later\n☆\nOne move to make yours.\n＋\nA place to start\n4 workouts\nUpper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nLower Body\n5 exercises · 40 min\nStart now\nSchedule for later\nFull Body\n5 exercises · 45 min\nStart now\nSchedule for later\nBodyweight Foundations\n3 exercises · 20 min\nStart now\nSchedule for later\nCreate your own workout\nView your weekly plan\nMore about training\nConsistency Beats Intensity\nThe Power of Variety\nProgressing Safely\nTrusting Your Perceived Exertion\nDid something else?\n\nAdd a little context for your next workout.\n\nToday\nWorkouts\nPlan\nInsights\nA LITTLE SPACE FOR YOU\nSchedule workout\n×\n\nLower Body\n\nDay\n\nUpper Body is already on this day. Choose another day, or open it to make changes.\n\nView this workout\nStart time Optional\nLeave empty to keep your day flexible.\nReminder preview Optional\nSchedule Workout",
+  "sha256": "3920723c6ea2b4fe4485d815c2177a53295b55548b9fca788dc818973435174f",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "212",
+  "title": "Giải thích số liệu recap năm",
+  "file": "08-insights/212__yearly-data-explanation.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "data-source",
+    "explanation",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:30.476Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "App nêu rõ illustrative demo year.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n08 / 08\n×\n\nA YEAR OF SHOWING UP\n\nAll those days.\nAll yours.\nFITLENS\nTHONG’S YEAR\n2025\n72\nworkouts\n54 h\nin training\n864\nworking sets\n84,200 kg\nlifting volume\nSave your poster\n↓\n↻ Watch it again\nDemo year · About these numbers\n\nChapter 8 of 8. Your year, to keep.\n\n×\n\nABOUT THIS RECAP\n\nYour training year, illustrated.\n\nThis preview uses a fictional 2025 training history: 72 workouts, 54 hours, 864 working sets and 84,200 kg of lifting volume. It does not read your personal records yet.\n\nMonthly workout counts add to 72. A week is highlighted when it includes a completed workout. Exercise appearances can overlap within a session.\n\nThe Goblet Squat comparison uses two illustrative sets of the same exercise and the same load convention: one dumbbell. It is not a maximum-strength test.\n\nVolume = logged weight × completed reps. Playful comparisons use approximate weights: 6,000 kg per bus and 180 kg per bear. Each TV episode is 30 minutes.\n\nThe return after 17 days describes a gap between recorded workouts; it does not assume why you took a break. Rest is part of training.\n\nGot it",
+  "sha256": "693dbe85e8c127195841d5cf4cd2d2ea649d23274ad9d522f0042e1df867bcba",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

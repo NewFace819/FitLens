@@ -1,0 +1,27 @@
+{
+  "id": "002",
+  "title": "Home lần đầu",
+  "file": "02-home/002__home-first-visit.png",
+  "tags": [
+    "home",
+    "first-visit",
+    "empty",
+    "mascot",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "home.html",
+  "capturedAt": "2026-10-28T14:02:11.730Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS\n✦\n✧\nGood evening\nA little movement.\nA brighter day.\nTODAY, AT YOUR PACE\nYour plan\nChoose your next workout\n\nStart a workout now or add one to your plan.\n\nChoose a workout\nTHIS WEEK\nYour rhythm\nSet your weekly goal\n\nChoose how many sessions fit your week. You can decide the days later.\n\nSet a weekly goal\nToday’s activity\nSteps\n\nBelow your usual\n\n3.150\nWorkout Time\n0min\nSets completed\n0sets\nFood for today\nThree meals to make at home\nExplore meals\nDaily reading\nMovement for the Mind\nEvening Wind-Down Ritual\nEating for Energy, Not Guilt\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "c9e4d8d4674b2d31a51c8ed355b7a5548ab93841a20e6171a077b3167ca26651",
+  "group": "02-home",
+  "groupTitle": "Home",
+  "tagsEmbeddedInPNG": true
+}

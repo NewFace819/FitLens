@@ -1,0 +1,26 @@
+{
+  "id": "069",
+  "title": "Home sau hoàn thành profile setup",
+  "file": "02-home/069__after-profile-setup.png",
+  "tags": [
+    "home",
+    "onboarding-complete",
+    "personalized",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "home.html?from=setup",
+  "capturedAt": "2026-10-28T14:05:28.027Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS\nM\n✦\n✧\nGood evening, Minh\nA little movement.\nA brighter day.\nTODAY, AT YOUR PACE\nYour plan\nChoose your next workout\n\nStart a workout now or add one to your plan.\n\nChoose a workout\nTHIS WEEK\nYour rhythm\nSet your weekly goal\n\nChoose how many sessions fit your week. You can decide the days later.\n\nSet a weekly goal\nToday’s activity\nSteps\n\nBelow your usual\n\n3.150\nWorkout Time\n0min\nSets completed\n0sets\nFood for today\nThree meals to make at home\nExplore meals\nDaily reading\nMovement for the Mind\nEvening Wind-Down Ritual\nEating for Energy, Not Guilt\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "317c0e382f6027f833cb86e2dede773de6c0fc3dc7a39bb0a3a44f4bd4008dec",
+  "group": "02-home",
+  "groupTitle": "Home",
+  "tagsEmbeddedInPNG": true
+}

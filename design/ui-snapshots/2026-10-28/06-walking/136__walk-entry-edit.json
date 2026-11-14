@@ -1,0 +1,28 @@
+{
+  "id": "136",
+  "title": "Bản ghi đi bộ thủ công",
+  "file": "06-walking/136__walk-entry-edit.png",
+  "tags": [
+    "walking",
+    "manual-log",
+    "walk",
+    "saved",
+    "edit",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "workouts.html",
+  "capturedAt": "2026-10-28T14:07:58.630Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Đã ghi 25 phút đi bộ bằng UI; không có GPS/cảm biến.",
+  "text": "9:41\nFITLENS / WORKOUTS\nNew\nChoose your\nworkout.\n\nStart now, or add a workout to your week.\n\nYour workouts\n1 saved\nMy Upper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nYOUR FOCUS\nChange\n★\nBench Press\nOct 28\n20 kg × 10\n\nLast 1 session · heaviest completed set shown.\n\nA place to start\n4 workouts\nUpper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nLower Body\n5 exercises · 40 min\nStart now\nSchedule for later\nFull Body\n5 exercises · 45 min\nStart now\nSchedule for later\nBodyweight Foundations\n3 exercises · 20 min\nStart now\nSchedule for later\nCreate your own workout\nView your weekly plan\nMore about training\nConsistency Beats Intensity\nThe Power of Variety\nProgressing Safely\nTrusting Your Perceived Exertion\nYour recent sessions\n2\nDid something else?\n\nAdd a little context for your next workout.\n\nOther activity\n1\nWalk\nOct 28 · 25 min · easy\nToday\nWorkouts\nPlan\nInsights\nTRAINING CONTEXT\nOutside your workout.\nWalk\nRun\nRide\nSwim\nOther\nDay\nDuration · min\n\nHow did it feel? optional\n\nEasy\nSteady\nHard\nA note\noptional\n\nExtra context for your PT. It won’t count as a planned workout.\n\nSave changes\nRemove entry",
+  "sha256": "f126f51c4b1227edcc1e0cf8396df35db28cb5606ba8d4dc5594f02fd53e3481",
+  "group": "06-walking",
+  "groupTitle": "Đi bộ / Steps / Activity log",
+  "tagsEmbeddedInPNG": true
+}

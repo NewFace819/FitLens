@@ -1,0 +1,26 @@
+{
+  "id": "216",
+  "title": "Chọn ngày để xem Training focus",
+  "file": "08-insights/216__focus-date-picker.png",
+  "tags": [
+    "insights",
+    "training-focus",
+    "date-picker",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "training-focus.html?demo=1&period=year&date=2026-10-28",
+  "capturedAt": "2026-10-28T14:10:33.103Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nInsights\nTraining focus\nWeek\nMonth\nYear\n2026\nSample data\nUse my data\n\nCompleted sets\n\n1.752\n\n128 sessions\n\nFront\nBack\nLess\nMore\nMuscle groups\nGlutes\n\n442 direct · 0 supporting sets\n\nGoblet Squat\nMain · 223 sets\nRomanian Deadlift\nMain · 112 sets\nGlute Bridge\nMain · 107 sets\nHow this map works\nChoose a date\n×\nShow the period containing\nDone",
+  "sha256": "3251bf20216916ed72b789752ae0e26236635e175fdeaae28eabd05d455922e0",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

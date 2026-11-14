@@ -1,0 +1,27 @@
+{
+  "id": "098",
+  "title": "Nhiều buổi đã được đặt cùng giờ",
+  "file": "04-planning/098__batch-time-saved.png",
+  "tags": [
+    "planning",
+    "batch",
+    "time-editor",
+    "saved",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:31.478Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Sau thao tác đặt giờ nhiều buổi.",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n3 planned · 3/3 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n18:45\nPreview\nThu\n29\nBodyweight foundations\n30 min\n18:45\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nMove at your pace\n30 min\n18:45\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nTime saved. Your workout stays in your week.",
+  "sha256": "2a78dd7c5440ae1068e23f34eb3fe22bab4fd0f4fa4721bbd7449b0b268c4926",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

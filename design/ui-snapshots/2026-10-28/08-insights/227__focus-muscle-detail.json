@@ -1,0 +1,28 @@
+{
+  "id": "227",
+  "title": "Chi tiết sets theo nhóm cơ",
+  "file": "08-insights/227__focus-muscle-detail.png",
+  "tags": [
+    "insights",
+    "training-focus",
+    "muscle-detail",
+    "sets",
+    "keyboard",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "training-focus.html?demo=1&period=week&date=2026-10-28",
+  "capturedAt": "2026-10-28T14:11:52.310Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Chọn cơ bằng bàn phím; bản đồ mẫu.",
+  "text": "9:41\nInsights\nTraining focus\nWeek\nMonth\nYear\n26 Oct – 1 Nov 2026\nSample data\nUse my data\n\nCompleted sets\n\n28\n\n2 sessions\n\nFront\nBack\nLess\nMore\nMuscle groups\nChest\n\n3 direct · 0 supporting sets\n\nBench Press\nMain · 3 sets\nHow this map works",
+  "sha256": "ca71ad1baae69ef511a1b0dcf901211ce1cad5e19115b2bfa2fc563caa31a64f",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

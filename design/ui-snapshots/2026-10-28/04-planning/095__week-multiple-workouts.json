@@ -1,0 +1,27 @@
+{
+  "id": "095",
+  "title": "Lịch tuần có nhiều buổi tập",
+  "file": "04-planning/095__week-multiple-workouts.png",
+  "tags": [
+    "planning",
+    "calendar",
+    "filled",
+    "applied",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:29.686Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Đã áp dụng draft bằng UI.",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n3 planned · 1/3 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n07:00\nPreview\nThu\n29\nBodyweight foundations\n30 min\nSet time\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nMove at your pace\n30 min\nSet time\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nYour week is ready. Start whenever it suits you.",
+  "sha256": "c84bc578d5c65f62e8da8c360d3ae8aeef40469c73867401889d41cee8236720",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

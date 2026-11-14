@@ -1,0 +1,27 @@
+{
+  "id": "261",
+  "title": "Feedback từng động tác",
+  "file": "03-workouts/261__exercise-feedback.png",
+  "tags": [
+    "workouts",
+    "review",
+    "exercise-feedback",
+    "selected",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-review.html?routine=upper&completed=session-mvs738kk-nww5ym5",
+  "capturedAt": "2026-10-28T14:13:53.629Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nSkip\nA little stronger.\n\nHow did this session feel?\n\nTODAY’S LITTLE BIG THINGS\n\nUpper Body.\n✓ Complete\n\nTOTAL VOLUME\n\n3.600\nkg\n\nA whole\nbear squad.\n\nAbout 20 bears’ worth.\nOne rep at a time.\n\nAdded up across every set\n\nTIME FOR YOU\n\n<1 min\n\n≈ 0 quick matches.\nReal-life level up.\n\nSHOWING UP\n\n18 sets\n\n6 exercises.\nA lot of little wins.\n\nHow we counted\n＋\nTraining focus\n\n18 completed sets\n\nFront\nBack\nLess\nMore\nMuscle groups\nShoulders\n\n6 direct · 6 supporting sets\n\nBench Press\nSupporting · 3 sets\nSeated Row\nSupporting · 3 sets\nShoulder Press\nMain · 3 sets\nLateral Raise\nMain · 3 sets\nHow this map works\nHow did it feel?\ni\n\nThink about the whole session.\n\nModerate\n5 / 10\n\nA steady effort. You worked, with room to keep going.\n\nWithin usual range\n↔ As usual\nVery light\nAll-out\nYour usual range\n4–6 · demo baseline\nHow does your body feel?\nAnything feeling\nuncomfortable?\nAdd an area\nAnything you’d change?\nReflect on individual exercises\n＋\nBench Press\nNo changes\nHard to keep good form\nToo demanding\nCould use more challenge\nWould like an alternative\nLat Pulldown\nNo changes\nHard to keep good form\nToo demanding\nCould use more challenge\nWould like an alternative\nSeated Row\nNo changes\nHard to keep good form\nToo demanding\nCould use more challenge\nWould like an alternative\nShoulder Press\nNo changes\nHard to keep good form\nToo demanding\nCould use more challenge\nWould like an alternative\nLateral Raise\nNo changes\nHard to keep good form\nToo demanding\nCould use more challenge\nWould like an alternative\nTriceps Pushdown\nNo changes\nHard to keep good form\nToo demanding\nCould use more challenge\nWould like an alternative\nAnything worth remembering?\nA thought for your next session\n＋\n\nModerate effort · Your moment to reflect\n\nFinish check-in\n✓",
+  "sha256": "1fb0097682c53326ed01f38f18993297c7eed26f29c741b7c20b82246a0069f1",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "050",
+  "title": "Giải thích usual steps",
+  "file": "06-walking/050__usual-steps-explained.png",
+  "tags": [
+    "walking",
+    "steps",
+    "baseline",
+    "explanation",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "steps.html",
+  "capturedAt": "2026-10-28T14:05:16.621Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Số liệu minh họa, không đọc cảm biến.",
+  "text": "9:41\n▂▄▆ ▰\nSteps\nChoose a day\nToday · Fri, Oct 23\nThu, Oct 22\nWed, Oct 21\nTue, Oct 20\nMon, Oct 19\nSun, Oct 18\nSat, Oct 17\nFri, Oct 16\nThu, Oct 15\nWed, Oct 14\nTue, Oct 13\nMon, Oct 12\nSun, Oct 11\nSat, Oct 10\n3.150\n\nBelow typical Friday\n\nTotal distance\n2,4km\nWalking time\n1h10min\nFlights climbed\n3floors\nWalking heart rate\n—bpm\nProgress\n\nvs. your usual Friday · 4.500 steps by 19:00\n\n3k\n1k\n6k\n2k\n00:00\n06:00\n12:00\n24:00\nNow\nsteps\n\nUse left and right arrows to compare each hour. Home selects midnight; End returns to the latest time. Escape closes the reading.\n\nShort-term overview\nOverview period\n7 days\n14 days\nSteps\nDistance\nFlights\nTotal\n73.080steps\nDaily average\n5.220steps\n2,5k\n7,5k\n10k\n5,2k\nSa\n10\nSu\n11\nMo\n12\nTu\n13\nWe\n14\nTh\n15\nFr\n16\nSa\n17\nSu\n18\nMo\n19\nTu\n20\nWe\n21\nTh\n22\nFr\n23\nsteps\n\nAverage includes today so far.\n\nDaily breakdown\nMore about walking\nThe Truth About 10,000 Steps\nFinding Your Natural Cadence\nWhat Is Active Recovery?\nMovement for the Mind\n\nDesign preview · Sample activity through Oct 23 at 19:00.\n\nToday\nWorkouts\nPlan\nInsights\n×\nYour usual step count\n\nCompare your steps with recent days on the same weekday, at the same time. A quieter day is simply a quieter day.\n\nThe pale line after “Now” shows your usual pattern for the rest of the day. It isn’t a forecast or a target.\n\nThe sun shows how today compares at that same time. Its colour stays warm, even on quieter days.\n\nThis prototype uses illustrated hourly patterns and sample totals, not live health data. Today is captured at 19:00; earlier dates show complete days. A real account would need enough history before showing a usual pattern.",
+  "sha256": "625a60430d3e316f5c682ed0e0fb3bf34a5ca598ce2b1e9750e5052296024fea",
+  "group": "06-walking",
+  "groupTitle": "Đi bộ / Steps / Activity log",
+  "tagsEmbeddedInPNG": true
+}

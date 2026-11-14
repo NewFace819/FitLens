@@ -1,0 +1,27 @@
+{
+  "id": "062",
+  "title": "Profile — chỉnh body",
+  "file": "09-profile/062__edit-body.png",
+  "tags": [
+    "profile",
+    "edit",
+    "body",
+    "form",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:23.628Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trong profile preview, dữ liệu lưu trong bộ nhớ tạm.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nA little extra care\n×\n\nKeep track of areas you want to be mindful of when choosing a workout.\n\nWhat would you like to add?\nI’ll add this later\nNo areas to look after\nChoose areas\n\nThis is a note for planning, not a diagnosis. Your current week won’t be rebuilt; review a session before training.\n\nSave changes\nCancel",
+  "sha256": "2b922a3c53a65b81887c30c20ccc7beab2ebf591ef919683d0b34e5841fa7380",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

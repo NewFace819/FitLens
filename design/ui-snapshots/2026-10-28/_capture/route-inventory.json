@@ -1,0 +1,4254 @@
+[
+  {
+    "route": "welcome.html",
+    "actual": "file:///D:/UI_Design/welcome.html",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "id": "get-started",
+        "role": null,
+        "text": "Get Started",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "home.html",
+    "actual": "file:///D:/UI_Design/home.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "home-profile-link",
+        "role": null,
+        "text": "",
+        "aria": "Open your profile",
+        "href": "profile.html?from=home",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "home-face",
+        "role": null,
+        "text": "✦\n✧",
+        "aria": "Say hello to FitLens",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Your plan",
+        "aria": null,
+        "href": "plan.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Choose a workout",
+        "aria": null,
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Your rhythm",
+        "aria": null,
+        "href": "streak.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Set a weekly goal",
+        "aria": null,
+        "href": "streak.html?setup=1",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Steps\n\nBelow your usual\n\n3.150",
+        "aria": "3.150 steps, below your typical Friday. View details",
+        "href": "steps.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Three meals to make at home\nExplore meals",
+        "aria": "Explore meals: Three meals to make at home",
+        "href": "food.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Movement for the Mind",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Evening Wind-Down Ritual",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Eating for Energy, Not Guilt",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Today",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Workouts",
+        "aria": null,
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Plan",
+        "aria": null,
+        "href": "plan.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Insights",
+        "aria": null,
+        "href": "insights.html",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "workouts.html",
+    "actual": "file:///D:/UI_Design/workouts.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "New",
+        "aria": null,
+        "href": "workout-details.html?new=1",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Upper Body\n6 exercises · 45 min",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "open-workout",
+          "id": "upper"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Start now",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "start-template",
+          "id": "upper"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Schedule for later",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "schedule",
+          "id": "upper"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Lower Body\n5 exercises · 40 min",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "open-workout",
+          "id": "lower"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Start now",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "start-template",
+          "id": "lower"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Schedule for later",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "schedule",
+          "id": "lower"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Full Body\n5 exercises · 45 min",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "open-workout",
+          "id": "full"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Start now",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "start-template",
+          "id": "full"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Schedule for later",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "schedule",
+          "id": "full"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Bodyweight Foundations\n3 exercises · 20 min",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "open-workout",
+          "id": "bodyweight"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Start now",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "start-template",
+          "id": "bodyweight"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Schedule for later",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "schedule",
+          "id": "bodyweight"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "☆\nOne move to make yours.\n＋",
+        "aria": null,
+        "href": null,
+        "data": {
+          "coachPick": ""
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Create your own workout",
+        "aria": null,
+        "href": "workout-details.html?new=1",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "View your weekly plan",
+        "aria": null,
+        "href": "plan.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Consistency Beats Intensity",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "The Power of Variety",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Progressing Safely",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Trusting Your Perceived Exertion",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "add-training-context",
+        "role": null,
+        "text": "",
+        "aria": "Add other activity",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Today",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Workouts",
+        "aria": null,
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Plan",
+        "aria": null,
+        "href": "plan.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Insights",
+        "aria": null,
+        "href": "insights.html",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "workout-details.html?workout=upper",
+    "actual": "file:///D:/UI_Design/workout-details.html?workout=upper",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "back-link",
+        "role": null,
+        "text": "",
+        "aria": "Back to Workouts",
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "routine-menu",
+        "role": null,
+        "text": "",
+        "aria": "Workout options",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "◷ Time",
+        "aria": null,
+        "href": null,
+        "data": {
+          "adjust": "time"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "◇ Equipment",
+        "aria": null,
+        "href": null,
+        "data": {
+          "adjust": "equipment"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "♡ Effort",
+        "aria": null,
+        "href": null,
+        "data": {
+          "adjust": "energy"
+        }
+      },
+      {
+        "tag": "SUMMARY",
+        "id": "",
+        "role": null,
+        "text": "Workout details\nname & duration",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "INPUT",
+        "id": "workout-name",
+        "role": null,
+        "text": "",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "INPUT",
+        "id": "workout-minutes",
+        "role": null,
+        "text": "",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "edit-workout",
+        "role": null,
+        "text": "Edit",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Bench Press\n3 sets × 8–12 reps",
+        "aria": "Edit Bench Press, 3 sets, 8–12 reps",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Lat Pulldown\n3 sets × 10–12 reps",
+        "aria": "Edit Lat Pulldown, 3 sets, 10–12 reps",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Seated Row\n3 sets × 10–12 reps",
+        "aria": "Edit Seated Row, 3 sets, 10–12 reps",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Shoulder Press\n3 sets × 8–12 reps",
+        "aria": "Edit Shoulder Press, 3 sets, 8–12 reps",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Lateral Raise\n3 sets × 12–15 reps",
+        "aria": "Edit Lateral Raise, 3 sets, 12–15 reps",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Triceps Pushdown\n3 sets × 10–15 reps",
+        "aria": "Edit Triceps Pushdown, 3 sets, 10–15 reps",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "add-exercise",
+        "role": null,
+        "text": "＋\nAdd Exercise",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Chest, 3 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "chest"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Obliques, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "obliques"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Abs, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "abs"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Biceps, 0 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "biceps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Triceps, 3 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "triceps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Traps, 0 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "traps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Shoulders, 6 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "shoulders"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Inner thighs, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "adductors"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Quads, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "quads"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Shins, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "tibialis"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Calves, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "calves"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Forearms, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "forearms"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Traps, 0 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "traps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Shoulders, 6 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "shoulders"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Upper back, 3 direct sets, 3 supporting sets",
+        "href": null,
+        "data": {
+          "group": "upperBack"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Lats, 6 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "lats"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Triceps, 3 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "triceps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Lower back, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "lowerBack"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Forearms, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "forearms"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Glutes, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "glutes"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Inner thighs, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "adductors"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Hamstrings, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "hamstrings"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Calves, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "calves"
+        }
+      },
+      {
+        "tag": "SUMMARY",
+        "id": "",
+        "role": null,
+        "text": "Muscle groups",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SELECT",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Choose a muscle group",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SUMMARY",
+        "id": "",
+        "role": null,
+        "text": "How this map works",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Ask about this workout\nBring this session into the conversation",
+        "aria": null,
+        "href": "chat.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Progressing Safely",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Trusting Your Perceived Exertion",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Consistency Beats Intensity",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "start-workout",
+        "role": null,
+        "text": "Start Workout",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Schedule for later",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "workout-details.html?new=1",
+    "actual": "file:///D:/UI_Design/workout-details.html?new=1",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "back-link",
+        "role": null,
+        "text": "",
+        "aria": "Back to Workouts",
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "routine-menu",
+        "role": null,
+        "text": "",
+        "aria": "Workout options",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "◷ Time",
+        "aria": null,
+        "href": null,
+        "data": {
+          "adjust": "time"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "◇ Equipment",
+        "aria": null,
+        "href": null,
+        "data": {
+          "adjust": "equipment"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "♡ Effort",
+        "aria": null,
+        "href": null,
+        "data": {
+          "adjust": "energy"
+        }
+      },
+      {
+        "tag": "SUMMARY",
+        "id": "",
+        "role": null,
+        "text": "Workout details\nname & duration",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "INPUT",
+        "id": "workout-name",
+        "role": null,
+        "text": "",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "INPUT",
+        "id": "workout-minutes",
+        "role": null,
+        "text": "",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "save-workout",
+        "role": null,
+        "text": "Save workout",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "edit-workout",
+        "role": null,
+        "text": "Edit",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "add-exercise",
+        "role": null,
+        "text": "＋\nAdd Exercise",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Ask about this workout\nBring this session into the conversation",
+        "aria": null,
+        "href": "chat.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Progressing Safely",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Trusting Your Perceived Exertion",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Consistency Beats Intensity",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "start-workout",
+        "role": null,
+        "text": "Start Workout",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Schedule for later",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "plan.html",
+    "actual": "file:///D:/UI_Design/plan.html",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Week options",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "week-options"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Previous week",
+        "href": null,
+        "data": {
+          "action": "prev-week"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Next week",
+        "href": null,
+        "data": {
+          "action": "next-week"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "M\n26",
+        "aria": "Monday, Oct 26",
+        "href": null,
+        "data": {
+          "action": "jump-day",
+          "drop": "2026-10-26"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "T\n27",
+        "aria": "Tuesday, Oct 27",
+        "href": null,
+        "data": {
+          "action": "jump-day",
+          "drop": "2026-10-27"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "W\n28",
+        "aria": "Wednesday, Oct 28",
+        "href": null,
+        "data": {
+          "action": "jump-day",
+          "drop": "2026-10-28"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "T\n29",
+        "aria": "Thursday, Oct 29",
+        "href": null,
+        "data": {
+          "action": "jump-day",
+          "drop": "2026-10-29"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "F\n30",
+        "aria": "Friday, Oct 30",
+        "href": null,
+        "data": {
+          "action": "jump-day",
+          "drop": "2026-10-30"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "S\n31",
+        "aria": "Saturday, Oct 31",
+        "href": null,
+        "data": {
+          "action": "jump-day",
+          "drop": "2026-10-31"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "S\n1",
+        "aria": "Sunday, Nov 1",
+        "href": null,
+        "data": {
+          "action": "jump-day",
+          "drop": "2026-11-01"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "I’ll arrange it.\nChoose saved workouts.\nPut them where they fit.",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "manual"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Suggest my week.\nWorkouts and exercises,\nbuilt around your choices.",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "suggest"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Use last week’s schedule",
+        "aria": null,
+        "href": null,
+        "data": {
+          "action": "copy-previous"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Consistency Beats Intensity",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "The Art of the Rest Day",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "You Grow When You Rest",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Restarting After a Break",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Today",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Workouts",
+        "aria": null,
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Plan",
+        "aria": null,
+        "href": "plan.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Insights",
+        "aria": null,
+        "href": "insights.html",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "streak.html",
+    "actual": "file:///D:/UI_Design/streak.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "rh-back",
+        "role": null,
+        "text": "",
+        "aria": "Back to Today",
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "rh-menu",
+        "role": null,
+        "text": "•••",
+        "aria": "Rhythm settings",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "set-goal",
+        "role": null,
+        "text": "Set a weekly goal",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Explore this week’s training focus",
+        "aria": null,
+        "href": "training-focus.html?period=week",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "rh-rules-button",
+        "role": null,
+        "text": "How your rhythm works",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Consistency Beats Intensity",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "The Art of the Rest Day",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Restarting After a Break",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Spotting Early Fatigue",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "steps.html",
+    "actual": "file:///D:/UI_Design/steps.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Back to Today",
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "SELECT",
+        "id": "steps-day",
+        "role": null,
+        "text": "Today · Fri, Oct 23\nThu, Oct 22\nWed, Oct 21\nTue, Oct 20\nMon, Oct 19\nSun, Oct 18\nSat, Oct 17\nFri, Oct",
+        "aria": "Choose a day",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "steps-info",
+        "role": null,
+        "text": "",
+        "aria": "About your usual steps",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SELECT",
+        "id": "overview-range",
+        "role": null,
+        "text": "7 days\n14 days",
+        "aria": "Overview period",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Steps",
+        "aria": null,
+        "href": null,
+        "data": {
+          "metric": "steps"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Distance",
+        "aria": null,
+        "href": null,
+        "data": {
+          "metric": "distance"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Flights",
+        "aria": null,
+        "href": null,
+        "data": {
+          "metric": "floors"
+        }
+      },
+      {
+        "tag": "SUMMARY",
+        "id": "",
+        "role": null,
+        "text": "Daily breakdown",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "The Truth About 10,000 Steps",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Finding Your Natural Cadence",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "What Is Active Recovery?",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Movement for the Mind",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Today",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Workouts",
+        "aria": null,
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Plan",
+        "aria": null,
+        "href": "plan.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Insights",
+        "aria": null,
+        "href": "insights.html",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "food.html",
+    "actual": "file:///D:/UI_Design/food.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Back to Home",
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "FITLENS\nTHE EVERYDAY TABLE",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "open-food-diary",
+        "role": null,
+        "text": "Log meal\n+",
+        "aria": "Log a meal today",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SELECT",
+        "id": "meal-occasion",
+        "role": null,
+        "text": "Breakfast\nLunch\nDinner\nSnack",
+        "aria": "Meal to suggest",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "why-food",
+        "role": null,
+        "text": "Why these?",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "01",
+        "aria": "See the recipe for Cơm nấm kho tiêu",
+        "href": "/D:/UI_Design/food.html?meal=m-13",
+        "data": {
+          "discoverMeal": "m-13"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Nấm kho tiêu",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-13",
+        "data": {
+          "discoverMeal": "m-13"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "See the recipe",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-13",
+        "data": {
+          "discoverMeal": "m-13"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "02",
+        "aria": "See the recipe for Canh chua cá lóc & cơm",
+        "href": "/D:/UI_Design/food.html?meal=m-15",
+        "data": {
+          "discoverMeal": "m-15"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Canh chua cá lóc",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-15",
+        "data": {
+          "discoverMeal": "m-15"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "See the recipe",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-15",
+        "data": {
+          "discoverMeal": "m-15"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "03",
+        "aria": "See the recipe for Cơm gà luộc gừng",
+        "href": "/D:/UI_Design/food.html?meal=m-16",
+        "data": {
+          "discoverMeal": "m-16"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cơm gà luộc gừng",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-16",
+        "data": {
+          "discoverMeal": "m-16"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "See the recipe",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-16",
+        "data": {
+          "discoverMeal": "m-16"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "04",
+        "aria": "See the recipe for Cơm chả trứng hấp",
+        "href": "/D:/UI_Design/food.html?meal=m-10",
+        "data": {
+          "discoverMeal": "m-10"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Chả trứng hấp",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-10",
+        "data": {
+          "discoverMeal": "m-10"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "See the recipe",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-10",
+        "data": {
+          "discoverMeal": "m-10"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "05",
+        "aria": "See the recipe for Cơm cá nục sốt cà",
+        "href": "/D:/UI_Design/food.html?meal=m-09",
+        "data": {
+          "discoverMeal": "m-09"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cá nục sốt cà",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-09",
+        "data": {
+          "discoverMeal": "m-09"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "See the recipe",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-09",
+        "data": {
+          "discoverMeal": "m-09"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "edit-food-choices",
+        "role": null,
+        "text": "Food preferences",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "food-chat-invitation",
+        "role": null,
+        "text": "Nothing quite right?\nTell FitLens what you have at home.",
+        "aria": null,
+        "href": "chat.html?source=food",
+        "data": {}
+      },
+      {
+        "tag": "INPUT",
+        "id": "food-search",
+        "role": null,
+        "text": "",
+        "aria": "Search dishes or ingredients",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "food-filter-button",
+        "role": null,
+        "text": "Filters",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Bánh mì trứng",
+        "href": "/D:/UI_Design/food.html?meal=b-01",
+        "data": {
+          "discoverMeal": "b-01"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Bánh mì trứng",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-01",
+        "data": {
+          "discoverMeal": "b-01"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Yến mạch chuối sữa",
+        "href": "/D:/UI_Design/food.html?meal=b-02",
+        "data": {
+          "discoverMeal": "b-02"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Yến mạch chuối sữa",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-02",
+        "data": {
+          "discoverMeal": "b-02"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cháo gà nấm",
+        "href": "/D:/UI_Design/food.html?meal=b-03",
+        "data": {
+          "discoverMeal": "b-03"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cháo gà nấm",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-03",
+        "data": {
+          "discoverMeal": "b-03"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Bánh mì gà xé",
+        "href": "/D:/UI_Design/food.html?meal=b-04",
+        "data": {
+          "discoverMeal": "b-04"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Bánh mì gà xé",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-04",
+        "data": {
+          "discoverMeal": "b-04"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Phở bò tái nạm",
+        "href": "/D:/UI_Design/food.html?meal=b-05",
+        "data": {
+          "discoverMeal": "b-05"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Phở bò tái nạm",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-05",
+        "data": {
+          "discoverMeal": "b-05"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Hủ tiếu mì khô",
+        "href": "/D:/UI_Design/food.html?meal=b-06",
+        "data": {
+          "discoverMeal": "b-06"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Hủ tiếu mì khô",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-06",
+        "data": {
+          "discoverMeal": "b-06"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Khoai hấp & trứng luộc",
+        "href": "/D:/UI_Design/food.html?meal=b-07",
+        "data": {
+          "discoverMeal": "b-07"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Khoai hấp trứng luộc",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-07",
+        "data": {
+          "discoverMeal": "b-07"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Bún gạo xào chay",
+        "href": "/D:/UI_Design/food.html?meal=b-08",
+        "data": {
+          "discoverMeal": "b-08"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Bún gạo xào chay",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=b-08",
+        "data": {
+          "discoverMeal": "b-08"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm cá nục sốt cà",
+        "href": "/D:/UI_Design/food.html?meal=m-09",
+        "data": {
+          "discoverMeal": "m-09"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cá nục sốt cà",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-09",
+        "data": {
+          "discoverMeal": "m-09"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm chả trứng hấp",
+        "href": "/D:/UI_Design/food.html?meal=m-10",
+        "data": {
+          "discoverMeal": "m-10"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Chả trứng hấp",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-10",
+        "data": {
+          "discoverMeal": "m-10"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm đậu hũ sốt cà",
+        "href": "/D:/UI_Design/food.html?meal=m-11",
+        "data": {
+          "discoverMeal": "m-11"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Đậu hũ sốt cà",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-11",
+        "data": {
+          "discoverMeal": "m-11"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm thịt băm xào sả",
+        "href": "/D:/UI_Design/food.html?meal=m-12",
+        "data": {
+          "discoverMeal": "m-12"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Thịt băm xào sả",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-12",
+        "data": {
+          "discoverMeal": "m-12"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm nấm kho tiêu",
+        "href": "/D:/UI_Design/food.html?meal=m-13",
+        "data": {
+          "discoverMeal": "m-13"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Nấm kho tiêu",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-13",
+        "data": {
+          "discoverMeal": "m-13"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Bún đậu hũ sả ớt",
+        "href": "/D:/UI_Design/food.html?meal=m-14",
+        "data": {
+          "discoverMeal": "m-14"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Bún đậu hũ sả ớt",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-14",
+        "data": {
+          "discoverMeal": "m-14"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Canh chua cá lóc & cơm",
+        "href": "/D:/UI_Design/food.html?meal=m-15",
+        "data": {
+          "discoverMeal": "m-15"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Canh chua cá lóc",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-15",
+        "data": {
+          "discoverMeal": "m-15"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm gà luộc gừng",
+        "href": "/D:/UI_Design/food.html?meal=m-16",
+        "data": {
+          "discoverMeal": "m-16"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cơm gà luộc gừng",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-16",
+        "data": {
+          "discoverMeal": "m-16"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm sườn rim mặn ngọt",
+        "href": "/D:/UI_Design/food.html?meal=m-17",
+        "data": {
+          "discoverMeal": "m-17"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Sườn rim mặn ngọt",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-17",
+        "data": {
+          "discoverMeal": "m-17"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm trộn Bibimbap bò",
+        "href": "/D:/UI_Design/food.html?meal=m-18",
+        "data": {
+          "discoverMeal": "m-18"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Bibimbap bò",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-18",
+        "data": {
+          "discoverMeal": "m-18"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Pasta tôm tỏi ớt",
+        "href": "/D:/UI_Design/food.html?meal=m-19",
+        "data": {
+          "discoverMeal": "m-19"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Pasta tôm tỏi ớt",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-19",
+        "data": {
+          "discoverMeal": "m-19"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cá hồi áp chảo bơ chanh",
+        "href": "/D:/UI_Design/food.html?meal=m-20",
+        "data": {
+          "discoverMeal": "m-20"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cá hồi áp chảo",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-20",
+        "data": {
+          "discoverMeal": "m-20"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Mì Udon bò nấm",
+        "href": "/D:/UI_Design/food.html?meal=m-21",
+        "data": {
+          "discoverMeal": "m-21"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Mì Udon bò nấm",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-21",
+        "data": {
+          "discoverMeal": "m-21"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Bún chả Hà Nội",
+        "href": "/D:/UI_Design/food.html?meal=m-22",
+        "data": {
+          "discoverMeal": "m-22"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Bún chả Hà Nội",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-22",
+        "data": {
+          "discoverMeal": "m-22"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm tấm sườn chả",
+        "href": "/D:/UI_Design/food.html?meal=m-23",
+        "data": {
+          "discoverMeal": "m-23"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cơm tấm sườn chả",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-23",
+        "data": {
+          "discoverMeal": "m-23"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Mì Quảng gà",
+        "href": "/D:/UI_Design/food.html?meal=m-24",
+        "data": {
+          "discoverMeal": "m-24"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Mì Quảng gà",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-24",
+        "data": {
+          "discoverMeal": "m-24"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm văn phòng: Thịt kho trứng",
+        "href": "/D:/UI_Design/food.html?meal=m-25",
+        "data": {
+          "discoverMeal": "m-25"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Thịt kho trứng",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-25",
+        "data": {
+          "discoverMeal": "m-25"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Cơm bò xào ớt chuông",
+        "href": "/D:/UI_Design/food.html?meal=m-26",
+        "data": {
+          "discoverMeal": "m-26"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Cơm bò xào ớt chuông",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=m-26",
+        "data": {
+          "discoverMeal": "m-26"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Gỏi cuốn tôm thịt",
+        "href": "/D:/UI_Design/food.html?meal=s-27",
+        "data": {
+          "discoverMeal": "s-27"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Gỏi cuốn tôm thịt",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=s-27",
+        "data": {
+          "discoverMeal": "s-27"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Sữa chua trái cây hạt điều",
+        "href": "/D:/UI_Design/food.html?meal=s-28",
+        "data": {
+          "discoverMeal": "s-28"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Sữa chua trái cây",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=s-28",
+        "data": {
+          "discoverMeal": "s-28"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Khoai hấp hoặc bắp luộc",
+        "href": "/D:/UI_Design/food.html?meal=s-29",
+        "data": {
+          "discoverMeal": "s-29"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Khoai bắp luộc",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=s-29",
+        "data": {
+          "discoverMeal": "s-29"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "See the recipe for Trứng luộc dưa leo",
+        "href": "/D:/UI_Design/food.html?meal=s-30",
+        "data": {
+          "discoverMeal": "s-30"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Trứng luộc dưa leo",
+        "aria": null,
+        "href": "/D:/UI_Design/food.html?meal=s-30",
+        "data": {
+          "discoverMeal": "s-30"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "view-food-log",
+        "role": null,
+        "text": "Log a meal",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Eating for Energy, Not Guilt",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Carbs Are Clean Fuel",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Protein for Daily Repair",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Why Good Fats Matter",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Back to your day",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "insights.html",
+    "actual": "file:///D:/UI_Design/insights.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Open your profile",
+        "href": "profile.html?from=insights",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Training focus\nYour sets, by muscle group.\nWeek · Month · Year",
+        "aria": null,
+        "href": "training-focus.html?demo=1",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "THE YEAR RECAP\nFITLENS\n20\n25.\nLook how far\nyou’ve come.\n\nA year of showing up.",
+        "aria": "Open your 2025 year recap",
+        "href": "yearly-recap.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "MONTHLY RECAP\nSeptember\nFind your stride.\nAll those little wins, together.",
+        "aria": "Open September recap",
+        "href": "monthly-recap.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Previous month card",
+        "href": null,
+        "data": {
+          "monthShift": "-1"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Next month card",
+        "href": null,
+        "data": {
+          "monthShift": "1"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "See all",
+        "aria": "See all Healthy Eating articles",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Why Good Fats Matter",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Carbs Are Clean Fuel",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Protein for Daily Repair",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Eating for Energy, Not Guilt",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Eat the Colorful Rainbow",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "See all",
+        "aria": "See all Sleep Hygiene articles",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "The 7-Hour Foundation",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Deep vs. REM Sleep",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Evening Wind-Down Ritual",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Understanding Sleep Debt",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "The 20-Minute Power Nap",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "See all",
+        "aria": "See all Rest and Recovery articles",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "The Art of the Rest Day",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "What Is Active Recovery?",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "You Grow When You Rest",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Spotting Early Fatigue",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Restarting After a Break",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "See all",
+        "aria": "See all Workout Essentials articles",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Consistency Beats Intensity",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "The Power of Variety",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Finding Your Natural Cadence",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "The Truth About 10k Steps",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Progressing Safely",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "See all",
+        "aria": "See all Understanding Your Body articles",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Zone 2: The Magic Zone",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Trusting Your Perceived Exertion",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "VO2 Max Made Simple",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "What Your RHR Says",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "Movement for the Mind",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Today",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Workouts",
+        "aria": null,
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Plan",
+        "aria": null,
+        "href": "plan.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Insights",
+        "aria": null,
+        "href": "insights.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "collection-close-btn",
+        "role": null,
+        "text": "",
+        "aria": "Close collection",
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "training-focus.html",
+    "actual": "file:///D:/UI_Design/training-focus.html?period=week&date=2026-10-28",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Insights",
+        "aria": null,
+        "href": "insights.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Week",
+        "aria": null,
+        "href": null,
+        "data": {
+          "period": "week"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Month",
+        "aria": null,
+        "href": null,
+        "data": {
+          "period": "month"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Year",
+        "aria": null,
+        "href": null,
+        "data": {
+          "period": "year"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "focus-prev",
+        "role": null,
+        "text": "",
+        "aria": "Previous period",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "focus-range",
+        "role": null,
+        "text": "26 Oct – 1 Nov 2026",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "focus-next",
+        "role": null,
+        "text": "",
+        "aria": "Next period",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "focus-source-toggle",
+        "role": null,
+        "text": "View sample",
+        "aria": null,
+        "href": "file:///D:/UI_Design/training-focus.html?period=week&date=2026-10-28&demo=1",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Choose a workout",
+        "aria": null,
+        "href": "workouts.html",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "training-focus.html?demo=1",
+    "actual": "file:///D:/UI_Design/training-focus.html?demo=1&period=week&date=2026-10-28",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Insights",
+        "aria": null,
+        "href": "insights.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Week",
+        "aria": null,
+        "href": null,
+        "data": {
+          "period": "week"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Month",
+        "aria": null,
+        "href": null,
+        "data": {
+          "period": "month"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Year",
+        "aria": null,
+        "href": null,
+        "data": {
+          "period": "year"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "focus-prev",
+        "role": null,
+        "text": "",
+        "aria": "Previous period",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "focus-range",
+        "role": null,
+        "text": "26 Oct – 1 Nov 2026",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "focus-next",
+        "role": null,
+        "text": "",
+        "aria": "Next period",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "focus-source-toggle",
+        "role": null,
+        "text": "Use my data",
+        "aria": null,
+        "href": "file:///D:/UI_Design/training-focus.html?period=week&date=2026-10-28",
+        "data": {}
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Chest, 3 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "chest"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Obliques, 0 direct sets, 3 supporting sets",
+        "href": null,
+        "data": {
+          "group": "obliques"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Abs, 3 direct sets, 7 supporting sets",
+        "href": null,
+        "data": {
+          "group": "abs"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Biceps, 3 direct sets, 2 supporting sets",
+        "href": null,
+        "data": {
+          "group": "biceps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Triceps, 0 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "triceps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Traps, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "traps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Shoulders, 3 direct sets, 3 supporting sets",
+        "href": null,
+        "data": {
+          "group": "shoulders"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Inner thighs, 0 direct sets, 5 supporting sets",
+        "href": null,
+        "data": {
+          "group": "adductors"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Quads, 5 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "quads"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Shins, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "tibialis"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Calves, 2 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "calves"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Forearms, 0 direct sets, 2 supporting sets",
+        "href": null,
+        "data": {
+          "group": "forearms"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Traps, 0 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "traps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Shoulders, 3 direct sets, 3 supporting sets",
+        "href": null,
+        "data": {
+          "group": "shoulders"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Upper back, 0 direct sets, 2 supporting sets",
+        "href": null,
+        "data": {
+          "group": "upperBack"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Lats, 2 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "lats"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Triceps, 0 direct sets, 6 supporting sets",
+        "href": null,
+        "data": {
+          "group": "triceps"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Lower back, 0 direct sets, 2 supporting sets",
+        "href": null,
+        "data": {
+          "group": "lowerBack"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Forearms, 0 direct sets, 2 supporting sets",
+        "href": null,
+        "data": {
+          "group": "forearms"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Glutes, 9 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "glutes"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Inner thighs, 0 direct sets, 5 supporting sets",
+        "href": null,
+        "data": {
+          "group": "adductors"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Hamstrings, 5 direct sets, 2 supporting sets",
+        "href": null,
+        "data": {
+          "group": "hamstrings"
+        }
+      },
+      {
+        "tag": "g",
+        "id": "",
+        "role": "button",
+        "text": "",
+        "aria": "Calves, 2 direct sets, 0 supporting sets",
+        "href": null,
+        "data": {
+          "group": "calves"
+        }
+      },
+      {
+        "tag": "SUMMARY",
+        "id": "",
+        "role": null,
+        "text": "Muscle groups",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SELECT",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Choose a muscle group",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SUMMARY",
+        "id": "",
+        "role": null,
+        "text": "How this map works",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "monthly-recap.html",
+    "actual": "file:///D:/UI_Design/monthly-recap.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "FITLENS",
+        "aria": "Back to Insights",
+        "href": "insights.html",
+        "data": {}
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "role": "button",
+        "text": "YOUR MONTH IN MOTION\n\nSep\ntember.\nA month of\nshowing up.\n\nEvery session became\npart of your story.",
+        "aria": "Next recap page. Use left and right arrow keys to move between pages.",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "replay-animation",
+        "role": null,
+        "text": "↻ Replay animation",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "yearly-recap.html",
+    "actual": "file:///D:/UI_Design/yearly-recap.html",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "id": "prev",
+        "role": null,
+        "text": "",
+        "aria": "Previous chapter",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "next",
+        "role": null,
+        "text": "",
+        "aria": "Next chapter",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "×",
+        "aria": "Close recap",
+        "href": "insights.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 1: Your year in motion",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 2: You made room",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 3: Time you made",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 4: Your familiar moves",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 5: A step forward",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 6: Heavier than you think",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 7: You came back",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Chapter 8: Your year, to keep",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Let’s take a look",
+        "aria": null,
+        "href": null,
+        "data": {
+          "next": ""
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "about",
+        "role": null,
+        "text": "Demo year · About these numbers",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "profile.html",
+    "actual": "file:///D:/UI_Design/profile.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Back to Today",
+        "href": "home.html?from=profile",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "edit-name",
+        "role": null,
+        "text": "Add your name",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Body illustration\nMale",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "appearance"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Gender (optional)\nNot added yet",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "identity"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Training preferences\nNot added yet",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "training"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Space & equipment\nNot added yet",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "space"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Areas you’re looking after\nNot added yet",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "body"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Food preferences\nNot added yet",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "food"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Review setup",
+        "aria": null,
+        "href": "profile-setup.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "open-data",
+        "role": null,
+        "text": "Your data\nWhat’s saved and how to clear it\nView",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "profile.html?preview=filled",
+    "actual": "file:///D:/UI_Design/profile.html?preview=filled",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Back to Today",
+        "href": "home.html?from=profile",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "edit-name",
+        "role": null,
+        "text": "Edit your name",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Body illustration\nMale",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "appearance"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Gender (optional)\nNot added yet",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "identity"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Training preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "training"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Space & equipment\nAt home · A mat · Dumbbells",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "space"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Areas you’re looking after\nNo areas to look after right now",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "body"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Food preferences\nVegetarian · Up to 20 min",
+        "aria": null,
+        "href": null,
+        "data": {
+          "edit": "food"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Review setup",
+        "aria": null,
+        "href": "profile-setup.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "open-data",
+        "role": null,
+        "text": "Your data\nWhat’s saved and how to clear it\nView",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "profile-setup.html",
+    "actual": "file:///D:/UI_Design/profile-setup.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Back to Today",
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "skip-setup",
+        "role": null,
+        "text": "Skip for now",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "INPUT",
+        "id": "name",
+        "role": null,
+        "text": "",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SELECT",
+        "id": "gender",
+        "role": null,
+        "text": "Choose later\nMale\nFemale\nAnother identity\nPrefer not to say",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "SELECT",
+        "id": "bodyModel",
+        "role": null,
+        "text": "Choose later\nMale\nFemale",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "setup-next",
+        "role": null,
+        "text": "Continue",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "chat.html",
+    "actual": "file:///D:/UI_Design/chat.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "chat-back",
+        "role": null,
+        "text": "",
+        "aria": "Back to workouts",
+        "href": "workouts.html",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "chat-menu",
+        "role": null,
+        "text": "",
+        "aria": "Conversation options",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "How do I get started?",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "How do I choose a weight?",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Help me understand an exercise",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "send-message",
+        "role": null,
+        "text": "",
+        "aria": "Send message",
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "camera-setup.html",
+    "actual": "file:///D:/UI_Design/camera-setup.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "back-link",
+        "role": null,
+        "text": "",
+        "aria": "Back to workout",
+        "href": "workout-details.html?routine=upper",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "",
+        "aria": "Mirror preview",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Start Set",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "return-workout",
+        "role": null,
+        "text": "Back to workout",
+        "aria": null,
+        "href": "file:///D:/UI_Design/workout-details.html?routine=upper",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Ready",
+        "aria": null,
+        "href": null,
+        "data": {
+          "previewState": "ready"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Adjust view",
+        "aria": null,
+        "href": null,
+        "data": {
+          "previewState": "adjust"
+        }
+      }
+    ]
+  },
+  {
+    "route": "reminders.html",
+    "actual": "file:///D:/UI_Design/reminders.html",
+    "controls": [
+      {
+        "tag": "A",
+        "id": "back-link",
+        "role": null,
+        "text": "",
+        "aria": "Back to workouts",
+        "href": "workouts.html?v=reminders-8",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Choose a workout",
+        "aria": null,
+        "href": "workouts.html?v=reminders-8",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "setup-plan.html",
+    "actual": "file:///D:/UI_Design/setup-plan.html",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "id": "setup-back",
+        "role": null,
+        "text": "",
+        "aria": "Go back",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "setup-mascot",
+        "role": null,
+        "text": "",
+        "aria": "Say hello to FitLens",
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Later",
+        "aria": null,
+        "href": "home.html?v=reminders-8",
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": "radio",
+        "text": "Build a habit\n✓",
+        "aria": null,
+        "href": null,
+        "data": {
+          "goal": "habit"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": "radio",
+        "text": "Get stronger\n✓",
+        "aria": null,
+        "href": null,
+        "data": {
+          "goal": "strength"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": "radio",
+        "text": "Build muscle\n✓",
+        "aria": null,
+        "href": null,
+        "data": {
+          "goal": "muscle"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": "radio",
+        "text": "Improve stamina\n✓",
+        "aria": null,
+        "href": null,
+        "data": {
+          "goal": "endurance"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": "radio",
+        "text": "Just starting",
+        "aria": null,
+        "href": null,
+        "data": {
+          "experience": "new"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": "radio",
+        "text": "Coming back",
+        "aria": null,
+        "href": null,
+        "data": {
+          "experience": "returning"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": "radio",
+        "text": "Training regularly",
+        "aria": null,
+        "href": null,
+        "data": {
+          "experience": "regular"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "setup-next",
+        "role": null,
+        "text": "Continue",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "face-expressions.html",
+    "actual": "file:///D:/UI_Design/face-expressions.html",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "id": "replay-expression",
+        "role": null,
+        "text": "Replay expression ↺",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Happy\nHome · everyday encouragement",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "happy"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Content\nA session finished · a little satisfaction",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "content"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Waiting\nNo data yet · getting started",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "waiting"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Calm\nRest day · recovery · a peaceful walk",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "calm"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Energized\nFeeling energized · a personal milestone",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "energized"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Tired\nA demanding session · time to recover",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "tired"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Spent\nUser reports all-out effort · a moment to pause",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "exhausted"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "Here for you\nDiscomfort reported · listen and pause",
+        "aria": null,
+        "href": null,
+        "data": {
+          "expression": "concerned"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Open Home ↗",
+        "aria": null,
+        "href": "home.html",
+        "data": {}
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "role": null,
+        "text": "Workout check-in ↗",
+        "aria": null,
+        "href": "workout-review.html",
+        "data": {}
+      }
+    ]
+  },
+  {
+    "route": "steps-orb-study.html",
+    "actual": "file:///D:/UI_Design/steps-orb-study.html",
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "id": "replay-opening",
+        "role": null,
+        "text": "Replay opening\n↗",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "INPUT",
+        "id": "steps-slider",
+        "role": null,
+        "text": "",
+        "aria": null,
+        "href": null,
+        "data": {}
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "90%",
+        "aria": null,
+        "href": null,
+        "data": {
+          "baselineRatio": ".9"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "99%",
+        "aria": null,
+        "href": null,
+        "data": {
+          "baselineRatio": ".99"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "100%",
+        "aria": null,
+        "href": null,
+        "data": {
+          "baselineRatio": "1"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": "105%",
+        "aria": null,
+        "href": null,
+        "data": {
+          "baselineRatio": "1.05"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "reset-reference",
+        "role": null,
+        "text": "Reset reference ↺",
+        "aria": null,
+        "href": null,
+        "data": {}
+      }
+    ]
+  }
+]

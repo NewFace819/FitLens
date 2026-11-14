@@ -1,0 +1,27 @@
+{
+  "id": "064",
+  "title": "Profile — chỉnh food",
+  "file": "09-profile/064__edit-food.png",
+  "tags": [
+    "profile",
+    "edit",
+    "food",
+    "form",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:24.746Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trong profile preview, dữ liệu lưu trong bộ nhớ tạm.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nFood that works for you\n×\n\nThese are the same preferences used in Food. You can change them in either place.\n\nHow you like to eat\nNo dietary preference\nVegetarian\nPlant-based\nIngredients to exclude\nEgg\nSoy\nWheat\nFish\nShellfish\nPeanut\nMilk\nTree nuts\nSesame\nTime to cook\nAny cooking time\nUp to 10 min\nUp to 15 min\nUp to 20 min\nUp to 30 min\nUp to 45 min\nYour usual budget\nAny budget\nKeep it simple\nEveryday budget\nSomething special\nSave changes\nCancel",
+  "sha256": "e0f3c1d520f5932444ceac39005c396a7bc0177ddba832ef0388837bc083afb4",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

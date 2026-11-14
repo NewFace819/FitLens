@@ -1,0 +1,26 @@
+{
+  "id": "128",
+  "title": "Lịch sử buổi tập",
+  "file": "03-workouts/128__history-list.png",
+  "tags": [
+    "workouts",
+    "history",
+    "recorded",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workouts.html#session-history",
+  "capturedAt": "2026-10-28T14:07:52.415Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / WORKOUTS\nNew\nChoose your\nworkout.\n\nStart now, or add a workout to your week.\n\nYour workouts\n1 saved\nMy Upper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nYOUR FOCUS\nChange\n★\nBench Press\nOct 28\n20 kg × 10\n\nLast 1 session · heaviest completed set shown.\n\nA place to start\n4 workouts\nUpper Body\n6 exercises · 45 min\nStart now\nSchedule for later\nLower Body\n5 exercises · 40 min\nStart now\nSchedule for later\nFull Body\n5 exercises · 45 min\nStart now\nSchedule for later\nBodyweight Foundations\n3 exercises · 20 min\nStart now\nSchedule for later\nCreate your own workout\nView your weekly plan\nMore about training\nConsistency Beats Intensity\nThe Power of Variety\nProgressing Safely\nTrusting Your Perceived Exertion\nYour recent sessions\n1\nUpper Body\nOct 28 · 1 min\nDid something else?\n\nAdd a little context for your next workout.\n\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "175626801c99bf38becaee8aec5545fd5bbe1de2e75195b44bb4244f9cace4d2",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

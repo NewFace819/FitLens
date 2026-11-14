@@ -1,0 +1,26 @@
+{
+  "id": "258",
+  "title": "Đã ghi đủ 18 set — Finish Workout",
+  "file": "03-workouts/258__all-sets-complete.png",
+  "tags": [
+    "workouts",
+    "all-sets-complete",
+    "finish-workout",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper&resume=1&planned=session-mvs738kk-nww5ym5",
+  "capturedAt": "2026-10-28T14:13:51.136Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nUpper Body\n\n00:03\nelapsed\n\n06 / 06\nTRICEPS\nPUSHDOWN.\nCable · Triceps\nExercise guide\n☆ Pin as focus\nLast 3 sessions\nYour sets.\n3 × 10–15 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n—\n02\n—\n03\n—\n＋ Add set\nRest 60 sec\n\nWeight shown on the machine stack.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nYour post-workout check-in\nEXERCISE COMPLETE\nFinish Workout\n＋ I feel pain\n18 sets complete\n\nSet 3 complete.\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "deab010ec9e0d0fd4280185152d4f8810ae13fe51a9138299cfc5f3afd3c3003",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

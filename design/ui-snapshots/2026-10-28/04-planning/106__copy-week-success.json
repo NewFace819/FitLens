@@ -1,0 +1,26 @@
+{
+  "id": "106",
+  "title": "Tuần mới sau khi copy lịch",
+  "file": "04-planning/106__copy-week-success.png",
+  "tags": [
+    "planning",
+    "copy-week",
+    "success",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "plan.html?week=2026-11-02",
+  "capturedAt": "2026-10-28T14:07:36.621Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Đã copy bằng UI. Ảnh giữ nguyên hiện trạng: toast báo đã copy nhưng nội dung preview vẫn còn hiển thị; không sửa UI để chụp.",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nNov 2 – Nov 8\nM\n2\nT\n3\nW\n4\nT\n5\nF\n6\nS\n7\nS\n8\n3 planned · 3/3 times set\nAdd\nMon\n2\nNo workout planned\nTue\n3\nNo workout planned\nWed\n4\nUpper Body\n45 min\n18:45\nThu\n5\nBodyweight foundations\n30 min\n18:45\nFri\n6\nNo workout planned\nSat\n7\nNo workout planned\nSun\n8\nMove at your pace\n30 min\n18:45\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nCOPY A WEEK\nYour next week, previewed.\n\nNov 2 – Nov 8\n\n3 to add\nExisting workouts stay in place.\nUpper Body\nWed, Nov 4 · 18:45\nAdd\nBodyweight foundations\nThu, Nov 5 · 18:45\nAdd\nMove at your pace\nSun, Nov 8 · 18:45\nAdd\n\nCompletion records stay in the original week. Reminders start off.\n\nChange week\nCopy 3 workouts\n\nWeek copied. Existing workouts kept.",
+  "sha256": "dbbf98ba09fc210702b18dcd7cc650815482907b7e2f61c4bbdcf834cf25c99d",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,28 @@
+{
+  "id": "167",
+  "title": "Bánh mì gà xé",
+  "file": "07-food-catalog/167__recipe-b-04.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "out",
+    "breakfast",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=b-04",
+  "capturedAt": "2026-10-28T14:09:44.944Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n04\n\nIllustrative photo of the main dish; side dishes may differ.\n\nA meal out\n\nBánh mì gà xé\n\nChicken sandwich with egg spread, pickles and cucumber\n\nPREPARATION\nEat out\nMAKES\n1 serving\n\nA meal bought from a restaurant or food stall. Ingredients, prices and serving sizes vary by seller.\n\nCHECK YOUR FOOD CHOICES\n\nThe restaurant ingredients have not been confirmed against your exclusions.\n\nIngredients to note: Wheat, Egg, Soy. Ingredients vary by seller. Ask about the ingredients, broth and sauces.\n\nSave for later +\nI ate this +\nIngredients\nOrdering notes\nIn an example serving\nVaries by seller\n\nConfirm the actual ingredients with the seller.\n\n1 bread roll\nShredded chicken in savoury sauce\nEgg spread and liver pate\nCucumber, pickled carrot and radish, coriander and chilli\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nBefore you order.\n\nCheck with the seller before ordering.\n\n01\nCheck the example serving\n\nThis is an example serving; the actual dish depends on the seller.\n\n02\nAsk before ordering\n\nAsk about the serving size, sides and ingredients in the broth or sauce before ordering.\n\n03\nConfirm ingredients\n\nConfirm any ingredients you need to avoid with the seller before choosing.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "c5d18b2af65c44ebe04fa857d56873525c68223126c6ab088503a1c2de29cf28",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}
