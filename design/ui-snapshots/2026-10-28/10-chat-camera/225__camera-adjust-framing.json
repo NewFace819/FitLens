@@ -1,0 +1,27 @@
+{
+  "id": "225",
+  "title": "Camera — yêu cầu chỉnh khung hình",
+  "file": "10-chat-camera/225__camera-adjust-framing.png",
+  "tags": [
+    "chat-camera",
+    "camera",
+    "framing",
+    "adjust",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "camera-setup.html",
+  "capturedAt": "2026-10-28T14:10:45.491Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Chuyển state UI study bằng control có sẵn; camera tắt.",
+  "text": "9:41\n\nUPPER BODY\nSET 01 / 03\n\nLateral Raise\nPREVIEW\nFront view\nStep back\n\nBring your feet into view.\n\nWEIGHT\n5 kg / hand\nTARGET\n12–15 reps\nStart Set\nBack to workout\nUI PREVIEW\nReady\nAdjust view\n\nIllustrated placeholder · Camera is off",
+  "sha256": "584bfc1340ce694178c2cd39c51a84dadbbc73ec7e25e358b3d244151901756f",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "060",
+  "title": "Profile — chỉnh training",
+  "file": "09-profile/060__edit-training.png",
+  "tags": [
+    "profile",
+    "edit",
+    "training",
+    "form",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:22.470Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trong profile preview, dữ liệu lưu trong bộ nhớ tạm.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nYour kind of training\n×\n\nKeep a few preferences here for when you plan your next week.\n\nWhat are you working towards?\nNot added yet\nBuild a habit\nGet stronger\nBuild muscle\nImprove stamina\nWhere are you starting from?\nNot added yet\nJust starting\nComing back\nTraining regularly\nDays per week\nNot added yet\n2 days\n3 days\n4 days\n5 days\nTime per session\nNot added yet\n20 min\n30 min\n45 min\n\nThis saves your preferences. Your existing week and weekly goal stay as they are.\n\nSave changes\nCancel",
+  "sha256": "1731b05e53bd5685fe3902ab94069da80fe16efc354b2d7183c48bf81e1d7195",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

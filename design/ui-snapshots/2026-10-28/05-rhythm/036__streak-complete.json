@@ -1,0 +1,28 @@
+{
+  "id": "036",
+  "title": "Streak — complete",
+  "file": "05-rhythm/036__streak-complete.png",
+  "tags": [
+    "rhythm",
+    "streak",
+    "weekly-goal",
+    "complete",
+    "sample",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "streak.html?preview=complete",
+  "capturedAt": "2026-10-28T14:05:06.885Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trạng thái mẫu có sẵn của ứng dụng.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR RHYTHM\n•••\n\nWEEKLY PROGRESS\n\nWeekly goal complete\n\nOct 26 – Nov 1\n\n3 of 3\n\nsessions completed\n\nWorkout\nOct 26\nWorkout\nOct 27\nWorkout\nOct 28\n\nYour weekly goal is complete.\n\nBrowse workouts\n7\nweeks in a row\nCompleted weeks\n\nYour completed weeks and sessions remain in your history.\n\nOct 26 – Nov 1\n3 sessions\nOct 19 – Oct 25\n3 sessions\nOct 12 – Oct 18\n3 sessions\nOct 5 – Oct 11\n3 sessions\nPage 1 of 2\n7\nweeks completed\n7\nlongest rhythm\n21\nsessions recorded\nExplore this week’s training focus\nHow your rhythm works\nMore about your rhythm\nConsistency Beats Intensity\nThe Art of the Rest Day\nRestarting After a Break\nSpotting Early Fatigue",
+  "sha256": "9cca64626be1f6c67ac4684f6af139b40bec74541d0fdef76f0bb5439f60a524",
+  "group": "05-rhythm",
+  "groupTitle": "Streak / Weekly goal",
+  "tagsEmbeddedInPNG": true
+}

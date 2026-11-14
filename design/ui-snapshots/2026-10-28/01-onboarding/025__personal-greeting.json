@@ -1,0 +1,26 @@
+{
+  "id": "025",
+  "title": "Chào theo tên",
+  "file": "01-onboarding/025__personal-greeting.png",
+  "tags": [
+    "onboarding",
+    "name",
+    "greeting",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:04:59.815Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nNice to meet you,\nMinh!\n\nLet's make FitLens feel like yours.\n\nContinue",
+  "sha256": "f701e9e8682fa18fb9f5b0d10d0cfec504edb008311b3646fd6cb9fb2d941f75",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "267",
+  "title": "Body map — mặt sau",
+  "file": "03-workouts/267__discomfort-back-view.png",
+  "tags": [
+    "workouts",
+    "body-map",
+    "back",
+    "discomfort",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-review.html?routine=full&completed=workout-1793196835970",
+  "capturedAt": "2026-10-28T14:13:58.005Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nSkip\nA little stronger.\n\nAdd a note about any discomfort.\n\nTODAY’S LITTLE BIG THINGS\n\nBodyweight Foundations.\n✓ Complete\n\nTOTAL VOLUME\n\n0\nkg\n\nA whole\nbear squad.\n\nBodyweight work counts, too.\n\nAdded up across every set\n\nTIME FOR YOU\n\n<1 min\n\n≈ 0 quick matches.\nReal-life level up.\n\nSHOWING UP\n\n1 set\n\n3 exercises.\nA lot of little wins.\n\nHow we counted\n＋\nTraining focus\n\n1 completed set\n\nFront\nBack\nLess\nMore\nMuscle groups\nQuads\n\n1 direct · 0 supporting sets\n\nChair Squat\nMain · 1 set\nHow this map works\nHow did it feel?\ni\n\nThink about the whole session.\n\nModerate\n5 / 10\n\nA steady effort. You worked, with room to keep going.\n\nWithin usual range\n↔ As usual\nVery light\nAll-out\nYour usual range\n4–6 · demo baseline\nHow does your body feel?\nAnything feeling\nuncomfortable?\nAdd an area\nYOUR BODY NOTES\nClear\nAreas you’re looking after\nChoose an area\nAnything you’d change?\nReflect on individual exercises\n＋\nAnything worth remembering?\nA thought for your next session\n＋\n\nModerate effort · Body notes added\n\nFinish check-in\n✓\nListen to your body.\n×\n\nTap an area. You can choose more than one.\n\nFront\nBack\nYOUR LEFT\nYOUR RIGHT\nRight shoulder\nLeft shoulder\nRight arm\nLeft arm\nRight hip\nLeft hip\nRight thigh\nLeft thigh\nRight knee\nLeft knee\nRight lower leg\nLeft lower leg\nNeck\nRight foot / ankle\nLeft foot / ankle\nUpper back\nLower back\n\nNo areas selected\n\nDone",
+  "sha256": "b951a48a07406b4f5e453fcf14badf79bfbf5e9d6414746cd49e703bba8511df",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

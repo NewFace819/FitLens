@@ -1,0 +1,27 @@
+{
+  "id": "150",
+  "title": "Tìm món theo từ khóa tiếng Việt",
+  "file": "07-food/150__search-vietnamese.png",
+  "tags": [
+    "food",
+    "search",
+    "vietnamese",
+    "results",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "food.html",
+  "capturedAt": "2026-10-28T14:09:33.583Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▂▄▆\nFITLENS\nTHE EVERYDAY TABLE\nLog meal\n+\nAt the table.\n☼\nA meal for the day ahead.\nChoose what works for you.\nIDEAS FOR\nBreakfast\nLunch\nDinner\nSnack\nWhy these?\n\nChosen around your food preferences.\n\n01\n\n3 min · Budget-friendly\n\nSữa chua trái cây\n\nA meat-free option for your next meal.\n\nSee the recipe\n02\n\n2 min · Budget-friendly\n\nKhoai bắp luộc\n\nA meat-free option for your next meal.\n\nSee the recipe\n03\n\n10 min · Budget-friendly\n\nTrứng luộc dưa leo\n\nA meat-free option for your next meal.\n\nSee the recipe\n01 / 03\nVegetarian\nEdit\nNothing quite right?\nTell FitLens what you have at home.\n\nTHE EVERYDAY KITCHEN\n\nFind something else.\nFilters\n\n2 recipes found\n\n12 min · 1 serving · About ₫22,000\n\nBún gạo xào chay\nPlant-based\n\n15 min · 1 serving · About ₫24,000\n\nBún đậu hũ sả ớt\nPlant-based\n\nTODAY’S MEALS\n\nWhat did you eat?\n\nLog what you ate to help us suggest something different next time. Portions can wait.\n\nLog a meal\nMore about eating well\nEating for Energy, Not Guilt\nCarbs Are Clean Fuel\nProtein for Daily Repair\nWhy Good Fats Matter\nBack to your day\nFood preferences updated",
+  "sha256": "54f22a6bff16b415788e6ed30230659bc413199d92746b351ed71401e4f6f20c",
+  "group": "07-food",
+  "groupTitle": "Món ăn / Nhật ký ăn",
+  "tagsEmbeddedInPNG": true
+}

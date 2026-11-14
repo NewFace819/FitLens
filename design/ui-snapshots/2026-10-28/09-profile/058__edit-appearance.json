@@ -1,0 +1,27 @@
+{
+  "id": "058",
+  "title": "Profile — chỉnh appearance",
+  "file": "09-profile/058__edit-appearance.png",
+  "tags": [
+    "profile",
+    "edit",
+    "appearance",
+    "form",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "profile.html?preview=filled",
+  "capturedAt": "2026-10-28T14:05:21.330Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trong profile preview, dữ liệu lưu trong bộ nhớ tạm.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nAlex\nEdit your name\n\nBuilding a habit.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nBuild a habit · Coming back · 3 days a week · 30 min per session\nSpace & equipment\nAt home · A mat · Dumbbells\nAreas you’re looking after\nNo areas to look after right now\nFood\nFood preferences\nVegetarian · Up to 20 min\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView\nBody illustration\n×\n\nChoose the illustration used for your muscle maps. You can change it anytime.\n\nIllustration\nMale\nFemale\nSave changes\nCancel",
+  "sha256": "d4eb2e24f785d477b395e6600fa87f14217b40041c78f03070e3c0b557a73f85",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,25 @@
+{
+  "id": "015",
+  "title": "Profile mới",
+  "file": "09-profile/015__profile-empty.png",
+  "tags": [
+    "profile",
+    "empty",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "profile.html",
+  "capturedAt": "2026-10-28T14:04:29.333Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▂▄▆ ▰\nYOUR PROFILE\nMake it yours.\nAdd your name\n\nChoose what works for you.\n\nYour preferences\n\nAdjust them whenever you need.\n\nPersonal\nBody illustration\nMale\nGender (optional)\nNot added yet\nTraining\nTraining preferences\nNot added yet\nSpace & equipment\nNot added yet\nAreas you’re looking after\nNot added yet\nFood\nFood preferences\nNot added yet\nReview setup\n\nChanging these preferences won’t rewrite your current week or weekly goal.\n\nIN YOUR HANDS\n\nYour data\nWhat’s saved and how to clear it\nView",
+  "sha256": "7fd89159829819897e6114b33b5f1f19d1e19a205ece0a4836321ce1f619daaf",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

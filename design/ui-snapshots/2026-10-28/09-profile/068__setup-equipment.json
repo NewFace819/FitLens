@@ -1,0 +1,27 @@
+{
+  "id": "068",
+  "title": "Setup — không gian và dụng cụ",
+  "file": "09-profile/068__setup-equipment.png",
+  "tags": [
+    "profile",
+    "setup",
+    "equipment",
+    "form",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "profile-setup.html",
+  "capturedAt": "2026-10-28T14:05:27.100Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nSkip for now\n\n3 of 3\n\nYour space to move.\n\nChoose what you usually have available.\n\nWhere you train\nChoose later\nAt home\nAt the gym\nAvailable equipment\nBodyweight\nDumbbells\nResistance bands\nA mat\nA bench\n\nBack\nOpen FitLens\n\nYour choices stay in this browser. Every field is optional, and you can change them in Profile.",
+  "sha256": "b5edf0a4f72084d7d04b65a9fe2d5adc25c2903bc88aa0f35e1e510ae6b88317",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

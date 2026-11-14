@@ -1,0 +1,27 @@
+{
+  "id": "235",
+  "title": "Mascot — Spent",
+  "file": "12-brand/235__mascot-exhausted.png",
+  "tags": [
+    "brand",
+    "mascot",
+    "expression",
+    "exhausted",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "face-expressions.html",
+  "capturedAt": "2026-10-28T14:11:57.374Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Thư viện biểu cảm chung của FitLens.",
+  "text": "FITLENS / THE EXPRESSION LIBRARY\n\nA face for every\nlittle moment.\n\nOne familiar face. A few different ways to feel.\n\nSpent\n\nUser reports all-out effort · a moment to pause\n\nReplay expression ↺\nHappy\nHome · everyday encouragement\nContent\nA session finished · a little satisfaction\nWaiting\nNo data yet · getting started\nCalm\nRest day · recovery · a peaceful walk\nEnergized\nFeeling energized · a personal milestone\nTired\nA demanding session · time to recover\nSpent\nUser reports all-out effort · a moment to pause\nHere for you\nDiscomfort reported · listen and pause\nShared SVG faces · select a face to preview the transition.\nOpen Home ↗ Workout check-in ↗",
+  "sha256": "6e3dda592028938538fb37dc782face6c7f950c9a5a785ef03656a659e8d62e1",
+  "group": "12-brand",
+  "groupTitle": "Mascot / Brand",
+  "tagsEmbeddedInPNG": true
+}

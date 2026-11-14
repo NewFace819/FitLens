@@ -1,0 +1,27 @@
+{
+  "id": "107",
+  "title": "Lấy lịch tuần trước — chọn tuần đích",
+  "file": "04-planning/107__copy-last-week.png",
+  "tags": [
+    "planning",
+    "copy-previous-week",
+    "form",
+    "fixture",
+    "status:fixture",
+    "data:synthetic"
+  ],
+  "route": "plan.html?week=2026-11-09",
+  "capturedAt": "2026-10-28T14:07:37.945Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "fixture",
+  "data": "demo/synthetic",
+  "note": "Đã dựng lịch tuần trước bằng model trong phiên thử; mở tính năng bằng UI.",
+  "text": "9:41\nFITLENS / PLAN\nWeek options\nYour week.\nNov 9 – Nov 15\nM\n9\nT\n10\nW\n11\nT\n12\nF\n13\nS\n14\nS\n15\nI’ll arrange it.\nChoose saved workouts.\nPut them where they fit.\nSuggest my week.\nWorkouts and exercises,\nbuilt around your choices.\nUse last week’s schedule\n\nBoth ways lead to the same week.\nYou can always change your mind.\n\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nCOPY A WEEK\nKeep a good rhythm.\n\nCopy the schedule from Nov 2. Workouts keep their weekdays and times.\n\nWeek beginning\nPreview week",
+  "sha256": "8663979208cd6ffb072592c533a146f54737440c24d1117032c5a50d34f0fe0a",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

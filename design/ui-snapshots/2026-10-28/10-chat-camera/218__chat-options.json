@@ -1,0 +1,27 @@
+{
+  "id": "218",
+  "title": "Tùy chọn hội thoại",
+  "file": "10-chat-camera/218__chat-options.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "options",
+    "new-conversation",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "chat.html",
+  "capturedAt": "2026-10-28T14:10:40.410Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Không gửi dữ liệu ra ngoài.",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\n\nHow do I get started?\n\nFitLens\n\nStart in Workouts with a session you’d like to try. You can review its exercises before starting; a weekly plan is optional.\n\nIf a move is unfamiliar, open its settings and choose “Ask about this exercise”. We’ll keep the conversation tied to that move.\n\nHow do I choose a weight?\nYour message\n\nUI preview · sample replies, no live AI\n\nThis conversation\n×\n\nMessages stay in this tab for this preview. Nothing is sent to an AI service.\n\nStart a new conversation",
+  "sha256": "2f2fae5674e7d07874bc26e17408453fb9665c97397a9d9a9cbb01c2a1b6e921",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

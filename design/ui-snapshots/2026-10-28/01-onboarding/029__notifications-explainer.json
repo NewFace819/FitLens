@@ -1,0 +1,27 @@
+{
+  "id": "029",
+  "title": "Giải thích nhắc nhở",
+  "file": "01-onboarding/029__notifications-explainer.png",
+  "tags": [
+    "onboarding",
+    "notifications",
+    "permission",
+    "preview",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:05:02.215Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Thông báo minh họa.",
+  "text": "FITLENS\nA little nudge,\nwhen it matters.\n\nGentle reminders for workouts, check-ins, and moments worth looking back on.\n\nEXAMPLE NOTIFICATION\nFitLens\nnow\nA little time for yourself, Minh?\n\nYour scheduled workout begins at 6:30 PM.\n\nIllustrative preview. No reminder is scheduled.\n\nEnable gentle reminders\nMaybe later\n\nOnly when it matters. Always your choice.",
+  "sha256": "32189a2a1902360bce472cd0f5841d04e3fe5bd3c22e7bcbecc8fde5777813b5",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "018",
+  "title": "Ask FitLens chưa có hội thoại",
+  "file": "10-chat-camera/018__chat-welcome.png",
+  "tags": [
+    "chat-camera",
+    "chat",
+    "empty",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "chat.html",
+  "capturedAt": "2026-10-28T14:04:31.372Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Câu trả lời mẫu, không phải AI trực tiếp.",
+  "text": "9:41\n▮▮▮   ▰\nFitLens\n\nLET’S WORK IT OUT\n\nWhat’s on your mind?\n\nA question about a move, a session, or where to begin.\n\nHow do I get started?\nHow do I choose a weight?\nHelp me understand an exercise\n\nNo workout is attached to this conversation.\n\nYour message\n\nUI preview · sample replies, no live AI",
+  "sha256": "490686b3552b7955216f9ec144761afa149ef83a6ade4f70a81a5ede535d6387",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

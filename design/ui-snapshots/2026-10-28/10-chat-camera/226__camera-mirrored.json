@@ -1,0 +1,26 @@
+{
+  "id": "226",
+  "title": "Camera — mirror preview",
+  "file": "10-chat-camera/226__camera-mirrored.png",
+  "tags": [
+    "chat-camera",
+    "camera",
+    "mirror",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "camera-setup.html",
+  "capturedAt": "2026-10-28T14:10:46.022Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Chỉ mirror hình placeholder.",
+  "text": "9:41\n\nUPPER BODY\nSET 01 / 03\n\nLateral Raise\nPREVIEW\nFront view\nStep back\n\nBring your feet into view.\n\nWEIGHT\n5 kg / hand\nTARGET\n12–15 reps\nStart Set\nBack to workout\nUI PREVIEW\nReady\nAdjust view\n\nIllustrated placeholder · Camera is off",
+  "sha256": "22e0575ee4384d5f279513740c36fda1d47c5105bf42853a598060b1efd22d6a",
+  "group": "10-chat-camera",
+  "groupTitle": "Chat / Camera preview",
+  "tagsEmbeddedInPNG": true
+}

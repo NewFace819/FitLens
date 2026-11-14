@@ -1,0 +1,26 @@
+{
+  "id": "017",
+  "title": "Thiết lập profile",
+  "file": "09-profile/017__profile-setup.png",
+  "tags": [
+    "profile",
+    "onboarding",
+    "preferences",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "profile-setup.html",
+  "capturedAt": "2026-10-28T14:04:30.717Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nSkip for now\n\n1 of 3\n\nMake it yours.\n\nA few preferences to help you get started.\n\nYour name (optional)\nGender (optional)\nChoose later\nMale\nFemale\nAnother identity\nPrefer not to say\nBody illustration\nChoose later\nMale\nFemale\n\nYour illustration is a visual preference, separate from gender.\n\nContinue\n\nYour choices stay in this browser. Every field is optional, and you can change them in Profile.",
+  "sha256": "49d2c04afaa492b47477368d5fa7ca1d54e2b87a4f13a68bece6f8e705424896",
+  "group": "09-profile",
+  "groupTitle": "Profile / Preferences",
+  "tagsEmbeddedInPNG": true
+}

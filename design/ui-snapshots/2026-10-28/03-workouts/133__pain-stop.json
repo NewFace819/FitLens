@@ -1,0 +1,26 @@
+{
+  "id": "133",
+  "title": "Dừng session vì đau",
+  "file": "03-workouts/133__pain-stop.png",
+  "tags": [
+    "workouts",
+    "pain-stop",
+    "confirmation",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper",
+  "capturedAt": "2026-10-28T14:07:56.133Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nUpper Body\n\n00:01\nelapsed\n\n01 / 06\nBENCH\nPRESS.\nBarbell · Chest\nExercise guide\n★ Your focus\nLast 3 sessions\nYour sets.\n3 × 8–12 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n20 kg × 10\nUse last time\n•\n02\n—\n·\n03\n—\n·\n＋ Add set\nRest 90 sec\n\nTotal bar weight, including the bar.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nLat Pulldown\n02 / 06\nSET 01 / 03\nSession stopped\n＋ I feel pain\n0 sets complete\n\nSESSION STOPPED\n\nLet’s stop here.\n\nYour timer is paused. You can note what didn’t feel right in your check-in.\n\nGo to check-in\nBack to stopped session\n\nPrevious values filled. Complete the set when you have done it.\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "574711ec26baddcbf7f5b0f6323ee2aacff772379b1e0dbb4012debab16ce1be",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

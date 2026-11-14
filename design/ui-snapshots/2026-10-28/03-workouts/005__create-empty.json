@@ -1,0 +1,26 @@
+{
+  "id": "005",
+  "title": "Tạo workout chưa có động tác",
+  "file": "03-workouts/005__create-empty.png",
+  "tags": [
+    "workouts",
+    "create",
+    "empty",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-details.html?new=1",
+  "capturedAt": "2026-10-28T14:02:14.977Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nTHE WORKOUT\n\nYOUR ROUTINE / YOUR WORKOUT\n\nMy workout\n0 exercises\nAbout 30 min\n\nStart now, or add to your week.\n\nMake it fit today.\nTHIS SESSION\n◷ Time\n◇ Equipment\n♡ Effort\nWorkout details\nname & duration\nWorkout name\nMinutes\nSave workout\nYour lineup\nEdit\n\nAdd your first exercise to get started.\n\n＋\nAdd Exercise\nTraining focus\n\nWorkout preview · planned sets\n\n0 planned sets\n\nAdd exercises to see their planned muscle groups.\n\nWhat you’ll need\nBased on the exercises you add.\nAsk about this workout\nBring this session into the conversation\n\nYour workouts, ready whenever you are.\n\nMore about your training\nProgressing Safely\nTrusting Your Perceived Exertion\nConsistency Beats Intensity\nStart Workout\nSchedule for later",
+  "sha256": "b55205470ba9e138ce696c0d84b15320793c6a27933a488dbb7193bf2b5193f2",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

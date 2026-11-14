@@ -1,0 +1,28 @@
+{
+  "id": "165",
+  "title": "Yến mạch chuối sữa",
+  "file": "07-food-catalog/165__recipe-b-02.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "breakfast",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=b-02",
+  "capturedAt": "2026-10-28T14:09:43.581Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n02\n\nIllustrative photo of the main dish; side dishes may differ.\n\nBreakfast at home\n\nYến mạch chuối sữa\n\nSoaked oats with banana and unsweetened cow milk\n\nAPPROX. PREP TIME\n3 min\nMAKES\n1 serving\n\n3 minutes to assemble with oats soaked ahead; soaking time is extra.\n\nEquipment: Bowl or jar\n\nABOUT THIS DISH\n\nA meat-free option for your next meal.\n\nIngredients to note: Milk. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 4 ready\n\nTick off ingredients as you get them ready.\n\n40 g rolled oats\n150 ml unsweetened cow milk\n1 ripe banana, sliced\n1 tsp chia seeds or a little cinnamon, optional\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nPrepare the oats\n\nPut the oats in a clean bowl or jar.\n\n02\nUse the soaked mixture\n\nUse oats softened with cow milk in the fridge ahead of time; soaking is not included in the 3-minute estimate.\n\n03\nAdd banana\n\nArrange the banana slices on top.\n\n04\nFinish and serve\n\nAdd cinnamon or chia seeds if you like, then serve.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "a1806cd251796f9b3c8f4316319cb3d9e87d2e443ad144ca81e775641b1a596d",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

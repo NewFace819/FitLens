@@ -1,0 +1,28 @@
+{
+  "id": "037",
+  "title": "Streak — recovery",
+  "file": "05-rhythm/037__streak-recovery.png",
+  "tags": [
+    "rhythm",
+    "streak",
+    "weekly-goal",
+    "recovery",
+    "sample",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "streak.html?preview=recovery",
+  "capturedAt": "2026-10-28T14:05:07.680Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Trạng thái mẫu có sẵn của ứng dụng.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR RHYTHM\n•••\n\nWEEKLY PROGRESS\n\nWeekly goal paused\n\nOct 26 – Nov 1\n\n1 of 3\n\nsessions before pausing\n\nWorkout\nOct 26\nSession 2\nNot done\nSession 3\nNot done\nYour goal is paused.\n\nYour consecutive count is protected.\n\nReturn from a break\n6\nweeks in a row\nProtected during recovery\nCompleted weeks\n\nYour completed weeks and sessions remain in your history.\n\nOct 19 – Oct 25\n3 sessions\nOct 12 – Oct 18\n3 sessions\nOct 5 – Oct 11\n3 sessions\nSep 28 – Oct 4\n3 sessions\nPage 1 of 2\n6\nweeks completed\n6\nlongest rhythm\n19\nsessions recorded\nExplore this week’s training focus\nHow your rhythm works\nMore about your rhythm\nConsistency Beats Intensity\nThe Art of the Rest Day\nRestarting After a Break\nSpotting Early Fatigue",
+  "sha256": "af2ed476bbd4742481bf87930f163972786b4c7a2730638c37ee19fa1f696628",
+  "group": "05-rhythm",
+  "groupTitle": "Streak / Weekly goal",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "210",
+  "title": "Recap năm — You came back",
+  "file": "08-insights/210__year-chapter-7.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "chapter-7",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:29.336Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Lịch sử năm 2025 hư cấu có sẵn trong app.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n07 / 08\n×\n\nONE MOMENT TO KEEP\n\nAnd then,\nyou came back.\n7 SEPTEMBER 2025\n17 days away\nFull Body\n\n35 minutes · At your own pace\n\nA place to begin again.\n\nYou didn’t have to make up for it.\n\nYou just made room for the next session.\n\nA gap between recorded workouts, followed by a completed session.\nDemo year · About these numbers\n\nChapter 7 of 8. You came back.",
+  "sha256": "fb23bffddaa1721e31b9575c7f2a24b3cd07566c272c0323cc7a6ffbe286433f",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

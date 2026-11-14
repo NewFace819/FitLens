@@ -1,0 +1,27 @@
+{
+  "id": "254",
+  "title": "Chỉnh giờ từ Details",
+  "file": "04-planning/254__time-from-details.png",
+  "tags": [
+    "planning",
+    "time-editor",
+    "planned-session",
+    "sheet",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-details.html?planned=session-mvs738kk-nww5ym5",
+  "capturedAt": "2026-10-28T14:13:46.684Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nTHE WORKOUT\n\nYOUR ROUTINE / THIS SESSION\n\nUpper Body\n6 exercises\nAbout 45 min\n\nToday · No time set\n\nMake it fit today.\nTHIS SESSION\n◷ Time\n◇ Equipment\n♡ Effort\nWorkout details\nname & duration\nYour lineup\nEdit\n01\nBench Press\n3 sets × 8–12 reps\n02\nLat Pulldown\n3 sets × 10–12 reps\n03\nSeated Row\n3 sets × 10–12 reps\n04\nShoulder Press\n3 sets × 8–12 reps\n05\nLateral Raise\n3 sets × 12–15 reps\n06\nTriceps Pushdown\n3 sets × 10–15 reps\n＋\nAdd Exercise\nTraining focus\n\nWorkout preview · planned sets\n\n18 planned sets\n\nFront\nBack\nLess\nMore\nMuscle groups\nShoulders\n\n6 direct · 6 supporting planned sets\n\nBench Press\nSupporting · 3 sets\nSeated Row\nSupporting · 3 sets\nShoulder Press\nMain · 3 sets\nLateral Raise\nMain · 3 sets\nHow this map works\nWhat you’ll need\nBased on the exercises you add.\nAsk about this workout\nBring this session into the conversation\n\nSession saved.\n\nMore about your training\nProgressing Safely\nTrusting Your Perceived Exertion\nConsistency Beats Intensity\nStart Workout\nTime & reminder\nSession saved.\nWednesday, Oct 28\nUpper Body\n×\n--:--\n✎\n\nTap to type, or slide to choose.\n\n00:00\n06:00\n12:00\n18:00\n23:55\nReminder preview\nOff\nSave time",
+  "sha256": "96364de62558806567fb566e6b87227f982566e083d02827c8fd855933b521f1",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

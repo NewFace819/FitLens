@@ -1,0 +1,27 @@
+{
+  "id": "204",
+  "title": "Recap năm — Your year in motion",
+  "file": "08-insights/204__year-chapter-1.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "chapter-1",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:25.845Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Lịch sử năm 2025 hư cấu có sẵn trong app.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n01 / 08\n×\n\nONE WORKOUT. THEN ANOTHER.\n\n20\n25.\nYour year.\nQuite a story.\n\nThong, look at all\nthose training days.\n\nLet’s take a look\nDemo year · About these numbers\n\nChapter 1 of 8. Your year in motion.",
+  "sha256": "ae3f590b10ac835b6397b05c073d4663d1742c4622af1cdea060852511ad9302",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

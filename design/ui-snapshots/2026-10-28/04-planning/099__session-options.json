@@ -1,0 +1,28 @@
+{
+  "id": "099",
+  "title": "Menu của một buổi tập",
+  "file": "04-planning/099__session-options.png",
+  "tags": [
+    "planning",
+    "session-options",
+    "move",
+    "replace",
+    "remove",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:07:32.057Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / PLAN\nSelect\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\n3 planned · 3/3 times set\nAdd\nMon\n26\nNothing recorded\nTue\n27\nNothing recorded\nWed\n28\nUpper Body\n45 min\n18:45\nPreview\nThu\n29\nBodyweight foundations\n30 min\n18:45\nFri\n30\nNo workout planned\nSat\n31\nNo workout planned\nSun\n1\nMove at your pace\n30 min\n18:45\nSet times together\nWeek options\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nTHIS SESSION\nUpper Body\n\nWednesday, Oct 28 · 18:45\n\nLog as done\nMove workout\nTime & reminder\nReplace workout\nRemove from week\n\nTime saved. Your workout stays in your week.",
+  "sha256": "9bccb7f7f9b7949b53080eb3bed43451f460ebee96f09c6c0d3e62ebbdde9461",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

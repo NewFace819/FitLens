@@ -1,0 +1,27 @@
+{
+  "id": "108",
+  "title": "Preview lịch lấy từ tuần trước",
+  "file": "04-planning/108__copy-last-week-preview.png",
+  "tags": [
+    "planning",
+    "copy-previous-week",
+    "preview",
+    "fixture",
+    "status:fixture",
+    "data:synthetic"
+  ],
+  "route": "plan.html?week=2026-11-09",
+  "capturedAt": "2026-10-28T14:07:38.510Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "fixture",
+  "data": "demo/synthetic",
+  "note": "Lịch nguồn là fixture được ghi rõ.",
+  "text": "9:41\nFITLENS / PLAN\nWeek options\nYour week.\nNov 9 – Nov 15\nM\n9\nT\n10\nW\n11\nT\n12\nF\n13\nS\n14\nS\n15\nI’ll arrange it.\nChoose saved workouts.\nPut them where they fit.\nSuggest my week.\nWorkouts and exercises,\nbuilt around your choices.\nUse last week’s schedule\n\nBoth ways lead to the same week.\nYou can always change your mind.\n\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights\nCOPY A WEEK\nYour next week, previewed.\n\nNov 9 – Nov 15\n\n3 to add\nExisting workouts stay in place.\nUpper Body\nMon, Nov 9 · 07:00\nAdd\nUpper Body\nWed, Nov 11 · 07:00\nAdd\nUpper Body\nFri, Nov 13 · 07:00\nAdd\n\nCompletion records stay in the original week. Reminders start off.\n\nChange week\nCopy 3 workouts",
+  "sha256": "1a6cf1366aebcafe72f039406989842a764cfad3282ccb5e769c9031e2218c99",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

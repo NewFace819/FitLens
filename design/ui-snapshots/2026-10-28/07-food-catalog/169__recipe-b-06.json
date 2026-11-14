@@ -1,0 +1,28 @@
+{
+  "id": "169",
+  "title": "Hủ tiếu mì khô",
+  "file": "07-food-catalog/169__recipe-b-06.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "out",
+    "breakfast",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=b-06",
+  "capturedAt": "2026-10-28T14:09:46.281Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n06\n\nPhoto shows a dry mixed-noodle version with char siu; the actual serving varies by shop.\n\nA meal out\n\nHủ tiếu mì khô\n\nMixed dry noodles with char siu, greens and broth on the side\n\nPREPARATION\nEat out\nMAKES\n1 serving\n\nA meal bought from a restaurant or food stall. Ingredients, prices and serving sizes vary by seller.\n\nCHECK YOUR FOOD CHOICES\n\nThe restaurant ingredients have not been confirmed against your exclusions.\n\nIngredients to note: Shellfish, Egg, Soy, Wheat. Ingredients vary by seller. Ask about the ingredients, broth and sauces.\n\nSave for later +\nI ate this +\nIngredients\nOrdering notes\nIn an example serving\nVaries by seller\n\nConfirm the actual ingredients with the seller.\n\nRice and egg noodles\nChar siu pork, quail eggs and greens\nGarlic-soy dressing\nA small bowl of broth; ingredients vary by shop\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nBefore you order.\n\nCheck with the seller before ordering.\n\n01\nCheck the example serving\n\nThis is an example serving; the actual dish depends on the seller.\n\n02\nAsk before ordering\n\nAsk about the serving size, sides and ingredients in the broth or sauce before ordering.\n\n03\nConfirm ingredients\n\nConfirm any ingredients you need to avoid with the seller before choosing.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nRecipe reference\nFitLens · The everyday table",
+  "sha256": "208efe0363a4dfe8f07821f2dc2fdf8a796eb3bbbf80198c4066c331c6debc4c",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

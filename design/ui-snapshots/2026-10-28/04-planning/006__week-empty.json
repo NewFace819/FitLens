@@ -1,0 +1,26 @@
+{
+  "id": "006",
+  "title": "Lịch tuần trống",
+  "file": "04-planning/006__week-empty.png",
+  "tags": [
+    "planning",
+    "calendar",
+    "empty",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "plan.html",
+  "capturedAt": "2026-10-28T14:02:15.935Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / PLAN\nWeek options\nYour week.\nOct 26 – Nov 1\nM\n26\nT\n27\nW\n28\nT\n29\nF\n30\nS\n31\nS\n1\nI’ll arrange it.\nChoose saved workouts.\nPut them where they fit.\nSuggest my week.\nWorkouts and exercises,\nbuilt around your choices.\nUse last week’s schedule\n\nBoth ways lead to the same week.\nYou can always change your mind.\n\nMore about a balanced week\nConsistency Beats Intensity\nThe Art of the Rest Day\nYou Grow When You Rest\nRestarting After a Break\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "5897c370fb5a4de8ebe84f3ce87a018b8b4c4c149c767f505681dc59c2b910e9",
+  "group": "04-planning",
+  "groupTitle": "Lịch tập / Scheduling",
+  "tagsEmbeddedInPNG": true
+}

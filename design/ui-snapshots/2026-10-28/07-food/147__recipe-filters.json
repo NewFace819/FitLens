@@ -1,0 +1,28 @@
+{
+  "id": "147",
+  "title": "Bộ lọc công thức",
+  "file": "07-food/147__recipe-filters.png",
+  "tags": [
+    "food",
+    "filters",
+    "prep-time",
+    "budget",
+    "occasion",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "food.html",
+  "capturedAt": "2026-10-28T14:09:31.890Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\n▂▄▆\nFITLENS\nTHE EVERYDAY TABLE\nLog meal\n+\nAt the table.\n☼\nA meal for the day ahead.\nChoose what works for you.\nIDEAS FOR\nBreakfast\nLunch\nDinner\nSnack\nWhy these?\n\nChosen around your food preferences.\n\n01\n\n3 min · Budget-friendly\n\nSữa chua trái cây\n\nA meat-free option for your next meal.\n\nSee the recipe\n02\n\n2 min · Budget-friendly\n\nKhoai bắp luộc\n\nA meat-free option for your next meal.\n\nSee the recipe\n03\n\n10 min · Budget-friendly\n\nTrứng luộc dưa leo\n\nA meat-free option for your next meal.\n\nSee the recipe\n01 / 03\nVegetarian\nEdit\nNothing quite right?\nTell FitLens what you have at home.\n\nTHE EVERYDAY KITCHEN\n\nFind something else.\nFilters\n\n9 recipes\n\n7 min · 1 serving · About ₫15,000\n\nBánh mì trứng\nVegetarian\n\n3 min · 1 serving · About ₫16,000\n\nYến mạch chuối sữa\nVegetarian\n\n15 min · 1 serving · About ₫18,000\n\nKhoai hấp trứng luộc\nVegetarian\n\n12 min · 1 serving · About ₫22,000\n\nBún gạo xào chay\nPlant-based\n\n20 min · 1 serving · About ₫26,000\n\nNấm kho tiêu\nPlant-based\n\n15 min · 1 serving · About ₫24,000\n\nBún đậu hũ sả ớt\nPlant-based\n\n3 min · 1 serving · About ₫18,000\n\nSữa chua trái cây\nVegetarian\n\n2 min · 1 serving · About ₫15,000\n\nKhoai bắp luộc\nPlant-based\n\n10 min · 1 serving · About ₫14,000\n\nTrứng luộc dưa leo\nVegetarian\n\nTODAY’S MEALS\n\nWhat did you eat?\n\nLog what you ate to help us suggest something different next time. Portions can wait.\n\nLog a meal\nMore about eating well\nEating for Energy, Not Guilt\nCarbs Are Clean Fuel\nProtein for Daily Repair\nWhy Good Fats Matter\nBack to your day\nFood preferences updated\nFind your kind of meal.\n×\nPrep time\nAny time\nUp to 10 min\nUp to 15 min\nUp to 20 min\nUp to 30 min\nUp to 45 min\nBudget per person\nAny budget\nUnder ₫30,000\n₫30,000–50,000\nOver ₫50,000\nPreparation\nAny\nPrepare at home\nEat out\nReady to eat\nMeal\nAny meal\nBreakfast\nLunch or dinner\nSnack\nVegetarian recipes\nSaved recipes\n\nTimes depend on the preparation notes in each recipe. Restaurant dishes with unconfirmed ingredients are hidden when you exclude ingredients.\n\nShow recipes\nClear filters",
+  "sha256": "c05ff8539124eb2397c4ff9be369e313769f703b0e12a091cf31f8cbca85a609",
+  "group": "07-food",
+  "groupTitle": "Món ăn / Nhật ký ăn",
+  "tagsEmbeddedInPNG": true
+}

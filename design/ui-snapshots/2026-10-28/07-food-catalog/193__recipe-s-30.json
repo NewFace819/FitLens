@@ -1,0 +1,28 @@
+{
+  "id": "193",
+  "title": "Trứng luộc dưa leo",
+  "file": "07-food-catalog/193__recipe-s-30.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "snack",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=s-30",
+  "capturedAt": "2026-10-28T14:10:04.386Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n30\n\nIllustrative photo of the main dish; side dishes may differ.\n\nA little something\n\nTrứng luộc dưa leo\n\nTwo boiled eggs with cucumber and lime-pepper salt\n\nAPPROX. PREP TIME\n10 min\nMAKES\n1 serving\n\nWater is already boiling; timing includes cooling and peeling. Adjust for your preferred doneness.\n\nEquipment: Small saucepan\n\nABOUT THIS DISH\n\nA meat-free option for your next meal.\n\nIngredients to note: Egg. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 3 ready\n\nTick off ingredients as you get them ready.\n\n2 eggs\n1 cucumber, washed and sliced\nSalt, pepper and lime, or chilli salt\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nHeat the water\n\nBring a small saucepan of water to a boil and carefully add the eggs.\n\n02\nBoil the eggs\n\nCook to your preferred doneness; the example uses about 6 minutes for a soft centre.\n\n03\nCool and peel\n\nCool in cold water, then peel.\n\n04\nServe with cucumber\n\nServe with cucumber and a little lime-pepper salt.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "fae20c82ed9d26d6aa35628f552e501ffd39107737330ab867f2f41acf25fa68",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

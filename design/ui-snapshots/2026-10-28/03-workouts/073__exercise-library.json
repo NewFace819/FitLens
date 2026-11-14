@@ -1,0 +1,26 @@
+{
+  "id": "073",
+  "title": "Thư viện thêm động tác",
+  "file": "03-workouts/073__exercise-library.png",
+  "tags": [
+    "workouts",
+    "add-exercise",
+    "picker",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-details.html?workout=upper",
+  "capturedAt": "2026-10-28T14:07:15.052Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nTHE WORKOUT\n\nYOUR ROUTINE / YOUR WORKOUT\n\nUpper Body\n6 exercises\nAbout 45 min\n\nStart now, or add to your week.\n\nMake it fit today.\nTHIS SESSION\n◷ Time\n◇ Equipment\n♡ Effort\nWorkout details\nname & duration\nYour lineup\nEdit\n01\nBench Press\n3 sets × 8–12 reps\n02\nLat Pulldown\n3 sets × 10–12 reps\n03\nSeated Row\n3 sets × 10–12 reps\n04\nShoulder Press\n3 sets × 8–12 reps\n05\nLateral Raise\n3 sets × 12–15 reps\n06\nTriceps Pushdown\n3 sets × 10–15 reps\n＋\nAdd Exercise\nTraining focus\n\nWorkout preview · planned sets\n\n18 planned sets\n\nFront\nBack\nLess\nMore\nMuscle groups\nShoulders\n\n6 direct · 6 supporting planned sets\n\nBench Press\nSupporting · 3 sets\nSeated Row\nSupporting · 3 sets\nShoulder Press\nMain · 3 sets\nLateral Raise\nMain · 3 sets\nHow this map works\nWhat you’ll need\nBased on the exercises you add.\nAsk about this workout\nBring this session into the conversation\n\nSave your own version to keep these changes.\n\nMore about your training\nProgressing Safely\nTrusting Your Perceived Exertion\nConsistency Beats Intensity\nStart Workout\nSchedule for later\nAdd an Exercise\n×\n\nA few moves to make the routine yours.\n\nBench Press\n3 sets × 8–12 reps\n＋\nLat Pulldown\n3 sets × 10–12 reps\n＋\nSeated Row\n3 sets × 10–12 reps\n＋\nShoulder Press\n3 sets × 8–12 reps\n＋\nLateral Raise\n3 sets × 12–15 reps\n＋\nTriceps Pushdown\n3 sets × 10–15 reps\n＋\nGoblet Squat\n3 sets × 8–12 reps\n＋\nRomanian Deadlift\n3 sets × 8–12 reps\n＋\nLeg Press\n3 sets × 10–12 reps\n＋\nLeg Curl\n3 sets × 10–15 reps\n＋\nCalf Raise\n3 sets × 12–15 reps\n＋\nBiceps Curl\n3 sets × 10–12 reps\n＋\nChair Squat\n2 sets × 8–10 reps\n＋\nWall Push-up\n2 sets × 8–10 reps\n＋\nStanding Hip Hinge\n2 sets × 8–10 reps\n＋\nGlute Bridge\n2 sets × 10–12 reps\n＋\nDead Bug\n2 sets × 6–8 / side reps\n＋\nBand Biceps Curl\n2 sets × 10–12 reps\n＋",
+  "sha256": "0ce9b9783cc08c7a97baf8e847fc98ac3978a1ac9083924bd51281e0b4a9a7c9",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

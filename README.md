@@ -23,6 +23,8 @@ This turns on the shared pre-commit check. It blocks commits that include a `.en
 ```
 FitLens/
 ├── prototype/              # Interactive HTML/CSS/JS mobile UI prototype
+├── design/
+│   └── ui-snapshots/       # Tagged UI screenshots (open <date>/index.html in a browser)
 ├── mobile/                 # Mobile client app (Flutter / React Native)
 ├── backend/                # Backend API & safety router (FastAPI)
 ├── poc/

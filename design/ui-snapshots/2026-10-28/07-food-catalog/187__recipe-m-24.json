@@ -1,0 +1,28 @@
+{
+  "id": "187",
+  "title": "Mì Quảng gà",
+  "file": "07-food-catalog/187__recipe-m-24.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "out",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-24",
+  "capturedAt": "2026-10-28T14:09:59.368Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n24\n\nIllustrative photo of the main dish; side dishes may differ.\n\nA meal out\n\nMì Quảng gà\n\nTurmeric rice noodles with chicken, quail eggs and peanuts\n\nPREPARATION\nEat out\nMAKES\n1 serving\n\nA meal bought from a restaurant or food stall. Ingredients, prices and serving sizes vary by seller.\n\nCHECK YOUR FOOD CHOICES\n\nThe restaurant ingredients have not been confirmed against your exclusions.\n\nIngredients to note: Peanut, Egg, Fish, Sesame. Ingredients vary by seller. Ask about the ingredients, broth and sauces.\n\nSave for later +\nI ate this +\nIngredients\nOrdering notes\nIn an example serving\nVaries by seller\n\nConfirm the actual ingredients with the seller.\n\nRice noodles\nBraised chicken and quail eggs\nA small amount of chicken broth\nPeanuts, sesame rice crackers, banana blossom and herbs\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nBefore you order.\n\nCheck with the seller before ordering.\n\n01\nCheck the example serving\n\nThis is an example serving; the actual dish depends on the seller.\n\n02\nAsk before ordering\n\nAsk about the serving size, sides and ingredients in the broth or sauce before ordering.\n\n03\nConfirm ingredients\n\nConfirm any ingredients you need to avoid with the seller before choosing.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "3969344f616d90e90cf97d54c7fd36eedeee489f85e224a47216517dd3d19014",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

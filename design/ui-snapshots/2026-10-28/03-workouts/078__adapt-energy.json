@@ -1,0 +1,27 @@
+{
+  "id": "078",
+  "title": "Điều chỉnh workout — energy",
+  "file": "03-workouts/078__adapt-energy.png",
+  "tags": [
+    "workouts",
+    "adapt",
+    "energy",
+    "choice",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-details.html?workout=upper",
+  "capturedAt": "2026-10-28T14:07:18.011Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nTHE WORKOUT\n\nYOUR ROUTINE / YOUR WORKOUT\n\nUpper Body\n6 exercises\nAbout 45 min\n\nStart now, or add to your week.\n\nMake it fit today.\nTHIS SESSION\n◷ Time\n◇ Equipment\n♡ Effort\nWorkout details\nname & duration\nYour lineup\nEdit\n01\nBench Press\n3 sets × 8–12 reps\n02\nLat Pulldown\n3 sets × 10–12 reps\n03\nSeated Row\n3 sets × 10–12 reps\n04\nShoulder Press\n3 sets × 8–12 reps\n05\nLateral Raise\n3 sets × 12–15 reps\n06\nTriceps Pushdown\n3 sets × 10–15 reps\n＋\nAdd Exercise\nTraining focus\n\nWorkout preview · planned sets\n\n18 planned sets\n\nFront\nBack\nLess\nMore\nMuscle groups\nShoulders\n\n6 direct · 6 supporting planned sets\n\nBench Press\nSupporting · 3 sets\nSeated Row\nSupporting · 3 sets\nShoulder Press\nMain · 3 sets\nLateral Raise\nMain · 3 sets\nHow this map works\nWhat you’ll need\nBased on the exercises you add.\nAsk about this workout\nBring this session into the conversation\n\nSave your own version to keep these changes.\n\nMore about your training\nProgressing Safely\nTrusting Your Perceived Exertion\nConsistency Beats Intensity\nStart Workout\nSchedule for later\nChoose your pace.\n×\n\nChoose the adjustment you want. Your workout won’t change yet.\n\nFewer sets\n30 sec more rest\n\nYour saved workout stays unchanged.\n\nPreview changes",
+  "sha256": "88a4c5c48e92927a06f34f241d189976f6695f7d63d01cfc64722fe4f6948ea2",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

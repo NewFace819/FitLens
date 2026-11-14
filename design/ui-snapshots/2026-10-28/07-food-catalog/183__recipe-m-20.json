@@ -1,0 +1,28 @@
+{
+  "id": "183",
+  "title": "Cá hồi áp chảo bơ chanh",
+  "file": "07-food-catalog/183__recipe-m-20.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-20",
+  "capturedAt": "2026-10-28T14:09:56.295Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n20\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCá hồi áp chảo bơ chanh\n\nLemon-butter salmon with potatoes and asparagus\n\nAPPROX. PREP TIME\n20 min\nMAKES\n1 serving\n\nPotatoes are boiled and fish and vegetables prepared ahead; timing covers pan-frying.\n\nEquipment: Frying pan\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Fish, Milk. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 4 ready\n\nTick off ingredients as you get them ready.\n\n150 g salmon fillet\n15 g butter and juice of ½ lemon\n4–5 asparagus spears and 1 small boiled potato\nSalt and black pepper\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nSeason the fish\n\nSeason the salmon with salt and pepper for 5 minutes.\n\n02\nPan-fry the salmon\n\nPlace skin-side down in a hot pan, cook for about 4 minutes, then turn and cook until done.\n\n03\nAdd lemon butter\n\nAdd butter and lemon juice, spooning the sauce over the fish.\n\n04\nFinish the vegetables\n\nPan-fry the asparagus and cooked potato and serve beside the salmon.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "853cdf9780dde6b47816967c5703640cff9a2bce0529cbf66f883dac174d299e",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

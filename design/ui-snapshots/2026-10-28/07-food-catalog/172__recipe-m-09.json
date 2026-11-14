@@ -1,0 +1,28 @@
+{
+  "id": "172",
+  "title": "Cơm cá nục sốt cà",
+  "file": "07-food-catalog/172__recipe-m-09.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-09",
+  "capturedAt": "2026-10-28T14:09:48.324Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n09\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm cá nục sốt cà\n\nMackerel in tomato sauce with rice, boiled greens and broth\n\nAPPROX. PREP TIME\n25 min\nMAKES\n1 serving\n\nCleaned fresh fish and cooked rice are ready. This timing does not apply to canned fish.\n\nEquipment: Frying pan, Saucepan for greens\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Fish. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 5 ready\n\nTick off ingredients as you get them ready.\n\n1 piece cleaned fresh mackerel\n2 tomatoes, chopped\n1 bowl cooked rice\nA small bunch of water spinach\nChopped shallot and garlic, fish sauce, pepper and lime\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nPan-fry the fish\n\nPan-fry the fish until the surface firms up.\n\n02\nMake the tomato sauce\n\nCook the tomatoes into a soft sauce.\n\n03\nSimmer gently\n\nAdd the fish, fish sauce and pepper; simmer gently for about 15 minutes, until cooked through.\n\n04\nPrepare the greens\n\nBoil the water spinach and add lime to some of the cooking water for a light broth.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "0077d11aee47a69c64c938c5a798b01b07302a739b5aff587b3bb68c314d0587",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

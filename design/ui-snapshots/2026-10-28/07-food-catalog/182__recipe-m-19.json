@@ -1,0 +1,28 @@
+{
+  "id": "182",
+  "title": "Pasta tôm tỏi ớt",
+  "file": "07-food-catalog/182__recipe-m-19.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-19",
+  "capturedAt": "2026-10-28T14:09:55.482Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n19\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nPasta tôm tỏi ớt\n\nGarlic-chilli prawn pasta with a small green salad\n\nAPPROX. PREP TIME\n18 min\nMAKES\n1 serving\n\nPrawns are peeled and vegetables prepared; boil pasta while cooking the prawns.\n\nEquipment: Pasta pot, Frying pan\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Shellfish, Wheat. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 5 ready\n\nTick off ingredients as you get them ready.\n\n80 g spaghetti\n100 g peeled prawns\n3 sliced garlic cloves and 1 dried chilli\n2 tbsp olive oil, parsley, salt and pepper\nWashed lettuce, vinegar and olive oil for a side salad\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nBoil the pasta\n\nBoil spaghetti in salted water for about 9 minutes, following the packet instructions.\n\n02\nFry garlic and chilli\n\nGently fry garlic and chilli in olive oil.\n\n03\nCook the prawns\n\nAdd prawns and cook until done.\n\n04\nToss and serve\n\nToss the pasta with the prawns and a little pasta water. Finish with parsley and serve with dressed lettuce.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "7b22dbd985b1576a507aed00901cb50bf2769e385d8bec69e1c5bb8742dc85fb",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

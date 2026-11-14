@@ -1,0 +1,26 @@
+{
+  "id": "200",
+  "title": "Đọc một bài Insights",
+  "file": "08-insights/200__article-reader.png",
+  "tags": [
+    "insights",
+    "articles",
+    "reader",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "insights.html",
+  "capturedAt": "2026-10-28T14:10:20.918Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nFITLENS / INSIGHTS\nYour activity,\nin perspective.\n\nYour movement. Your milestones. Your story.\n\nTraining focus\nYour sets, by muscle group.\nWeek · Month · Year\nYour year, reimagined\n2025\nTHE YEAR RECAP\nFITLENS\n20\n25.\nLook how far\nyou’ve come.\n\nA year of showing up.\n\nA good year deserves another look.\nPast years →\nLittle weeks. Big moves.\nWeekly\nTHIS WEEK · SO FAR\nKeep your\ngood thing going.\nOct 19–25\n→\nLAST WEEK\nYou made\ntime for you.\nOct 12–18\n→\nWEEKLY RECAP\nSmall steps.\nReal progress.\nOct 5–11\n→\nA month to remember\n2026\nMONTHLY RECAP\nSeptember\nFind your stride.\nAll those little wins, together.\nMONTHLY RECAP\nAugust\nMade of momentum.\nA chapter worth revisiting.\nSeptember · 1 / 2\nFITLENS / ARCHIVE\nDaily Insights.\n\nBite-sized science, actionable tips, and gentle guidance for everyday balance.\n\nHealthy Eating\nSee all\n\nPractical ways to fuel your movement and recovery with real, whole foods.\n\nWhy Good Fats Matter\nCarbs Are Clean Fuel\nProtein for Daily Repair\nEating for Energy, Not Guilt\nEat the Colorful Rainbow\nSleep Hygiene\nSee all\n\nScience-backed evening rituals to protect deep sleep and wake up truly restored.\n\nThe 7-Hour Foundation\nDeep vs. REM Sleep\nEvening Wind-Down Ritual\nUnderstanding Sleep Debt\nThe 20-Minute Power Nap\nRest & Recovery\nSee all\n\nHow intentional downtime and light movement rebuild your body stronger.\n\nThe Art of the Rest Day\nWhat Is Active Recovery?\nYou Grow When You Rest\nSpotting Early Fatigue\nRestarting After a Break\nWorkout Essentials\nSee all\n\nBuilding sustainable movement habits that stick without causing burnout.\n\nConsistency Beats Intensity\nThe Power of Variety\nFinding Your Natural Cadence\nThe Truth About 10k Steps\nProgressing Safely\nUnderstanding Your Body\nSee all\n\nDemystifying heart rate zones, perceived effort, and physical fatigue signals.\n\nZone 2: The Magic Zone\nTrusting Your Perceived Exertion\nVO2 Max Made Simple\nWhat Your RHR Says\nMovement for the Mind\nToday\nWorkouts\nPlan\nInsights\nUnderstanding Your Body\n\nDemystifying heart rate zones, perceived effort, and physical fatigue signals.\n\nZone 2: The Magic Zone\n\nExercising at a conversational pace builds mitochondrial density and burns fat with minimal systemic stress.\n\nTrusting Your Perceived Exertion\n\nThe RPE scale (1–10) teaches you to calibrate training intensity by tuning into your breath and muscle sensations.\n\nVO2 Max Made Simple\n\nVO2 max reflects your heart and lungs' ability to deliver oxygen to working muscles during sustained effort.\n\nWhat Your Resting Heart Rate Says\n\nA jump of 5+ beats in your morning resting heart rate often signals incomplete recovery or impending illness.\n\nMovement for the Mind\n\nJust 15 minutes of outdoor walking triggers brain-derived neurotrophic factor (BDNF) and clears mental fog.\n\n×\nHEALTHY EATING\nWhy Good Fats Matter\n\nAvocados, nuts, and olive oil provide steady, long-lasting energy while protecting your joints and balancing hormones.\n\nTHE SCIENCE SIMPLY PUT\n\nUnlike quick-burning simple sugars, healthy unsaturated fats metabolize slowly, stabilizing blood glucose and keeping you satiated for hours after meals.\n\nWHY IT MATTERS FOR YOU\n\nCellular membranes, brain tissue, and joint fluid rely on essential fatty acids to cushion movements and reduce systemic inflammation after exercise.\n\nEVERYDAY PRACTICE\n\nAdd a quarter avocado, a spoonful of chia seeds, or a drizzle of cold-pressed olive oil to your meals instead of relying on ultra-processed snack bars.\n\n💡\n\nKEY TAKEAWAY\nHealthy fats are essential fuel, not something to avoid. Focus on unprocessed, whole-food sources.",
+  "sha256": "8ec1c7da9e64522383e8bd3f61717864fe8f6ddabf0af3b85a3580df88b55b01",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "040",
+  "title": "Chi tiết tuần hoàn thành",
+  "file": "05-rhythm/040__completed-week-detail.png",
+  "tags": [
+    "rhythm",
+    "completed-week",
+    "detail",
+    "sample",
+    "status:ui-interaction",
+    "data:synthetic"
+  ],
+  "route": "streak.html?preview=complete",
+  "capturedAt": "2026-10-28T14:05:09.882Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-interaction",
+  "data": "demo/synthetic",
+  "note": "Mở bằng thao tác UI trên fixture có sẵn.",
+  "text": "9:41\n▂▄▆ ▰\nYOUR RHYTHM\n•••\n\nWEEKLY PROGRESS\n\nWeekly goal complete\n\nOct 26 – Nov 1\n\n3 of 3\n\nsessions completed\n\nWorkout\nOct 26\nWorkout\nOct 27\nWorkout\nOct 28\n\nYour weekly goal is complete.\n\nBrowse workouts\n7\nweeks in a row\nCompleted weeks\n\nYour completed weeks and sessions remain in your history.\n\nOct 26 – Nov 1\n3 sessions\nOct 19 – Oct 25\n3 sessions\nOct 12 – Oct 18\n3 sessions\nOct 5 – Oct 11\n3 sessions\nPage 1 of 2\n7\nweeks completed\n7\nlongest rhythm\n21\nsessions recorded\nExplore this week’s training focus\nHow your rhythm works\nMore about your rhythm\nConsistency Beats Intensity\nThe Art of the Rest Day\nRestarting After a Break\nSpotting Early Fatigue\n\nCompleted week\n×\n\nOct 26 – Nov 1\n\n3 sessions · goal of 3\n\nOct 26\nUpper body\nOct 27\nA gentle full body\nOct 28\nLower body\n\nYour completed sessions stay in history if your consecutive count starts again.",
+  "sha256": "99e97c0b3e07af285c1364331d783872bda13f9a306e083d32ef02be3500a8b0",
+  "group": "05-rhythm",
+  "groupTitle": "Streak / Weekly goal",
+  "tagsEmbeddedInPNG": true
+}

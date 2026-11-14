@@ -1,0 +1,26 @@
+{
+  "id": "030",
+  "title": "Bỏ qua nhắc nhở",
+  "file": "01-onboarding/030__notifications-skipped.png",
+  "tags": [
+    "onboarding",
+    "notifications",
+    "skipped",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:05:02.812Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "FITLENS\nNo worries, Minh!\n\nYou can always turn on reminders later.\n\nContinue",
+  "sha256": "02b5032050a0aff1b0a5176fa03a60808238cda0660224b981e4c0b3a3211ea9",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,28 @@
+{
+  "id": "180",
+  "title": "Cơm sườn rim mặn ngọt",
+  "file": "07-food-catalog/180__recipe-m-17.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "main",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=m-17",
+  "capturedAt": "2026-10-28T14:09:53.959Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n17\n\nIllustrative photo of the main dish; side dishes may differ.\n\nThe everyday kitchen\n\nCơm sườn rim mặn ngọt\n\nSweet-and-savoury pork ribs with rice and vegetable soup\n\nAPPROX. PREP TIME\n30 min\nMAKES\n1 serving\n\nRice and soup are cooked ahead; ribs are chopped small and briefly blanched.\n\nEquipment: Frying pan or saucepan\n\nCHECK YOUR FOOD CHOICES\n\nThis recipe includes ingredients or an eating style you have chosen to avoid.\n\nIngredients to note: Fish. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 4 ready\n\nTick off ingredients as you get them ready.\n\n150 g pork ribs, cut into small pieces\n2 tbsp fish sauce and 1 tbsp palm sugar\nChopped garlic, chilli and black pepper\nCooked rice and prepared broccoli and carrot soup\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nBlanch the ribs\n\nBriefly blanch the ribs in salted boiling water and drain.\n\n02\nMake the caramel\n\nCaramelise the sugar, add garlic and stir in the ribs.\n\n03\nSimmer in sauce\n\nAdd fish sauce, pepper and a little hot water; cover and simmer until cooked and the sauce thickens.\n\n04\nServe with rice\n\nServe with the prepared rice and vegetables or soup.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "a64a6f70ed7da71a596d04e57c32c2c53f423498f8a366f8b623135400b26c0b",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

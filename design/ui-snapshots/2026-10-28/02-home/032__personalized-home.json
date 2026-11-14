@@ -1,0 +1,27 @@
+{
+  "id": "032",
+  "title": "Home sau nhập tên",
+  "file": "02-home/032__personalized-home.png",
+  "tags": [
+    "home",
+    "personalized",
+    "workout-entry",
+    "mascot",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "home.html",
+  "capturedAt": "2026-10-28T14:05:04.449Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "Tên Minh là dữ liệu thử.",
+  "text": "9:41\nFITLENS\nM\n✦\n✧\nGood evening, Minh\nA little movement.\nA brighter day.\nTODAY, AT YOUR PACE\nYour plan\nChoose your next workout\n\nStart a workout now or add one to your plan.\n\nChoose a workout\nTHIS WEEK\nYour rhythm\nSet your weekly goal\n\nChoose how many sessions fit your week. You can decide the days later.\n\nSet a weekly goal\nToday’s activity\nSteps\n\nBelow your usual\n\n3.150\nWorkout Time\n0min\nSets completed\n0sets\nFood for today\nThree meals to make at home\nExplore meals\nDaily reading\nMovement for the Mind\nEvening Wind-Down Ritual\nEating for Energy, Not Guilt\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "bac7c9c2d05307942bf57cc8411833ae09117ec3cb3cf95a6ad9424f42bc462d",
+  "group": "02-home",
+  "groupTitle": "Home",
+  "tagsEmbeddedInPNG": true
+}

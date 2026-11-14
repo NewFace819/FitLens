@@ -1,0 +1,27 @@
+{
+  "id": "208",
+  "title": "Recap năm — A step forward",
+  "file": "08-insights/208__year-chapter-5.png",
+  "tags": [
+    "insights",
+    "yearly-recap",
+    "story",
+    "chapter-5",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "yearly-recap.html",
+  "capturedAt": "2026-10-28T14:10:28.180Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Lịch sử năm 2025 hư cấu có sẵn trong app.",
+  "text": "9:41\n▮▮▮\nYOUR 2025 RECAP\n05 / 08\n×\n\nA SMALL CHANGE. A REAL STEP.\n\nYou grew\ninto it.\nGOBLET SQUAT\nYOUR FIRST LOG · JAN 8\n12 kg\n\n8 reps\n\nA LATER LOG · DEC 14\n16 kg\n\n10 reps\n\nA little heavier.\nA couple more reps.\n\nProgress can look like this, too.\n\nSame exercise · Weight of one dumbbell.\nTwo logged sets, not a test of your maximum.\nDemo year · About these numbers\n\nChapter 5 of 8. A step forward.",
+  "sha256": "8bd9e073421cbfc661411827d02e394434ca0f1735541db7b522f968476a578b",
+  "group": "08-insights",
+  "groupTitle": "Insights / Recap / Training focus",
+  "tagsEmbeddedInPNG": true
+}

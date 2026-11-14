@@ -1,0 +1,27 @@
+{
+  "id": "033",
+  "title": "Weekly goal và hoạt động hôm nay",
+  "file": "02-home/033__weekly-goal-and-activity.png",
+  "tags": [
+    "home",
+    "weekly-goal",
+    "steps",
+    "activity",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "home.html",
+  "capturedAt": "2026-10-28T14:05:05.052Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Steps mặc định là dữ liệu mẫu.",
+  "text": "9:41\nFITLENS\nM\n✦\n✧\nGood evening, Minh\nA little movement.\nA brighter day.\nTODAY, AT YOUR PACE\nYour plan\nChoose your next workout\n\nStart a workout now or add one to your plan.\n\nChoose a workout\nTHIS WEEK\nYour rhythm\nSet your weekly goal\n\nChoose how many sessions fit your week. You can decide the days later.\n\nSet a weekly goal\nToday’s activity\nSteps\n\nBelow your usual\n\n3.150\nWorkout Time\n0min\nSets completed\n0sets\nFood for today\nThree meals to make at home\nExplore meals\nDaily reading\nMovement for the Mind\nEvening Wind-Down Ritual\nEating for Energy, Not Guilt\nToday\nWorkouts\nPlan\nInsights",
+  "sha256": "f0865f355b63cca6e86ec0cd27a5b528269070b0369f5e2eef8bcc01e2ca05f2",
+  "group": "02-home",
+  "groupTitle": "Home",
+  "tagsEmbeddedInPNG": true
+}

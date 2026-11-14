@@ -1,0 +1,28 @@
+{
+  "id": "164",
+  "title": "Bánh mì trứng",
+  "file": "07-food-catalog/164__recipe-b-01.png",
+  "tags": [
+    "food-catalog",
+    "catalog",
+    "recipe",
+    "home",
+    "breakfast",
+    "status:preview",
+    "data:synthetic"
+  ],
+  "route": "food.html?meal=b-01",
+  "capturedAt": "2026-10-28T14:09:42.866Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "preview",
+  "data": "demo/synthetic",
+  "note": "Nội dung công thức mẫu của app; không phải tư vấn dinh dưỡng cá nhân.",
+  "text": "9:41\n▂▄▆\nTHE RECIPE\n01\n\nIllustrative photo of the main dish; side dishes may differ.\n\nBreakfast at home\n\nBánh mì trứng\n\nEgg sandwich with cucumber and coriander\n\nAPPROX. PREP TIME\n7 min\nMAKES\n1 serving\n\nAbout 7 minutes with bread and vegetables ready.\n\nEquipment: Frying pan\n\nABOUT THIS DISH\n\nA meat-free option for your next meal.\n\nIngredients to note: Egg, Wheat, Soy, Milk. Check the labels on sauces, seasonings and packaged ingredients.\n\nSave for later +\nI ate this +\nIngredients\nMethod\nWhat you’ll need\n0 / 6 ready\n\nTick off ingredients as you get them ready.\n\n1 bread roll\n2 eggs\n½ cucumber, sliced\nCoriander and fresh chilli\n1 tsp soy sauce\nA little butter or cooking oil\nClear checks\nMake it work with what you have.\nAsk about ingredients or equipment.\n\nTHE METHOD\n\nIn the kitchen.\n\nTap a step number to keep your place.\n\n01\nHeat the pan\n\nHeat the butter or oil in a pan over medium heat.\n\n02\nFry the eggs\n\nFry the eggs to your preferred doneness and season with pepper.\n\n03\nPrepare the bread\n\nSplit the bread and add cucumber and coriander.\n\n04\nPut it together\n\nAdd the eggs, drizzle with soy sauce and serve warm.\n\nYOUR DAY, NOTED\n\nMade it to your table?\n\nLog it to help us suggest something different next time.\n\nI ate this\n+\nMore about everyday nourishment\nEat the Colorful Rainbow\nProtein for Daily Repair\nWhy Good Fats Matter\nFitLens · The everyday table",
+  "sha256": "fb8397dcd9ed580c2ef1cd79e985a050c4bf71b307638d9cf583e48a6190c98d",
+  "group": "07-food-catalog",
+  "groupTitle": "Danh mục 30 món",
+  "tagsEmbeddedInPNG": true
+}

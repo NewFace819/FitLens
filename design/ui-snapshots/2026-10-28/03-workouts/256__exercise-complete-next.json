@@ -1,0 +1,26 @@
+{
+  "id": "256",
+  "title": "Động tác đã xong — Next Exercise",
+  "file": "03-workouts/256__exercise-complete-next.png",
+  "tags": [
+    "workouts",
+    "exercise-complete",
+    "next-exercise",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=upper&resume=1&planned=session-mvs738kk-nww5ym5",
+  "capturedAt": "2026-10-28T14:13:48.601Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nUpper Body\n\n00:00\nelapsed\n\n01 / 06\nBENCH\nPRESS.\nBarbell · Chest\nExercise guide\n☆ Pin as focus\nLast 3 sessions\nYour sets.\n3 × 8–12 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n—\n02\n—\n03\n—\n＋ Add set\nRest 90 sec\n\nTotal bar weight, including the bar.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nLat Pulldown\n02 / 06\nEXERCISE COMPLETE\nNext Exercise\n＋ I feel pain\n3 sets complete\n\nSet 3 complete.\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "d0537ece38cdd4ff6b20b41ec21a98d250f46a01a1c586ce823932a36b3302c7",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

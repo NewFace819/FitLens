@@ -1,0 +1,27 @@
+{
+  "id": "265",
+  "title": "Ghi set bodyweight",
+  "file": "03-workouts/265__bodyweight-logging.png",
+  "tags": [
+    "workouts",
+    "bodyweight",
+    "set-logging",
+    "zero-added-load",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "workout-active.html?routine=full",
+  "capturedAt": "2026-10-28T14:13:56.516Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "",
+  "text": "9:41\nBodyweight Foundations\n\n00:00\nelapsed\n\n01 / 03\nCHAIR\nSQUAT.\nBodyweight · Legs\nExercise guide\n☆ Pin as focus\nLast 3 sessions\nYour sets.\n2 × 8–10 reps\nSET\nLAST TIME\nKG\nREPS\n✓\n01\n—\n•\n02\n—\n·\n＋ Add set\nRest 60 sec\n\nBodyweight movement. Added load is optional.\n\nWant a second pair of eyes?\nCheck my form · optional camera\nUP NEXT\nWall Push-up\n02 / 03\nSET 01 / 02\nComplete Set 1\n＋ I feel pain\n0 sets complete\n\nUI STUDY\nSample values · no workout is saved to your account",
+  "sha256": "711cbc59024aa1ef7233c2457e6069cf163b546178a664536356e06f0b670de4",
+  "group": "03-workouts",
+  "groupTitle": "Workout / Session / Review",
+  "tagsEmbeddedInPNG": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "031",
+  "title": "Điểm cuối onboarding hiện tại",
+  "file": "01-onboarding/031__discover-next.png",
+  "tags": [
+    "onboarding",
+    "discover",
+    "prototype",
+    "status:ui-observed",
+    "data:synthetic"
+  ],
+  "route": "welcome.html",
+  "capturedAt": "2026-10-28T14:05:03.380Z",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "verification": "ui-observed",
+  "data": "demo/synthetic",
+  "note": "Ghi đúng màn đích thực tế; nếu là placeholder thì chưa có đường vào Home.",
+  "text": "FITLENS\nUP NEXT\nDiscover\nFitLens\n\nThis step is coming next.",
+  "sha256": "dea0fe0bed30b3fc8c9208da3ccd7d384a0eb235e33aa973af89f4c654051e7d",
+  "group": "01-onboarding",
+  "groupTitle": "Onboarding",
+  "tagsEmbeddedInPNG": true
+}
