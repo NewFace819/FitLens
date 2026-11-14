@@ -7,7 +7,7 @@
 
 | # | Quyết định | Lý do |
 | :-- | :-- | :-- |
-| 1 | Sửa **hợp đồng** cho khớp giá trị code đang dùng: `Experience = new/returning/regular`, `Equipment = dumbbells/bands/mat/bench`, `Place = home/gym` | Onboarding và `FitLensPlan` đã dùng các giá trị này; đổi code là đổi cả phần của Thông |
+| 1 | Sửa **hợp đồng** cho khớp giá trị code đang dùng: `Experience = new/returning/regular`, `Equipment = dumbbells/bands/mat/bench` (+ `barbell`, `machine` cho các bài gym của `catalog` cũ), `Place = home/gym` | Onboarding và `FitLensPlan` đã dùng các giá trị này; đổi code là đổi cả phần của Thông |
 | 2 | Múi giờ `Asia/Ho_Chi_Minh` là hằng số duy nhất trong `shared/dates.js` | `weekStart` và `today` cũ đã hardcode giá trị này; trước đây ở hai nơi |
 | 3 | `Session` do Hải sở hữu. Nhắc lịch (`timing`) vẫn thuộc Tu qua `FitLensReminders`; Hải chỉ đọc/ghi `Session.time` | Tránh hai chủ cho một dữ liệu |
 | 4 | Không xóa key cũ khi migrate. Migrate một chiều, chạy nhiều lần không nhân đôi | An toàn; trang cũ (`setup-plan.*`, `reminders.*`) vẫn chạy |

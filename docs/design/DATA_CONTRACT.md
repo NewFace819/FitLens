@@ -18,7 +18,7 @@
 | Enum | Giá trị | Ghi chú |
 | :-- | :-- | :-- |
 | `Region` | `knees`, `back`, `wrists`, `shoulders`, `ankles`, `hips` | Vùng cơ thể: vừa là "vùng cần tránh" (Thông), vừa là vùng chịu tải của bài (Hải), vừa là vùng khó chịu sau buổi (Tu). Nếu cần thêm vùng, thêm ở đây. |
-| `Equipment` | `dumbbells`, `bands`, `mat`, `bench` | `[]` nghĩa là không cần dụng cụ. Không có giá trị `"none"` (form onboarding cũ có lựa chọn `none`, khi lưu đổi thành `[]`). Khớp `setup-plan-model.js`. |
+| `Equipment` | `dumbbells`, `bands`, `mat`, `bench`, `barbell`, `machine` | `[]` nghĩa là không cần dụng cụ. Không có giá trị `"none"` (form onboarding cũ có lựa chọn `none`, khi lưu đổi thành `[]`). Khớp `setup-plan-model.js`, thêm `barbell` và `machine` cho các bài phòng gym trong `catalog` cũ. |
 | `Goal` | `habit`, `strength`, `muscle`, `endurance` | Lấy từ `setup-plan-model.js` hiện có. |
 | `Experience` | `new`, `returning`, `regular` | Khớp `setup-plan-model.js` đang dùng. Thông xác nhận. |
 | `Place` | `home`, `gym` | Khớp `setup-plan-model.js`. Thêm giá trị khi UI thật sự cần. |

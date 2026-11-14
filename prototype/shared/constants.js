@@ -4,7 +4,7 @@
 const freeze=a=>Object.freeze([...a]);
 const api=Object.freeze({
  Region:freeze(['knees','back','wrists','shoulders','ankles','hips']),
- Equipment:freeze(['dumbbells','bands','mat','bench']),
+ Equipment:freeze(['dumbbells','bands','mat','bench','barbell','machine']),
  Goal:freeze(['habit','strength','muscle','endurance']),
  Experience:freeze(['new','returning','regular']),
  Place:freeze(['home','gym']),
