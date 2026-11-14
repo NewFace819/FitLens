@@ -78,8 +78,10 @@ function createScheduleModel(storage,opts={}){
     resolveSingle(single) -> workoutId | null (the caller makes a custom Workout for it). Safe to run repeatedly. */
  function migrateLegacy({plan=null,singles=[],resolveSingle=()=>null}={}){
   const list=read(),known=new Set(list.map(s=>s.legacyKey).filter(Boolean));let added=0;
-  const push=(legacyKey,workoutId,date,time)=>{
-   if(known.has(legacyKey)||!workoutId||!Dates.isValidDate(date)||clashes(list,date,time,null))return;
+  /* getWorkoutId is lazy so a custom Workout is only created for a session that will really be added. */
+  const push=(legacyKey,getWorkoutId,date,time)=>{
+   if(known.has(legacyKey)||!Dates.isValidDate(date)||clashes(list,date,time,null))return;
+   const workoutId=getWorkoutId();if(!workoutId)return;
    list.push({id:Ids.newId('ss'),workoutId,date,time,status:'planned',legacyKey});known.add(legacyKey);added++;
   };
   if(plan&&Array.isArray(plan.days)&&Dates.isValidDate(plan.weekStart)){
@@ -87,13 +89,13 @@ function createScheduleModel(storage,opts={}){
     if(!d||typeof d.id!=='string')return;
     const tplId=LEGACY_LIBRARY_TO_TEMPLATE[d.id];if(!tplId)return;
     const time=d.timing&&Dates.isValidTime(d.timing.time)?d.timing.time:null;
-    push('plan:'+plan.weekStart+':'+(typeof d.sessionId==='string'?d.sessionId:i),tplId,Dates.addDays(plan.weekStart,i),time);
+    push('plan:'+plan.weekStart+':'+(typeof d.sessionId==='string'?d.sessionId:i),()=>tplId,Dates.addDays(plan.weekStart,i),time);
    });
   }
   for(const s of Array.isArray(singles)?singles:[]){
    if(!s||typeof s.id!=='string'||!s.schedule)continue;
    const key='single:'+s.id;if(known.has(key))continue;
-   push(key,resolveSingle(s),s.schedule.date,Dates.isValidTime(s.schedule.time)?s.schedule.time:null);
+   push(key,()=>resolveSingle(s),s.schedule.date,Dates.isValidTime(s.schedule.time)?s.schedule.time:null);
   }
   return added&&!write(list)?{ok:false,reason:'storage',added:0}:{ok:true,added};
  }

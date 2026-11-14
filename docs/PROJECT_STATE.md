@@ -74,6 +74,12 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 | Đức Huy | Buổi tập đang diễn ra | Tách lịch sử tập ra `training-history.js`. Màn tập ghi kg/rep từng set, nghỉ, tạm dừng/tiếp tục, dùng số liệu lần trước, báo đau, hoàn tất buổi thì lưu vào lịch sử | `getHistory()`, `getLastSets()`, `appendReview()` |
 | Đỗ Huy | Home, Hoạt động & Camera | Home và dock điều hướng tới mọi trang chính, giữ danh sách route chung. Mascot, ghi hoạt động khác. Màn chuẩn bị camera (chỉ UI). **Gỡ toàn bộ Dinh dưỡng và Chat khỏi app** | `setMascotMood()`, `renderActivitySection()` |
 
+**Tiến độ của Hải (nhánh `feature/workout-schedule`, 14/11/2026):**
+- Xong: lõi dùng chung `prototype/shared/` (enum, ngày, lưu trữ, ID), danh mục bài tập, model Workout, model Lịch (tuần, xung đột, buổi kế tiếp, sao chép tuần, migrate dữ liệu cũ), `workout-store.js` xuất `window.FitLensWorkout`. 45 test chạy bằng `cd prototype && npm test`.
+- Đã nối vào giao diện: trang Workouts và Workout details dùng model, tạo workout mới được lưu và hiện ở "Your workouts", đã gỡ "Ask FitLens".
+- Chưa làm: trang Plan mới (`plan.html`), sinh draft từ hồ sơ (`draft-model.js`), Builder đầy đủ (xóa bài, xóa workout), kéo thả, sao chép tuần trên giao diện.
+- Giới hạn đã biết: `workout-active.js` (Đức Huy) vẫn tra bài bằng ID cũ (`bench`, `squat`...), nên nút Start chỉ chuyển 12 bài của catalog cũ; các bài mới chưa bắt đầu được cho đến khi Đức Huy dùng danh mục chung.
+
 Lưu ý:
 - `appendReview()` xuất hiện ở cả Tu (màn check-in gọi) và Đức Huy (định nghĩa trong `training-history.js`). Hai người cần thống nhất chữ ký hàm.
 - Dinh dưỡng và Chat đã bỏ khỏi phạm vi: `ARCHITECTURE.md`, `ARCHITECTURE_LITE.md` và `CLAUDE.md` đã sửa. `USE_CASE_DIAGRAM.md` (UC03, F5, mermaid + PlantUML), `use-case-viewer.html`, `SLIDES_BLUEPRINT.md` và các file PDF/PPTX **chưa sửa**.

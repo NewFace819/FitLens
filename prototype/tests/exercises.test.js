@@ -45,3 +45,10 @@ test('safety: squats, presses and walking carry the regions they load',()=>{
  assert.ok(E.getExercise('calf-raise').regions.includes('ankles'));
  assert.ok(E.getExercise('romanian-deadlift').regions.includes('back'));
 });
+test('legacy ids round-trip for the 12 old catalog exercises; others have none',()=>{
+ const old=['bench','pull','row','press','raise','cable','squat','rdl','legpress','curl','calf','biceps'];
+ for(const o of old){const n=E.fromLegacyId(o);assert.ok(n,o);assert.equal(E.toLegacyId(n),o);}
+ assert.equal(E.fromLegacyId('ghost'),null);
+ assert.equal(E.toLegacyId('chair-squat'),null);
+ assert.equal(E.listExercises().filter(e=>e.legacyId).length,12);
+});
