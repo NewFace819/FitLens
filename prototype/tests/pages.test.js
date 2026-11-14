@@ -4,7 +4,7 @@ const {createStore}=require('../workout-store.js');
 const {MemoryStorage,BrokenStorage}=require('./helpers.js');
 const P=require('../setup-plan-model.js'),R=require('../reminder-model.js');
 const dir=path.join(__dirname,'..');
-const PAGES=['workouts.html','workout-details.html'];
+const PAGES=['workouts.html','workout-details.html','plan.html'];
 
 test('workout pages no longer link to chat ("Ask FitLens" removed)',()=>{
  for(const f of PAGES){const html=fs.readFileSync(path.join(dir,f),'utf8');
@@ -16,9 +16,10 @@ test('every script and stylesheet the workout pages load exists on disk',()=>{
   for(const m of html.matchAll(/(?:src|href)="([^"?#]+\.(?:js|css))[^"]*"/g))assert.ok(fs.existsSync(path.join(dir,m[1])),f+' -> '+m[1]);}
 });
 test('model scripts load before the page script (defer keeps order)',()=>{
- for(const [f,own] of [['workouts.html','workouts.js'],['workout-details.html','workout-details.js']]){
+ for(const [f,own] of [['workouts.html','workouts.js'],['workout-details.html','workout-details.js'],['plan.html','plan.js']]){
   const html=fs.readFileSync(path.join(dir,f),'utf8');const at=n=>html.indexOf('src="'+n);
   for(const dep of ['shared/constants.js','shared/dates.js','shared/storage.js','shared/ids.js','shared/exercises.js','workout-model.js','schedule-model.js','workout-store.js'])assert.ok(at(dep)>-1&&at(dep)<at(own),f+' '+dep);}
+ const plan=fs.readFileSync(path.join(dir,'plan.html'),'utf8');assert.ok(plan.indexOf('src="draft-model.js')>-1&&plan.indexOf('src="draft-model.js')<plan.indexOf('src="plan.js'));
 });
 test('store exposes the functions the contract promises, and works with empty storage',()=>{
  const st=createStore({localStorage:new MemoryStorage(),sessionStorage:new MemoryStorage()});
@@ -49,4 +50,7 @@ test('migration: weekly plan in sessionStorage and scheduled single sessions bec
  assert.equal(st.migrate().added,0);
  assert.equal(st.listWorkouts().filter(x=>x.source==='custom').length,1); // no orphan workouts on re-run
  assert.ok(local.getItem('fitlens:single-sessions:v1'),'old data is left in place');
+});
+test('Workouts page links Manage Schedule to plan.html',()=>{
+ assert.ok(fs.readFileSync(path.join(dir,'workouts.js'),'utf8').includes("location.href='plan.html'"));
 });

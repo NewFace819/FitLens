@@ -1,0 +1,43 @@
+/* Plan page: only what workouts.css does not already provide (phone frame, header, sheets, dock). */
+.plan-header{padding-bottom:12px}
+.plan-content{padding:0 20px 24px}
+.week-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 14px}
+.week-nav div{text-align:center;display:flex;flex-direction:column}
+.week-nav strong{font:900 17px/1.2 Nunito,sans-serif;color:#284b42}
+.week-nav small{font:700 12px/1.3 Nunito,sans-serif;color:#6f8a7f}
+.week-nav button{width:40px;height:40px;border-radius:50%;border:1px solid #d6ddcc;background:#fbfbf6;color:#284b42;font:900 20px/1 Nunito,sans-serif;cursor:pointer}
+.plan-actions{display:flex;gap:8px;margin-bottom:6px}
+.plan-primary,.plan-secondary,.plan-danger{font:900 14px/1.1 Nunito,sans-serif;border-radius:16px;padding:13px 16px;cursor:pointer;text-align:center;text-decoration:none;border:1px solid transparent;display:block}
+.plan-primary{background:#284b42;color:#fff}
+.plan-secondary{background:#e8eddc;color:#284b42;border-color:#d6ddcc}
+.plan-danger{background:#fbeae3;color:#a3472a;border-color:#efc9bb}
+.plan-actions .plan-primary,.plan-actions .plan-secondary{flex:1}
+.plan-status{min-height:20px;margin:6px 2px 8px;font:700 13px/1.4 Nunito,sans-serif;color:#51705f}
+.plan-days{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.plan-day{background:#fbfbf6;border:1px solid #e0e6d6;border-radius:20px;padding:12px 14px}
+.plan-day.is-today{border-color:#d17c55;box-shadow:0 0 0 2px #d17c5522}
+.plan-day-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.plan-day-head h2{font:900 15px/1.2 Nunito,sans-serif;color:#284b42;margin:0}
+.plan-day-head h2 small{font:700 12px/1 Nunito,sans-serif;color:#6f8a7f;margin-left:6px}
+.plan-add{width:34px;height:34px;border-radius:50%;border:1px dashed #9db7a6;background:transparent;color:#284b42;font:900 18px/1 Nunito,sans-serif;cursor:pointer}
+.plan-sessions{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.plan-session{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;background:#eef2e3;border:0;border-radius:14px;padding:10px 12px;cursor:pointer;color:#284b42;font-family:Nunito,sans-serif}
+.plan-session strong{font:800 14px/1.25 Nunito,sans-serif}
+.plan-session small{display:block;font:700 12px/1.3 Nunito,sans-serif;color:#6f8a7f}
+.plan-session.is-done{opacity:.6;text-decoration:line-through}
+.plan-empty{font:700 13px/1.4 Nunito,sans-serif;color:#8a9d92;margin:6px 0 0}
+.plan-form{display:grid;gap:12px;margin-top:14px}
+.plan-form label,.plan-form legend{font:800 13px/1.3 Nunito,sans-serif;color:#284b42;display:grid;gap:6px}
+.plan-form legend{padding:0;margin-bottom:6px}
+.plan-form fieldset{border:0;margin:0;padding:0}
+.plan-form select,.plan-form input[type=time]{font:700 15px/1.2 Nunito,sans-serif;padding:11px 12px;border-radius:14px;border:1px solid #d6ddcc;background:#fff;color:#284b42}
+.plan-form-error{min-height:18px;margin:0;font:700 13px/1.4 Nunito,sans-serif;color:#a3472a}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.chip-row label{display:inline-flex;grid-template-columns:none;align-items:center;gap:6px;font:800 13px/1 Nunito,sans-serif;background:#eef2e3;border:1px solid #d6ddcc;border-radius:999px;padding:9px 12px;cursor:pointer}
+.chip-row input{accent-color:#284b42}
+.build-preview{margin-top:14px;display:grid;gap:10px}
+.build-preview h3{font:900 16px/1.2 Nunito,sans-serif;margin:0;color:#284b42}
+.build-preview ol{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.build-preview li{background:#eef2e3;border-radius:14px;padding:10px 12px;font:800 14px/1.3 Nunito,sans-serif;color:#284b42}
+.build-preview li small{display:block;font:700 12px/1.3 Nunito,sans-serif;color:#6f8a7f}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

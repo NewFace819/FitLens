@@ -77,7 +77,8 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 **Tiến độ của Hải (nhánh `feature/workout-schedule`, 14/11/2026):**
 - Xong: lõi dùng chung `prototype/shared/` (enum, ngày, lưu trữ, ID), danh mục bài tập, model Workout, model Lịch (tuần, xung đột, buổi kế tiếp, sao chép tuần, migrate dữ liệu cũ), `workout-store.js` xuất `window.FitLensWorkout`. 45 test chạy bằng `cd prototype && npm test`.
 - Đã nối vào giao diện: trang Workouts và Workout details dùng model, tạo workout mới được lưu và hiện ở "Your workouts", đã gỡ "Ask FitLens".
-- Chưa làm: trang Plan mới (`plan.html`), sinh draft từ hồ sơ (`draft-model.js`), Builder đầy đủ (xóa bài, xóa workout), kéo thả, sao chép tuần trên giao diện.
+- Đã làm thêm (14/11): `draft-model.js` (gợi ý tuần, có test an toàn duyệt toàn bộ tổ hợp vùng tránh × thiết bị × mục tiêu) và trang `plan.html`: xem tuần, thêm buổi, đổi giờ/ngày, đánh dấu xong, xóa, sao chép sang tuần sau, "Build my week". 58 test qua. Trang Plan chưa đọc hồ sơ thật của Thông, đang dùng form hỏi nhanh (sẽ tự dùng `window.FitLensProfile.getProfile()` nếu Thông cung cấp).
+- Chưa làm: Builder đầy đủ (xóa bài, xóa workout, đổi thứ tự trong trang chi tiết), kéo thả, nhiều giờ nhắc, đối chiếu giao diện chi tiết với snapshot 083–095.
 - Giới hạn đã biết: `workout-active.js` (Đức Huy) vẫn tra bài bằng ID cũ (`bench`, `squat`...), nên nút Start chỉ chuyển 12 bài của catalog cũ; các bài mới chưa bắt đầu được cho đến khi Đức Huy dùng danh mục chung.
 
 Lưu ý:
