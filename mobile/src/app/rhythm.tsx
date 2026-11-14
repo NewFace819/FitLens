@@ -1,24 +1,16 @@
 /**
  * Your Rhythm — weekly goal, streak, pause (Thông's snapshots 007, 035–049).
+ * Reads getRhythm(); writes only through setWeeklyGoal / pauseRhythm / resumeRhythm.
  */
-import { useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
-import { addDays, nextMonday, shortDate, toDateKey, weekLabel } from '../domain/dates.ts';
-import {
-  GOAL_OPTIONS,
-  isPauseOpen,
-  pauseGoal,
-  progressMessage,
-  resumeGoal,
-  setWeeklyGoal,
-  type Rhythm,
-  type RhythmStatus,
-  type WeekSummary,
-} from '../domain/rhythm.ts';
-import { useRhythm } from '../data/rhythm-store';
+import { useState } from 'react';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { GOAL_OPTIONS, progressMessage, type Rhythm, type RhythmStatus, type WeekResult } from '../modules/rhythm/rhythm-model.ts';
+import { getRhythm, pauseRhythm, resumeRhythm, setWeeklyGoal } from '../modules/rhythm/rhythm.ts';
+import { nextMonday, shortDate, weekLabel } from '../shared/dates.ts';
+import type { Mood } from '../shared/constants.ts';
 import { Button, Chip, Divider, IconButton, ListRow, Mascot, Screen, Sheet, TopBar } from '../ui/components';
-import type { MascotMood } from '../ui/mascot-svgs';
 import { colors, radius, space, type } from '../ui/theme';
+import { useStore } from '../ui/use-store';
 
 const TITLES: Record<RhythmStatus, string> = {
   empty: 'Set your weekly goal',
@@ -28,7 +20,7 @@ const TITLES: Record<RhythmStatus, string> = {
   paused: 'Weekly goal paused',
   comeback: 'This week',
 };
-const MOODS: Record<RhythmStatus, MascotMood> = {
+const MOODS: Record<RhythmStatus, Mood> = {
   empty: 'waiting',
   scheduled: 'calm',
   active: 'content',
@@ -37,24 +29,17 @@ const MOODS: Record<RhythmStatus, MascotMood> = {
   comeback: 'energized',
 };
 const PAGE_SIZE = 4;
+const workoutsComingSoon = () => Alert.alert('Workouts', 'The workout library is coming with the Workouts tab.');
 
 type SheetName = null | 'goal' | 'settings' | 'pause' | 'resume' | 'rules' | 'week';
 
 export default function RhythmScreen() {
-  const { rhythm, settings, update } = useRhythm();
+  useStore();
+  const rhythm = getRhythm();
   const [sheet, setSheet] = useState<SheetName>(null);
-  const [openWeek, setOpenWeek] = useState<WeekSummary | null>(null);
-
-  if (!rhythm || !settings) {
-    return (
-      <Screen>
-        <ActivityIndicator style={{ marginTop: 120 }} color={colors.accent} />
-      </Screen>
-    );
-  }
-
+  const [openWeek, setOpenWeek] = useState<WeekResult | null>(null);
   const close = () => setSheet(null);
-  const pauseOpen = isPauseOpen(settings, rhythm.today);
+  const pauseOpen = rhythm.paused && rhythm.pausedUntil === null;
 
   return (
     <Screen>
@@ -71,7 +56,7 @@ export default function RhythmScreen() {
 
       <WeekCard rhythm={rhythm} />
 
-      {rhythm.status === 'empty' && (
+      {rhythm.status === 'empty' ? (
         <View style={{ marginTop: space.lg }}>
           <Text style={type.h2}>Sessions per week</Text>
           <Text style={[type.caption, { marginVertical: space.sm }]}>
@@ -79,27 +64,22 @@ export default function RhythmScreen() {
           </Text>
           <Button title="Set a weekly goal" onPress={() => setSheet('goal')} />
         </View>
-      )}
-      {(rhythm.status === 'active' || rhythm.status === 'comeback') && (
-        <ListRow
-          label="Choose your next session"
-          onPress={() => Alert.alert('Workouts', 'The workout library is coming with the Workouts tab.')}
-        />
-      )}
-      {rhythm.status === 'complete' && (
-        <ListRow label="Browse workouts" onPress={() => Alert.alert('Workouts', 'The workout library is coming with the Workouts tab.')} />
-      )}
-      {rhythm.status === 'paused' && pauseOpen && <ListRow label="Return from a break" onPress={() => setSheet('resume')} />}
+      ) : null}
+      {rhythm.status === 'active' || rhythm.status === 'comeback' ? (
+        <ListRow label="Choose your next session" onPress={workoutsComingSoon} />
+      ) : null}
+      {rhythm.status === 'complete' ? <ListRow label="Browse workouts" onPress={workoutsComingSoon} /> : null}
+      {pauseOpen ? <ListRow label="Return from a break" onPress={() => setSheet('resume')} /> : null}
 
-      {rhythm.status !== 'empty' && rhythm.status !== 'scheduled' && (
+      {rhythm.status !== 'empty' && rhythm.status !== 'scheduled' ? (
         <View style={styles.streakRow}>
-          <Text style={styles.streakNumber}>{rhythm.streak}</Text>
+          <Text style={styles.streakNumber}>{rhythm.streakWeeks}</Text>
           <View>
-            <Text style={type.body}>{rhythm.streak === 1 ? 'week in a row' : 'weeks in a row'}</Text>
-            {rhythm.status === 'paused' ? <Text style={type.caption}>Protected during recovery</Text> : null}
+            <Text style={type.body}>{rhythm.streakWeeks === 1 ? 'week in a row' : 'weeks in a row'}</Text>
+            {rhythm.paused ? <Text style={type.caption}>Protected during recovery</Text> : null}
           </View>
         </View>
-      )}
+      ) : null}
 
       <Divider />
       <CompletedWeeks
@@ -109,17 +89,17 @@ export default function RhythmScreen() {
           setSheet('week');
         }}
       />
-      <Pressable onPress={() => setSheet('rules')} accessibilityRole="button" style={{ marginTop: space.lg }}>
+      <Pressable onPress={() => setSheet('rules')} accessibilityRole="button" style={{ marginTop: space.lg, minHeight: 44, justifyContent: 'center' }}>
         <Text style={styles.link}>How weeks are counted</Text>
       </Pressable>
 
       <GoalSheet
-        key={`goal-${sheet === 'goal'}-${rhythm.thisWeek.goal}-${rhythm.upcomingGoal?.sessionsPerWeek ?? 0}`}
+        key={`goal-${sheet === 'goal'}`}
         visible={sheet === 'goal'}
         onClose={close}
         rhythm={rhythm}
-        onSave={async (n, startNextMonday) => {
-          await update(setWeeklyGoal(settings, n, rhythm.today, { startNextMonday }));
+        onSave={(n, startNextMonday) => {
+          setWeeklyGoal(n, { startNextMonday });
           close();
         }}
       />
@@ -128,9 +108,9 @@ export default function RhythmScreen() {
         <ListRow label="Change weekly goal" onPress={() => setSheet('goal')} />
         {pauseOpen ? (
           <ListRow label="Resume weekly goal" onPress={() => setSheet('resume')} />
-        ) : (
+        ) : !rhythm.paused ? (
           <ListRow label="Pause weekly goal" onPress={() => setSheet('pause')} />
-        )}
+        ) : null}
         <ListRow label="How the weeks count" onPress={() => setSheet('rules')} />
       </Sheet>
 
@@ -141,8 +121,8 @@ export default function RhythmScreen() {
         </Text>
         <Button
           title="Pause my weekly goal"
-          onPress={async () => {
-            await update(pauseGoal(settings, rhythm.today));
+          onPress={() => {
+            pauseRhythm();
             close();
           }}
         />
@@ -151,12 +131,12 @@ export default function RhythmScreen() {
       <Sheet visible={sheet === 'resume'} onClose={close} title="Resume weekly goal?">
         <Text style={[type.body, styles.sheetText]}>
           You can move at your own pace. This week stays protected; your weekly goal resumes next Monday,{' '}
-          {shortDate(nextMonday(rhythm.today))}.
+          {shortDate(nextMonday(rhythm.date))}.
         </Text>
         <Button
           title="Resume my rhythm"
-          onPress={async () => {
-            await update(resumeGoal(settings, rhythm.today));
+          onPress={() => {
+            resumeRhythm();
             close();
           }}
         />
@@ -177,20 +157,22 @@ export default function RhythmScreen() {
           If a week ends below your goal, the consecutive count starts again. Your completed weeks and sessions
           remain.
         </Rule>
+        <Rule title="No goal set?">
+          We use the training days from your profile until you choose a weekly goal here.
+        </Rule>
       </Sheet>
 
       <Sheet visible={sheet === 'week'} onClose={close} title="Completed week">
         {openWeek ? <WeekDetail week={openWeek} /> : null}
       </Sheet>
-
     </Screen>
   );
 }
 
 function WeekCard({ rhythm }: { rhythm: Rhythm }) {
-  const { status, thisWeek, upcomingGoal } = rhythm;
+  const { status, upcomingGoal } = rhythm;
   const showProgress = status !== 'empty' && status !== 'scheduled';
-  const range = status === 'scheduled' && upcomingGoal ? weekLabel(upcomingGoal.effectiveWeek) : weekLabel(thisWeek.weekStart);
+  const range = status === 'scheduled' && upcomingGoal ? weekLabel(upcomingGoal.fromWeek) : weekLabel(rhythm.weekStart);
   return (
     <View style={[styles.weekCard, status === 'complete' && styles.weekCardComplete]}>
       <View style={styles.weekHeader}>
@@ -206,28 +188,26 @@ function WeekCard({ rhythm }: { rhythm: Rhythm }) {
 
       {showProgress ? (
         <>
-          <Text style={styles.bigCount} accessibilityLabel={`${thisWeek.sessions.length} of ${thisWeek.goal} sessions`}>
-            {thisWeek.sessions.length}
-            <Text style={styles.bigOf}> of {thisWeek.goal}</Text>
+          <Text style={styles.bigCount} accessibilityLabel={`${rhythm.thisWeek.length} of ${rhythm.goal} sessions`}>
+            {rhythm.thisWeek.length}
+            <Text style={styles.bigOf}> of {rhythm.goal}</Text>
           </Text>
-          <Text style={type.caption}>{status === 'paused' ? 'sessions before pausing' : 'sessions completed'}</Text>
+          <Text style={type.caption}>{rhythm.paused ? 'sessions before pausing' : 'sessions completed'}</Text>
+          <SessionSlots rhythm={rhythm} />
         </>
       ) : null}
-      {status === 'scheduled' && upcomingGoal ? (
-        <Text style={[type.h2, { marginTop: space.lg }]}>
-          {upcomingGoal.sessionsPerWeek} sessions, starting Monday.
-        </Text>
-      ) : null}
-
-      <SessionSlots rhythm={rhythm} />
+      {status === 'scheduled' ? <Text style={[type.h2, { marginVertical: space.lg }]}>{rhythm.goal} sessions, starting Monday.</Text> : null}
 
       <View style={styles.messageRow}>
-        {status === 'paused' ? <Text style={styles.leaf}>❧</Text> : null}
+        {rhythm.paused ? <Text style={styles.leaf}>❧</Text> : null}
         <Text style={[type.caption, { flex: 1 }]}>{progressMessage(rhythm)}</Text>
       </View>
+      {rhythm.goalSource === 'profile' && showProgress ? (
+        <Text style={[type.caption, { marginTop: space.xs }]}>Goal from your profile’s training days.</Text>
+      ) : null}
       {upcomingGoal && status !== 'scheduled' ? (
-        <Text style={type.caption}>
-          From {shortDate(upcomingGoal.effectiveWeek)}: {upcomingGoal.sessionsPerWeek} sessions a week.
+        <Text style={[type.caption, { marginTop: space.xs }]}>
+          From {shortDate(upcomingGoal.fromWeek)}: {upcomingGoal.weeklyGoal} sessions a week.
         </Text>
       ) : null}
     </View>
@@ -235,22 +215,18 @@ function WeekCard({ rhythm }: { rhythm: Rhythm }) {
 }
 
 function SessionSlots({ rhythm }: { rhythm: Rhythm }) {
-  const { thisWeek, status } = rhythm;
-  const slots = Math.max(thisWeek.goal || 3, thisWeek.sessions.length);
-  if (status === 'scheduled') return null;
+  const slots = Math.max(rhythm.goal, rhythm.thisWeek.length);
   return (
-    <View style={styles.slots} accessibilityRole="list">
+    <View style={styles.slots}>
       {Array.from({ length: slots }, (_, i) => {
-        const s = thisWeek.sessions[i];
+        const s = rhythm.thisWeek[i];
         return (
-          <View key={i} style={styles.slot} accessibilityLabel={s ? `${s.name}, ${shortDate(toDateKey(s.completedAt))}` : `Session ${i + 1}, not done`}>
-            <View style={[styles.dot, s ? styles.dotDone : styles.dotEmpty]}>
-              {s ? <Text style={styles.dotCheck}>✓</Text> : null}
-            </View>
+          <View key={i} style={styles.slot} accessible accessibilityLabel={s ? `${s.title}, ${shortDate(s.date)}` : `Session ${i + 1}, not done`}>
+            <View style={[styles.dot, s ? styles.dotDone : styles.dotEmpty]}>{s ? <Text style={styles.dotCheck}>✓</Text> : null}</View>
             <Text style={styles.slotLabel} numberOfLines={1}>
               {s ? 'Workout' : `Session ${i + 1}`}
             </Text>
-            <Text style={styles.slotSub}>{s ? shortDate(toDateKey(s.completedAt)) : 'Not done'}</Text>
+            <Text style={styles.slotSub}>{s ? shortDate(s.date) : 'Not done'}</Text>
           </View>
         );
       })}
@@ -258,19 +234,15 @@ function SessionSlots({ rhythm }: { rhythm: Rhythm }) {
   );
 }
 
-function CompletedWeeks({ rhythm, onOpen }: { rhythm: Rhythm; onOpen: (w: WeekSummary) => void }) {
+function CompletedWeeks({ rhythm, onOpen }: { rhythm: Rhythm; onOpen: (w: WeekResult) => void }) {
   const [page, setPage] = useState(0);
   const pages = Math.max(1, Math.ceil(rhythm.completedWeeks.length / PAGE_SIZE));
-  const visible = useMemo(
-    () => rhythm.completedWeeks.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE),
-    [rhythm.completedWeeks, page],
-  );
+  const current = Math.min(page, pages - 1);
+  const visible = rhythm.completedWeeks.slice(current * PAGE_SIZE, current * PAGE_SIZE + PAGE_SIZE);
   return (
     <View>
       <Text style={type.h2}>Completed weeks</Text>
-      <Text style={[type.caption, { marginBottom: space.md }]}>
-        Your completed weeks and sessions remain in your history.
-      </Text>
+      <Text style={[type.caption, { marginBottom: space.md }]}>Your completed weeks and sessions remain in your history.</Text>
       {visible.length === 0 ? (
         <View style={styles.emptyWeeks}>
           <View style={[styles.dot, styles.dotEmpty]}>
@@ -281,12 +253,7 @@ function CompletedWeeks({ rhythm, onOpen }: { rhythm: Rhythm; onOpen: (w: WeekSu
       ) : (
         <View style={styles.weekGrid}>
           {visible.map((w) => (
-            <Pressable
-              key={w.weekStart}
-              accessibilityRole="button"
-              onPress={() => onOpen(w)}
-              style={({ pressed }) => [styles.weekTile, pressed && { opacity: 0.7 }]}
-            >
+            <Pressable key={w.weekStart} accessibilityRole="button" onPress={() => onOpen(w)} style={({ pressed }) => [styles.weekTile, pressed && { opacity: 0.7 }]}>
               <Text style={styles.tileCheck}>✓</Text>
               <View>
                 <Text style={type.h3}>{weekLabel(w.weekStart)}</Text>
@@ -298,13 +265,13 @@ function CompletedWeeks({ rhythm, onOpen }: { rhythm: Rhythm; onOpen: (w: WeekSu
       )}
       {pages > 1 ? (
         <View style={styles.pager}>
-          <IconButton label="Previous page" onPress={() => setPage((p) => Math.max(0, p - 1))}>
+          <IconButton label="Previous page" onPress={() => setPage(Math.max(0, current - 1))}>
             ‹
           </IconButton>
           <Text style={type.caption}>
-            Page {page + 1} of {pages}
+            Page {current + 1} of {pages}
           </Text>
-          <IconButton label="Next page" onPress={() => setPage((p) => Math.min(pages - 1, p + 1))}>
+          <IconButton label="Next page" onPress={() => setPage(Math.min(pages - 1, current + 1))}>
             ›
           </IconButton>
         </View>
@@ -327,7 +294,7 @@ function Stat({ value, label }: { value: number; label: string }) {
   );
 }
 
-function WeekDetail({ week }: { week: WeekSummary }) {
+function WeekDetail({ week }: { week: WeekResult }) {
   return (
     <View>
       <Text style={type.caption}>{weekLabel(week.weekStart)}</Text>
@@ -339,13 +306,11 @@ function WeekDetail({ week }: { week: WeekSummary }) {
       </Text>
       {week.sessions.map((s) => (
         <View key={s.id} style={styles.detailRow}>
-          <Text style={[type.caption, { width: 56 }]}>{shortDate(toDateKey(s.completedAt))}</Text>
-          <Text style={type.body}>{s.name}</Text>
+          <Text style={[type.caption, { width: 56 }]}>{shortDate(s.date)}</Text>
+          <Text style={type.body}>{s.title}</Text>
         </View>
       ))}
-      <Text style={[type.caption, { marginTop: space.lg }]}>
-        Your completed sessions stay in history if your consecutive count starts again.
-      </Text>
+      <Text style={[type.caption, { marginTop: space.lg }]}>Your completed sessions stay in history if your consecutive count starts again.</Text>
     </View>
   );
 }
@@ -359,13 +324,11 @@ function GoalSheet({
   visible: boolean;
   onClose: () => void;
   rhythm: Rhythm;
-  onSave: (n: number, startNextMonday: boolean) => Promise<void>;
+  onSave: (n: number, startNextMonday: boolean) => void;
 }) {
-  const isChange = rhythm.status !== 'empty';
-  const initial = rhythm.upcomingGoal?.sessionsPerWeek ?? (rhythm.thisWeek.goal || 3);
-  const [goal, setGoal] = useState(initial);
-  const [nextMondayStart, setNextMondayStart] = useState(false);
-  const startsOn = shortDate(addDays(rhythm.thisWeek.weekStart, 7));
+  const isChange = rhythm.status !== 'empty' && rhythm.status !== 'scheduled';
+  const [goal, setGoal] = useState(rhythm.upcomingGoal?.weeklyGoal ?? rhythm.goal);
+  const [startNext, setStartNext] = useState(false);
 
   return (
     <Sheet visible={visible} onClose={onClose} title={isChange ? 'Change weekly goal' : 'Set your weekly goal'}>
@@ -379,24 +342,15 @@ function GoalSheet({
         ))}
       </View>
       {isChange ? (
-        <Text style={[type.caption, { marginTop: space.md }]}>Your updated goal starts next Monday, {startsOn}.</Text>
+        <Text style={[type.caption, { marginTop: space.md }]}>Your updated goal starts next Monday, {shortDate(nextMonday(rhythm.date))}.</Text>
       ) : (
-        <Pressable
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: nextMondayStart }}
-          onPress={() => setNextMondayStart((v) => !v)}
-          style={styles.checkRow}
-        >
-          <View style={[styles.checkbox, nextMondayStart && styles.checkboxOn]}>
-            {nextMondayStart ? <Text style={styles.checkMark}>✓</Text> : null}
-          </View>
+        <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: startNext }} onPress={() => setStartNext((v) => !v)} style={styles.checkRow}>
+          <View style={[styles.checkbox, startNext && styles.checkboxOn]}>{startNext ? <Text style={styles.checkMark}>✓</Text> : null}</View>
           <Text style={type.body}>Start next Monday</Text>
         </Pressable>
       )}
-      <Text style={[type.caption, { marginVertical: space.md }]}>
-        Rest days are part of your week. A weekly schedule is optional.
-      </Text>
-      <Button title={isChange ? 'Save weekly goal' : 'Set my goal'} onPress={() => onSave(goal, nextMondayStart)} />
+      <Text style={[type.caption, { marginVertical: space.md }]}>Rest days are part of your week. A weekly schedule is optional.</Text>
+      <Button title={isChange ? 'Save weekly goal' : 'Set my goal'} onPress={() => onSave(goal, startNext)} />
     </Sheet>
   );
 }
@@ -424,34 +378,18 @@ const styles = StyleSheet.create({
   dotCheck: { color: colors.white, fontSize: 18, fontWeight: '800' },
   slotLabel: { fontSize: 12, fontWeight: '600', color: colors.ink },
   slotSub: { fontSize: 11, color: colors.muted },
-  messageRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  messageRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm, marginTop: space.sm },
   leaf: { fontSize: 20, color: colors.muted },
   streakRow: { flexDirection: 'row', alignItems: 'center', gap: space.md, marginTop: space.lg },
   streakNumber: { fontSize: 32, fontWeight: '800', color: colors.ink },
   link: { color: colors.accent, fontWeight: '700', fontSize: 15 },
   emptyWeeks: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: space.md },
   weekGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: space.md },
-  weekTile: {
-    width: '47%',
-    flexDirection: 'row',
-    gap: space.sm,
-    padding: space.md,
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-  },
+  weekTile: { width: '47%', flexDirection: 'row', gap: space.sm, padding: space.md, backgroundColor: colors.surface, borderRadius: radius.md },
   tileCheck: { color: colors.accent, fontSize: 16, fontWeight: '800' },
   pager: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.lg, marginTop: space.md },
   stats: { flexDirection: 'row', marginTop: space.xl },
-  bigCheck: {
-    alignSelf: 'center',
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    backgroundColor: colors.accentSoft,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: space.lg,
-  },
+  bigCheck: { alignSelf: 'center', width: 96, height: 96, borderRadius: 48, backgroundColor: colors.accentSoft, alignItems: 'center', justifyContent: 'center', marginVertical: space.lg },
   detailRow: { flexDirection: 'row', paddingVertical: space.sm, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
   sheetText: { marginBottom: space.lg },
   goalRow: { flexDirection: 'row', gap: space.sm },

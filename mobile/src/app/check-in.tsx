@@ -1,101 +1,84 @@
 /**
  * Post-workout check-in (Thông's snapshots 120–126, 133–134, 259–268).
- * Params: sessionId (required), stopped=pain when the session ended because of pain.
- * Saves through appendReview() from training history.
+ * Route param: `history` = HistoryEntry.id (DATA_CONTRACT §12).
+ * Saves only through submitCheckIn → appendReview (Đức Huy) + setMascotMood (Đỗ Huy).
  */
-import { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { getCheckInContext, submitCheckIn } from '../modules/checkin/checkin.ts';
 import {
-  BACK_AREAS,
-  BODY_AREAS,
-  buildReview,
-  DEFAULT_RPE,
-  effortLevel,
-  EXERCISE_VERDICTS,
-  FRONT_AREAS,
-  hasPain,
-  moodAfterReview,
-  NOTE_MAX,
-  SENSATIONS,
-  type BodyArea,
-  type DiscomfortNote,
-  type ExerciseVerdict,
-  type Sensation,
-} from '../domain/checkin.ts';
-import { appendReview, getSession, type TrainingSession } from '../data/training-history';
-import { KEYS, writeJson } from '../data/storage';
+  DEFAULT_RPE, FEEDBACK_LABELS, NOTE_MAX, SENSATIONS, SENSATION_LABELS,
+  effortLevel, hasPainSignal, moodAfterReview, scoreToFeedback,
+  type DiscomfortDetail, type Review, type Sensation,
+} from '../modules/checkin/review-model.ts';
+import { REGIONS, REGION_LABELS, type ExerciseFeedback, type Region } from '../shared/constants.ts';
+import { shortDate } from '../shared/dates.ts';
+import { ROUTES } from '../shared/routes.ts';
 import { Button, Chip, Divider, IconButton, Mascot, Screen, Sheet } from '../ui/components';
 import { colors, effortColors, radius, space, type } from '../ui/theme';
 
-type SheetName = null | 'body' | 'help' | 'skip' | 'saved';
+type SheetName = null | 'help' | 'skip' | 'saved';
+const SCORES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+const FEEDBACK_COLORS: Record<ExerciseFeedback, string> = {
+  tooEasy: '#A4C9CC',
+  justRight: '#B7CBAA',
+  tooHard: '#E8A173',
+  painful: colors.danger,
+};
 
 export default function CheckInScreen() {
-  const params = useLocalSearchParams<{ sessionId?: string; stopped?: string }>();
-  const stoppedForPain = params.stopped === 'pain';
-  const [session, setSession] = useState<TrainingSession | null | undefined>(undefined);
+  const { history } = useLocalSearchParams<{ history?: string }>();
+  const ctx = history ? getCheckInContext(history) : null;
 
-  const [rpe, setRpe] = useState(DEFAULT_RPE);
-  const [discomfort, setDiscomfort] = useState<DiscomfortNote[]>([]);
-  const [verdicts, setVerdicts] = useState<Record<string, ExerciseVerdict>>({});
-  const [showExercises, setShowExercises] = useState(false);
-  const [note, setNote] = useState('');
-  const [sheet, setSheet] = useState<SheetName>(null);
-  const [error, setError] = useState('');
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (!params.sessionId) setSession(null);
-    else getSession(params.sessionId).then(setSession);
-  }, [params.sessionId]);
-
-  const draft = useMemo(
-    () => ({
-      sessionId: session?.id ?? '',
-      rpe,
-      stoppedForPain,
-      discomfort,
-      exerciseFeedback: Object.entries(verdicts).map(([exerciseId, verdict]) => ({ exerciseId, verdict })),
-      note,
-    }),
-    [session, rpe, stoppedForPain, discomfort, verdicts, note],
-  );
-
-  if (session === undefined) {
-    return (
-      <Screen>
-        <ActivityIndicator style={{ marginTop: 120 }} color={colors.accent} />
-      </Screen>
-    );
-  }
-  if (session === null) {
+  if (!ctx) {
     return (
       <Screen>
         <Text style={[type.h2, { marginTop: 120 }]}>We couldn’t find this session.</Text>
-        <Button title="Back" variant="secondary" style={{ marginTop: space.lg }} onPress={() => router.back()} />
+        <Button title="Back" variant="secondary" style={{ marginTop: space.lg }} onPress={() => (router.canGoBack() ? router.back() : router.replace(ROUTES.home))} />
       </Screen>
     );
   }
+  return <CheckInForm key={ctx.entry.id} ctx={ctx} />;
+}
 
+function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInContext>> }) {
+  const { entry, existing } = ctx;
+  const stoppedByPain = entry.stoppedByPain;
+  const [rpe, setRpe] = useState<number>(existing?.rpe ?? DEFAULT_RPE);
+  const [discomfort, setDiscomfort] = useState<DiscomfortDetail[]>(existing?.discomfort ?? []);
+  const [scores, setScores] = useState<Record<string, number>>(
+    Object.fromEntries((existing?.exerciseFeedback ?? []).map((f) => [f.exerciseId, f.score])),
+  );
+  const [showBody, setShowBody] = useState(discomfort.length > 0);
+  const [showExercises, setShowExercises] = useState(Object.keys(scores).length > 0);
+  const [note, setNote] = useState(existing?.note ?? '');
+  const [sheet, setSheet] = useState<SheetName>(null);
+  const [saved, setSaved] = useState<Review | null>(null);
+  const [error, setError] = useState('');
+
+  const draft = { historyId: entry.id, rpe, discomfort, scores, note };
   const level = effortLevel(rpe);
-  const pain = hasPain(draft);
-  const mood = moodAfterReview(draft);
-  const sets = session.exercises.reduce((n, e) => n + e.sets.length, 0);
+  const pain = hasPainSignal(draft, stoppedByPain);
+  const mood = moodAfterReview(draft, stoppedByPain);
 
-  const finish = async () => {
-    setSaving(true);
+  const toggleRegion = (region: Region) =>
+    setDiscomfort((list) =>
+      list.some((d) => d.region === region) ? list.filter((d) => d.region !== region) : [...list, { region, sensation: null, exerciseId: null }],
+    );
+  const updateRegion = (next: DiscomfortDetail) => setDiscomfort((list) => list.map((d) => (d.region === next.region ? next : d)));
+
+  const finish = () => {
     setError('');
     try {
-      await appendReview(buildReview(draft));
-      // Home (Đỗ Huy) can read this to set the mascot mood.
-      await writeJson(KEYS.lastCheckIn, { kind: 'workout', sessionId: session.id, mood, at: Date.now() });
+      setSaved(submitCheckIn(draft, stoppedByPain));
       setSheet('saved');
     } catch {
       setError('Couldn’t save your check-in. Please try again.');
-    } finally {
-      setSaving(false);
     }
   };
+
+  const rated = Object.keys(scores).length;
 
   return (
     <Screen
@@ -105,12 +88,12 @@ export default function CheckInScreen() {
             {level.name} effort · {discomfort.length ? 'Body notes added' : 'Your moment to reflect'}
           </Text>
           {error ? <Text style={[type.caption, { color: colors.danger, marginBottom: space.sm }]}>{error}</Text> : null}
-          <Button title={saving ? 'Saving…' : 'Finish check-in'} trailing="✓" onPress={finish} disabled={saving} />
+          <Button title={existing ? 'Update check-in' : 'Finish check-in'} trailing="✓" onPress={finish} />
         </>
       }
     >
       <View style={styles.nav}>
-        <IconButton label="Back" onPress={() => router.back()}>
+        <IconButton label="Back" onPress={() => (router.canGoBack() ? router.back() : router.replace(ROUTES.home))}>
           ‹
         </IconButton>
         <Pressable accessibilityRole="button" onPress={() => setSheet('skip')} hitSlop={8}>
@@ -123,23 +106,23 @@ export default function CheckInScreen() {
       </View>
 
       <Text style={[type.title, { marginTop: space.lg }]} accessibilityRole="header">
-        {stoppedForPain ? 'Let’s give your body a little care.' : 'A little stronger.'}
+        {stoppedByPain ? 'Let’s give your body a little care.' : 'A little stronger.'}
       </Text>
       <Text style={type.caption}>
-        {stoppedForPain ? 'Stopping was the right call. A few notes help next time.' : 'Take a breath. Let’s check in.'}
+        {stoppedByPain ? 'Stopping was the right call. A few notes help next time.' : 'Take a breath. Let’s check in.'}
       </Text>
 
       <View style={styles.recap}>
-        <Text style={type.eyebrow}>Today’s little big things</Text>
-        <Text style={type.h2}>{session.name}.</Text>
+        <Text style={type.eyebrow}>Today’s little big things · {shortDate(entry.date)}</Text>
+        <Text style={type.h2}>{ctx.title}.</Text>
         <View style={styles.stats}>
-          <Stat value={`${session.durationMinutes}`} unit="min" label="Time for you" />
-          <Stat value={`${sets}`} unit="sets" label="Showing up" />
-          <Stat value={`${session.exercises.length}`} unit="" label="Exercises" />
+          <Stat value={Math.round(entry.durationSec / 60)} unit="min" label="Time for you" />
+          <Stat value={ctx.setCount} unit="sets" label="Showing up" />
+          <Stat value={ctx.exercises.length} unit="" label="Exercises" />
         </View>
       </View>
 
-      {/* Effort */}
+      {/* Effort (RPE 1–10, once for the whole session) */}
       <View style={styles.sectionHead}>
         <Text style={type.h2}>How did it feel?</Text>
         <IconButton label="How to rate your effort" onPress={() => setSheet('help')}>
@@ -148,7 +131,7 @@ export default function CheckInScreen() {
       </View>
       <Text style={type.caption}>Think about the whole session.</Text>
       <View style={styles.effortBox}>
-        <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }}>
+        <View style={styles.effortHead}>
           <Text style={type.h3}>{level.name}</Text>
           <Text style={type.h2}>
             {rpe}
@@ -157,21 +140,13 @@ export default function CheckInScreen() {
         </View>
         <Text style={[type.caption, { marginTop: space.xs }]}>{level.description}</Text>
       </View>
-      <View style={styles.effortTrack} accessibilityRole="adjustable" accessibilityLabel="Effort" accessibilityValue={{ min: 1, max: 10, now: rpe, text: `${rpe} out of 10, ${level.name}` }}
-        accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
-        onAccessibilityAction={(e) => setRpe((v) => Math.min(10, Math.max(1, v + (e.nativeEvent.actionName === 'increment' ? 1 : -1))))}
-      >
-        {effortColors.map((c, i) => (
-          <Pressable
-            key={i}
-            onPress={() => setRpe(i + 1)}
-            hitSlop={{ top: 12, bottom: 12 }}
-            style={[styles.effortStep, { backgroundColor: c }, i + 1 === rpe && styles.effortStepOn]}
-          >
-            <Text style={[styles.effortNum, i + 1 === rpe && { color: colors.ink }]}>{i + 1}</Text>
-          </Pressable>
-        ))}
-      </View>
+      <ScaleRow
+        value={rpe}
+        onChange={setRpe}
+        colorFor={(n) => effortColors[n - 1]}
+        label="Effort"
+        valueText={`${rpe} out of 10, ${level.name}`}
+      />
       <View style={styles.rangeLabels}>
         <Text style={type.caption}>Very light</Text>
         <Text style={type.caption}>All-out</Text>
@@ -181,7 +156,7 @@ export default function CheckInScreen() {
 
       {/* Body */}
       <Text style={type.h2}>How does your body feel?</Text>
-      <Pressable accessibilityRole="button" onPress={() => setSheet('body')} style={styles.bodyPrompt}>
+      <Pressable accessibilityRole="button" accessibilityState={{ expanded: showBody }} onPress={() => setShowBody((v) => !v)} style={styles.bodyPrompt}>
         <Text style={styles.bandage}>🩹</Text>
         <View style={{ flex: 1 }}>
           <Text style={type.h3}>Anything feeling uncomfortable?</Text>
@@ -190,60 +165,86 @@ export default function CheckInScreen() {
           </Text>
         </View>
       </Pressable>
-
-      {discomfort.map((d) => (
-        <AreaCard
-          key={d.area}
-          note={d}
-          exercises={session.exercises}
-          onChange={(next) => setDiscomfort((list) => list.map((x) => (x.area === d.area ? next : x)))}
-        />
-      ))}
-      {discomfort.length ? (
-        <Button title="Clear body notes" variant="text" onPress={() => setDiscomfort([])} />
+      {showBody ? (
+        <View style={styles.wrap}>
+          {REGIONS.map((r) => (
+            <Chip key={r} tone="blush" label={REGION_LABELS[r]} selected={discomfort.some((d) => d.region === r)} onPress={() => toggleRegion(r)} />
+          ))}
+        </View>
       ) : null}
+      {discomfort.map((d) => (
+        <View key={d.region} style={styles.areaCard}>
+          <Text style={type.h3}>{REGION_LABELS[d.region]}</Text>
+          <View style={styles.wrap}>
+            {SENSATIONS.map((s: Sensation) => (
+              <Chip key={s} tone="blush" label={SENSATION_LABELS[s]} selected={d.sensation === s} onPress={() => updateRegion({ ...d, sensation: d.sensation === s ? null : s })} />
+            ))}
+          </View>
+          <Text style={[type.caption, { marginTop: space.md }]}>Related exercise · optional</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
+            {ctx.exercises.map((e) => (
+              <Chip key={e.id} tone="blush" label={e.name} selected={d.exerciseId === e.id} onPress={() => updateRegion({ ...d, exerciseId: d.exerciseId === e.id ? null : e.id })} />
+            ))}
+          </ScrollView>
+        </View>
+      ))}
 
       {pain ? (
         <View style={styles.safety} accessibilityLiveRegion="polite">
           <Text style={type.h3}>Listen to your body.</Text>
           <Text style={[type.caption, { color: colors.ink }]}>
-            Don’t train through pain. If it’s sharp, getting worse, or doesn’t ease with rest, give that area a break
-            and talk to a doctor or physiotherapist. FitLens can’t assess injuries — this isn’t medical advice.
+            Don’t train through pain. If it’s sharp, getting worse, or doesn’t ease with rest, give that area a break and
+            talk to a doctor or physiotherapist. FitLens can’t assess injuries — this isn’t medical advice.
           </Text>
         </View>
       ) : null}
 
       <Divider />
 
-      {/* Exercises */}
+      {/* Per-exercise feedback: 1 too easy · 5 just right · 10 painful */}
       <Pressable accessibilityRole="button" accessibilityState={{ expanded: showExercises }} onPress={() => setShowExercises((v) => !v)} style={styles.collapse}>
         <View style={{ flex: 1 }}>
           <Text style={type.h2}>Anything you’d change?</Text>
-          <Text style={type.caption}>Reflect on individual exercises</Text>
+          <Text style={type.caption}>{rated ? `${rated} ${rated === 1 ? 'exercise' : 'exercises'} rated` : 'Rate individual exercises · optional'}</Text>
         </View>
         <Text style={type.h2}>{showExercises ? '×' : '＋'}</Text>
       </Pressable>
-      {showExercises
-        ? session.exercises.map((e) => (
-            <View key={e.id} style={{ marginTop: space.lg }}>
-              <Text style={type.h3}>{e.name}</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
-                {(Object.keys(EXERCISE_VERDICTS) as ExerciseVerdict[]).map((v) => (
-                  <Chip
-                    key={v}
-                    label={EXERCISE_VERDICTS[v]}
-                    selected={(verdicts[e.id] ?? 'none') === v}
-                    onPress={() => setVerdicts((all) => ({ ...all, [e.id]: v }))}
-                  />
-                ))}
-              </ScrollView>
-            </View>
-          ))
-        : null}
+      {showExercises ? (
+        <>
+          <Text style={[type.caption, { marginTop: space.sm }]}>1 = too easy · 5 = just right · 10 = painful</Text>
+          {ctx.exercises.map((e) => {
+            const score = scores[e.id];
+            const fb = score ? scoreToFeedback(score) : null;
+            return (
+              <View key={e.id} style={{ marginTop: space.lg }}>
+                <View style={styles.effortHead}>
+                  <Text style={type.h3}>{e.name}</Text>
+                  {fb ? (
+                    <Pressable onPress={() => setScores(({ [e.id]: _removed, ...rest }) => rest)} accessibilityRole="button" accessibilityLabel={`Clear rating for ${e.name}`}>
+                      <Text style={[type.caption, { color: FEEDBACK_COLORS[fb], fontWeight: '700' }]}>
+                        {score} · {FEEDBACK_LABELS[fb]} ×
+                      </Text>
+                    </Pressable>
+                  ) : (
+                    <Text style={type.caption}>Not rated</Text>
+                  )}
+                </View>
+                <ScaleRow
+                  value={score ?? null}
+                  onChange={(n) => setScores((all) => ({ ...all, [e.id]: n }))}
+                  colorFor={(n) => FEEDBACK_COLORS[scoreToFeedback(n)]}
+                  label={`${e.name} feedback`}
+                  valueText={fb ? `${score} out of 10, ${FEEDBACK_LABELS[fb]}` : 'Not rated'}
+                  compact
+                />
+              </View>
+            );
+          })}
+        </>
+      ) : null}
 
       <Divider />
 
-      {/* Note */}
       <Text style={type.h2}>Anything worth remembering?</Text>
       <Text style={[type.caption, { marginBottom: space.sm }]}>A thought for your next session · optional</Text>
       <TextInput
@@ -256,21 +257,7 @@ export default function CheckInScreen() {
         style={styles.note}
         accessibilityLabel="Your session, in your words"
       />
-      <Text style={[type.caption, { textAlign: 'center', marginTop: space.xl }]}>
-        Every session tells a story. This one is yours.
-      </Text>
-
-      <BodySheet
-        visible={sheet === 'body'}
-        selected={discomfort.map((d) => d.area)}
-        onClose={() => setSheet(null)}
-        onDone={(areas) => {
-          setDiscomfort((list) =>
-            areas.map((area) => list.find((d) => d.area === area) ?? { area, sensation: null, exerciseId: null }),
-          );
-          setSheet(null);
-        }}
-      />
+      <Text style={[type.caption, { textAlign: 'center', marginTop: space.xl }]}>Every session tells a story. This one is yours.</Text>
 
       <Sheet visible={sheet === 'help'} onClose={() => setSheet(null)} title="Your effort, your scale.">
         <Text style={[type.body, { marginBottom: space.lg }]}>
@@ -280,16 +267,14 @@ export default function CheckInScreen() {
         <Guide range="4–6 · Moderate to hard" text="Noticeable effort, still feeling in control." color={effortColors[4]} />
         <Guide range="7–9 · Very hard" text="Demanding work with little left to give." color={effortColors[7]} />
         <Guide range="10 · All-out" text="Your highest effort for this session." color={effortColors[9]} />
-        <Text style={[type.caption, { marginTop: space.md }]}>
-          Pain is a separate check-in. You can tell us about it under “How does your body feel?”
-        </Text>
+        <Text style={[type.caption, { marginTop: space.md }]}>Pain is a separate check-in. Tell us about it under “How does your body feel?”</Text>
       </Sheet>
 
       <Sheet visible={sheet === 'skip'} onClose={() => setSheet(null)} title="Skip the check-in?">
         <Text style={[type.body, { marginBottom: space.lg }]}>
           Your session is already saved. Without a check-in, next week’s plan can’t adjust to how this one felt.
         </Text>
-        <Button title="Skip for now" variant="secondary" onPress={() => router.replace('/')} />
+        <Button title="Skip for now" variant="secondary" onPress={() => router.replace(ROUTES.home)} />
         <Button title="Keep checking in" variant="text" onPress={() => setSheet(null)} style={{ marginTop: space.sm }} />
       </Sheet>
 
@@ -298,23 +283,61 @@ export default function CheckInScreen() {
           <Mascot mood={mood} size={120} />
         </View>
         <Text style={[type.body, { marginBottom: space.lg }]}>
-          {session.name} · {level.name} effort.{' '}
-          {discomfort.length ? `Body notes: ${discomfort.map((d) => BODY_AREAS[d.area]).join(', ')}.` : 'No discomfort reported.'}
-          {draft.exerciseFeedback.filter((f) => f.verdict !== 'none').length
-            ? ` Feedback added for ${draft.exerciseFeedback.filter((f) => f.verdict !== 'none').length} exercises.`
-            : ''}
-          {note.trim() ? ' Your note is included.' : ''}
+          {ctx.title} · {level.name} effort.{' '}
+          {saved?.discomfortRegions.length ? `Body notes: ${saved.discomfortRegions.map((r) => REGION_LABELS[r]).join(', ')}.` : 'No discomfort reported.'}
+          {saved?.exerciseFeedback.length ? ` ${saved.exerciseFeedback.length} exercises rated.` : ''}
+          {saved?.note ? ' Your note is included.' : ''}
         </Text>
-        <Button title="Back to Today" trailing="↗" onPress={() => router.replace('/')} />
+        <Button title="Back to Today" trailing="↗" onPress={() => router.replace(ROUTES.home)} />
         <Button title="Keep editing" variant="text" onPress={() => setSheet(null)} style={{ marginTop: space.sm }} />
       </Sheet>
     </Screen>
   );
 }
 
-function Stat({ value, unit, label }: { value: string; unit: string; label: string }) {
+/** Ten tappable steps; adjustable for screen readers. */
+function ScaleRow({
+  value,
+  onChange,
+  colorFor,
+  label,
+  valueText,
+  compact,
+}: {
+  value: number | null;
+  onChange: (n: number) => void;
+  colorFor: (n: number) => string;
+  label: string;
+  valueText: string;
+  compact?: boolean;
+}) {
   return (
-    <View style={styles.stat}>
+    <View
+      style={[styles.scale, compact && { marginTop: space.sm }]}
+      accessible
+      accessibilityRole="adjustable"
+      accessibilityLabel={label}
+      accessibilityValue={{ text: valueText }}
+      accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+      onAccessibilityAction={(e) => onChange(Math.min(10, Math.max(1, (value ?? 5) + (e.nativeEvent.actionName === 'increment' ? 1 : -1))))}
+    >
+      {SCORES.map((n) => (
+        <Pressable
+          key={n}
+          onPress={() => onChange(n)}
+          hitSlop={{ top: 10, bottom: 10 }}
+          style={[styles.step, { backgroundColor: colorFor(n), height: compact ? 30 : 36 }, n === value ? styles.stepOn : value !== null && styles.stepOff]}
+        >
+          <Text style={[styles.stepNum, n === value && { color: colors.ink }]}>{n}</Text>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+
+function Stat({ value, unit, label }: { value: number; unit: string; label: string }) {
+  return (
+    <View style={{ flex: 1 }}>
       <Text style={type.eyebrow}>{label}</Text>
       <Text style={type.h2}>
         {value}
@@ -336,99 +359,20 @@ function Guide({ range, text, color }: { range: string; text: string; color: str
   );
 }
 
-function AreaCard({
-  note,
-  exercises,
-  onChange,
-}: {
-  note: DiscomfortNote;
-  exercises: TrainingSession['exercises'];
-  onChange: (n: DiscomfortNote) => void;
-}) {
-  return (
-    <View style={styles.areaCard}>
-      <Text style={type.h3}>{BODY_AREAS[note.area]}</Text>
-      <View style={styles.wrap}>
-        {(Object.keys(SENSATIONS) as Sensation[]).map((s) => (
-          <Chip
-            key={s}
-            tone="blush"
-            label={SENSATIONS[s]}
-            selected={note.sensation === s}
-            onPress={() => onChange({ ...note, sensation: note.sensation === s ? null : s })}
-          />
-        ))}
-      </View>
-      <Text style={[type.caption, { marginTop: space.md }]}>Related exercise · optional</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
-        {exercises.map((e) => (
-          <Chip
-            key={e.id}
-            tone="blush"
-            label={e.name}
-            selected={note.exerciseId === e.id}
-            onPress={() => onChange({ ...note, exerciseId: note.exerciseId === e.id ? null : e.id })}
-          />
-        ))}
-      </ScrollView>
-    </View>
-  );
-}
-
-function BodySheet({
-  visible,
-  selected,
-  onClose,
-  onDone,
-}: {
-  visible: boolean;
-  selected: BodyArea[];
-  onClose: () => void;
-  onDone: (areas: BodyArea[]) => void;
-}) {
-  const [view, setView] = useState<'front' | 'back'>('front');
-  const [draft, setDraft] = useState<BodyArea[]>(selected);
-  useEffect(() => {
-    if (visible) setDraft(selected);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-  const toggle = (a: BodyArea) => setDraft((d) => (d.includes(a) ? d.filter((x) => x !== a) : [...d, a]));
-  const areas = view === 'front' ? FRONT_AREAS : BACK_AREAS;
-
-  return (
-    <Sheet visible={visible} onClose={onClose} title="Listen to your body.">
-      <Text style={[type.caption, { marginBottom: space.md }]}>Tap an area. You can choose more than one.</Text>
-      <View style={styles.segmented}>
-        {(['front', 'back'] as const).map((v) => (
-          <Chip key={v} label={v === 'front' ? 'Front' : 'Back'} selected={view === v} onPress={() => setView(v)} style={{ flex: 1 }} />
-        ))}
-      </View>
-      <View style={[styles.wrap, { marginVertical: space.lg }]}>
-        {areas.map((a) => (
-          <Chip key={a} tone="blush" label={BODY_AREAS[a]} selected={draft.includes(a)} onPress={() => toggle(a)} />
-        ))}
-      </View>
-      <Text style={[type.caption, { marginBottom: space.md }]} accessibilityLiveRegion="polite">
-        {draft.length ? `${draft.length} selected` : 'No areas selected'}
-      </Text>
-      <Button title="Done" onPress={() => onDone(draft)} />
-    </Sheet>
-  );
-}
-
 const styles = StyleSheet.create({
   nav: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: space.md },
   skip: { fontSize: 16, fontWeight: '700', color: colors.ink, padding: space.sm },
   face: { alignItems: 'center', justifyContent: 'center', borderRadius: radius.lg, paddingVertical: space.xl },
   recap: { backgroundColor: colors.surface, borderRadius: radius.lg, padding: space.lg, marginVertical: space.xl },
   stats: { flexDirection: 'row', marginTop: space.md },
-  stat: { flex: 1 },
   sectionHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   effortBox: { backgroundColor: colors.surface, borderRadius: radius.md, padding: space.lg, marginTop: space.md },
-  effortTrack: { flexDirection: 'row', gap: 4, marginTop: space.lg },
-  effortStep: { flex: 1, height: 36, borderRadius: 8, alignItems: 'center', justifyContent: 'center', opacity: 0.55 },
-  effortStepOn: { opacity: 1, transform: [{ scaleY: 1.25 }], borderWidth: 2, borderColor: colors.ink },
-  effortNum: { fontSize: 12, fontWeight: '700', color: colors.white },
+  effortHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
+  scale: { flexDirection: 'row', gap: 4, marginTop: space.lg },
+  step: { flex: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  stepOn: { transform: [{ scaleY: 1.2 }], borderWidth: 2, borderColor: colors.ink },
+  stepOff: { opacity: 0.45 },
+  stepNum: { fontSize: 12, fontWeight: '700', color: colors.white },
   rangeLabels: { flexDirection: 'row', justifyContent: 'space-between', marginTop: space.sm },
   bodyPrompt: { flexDirection: 'row', alignItems: 'center', gap: space.lg, marginTop: space.md, paddingVertical: space.sm },
   bandage: { fontSize: 40, backgroundColor: colors.blushSoft, borderRadius: 32, padding: space.sm, overflow: 'hidden' },
@@ -438,14 +382,5 @@ const styles = StyleSheet.create({
   chipRow: { gap: space.sm, paddingTop: space.sm },
   safety: { backgroundColor: colors.blushSoft, borderRadius: radius.md, padding: space.lg, marginTop: space.lg, gap: space.xs },
   collapse: { flexDirection: 'row', alignItems: 'center', minHeight: 48 },
-  note: {
-    minHeight: 110,
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    padding: space.lg,
-    fontSize: 15,
-    color: colors.ink,
-    textAlignVertical: 'top',
-  },
-  segmented: { flexDirection: 'row', gap: space.sm },
+  note: { minHeight: 110, backgroundColor: colors.surface, borderRadius: radius.md, padding: space.lg, fontSize: 15, color: colors.ink, textAlignVertical: 'top' },
 });

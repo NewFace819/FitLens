@@ -1,54 +1,53 @@
 # FitLens Mobile (Android · React Native + Expo)
 
-Expo SDK 58, React Native 0.88, TypeScript, Expo Router. UI follows Thông's design snapshots (`design/ui-snapshots/2026-10-28/` on branch `docs/ui-snapshot-2026-10-28`).
+Expo SDK 58, React Native 0.88, TypeScript, Expo Router. UI follows Thông's design snapshots (`design/ui-snapshots/2026-10-28/`). Data follows `docs/design/DATA_CONTRACT.md`.
+
+> ⚠️ `docs/PROJECT_STATE.md` on `main` says **RN CLI**, while this branch uses **Expo**. The team must pick one before merging. Expo runs on a phone through Expo Go without Android Studio or JDK 17.
 
 ## Run it
 
 ```bash
 cd mobile
 npm install
-npm start          # then scan the QR code with the Expo Go app on an Android phone
-```
-
-The phone and the computer must be on the same Wi-Fi. No Android Studio is needed for Expo Go. Local notifications work in Expo Go; remote push would need a development build.
-
-```bash
+npm start          # scan the QR code with Expo Go on an Android phone (same Wi-Fi)
 npm run typecheck  # tsc --noEmit
-npm test           # unit tests for the pure logic in src/domain (Node's built-in test runner)
+npm test           # pure-logic + contract tests (Node's built-in runner)
 ```
+
+Sample data loads on first start (contract §8). The dev hub has "Reset sample data".
 
 ## Layout
 
 ```
 src/
-├── app/            # Screens (Expo Router: every file is a route)
-│   ├── _layout.tsx
-│   ├── index.tsx       # TEMPORARY dev hub until Home + dock exist (Đỗ Huy)
-│   ├── rhythm.tsx      # Your Rhythm: weekly goal, streak, pause (Tu)
-│   ├── reminders.tsx   # Workout times + weekly notifications (Tu)
-│   └── check-in.tsx    # Post-workout check-in (Tu)
-├── domain/         # Pure logic, no React / storage. Unit tested.
-│   ├── dates.ts
-│   ├── rhythm.ts       # streak / weekly goal / pause rules
-│   ├── checkin.ts      # review types, RPE levels, next-week adjustment hints
-│   └── reminders.ts
-├── data/           # AsyncStorage + device services
-│   ├── storage.ts          # keys: fitlens:<name>:v<n>
-│   ├── training-history.ts # PLACEHOLDER for Đức Huy (getHistory, appendReview…)
-│   ├── sample-history.ts   # synthetic demo data
-│   ├── rhythm-store.ts     # getRhythm() for Home / Insights
-│   └── reminder-store.ts   # expo-notifications scheduling
-└── ui/             # theme tokens, shared components, mascot faces
+├── app/                 # Screens (Expo Router). Thin: call module functions only.
+│   ├── index.tsx        # TEMPORARY dev hub until Home + dock (Đỗ Huy)
+│   ├── rhythm.tsx       # Tu
+│   ├── reminders.tsx    # Tu
+│   └── check-in.tsx     # Tu  (?history=<HistoryEntry.id>)
+├── shared/              # Contract §1, 2, 4, 8, 12 — everyone imports, nobody re-types
+│   ├── constants.ts     # enums: Region, ExerciseFeedback, SessionStatus, …
+│   ├── dates.ts         # YYYY-MM-DD, HH:mm, weekStartOf (Monday)
+│   ├── ids.ts           # <prefix>-<random>
+│   ├── storage.ts       # fitlens.<entity> = { v, data }; sync read/write over a hydrated cache
+│   ├── storage-native.ts# AsyncStorage persistence
+│   ├── routes.ts        # route names + fixed params
+│   └── seed.ts          # calls each owner's seed
+├── modules/             # One folder per owner. Pure TS, unit-tested, no React.
+│   ├── rhythm/          # Tu: getRhythm, setWeeklyGoal, pauseRhythm, resumeRhythm
+│   ├── checkin/         # Tu: Review shape, 1–10 feedback scale, submitCheckIn, load adjust
+│   ├── reminders/       # Tu: getReminder, setReminder, notifications.ts (device)
+│   ├── history/         # Đức Huy  ⚠️ placeholder
+│   ├── workouts/        # Hải      ⚠️ placeholder
+│   ├── profile/         # Thông    ⚠️ placeholder
+│   └── mascot/          # Đỗ Huy   ⚠️ placeholder
+└── ui/                  # theme, shared components, mascot faces, useStore()
 ```
 
-Rules of thumb: put logic in `domain/` (pure functions with tests), put storage and device APIs in `data/`, and keep screens thin. Domain files import each other with an explicit `.ts` extension so `node --test` can run them without a build step.
+Rules (from the contract):
+- One owner writes each key. Everyone else calls the owner's functions.
+- Contract functions are **synchronous**. Storage hydrates once at start-up, so `read`/`write` are sync and saving to the device happens in the background.
+- Missing or broken data never crashes a screen; readers return defaults.
+- The placeholder modules implement the contract signatures so Tu's screens work. Each owner replaces their own folder and keeps the signatures.
 
-## Contracts with other modules
-
-| Who | What Tu's code uses / provides |
-|---|---|
-| Đức Huy | Uses `getHistory()`, `getSession(id)`, `appendReview(review: SessionReview)` from `data/training-history.ts`. The current file is a placeholder with the agreed names; replace the implementation but keep the exports. Open the check-in with `router.push({ pathname: '/check-in', params: { sessionId } })`, and add `stopped: 'pain'` after a pain stop. |
-| Hải | `suggestAdjustments(reviews)` in `domain/checkin.ts` returns `easier / keep / harder / swap` per exercise id from recent reviews, for next week's plan. |
-| Thông / Đỗ Huy | `getRhythm()` in `data/rhythm-store.ts` returns status, `thisWeek` (done / goal), `streak`, `longestStreak` and `completedWeeks` for Home and Insights. After a check-in, `fitlens:last-check-in:v1` holds `{ mood }` for the mascot. |
-
-Safety: the check-in shows a general "don't train through pain" note. The app never gives medical advice.
+Tu's data details: `docs/design/RHYTHM_CHECKIN_REMINDER.md`.
