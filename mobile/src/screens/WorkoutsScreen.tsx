@@ -2,11 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
 import type { AppStore, Workout } from '../core/types';
 import { Button, Heading } from '../ui/parts';
+import WorkoutDetailScreen from './WorkoutDetailScreen';
 import { colors } from '../ui/theme';
 
 export default function WorkoutsScreen({ store }: { store: AppStore }) {
   const [workouts, setWorkouts] = useState<Workout[]>(() => store.listWorkouts());
-  const [open, setOpen] = useState<string | null>(null);
+  const [detail, setDetail] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const refresh = useCallback(() => setWorkouts(store.listWorkouts()), [store]);
@@ -23,53 +24,41 @@ export default function WorkoutsScreen({ store }: { store: AppStore }) {
       return;
     }
     setName('');
-    setMessage(`Created “${w.title}”.`);
-    setOpen(w.id);
+    setMessage('');
     refresh();
-  };
-
-  const remove = (w: Workout) => {
-    const r = store.deleteWorkout(w.id);
-    if (!r.ok) {
-      setMessage(
-        r.reason === 'scheduled'
-          ? `“${w.title}” is on your plan. Remove those sessions first.`
-          : 'Couldn’t delete this workout.',
-      );
-      return;
-    }
-    setMessage(`Deleted “${w.title}”.`);
-    refresh();
+    setDetail(w.id); // open it straight away so exercises can be added
   };
 
   const mine = workouts.filter(w => w.source === 'custom');
   const templates = workouts.filter(w => w.source === 'template');
   const row = (w: Workout) => (
     <View key={w.id} style={styles.card}>
-      <Pressable
-        testID={`workout-${w.id}`}
-        accessibilityRole="button"
-        onPress={() => setOpen(open === w.id ? null : w.id)}>
+      <Pressable testID={`workout-${w.id}`} accessibilityRole="button" onPress={() => setDetail(w.id)}>
         <Text style={styles.title}>{w.title}</Text>
         <Text style={styles.meta}>
           {w.items.length} {w.items.length === 1 ? 'exercise' : 'exercises'} · about {store.estimateMinutes(w)} min
         </Text>
       </Pressable>
-      {open === w.id && (
-        <View style={styles.details}>
-          {w.items.length === 0 && <Text style={styles.meta}>No exercises yet.</Text>}
-          {w.items.map((i, n) => (
-            <Text key={n} style={styles.exercise}>
-              {n + 1}. {store.exerciseName(i.exerciseId)} · {i.sets} × {i.reps}
-            </Text>
-          ))}
-          {w.source === 'custom' && (
-            <Button kind="danger" label="Delete workout" onPress={() => remove(w)} testID={`delete-${w.id}`} />
-          )}
-        </View>
-      )}
     </View>
   );
+
+  if (detail !== null) {
+    return (
+      <WorkoutDetailScreen
+        store={store}
+        workoutId={detail}
+        onBack={() => {
+          setDetail(null);
+          refresh();
+        }}
+        onDeleted={() => {
+          setDetail(null);
+          setMessage('Workout deleted.');
+          refresh();
+        }}
+      />
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="handled">
@@ -115,6 +104,4 @@ const styles = StyleSheet.create({
   card: { backgroundColor: colors.card, borderWidth: 1, borderColor: '#e0e6d6', borderRadius: 20, padding: 14 },
   title: { fontSize: 16, fontWeight: '900', color: colors.text },
   meta: { fontSize: 12, fontWeight: '700', color: colors.muted, marginTop: 2 },
-  details: { marginTop: 10, gap: 6 },
-  exercise: { fontSize: 14, fontWeight: '700', color: colors.text },
 });

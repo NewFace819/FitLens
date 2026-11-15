@@ -25,6 +25,7 @@ export async function createAppStore(backend: KeyValueBackend = defaultBackend()
     generateDraft: (profile: Partial<Profile>, weekStart: string): Draft | null =>
       DraftModel.generateDraft(profile, weekStart, base.listWorkouts()),
     applyDraft: (draft: Draft) => DraftModel.applyDraft(draft, base),
+    listExercises: () => Exercises.listExercises(),
     weekDates: (weekStart: string): string[] => Dates.weekDates(weekStart),
     addDays: (date: string, n: number): string | null => Dates.addDays(date, n),
     exerciseName: (id: string): string => {

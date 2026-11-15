@@ -43,15 +43,16 @@ test('renders the Workouts tab with the routines', async () => {
   expect(text(tree)).toContain('Routines');
 });
 
-test('creating a workout shows it under "Your workouts" and saves it to the device', async () => {
+test('creating a workout opens it, lists it under "Your workouts" and saves it to the device', async () => {
   const { tree, backend } = await render();
   await ReactTestRenderer.act(async () => {
     byId(tree, 'workout-name').props.onChangeText('My Sunday session');
   });
   await press(tree, 'create-workout');
-  expect(text(tree)).toContain('Your workouts');
+  expect(has(tree, 'add-exercise')).toBe(true); // now on the detail screen, ready to add exercises
   expect(text(tree)).toContain('My Sunday session');
-  expect(byId(tree, 'workouts-status').props.children).toContain('Created');
+  await press(tree, 'back');
+  expect(text(tree)).toContain('Your workouts');
   await ReactTestRenderer.act(tick);
   expect(backend.data.get('fitlens.workouts')).toContain('My Sunday session');
 });
@@ -114,4 +115,123 @@ test('Plan tab: week navigation and copying a week', async () => {
   expect(has(tree, 'day-2026-11-17')).toBe(true);
   await press(tree, 'prev-week');
   expect(byId(tree, 'week-label').props.children).toBe('This week');
+});
+
+const end = async (tree: ReactTestRenderer.ReactTestRenderer, id: string, value: string) => {
+  await ReactTestRenderer.act(async () => {
+    byId(tree, id).props.onEndEditing({ nativeEvent: { text: value } });
+  });
+};
+const status = (tree: ReactTestRenderer.ReactTestRenderer) => byId(tree, 'detail-status').props.children;
+
+test('editing a routine makes your own copy and leaves the routine untouched', async () => {
+  const { tree, backend } = await render();
+  await press(tree, 'workout-tpl-upper');
+  expect(text(tree)).toContain('Changing a routine makes your own copy');
+  await press(tree, 'sets-plus-0');
+  expect(status(tree)).toContain('own copy');
+  expect(byId(tree, 'sets-0').props.children).toBe(4); // bench press default is 3 sets
+  await press(tree, 'back');
+  const json = text(tree);
+  expect(json).toContain('Your workouts');
+  await ReactTestRenderer.act(tick);
+  expect(backend.data.get('fitlens.workouts')).toContain('tpl-upper'); // basedOn
+  // the routine itself still has 3 sets
+  await press(tree, 'workout-tpl-upper');
+  expect(byId(tree, 'sets-0').props.children).toBe(3);
+});
+
+test('detail: reps, order, add and remove exercises, rename', async () => {
+  const { tree } = await render();
+  await ReactTestRenderer.act(async () => {
+    byId(tree, 'workout-name').props.onChangeText('Mine');
+  });
+  await press(tree, 'create-workout');
+  await press(tree, 'add-exercise');
+  await press(tree, 'exercise-goblet-squat');
+  await press(tree, 'add-exercise');
+  await press(tree, 'exercise-biceps-curl');
+  expect(text(tree)).toContain('Goblet Squat');
+  expect(text(tree)).toContain('Biceps Curl');
+
+  await end(tree, 'reps-0', '15');
+  expect(byId(tree, 'reps-0').props.defaultValue).toBe('15');
+
+  await press(tree, 'down-0'); // squat moves below curl
+  const order = (t: ReactTestRenderer.ReactTestRenderer) =>
+    [text(t).indexOf('Goblet Squat'), text(t).indexOf('Biceps Curl')];
+  expect(order(tree)[1]).toBeLessThan(order(tree)[0]);
+
+  await press(tree, 'remove-0'); // removes the curl (now first)
+  expect(text(tree)).not.toContain('Biceps Curl');
+  expect(text(tree)).toContain('Goblet Squat');
+
+  await end(tree, 'title-input', 'Mine renamed');
+  expect(status(tree)).toBe('Renamed.');
+});
+
+test('detail: a workout on the plan cannot be deleted; after removing it from the plan it can', async () => {
+  const { tree } = await render();
+  await ReactTestRenderer.act(async () => {
+    byId(tree, 'workout-name').props.onChangeText('Planned one');
+  });
+  await press(tree, 'create-workout');
+  await press(tree, 'back');
+  await press(tree, 'tab-plan');
+  await press(tree, 'add-2026-11-10');
+  const pickId = tree.root
+    .findAll(n => typeof n.props.testID === 'string' && n.props.testID.startsWith('pick-wk-') && typeof n.type === 'string')
+    .map(n => n.props.testID as string)[0];
+  await press(tree, pickId);
+  const sessionId = tree.root
+    .findAll(n => typeof n.props.testID === 'string' && n.props.testID.startsWith('session-') && typeof n.type === 'string')
+    .map(n => n.props.testID as string)[0];
+
+  await press(tree, 'tab-workouts');
+  await press(tree, pickId.replace('pick-', 'workout-'));
+  await press(tree, 'delete-workout');
+  expect(status(tree)).toContain('on your plan');
+
+  await press(tree, 'back');
+  await press(tree, 'tab-plan');
+  await press(tree, sessionId);
+  await press(tree, 'remove-session');
+  await press(tree, 'tab-workouts');
+  await press(tree, pickId.replace('pick-', 'workout-'));
+  await press(tree, 'delete-workout');
+  expect(byId(tree, 'workouts-status').props.children).toBe('Workout deleted.');
+  expect(text(tree)).not.toContain('Planned one');
+});
+
+test('Plan: set a time and move a session to another day; a clash is refused', async () => {
+  const { tree } = await render();
+  await press(tree, 'tab-plan');
+  const addOn = async (date: string) => {
+    await press(tree, `add-${date}`);
+    await press(tree, 'pick-tpl-core');
+  };
+  await addOn('2026-11-10');
+  await addOn('2026-11-11');
+  const ids = [...new Set(tree.root
+    .findAll(n => typeof n.props.testID === 'string' && n.props.testID.startsWith('session-') && typeof n.type === 'string')
+    .map(n => n.props.testID as string))];
+  expect(ids).toHaveLength(2);
+
+  await press(tree, ids[0]);
+  await press(tree, 'hour-18');
+  await press(tree, 'minute-30');
+  await press(tree, 'save-session');
+  expect(text(tree)).toContain('18:30 · ');
+
+  await press(tree, ids[1]);
+  await press(tree, 'day-chip-2026-11-10'); // same day as the first one
+  await press(tree, 'hour-18');
+  await press(tree, 'minute-30');
+  await press(tree, 'save-session');
+  expect(byId(tree, 'edit-error').props.children).toContain('already have a workout');
+
+  await press(tree, 'minute-45'); // different time on that day is fine
+  await press(tree, 'save-session');
+  expect(text(tree)).toContain('18:45 · ');
+  expect(byId(tree, 'plan-status').props.children).toBe('Saved.');
 });

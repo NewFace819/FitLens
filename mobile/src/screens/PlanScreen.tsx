@@ -24,6 +24,8 @@ const LABEL: Record<string, string> = {
 };
 // Plain string formatting: no dependence on the device's Intl support or language.
 const fmt = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${Number(d.slice(8, 10))}`;
+const HOURS = Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0'));
+const MINUTES = ['00', '15', '30', '45'];
 const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter(x => x !== v) : [...list, v]);
 
 export default function PlanScreen({ store, today }: { store: AppStore; today?: string }) {
@@ -34,6 +36,10 @@ export default function PlanScreen({ store, today }: { store: AppStore; today?: 
   const [message, setMessage] = useState('');
   const [addDate, setAddDate] = useState<string | null>(null);
   const [selected, setSelected] = useState<Session | null>(null);
+  const [editDate, setEditDate] = useState('');
+  const [editHour, setEditHour] = useState<string | null>(null);
+  const [editMinute, setEditMinute] = useState('00');
+  const [editError, setEditError] = useState('');
   const [build, setBuild] = useState(false);
   const [goal, setGoal] = useState<Goal>('habit');
   const [days, setDays] = useState<2 | 3 | 4 | 5>(3);
@@ -58,6 +64,30 @@ export default function PlanScreen({ store, today }: { store: AppStore; today?: 
     const r = store.addSession({ workoutId, date: addDate, time: null });
     setAddDate(null);
     setMessage(r.ok ? `Added ${titleOf(workoutId)}.` : 'Couldn’t add this workout.');
+    bump();
+  };
+
+  const openSession = (s: Session) => {
+    setSelected(s);
+    setEditDate(s.date);
+    setEditHour(s.time ? s.time.slice(0, 2) : null);
+    setEditMinute(s.time ? s.time.slice(3) : '00');
+    setEditError('');
+  };
+  // 24-hour time in two small steps, so it never depends on the phone's 12/24-hour setting.
+  const saveEdits = () => {
+    if (!selected) {
+      return;
+    }
+    const r = store.updateSession(selected.id, { date: editDate, time: editHour === null ? null : `${editHour}:${editMinute}` });
+    if (!r.ok) {
+      setEditError(
+        r.reason === 'conflict' ? 'You already have a workout at that time on that day.' : 'Couldn’t save these changes.',
+      );
+      return;
+    }
+    setSelected(null);
+    setMessage('Saved.');
     bump();
   };
 
@@ -172,7 +202,7 @@ export default function PlanScreen({ store, today }: { store: AppStore; today?: 
                 accessibilityRole="button"
                 accessibilityLabel={`Edit ${titleOf(s.workoutId)} on ${DAYS[i]}`}
                 style={[styles.session, s.status === 'done' && styles.done]}
-                onPress={() => setSelected(s)}>
+                onPress={() => openSession(s)}>
                 <View>
                   <Text style={styles.sessionTitle}>{titleOf(s.workoutId)}</Text>
                   <Text style={styles.sessionMeta}>
@@ -212,7 +242,33 @@ export default function PlanScreen({ store, today }: { store: AppStore; today?: 
         visible={selected !== null}
         title={selected ? titleOf(selected.workoutId) : ''}
         onClose={() => setSelected(null)}>
-        <View style={styles.stack}>
+        <ScrollView contentContainerStyle={styles.stack}>
+          <Text style={styles.group}>Day</Text>
+          <View style={styles.chips}>
+            {dates.map((d, i) => (
+              <Chip key={d} testID={`day-chip-${d}`} label={`${DAYS[i]} ${fmt(d)}`} selected={editDate === d} onPress={() => setEditDate(d)} />
+            ))}
+          </View>
+          <Text style={styles.group}>Time (optional)</Text>
+          <View style={styles.chips}>
+            <Chip testID="hour-none" label="No time" selected={editHour === null} onPress={() => setEditHour(null)} />
+            {HOURS.map(h => (
+              <Chip key={h} testID={`hour-${h}`} label={h} selected={editHour === h} onPress={() => setEditHour(h)} />
+            ))}
+          </View>
+          {editHour !== null && (
+            <View style={styles.chips}>
+              {MINUTES.map(m => (
+                <Chip key={m} testID={`minute-${m}`} label={`:${m}`} selected={editMinute === m} onPress={() => setEditMinute(m)} />
+              ))}
+            </View>
+          )}
+          {editError !== '' && (
+            <Text style={styles.error} testID="edit-error">
+              {editError}
+            </Text>
+          )}
+          <Button label="Save changes" testID="save-session" onPress={saveEdits} />
           {selected && selected.status !== 'done' && (
             <Button
               kind="secondary"
@@ -239,7 +295,7 @@ export default function PlanScreen({ store, today }: { store: AppStore; today?: 
               }}
             />
           )}
-        </View>
+        </ScrollView>
       </Sheet>
 
       <Sheet visible={build} title="Build my week" onClose={() => setBuild(false)}>
@@ -363,6 +419,7 @@ const styles = StyleSheet.create({
   sessionMeta: { fontSize: 12, fontWeight: '700', color: colors.muted },
   pick: { backgroundColor: colors.chip, borderRadius: 14, padding: 12, marginBottom: 6 },
   stack: { gap: 10 },
+  error: { fontSize: 13, fontWeight: '700', color: colors.danger },
   group: { fontSize: 13, fontWeight: '800', color: colors.text },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
 });

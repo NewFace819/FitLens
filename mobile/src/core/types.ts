@@ -15,6 +15,7 @@ export type Workout = {
   goals?: Goal[];
   detail?: string;
 };
+export type ExerciseInfo = { id: string; name: string; equipment: Equipment[]; regions: Region[]; defaults: { sets: number; reps: string; rest: number } };
 export type Session = { id: string; workoutId: string; date: string; time: string | null; status: SessionStatus };
 
 export type Profile = {
@@ -37,6 +38,9 @@ export type AppStore = {
   listWorkouts(): Workout[];
   getWorkout(id: string): Workout | null;
   createWorkout(data: { title?: string; items?: Partial<WorkoutItem>[] }): Workout | null;
+  updateWorkout(id: string, patch: { title?: string; items?: Partial<WorkoutItem>[] }): Workout | null;
+  listExercises(): ExerciseInfo[];
+  updateSession(id: string, patch: { date?: string; time?: string | null }): { ok: true; session: Session } | { ok: false; reason: string };
   deleteWorkout(id: string): { ok: boolean; reason?: string; count?: number };
   getWeekSchedule(weekStart: string): Session[];
   getNextSession(now?: Date): Session | null;

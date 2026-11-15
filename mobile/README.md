@@ -2,7 +2,7 @@
 
 Mobile client for FitLens. **Stack: React Native 0.88 + TypeScript, Android only** (decided 2026-11-14). iOS is out of scope.
 
-Status: first vertical slice. **Workouts** and **Plan** screens (create a workout, build a week from a few answers, add/remove/mark-done sessions, copy a week) built on the same pure-JS models as the browser prototype. Not yet run on a device or emulator (this machine has no Android SDK); covered by Jest tests that render the screens. See `docs/PROJECT_STATE.md`.
+Status: **Workouts** (list, workout detail with editing) and **Plan** screens: create/rename/delete a workout, change sets and reps, reorder, add and remove exercises (editing a routine makes your own copy); build a week from a few answers, add/remove/mark-done sessions, change a session's day and 24-hour time, copy a week, built on the same pure-JS models as the browser prototype. Not yet run on a device or emulator (this machine has no Android SDK); covered by Jest tests that render the screens. See `docs/PROJECT_STATE.md`.
 
 ## How it is organised
 
@@ -11,7 +11,7 @@ Status: first vertical slice. **Workouts** and **Plan** screens (create a workou
 - `src/screens/`, `src/ui/`: the screens and small shared components.
 - `__tests__/`, `test-utils/`: Jest tests and a fake storage backend.
 
-Not done yet: editing the time of a session, editing exercises inside a workout, profile, history.
+Not done yet: drag-and-drop, adapting a workout to time/equipment, profile, history, reminders.
 
 ## Requirements
 
@@ -31,7 +31,7 @@ npm start          # Metro dev server
 npm run android    # in a second terminal, with emulator/phone connected
 ```
 
-Other scripts: `npm test` (14 tests, no emulator needed), `npm run lint`, `npx tsc --noEmit`.
+Other scripts: `npm test` (18 tests, no emulator needed), `npm run lint`, `npx tsc --noEmit`.
 
 ## Architecture Highlights
 - **On-Device Vision:** Pose estimation (MediaPipe) runs locally on the phone's RAM. On React Native this needs a native Android module or a camera frame-processor plugin; approach not chosen yet.

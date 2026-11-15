@@ -17,7 +17,7 @@
 | Prototype UI (HTML/CSS/JS) | `prototype/` | Có, bản trong repo cũ hơn bản đang dùng | Xem mục 3 |
 | PoC sinh lịch tập bằng Gemini | `poc/plan_generator/` | Có | Chạy được từ CLI, chưa là API |
 | Backend FastAPI | `backend/` | Chưa có code | Chỉ có README |
-| Mobile React Native (Android) | `mobile/` | Lát cắt đầu: màn Workouts và Plan dùng chung model với prototype (nhánh `feature/workout-schedule`, chưa gộp) | 14 test Jest, `tsc` và lint qua; chưa chạy trên máy ảo/điện thoại vì máy chưa có Android SDK và JDK 17 |
+| Mobile React Native (Android) | `mobile/` | Lát cắt đầu: màn Workouts và Plan dùng chung model với prototype (nhánh `feature/workout-schedule`, chưa gộp) | 18 test Jest (gồm sửa workout, đổi giờ/ngày buổi tập), `tsc` và lint qua; chưa chạy trên máy ảo/điện thoại vì máy chưa có Android SDK và JDK 17 |
 | Pose estimation (MediaPipe) | — | Chưa có | Chỉ là thiết kế |
 | Database (Supabase) | — | Chưa có | Chỉ là thiết kế |
 
@@ -78,7 +78,8 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 - Xong: lõi dùng chung `prototype/shared/` (enum, ngày, lưu trữ, ID), danh mục bài tập, model Workout, model Lịch (tuần, xung đột, buổi kế tiếp, sao chép tuần, migrate dữ liệu cũ), `workout-store.js` xuất `window.FitLensWorkout`. 45 test chạy bằng `cd prototype && npm test`.
 - Đã nối vào giao diện: trang Workouts và Workout details dùng model, tạo workout mới được lưu và hiện ở "Your workouts", đã gỡ "Ask FitLens".
 - Đã làm thêm (14/11): `draft-model.js` (gợi ý tuần, có test an toàn duyệt toàn bộ tổ hợp vùng tránh × thiết bị × mục tiêu) và trang `plan.html`: xem tuần, thêm buổi, đổi giờ/ngày, đánh dấu xong, xóa, sao chép sang tuần sau, "Build my week". 58 test qua. Trang Plan chưa đọc hồ sơ thật của Thông, đang dùng form hỏi nhanh (sẽ tự dùng `window.FitLensProfile.getProfile()` nếu Thông cung cấp).
-- Chưa làm: Builder đầy đủ (xóa bài, xóa workout, đổi thứ tự trong trang chi tiết), kéo thả, nhiều giờ nhắc, đối chiếu giao diện chi tiết với snapshot 083–095.
+- Builder (xóa bài, xóa workout, đổi thứ tự, thêm bài, sửa set/reps) đã có ở cả prototype HTML và app RN.
+- Chưa làm: kéo thả, "adapt" workout theo thời lượng/thiết bị/năng lượng, nhiều giờ nhắc, đối chiếu giao diện chi tiết với snapshot 083–095; chưa chạy app RN trên Android thật.
 - Giới hạn đã biết: `workout-active.js` (Đức Huy) vẫn tra bài bằng ID cũ (`bench`, `squat`...), nên nút Start chỉ chuyển 12 bài của catalog cũ; các bài mới chưa bắt đầu được cho đến khi Đức Huy dùng danh mục chung.
 
 Lưu ý:
