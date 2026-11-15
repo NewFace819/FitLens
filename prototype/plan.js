@@ -23,6 +23,26 @@ const fmtDay=d=>new Intl.DateTimeFormat('en',{month:'short',day:'numeric',timeZo
 
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;}
 
+/* 24-hour time picker made of two selects, so it looks the same on every device and never shows AM/PM or SA/CH.
+   get() returns 'HH:mm' or null when no hour is chosen; set('HH:mm'|null) fills it. */
+function makeTimeField(container){
+ const pad=n=>String(n).padStart(2,'0');
+ const hour=document.createElement('select'),minute=document.createElement('select');
+ hour.setAttribute('aria-label','Hour');minute.setAttribute('aria-label','Minute');
+ const none=el('option','','--');none.value='';hour.append(none);
+ for(let h=0;h<24;h++){const o=el('option','',pad(h));o.value=pad(h);hour.append(o);}
+ const fill=extra=>{minute.replaceChildren();const set=new Set();for(let m=0;m<60;m+=5)set.add(m);if(extra!==undefined)set.add(extra);[...set].sort((a,b)=>a-b).forEach(m=>{const o=el('option','',pad(m));o.value=pad(m);minute.append(o);});};
+ fill();
+ const syncDisabled=()=>{minute.disabled=hour.value==='';};
+ hour.addEventListener('change',syncDisabled);syncDisabled();
+ container.replaceChildren(hour,el('span','time-sep',':'),minute);
+ return {
+  get(){return hour.value===''?null:hour.value+':'+minute.value;},
+  set(v){if(Dates.isValidTime(v)){const m=Number(v.slice(3));fill(m%5?m:undefined);hour.value=v.slice(0,2);minute.value=v.slice(3);}else{fill();hour.value='';minute.value='00';}syncDisabled();}
+ };
+}
+const addTime=makeTimeField($('#add-time')),sessionTime=makeTimeField($('#session-time'));
+
 function render(){
  const dates=Dates.weekDates(week),sessions=store.getWeekSchedule(week),today=Dates.todayStr();
  $('#week-label').textContent=week===thisWeek?'This week':week===Dates.addDays(thisWeek,7)?'Next week':'Week of '+fmtDay(week);
@@ -53,11 +73,11 @@ function openAdd(date,i){
  const sel=$('#add-workout');sel.replaceChildren();
  const all=store.listWorkouts(),mineFirst=[...all.filter(w=>w.source==='custom'),...all.filter(w=>w.source==='template')];
  for(const w of mineFirst){const o=el('option',null,w.title+(w.source==='custom'?' (yours)':''));o.value=w.id;sel.append(o);}
- $('#add-form').elements.time.value='';openSheet($('#add-sheet'));
+ addTime.set(null);openSheet($('#add-sheet'));
 }
 $('#add-form').addEventListener('submit',e=>{
  e.preventDefault();const f=e.currentTarget;
- const r=store.addSession({workoutId:f.elements.workout.value,date:addDate,time:f.elements.time.value||null});
+ const r=store.addSession({workoutId:f.elements.workout.value,date:addDate,time:addTime.get()});
  if(!r.ok){$('#add-error').textContent=REASONS[r.reason]||'Couldn’t add this workout.';return;}
  $('#add-sheet').close();render();status('Added '+titleOf(r.session.workoutId)+'.');announce('Workout added');
 });
@@ -69,14 +89,14 @@ function openSession(id){
  $('#session-title').textContent=titleOf(editing.workoutId);$('#session-error').textContent='';
  const dates=Dates.weekDates(Dates.weekStartOf(editing.date)),sel=$('#session-date');sel.replaceChildren();
  dates.forEach((d,i)=>{const o=el('option',null,DAY[i]+' · '+fmtDay(d));o.value=d;sel.append(o);});
- sel.value=editing.date;$('#session-day').textContent=fmtDay(editing.date).toUpperCase();$('#session-time').value=editing.time||'';
+ sel.value=editing.date;$('#session-day').textContent=fmtDay(editing.date).toUpperCase();sessionTime.set(editing.time);
  $('#session-open').href='workout-details.html?workout='+encodeURIComponent(editing.workoutId);
  $('#session-done').hidden=editing.status==='done';
  openSheet($('#session-sheet'));
 }
 $('#session-form').addEventListener('submit',e=>{
  e.preventDefault();if(!editing)return;
- const r=store.updateSession(editing.id,{date:$('#session-date').value,time:$('#session-time').value||null});
+ const r=store.updateSession(editing.id,{date:$('#session-date').value,time:sessionTime.get()});
  if(!r.ok){$('#session-error').textContent=REASONS[r.reason]||'Couldn’t save these changes.';return;}
  $('#session-sheet').close();render();status('Saved.');announce('Session updated');
 });
