@@ -2,11 +2,12 @@
    Pure logic, no DOM. Pass the Storage object in. See docs/design/DATA_CONTRACT.md. */
 (function(root){
 'use strict';
-const req=typeof require==='function'&&typeof module!=='undefined'?require:null;
-const Ex=req?req('./shared/exercises.js'):root.FitLensExercises;
-const Storage=req?req('./shared/storage.js'):root.FitLensStorage;
-const Ids=req?req('./shared/ids.js'):root.FitLensIds;
-const C=req?req('./shared/constants.js'):root.FitLensConstants;
+/* Static require() calls so React Native's Metro bundler can follow them; the browser has no `module`, so it uses the globals. */
+const CJS=typeof module!=='undefined'&&Boolean(module.exports);
+const Ex=CJS?require('./shared/exercises.js'):root.FitLensExercises;
+const Storage=CJS?require('./shared/storage.js'):root.FitLensStorage;
+const Ids=CJS?require('./shared/ids.js'):root.FitLensIds;
+const C=CJS?require('./shared/constants.js'):root.FitLensConstants;
 const KEY='fitlens.workouts';
 
 function itemOf(exerciseId){const e=Ex.getExercise(exerciseId);return {exerciseId,sets:e.defaults.sets,reps:e.defaults.reps,rest:e.defaults.rest};}

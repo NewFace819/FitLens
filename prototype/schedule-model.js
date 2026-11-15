@@ -3,11 +3,12 @@
    Mutations return { ok:true, ... } or { ok:false, reason }, so the UI can explain a refusal. */
 (function(root){
 'use strict';
-const req=typeof require==='function'&&typeof module!=='undefined'?require:null;
-const Dates=req?req('./shared/dates.js'):root.FitLensDates;
-const Storage=req?req('./shared/storage.js'):root.FitLensStorage;
-const Ids=req?req('./shared/ids.js'):root.FitLensIds;
-const C=req?req('./shared/constants.js'):root.FitLensConstants;
+/* Static require() calls so React Native's Metro bundler can follow them; the browser has no `module`, so it uses the globals. */
+const CJS=typeof module!=='undefined'&&Boolean(module.exports);
+const Dates=CJS?require('./shared/dates.js'):root.FitLensDates;
+const Storage=CJS?require('./shared/storage.js'):root.FitLensStorage;
+const Ids=CJS?require('./shared/ids.js'):root.FitLensIds;
+const C=CJS?require('./shared/constants.js'):root.FitLensConstants;
 const KEY='fitlens.sessions';
 const LEGACY_LIBRARY_TO_TEMPLATE={bodyweight:'tpl-bodyweight',upper:'tpl-upper-plan',lower:'tpl-lower-plan',core:'tpl-core',bands:'tpl-bands',walk:'tpl-walk',cardio:'tpl-cardio',full:'tpl-full-plan'};
 

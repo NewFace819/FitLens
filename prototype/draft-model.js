@@ -4,10 +4,11 @@
    (The old FitLensPlan.build compared whole routines; this checks the exercises themselves.) */
 (function(root){
 'use strict';
-const req=typeof require==='function'&&typeof module!=='undefined'?require:null;
-const WM=req?req('./workout-model.js'):root.FitLensWorkoutModel;
-const Dates=req?req('./shared/dates.js'):root.FitLensDates;
-const C=req?req('./shared/constants.js'):root.FitLensConstants;
+/* Static require() calls so React Native's Metro bundler can follow them; the browser has no `module`, so it uses the globals. */
+const CJS=typeof module!=='undefined'&&Boolean(module.exports);
+const WM=CJS?require('./workout-model.js'):root.FitLensWorkoutModel;
+const Dates=CJS?require('./shared/dates.js'):root.FitLensDates;
+const C=CJS?require('./shared/constants.js'):root.FitLensConstants;
 
 /* Weekday offsets from Monday for each frequency; same spread as the old FitLensPlan. */
 const PATTERNS=Object.freeze({2:[1,4],3:[0,2,4],4:[0,1,3,5],5:[0,1,3,4,5]});

@@ -17,7 +17,7 @@
 | Prototype UI (HTML/CSS/JS) | `prototype/` | Có, bản trong repo cũ hơn bản đang dùng | Xem mục 3 |
 | PoC sinh lịch tập bằng Gemini | `poc/plan_generator/` | Có | Chạy được từ CLI, chưa là API |
 | Backend FastAPI | `backend/` | Chưa có code | Chỉ có README |
-| Mobile React Native (Android) | `mobile/` | Khung trống (RN 0.88 + TypeScript, bỏ iOS) | `tsc` và `jest` chạy qua; chưa build Android vì máy chưa có Android SDK và JDK 17 |
+| Mobile React Native (Android) | `mobile/` | Lát cắt đầu: màn Workouts và Plan dùng chung model với prototype (nhánh `feature/workout-schedule`, chưa gộp) | 14 test Jest, `tsc` và lint qua; chưa chạy trên máy ảo/điện thoại vì máy chưa có Android SDK và JDK 17 |
 | Pose estimation (MediaPipe) | — | Chưa có | Chỉ là thiết kế |
 | Database (Supabase) | — | Chưa có | Chỉ là thiết kế |
 

@@ -3,11 +3,12 @@
    Load after shared/*.js, workout-model.js and schedule-model.js. */
 (function(root){
 'use strict';
-const req=typeof require==='function'&&typeof module!=='undefined'?require:null;
-const WM=req?req('./workout-model.js'):root.FitLensWorkoutModel;
-const SM=req?req('./schedule-model.js'):root.FitLensScheduleModel;
-const Ex=req?req('./shared/exercises.js'):root.FitLensExercises;
-const Dates=req?req('./shared/dates.js'):root.FitLensDates;
+/* Static require() calls so React Native's Metro bundler can follow them; the browser has no `module`, so it uses the globals. */
+const CJS=typeof module!=='undefined'&&Boolean(module.exports);
+const WM=CJS?require('./workout-model.js'):root.FitLensWorkoutModel;
+const SM=CJS?require('./schedule-model.js'):root.FitLensScheduleModel;
+const Ex=CJS?require('./shared/exercises.js'):root.FitLensExercises;
+const Dates=CJS?require('./shared/dates.js'):root.FitLensDates;
 
 function memoryStorage(){const m=new Map();return {getItem:k=>m.has(k)?m.get(k):null,setItem:(k,v)=>m.set(k,String(v)),removeItem:k=>m.delete(k)};}
 function pickStorage(host,name){try{const s=host&&host[name];if(s){s.getItem('fitlens.probe');return s;}}catch{}return null;}
