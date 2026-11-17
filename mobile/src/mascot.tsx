@@ -1,6 +1,12 @@
 import React, { useSyncExternalStore } from 'react';
 import { View } from 'react-native';
-import { SvgXml } from 'react-native-svg';
+import Svg, {
+  Defs,
+  RadialGradient,
+  Stop,
+  Rect,
+  SvgXml,
+} from 'react-native-svg';
 import * as art from './prototypeAssets';
 const moods = {
   happy: art.happy,
@@ -36,6 +42,15 @@ export function Mascot() {
       accessibilityLabel={`FitLens mascot: ${value}`}
       style={{ alignItems: 'center', height: 92 }}
     >
+      <Svg width={280} height={150} style={{ position: 'absolute', top: -30 }}>
+        <Defs>
+          <RadialGradient id="wash">
+            <Stop offset="0" stopColor="#cbded3" stopOpacity={0.9} />
+            <Stop offset="1" stopColor="#f7f6f2" stopOpacity={0} />
+          </RadialGradient>
+        </Defs>
+        <Rect width={280} height={150} fill="url(#wash)" />
+      </Svg>
       <SvgXml xml={moods[value]} width={130} height={86} />
     </View>
   );

@@ -10,6 +10,7 @@ import {
   Pressable,
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Icon } from './src/Icon';
 import { HomeScreen } from './src/HomeScreen';
 import { StepsScreen } from './src/StepsScreen';
 import { CameraScreen } from './src/CameraScreen';
@@ -77,20 +78,48 @@ function Content() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.paper }}>
       <StatusBar barStyle="dark-content" />
-      <View style={[s.row, { paddingHorizontal: 20, minHeight: 48 }]}>
-        {stack.length > 1 ? (
+      {route !== 'home' && (
+        <View style={[s.row, { paddingHorizontal: 20, minHeight: 48 }]}>
           <Button quiet label="‹ Back" onPress={back} />
-        ) : (
-          <View />
-        )}
-        <Button quiet label="Account" onPress={() => go('profile')} />
-      </View>
+        </View>
+      )}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Open Account"
+        onPress={() => go('profile')}
+        style={{
+          position: 'absolute',
+          top: 48,
+          right: 20,
+          zIndex: 3,
+          width: 44,
+          height: 44,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <View
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: 18,
+            borderWidth: 1,
+            borderColor: '#e6c9b7',
+            backgroundColor: '#f5e4d7',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name="profile" size={20} color="#a65536" />
+        </View>
+      </Pressable>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
         <ScrollView
           key={route}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
-            padding: 20,
+            paddingHorizontal: 20,
+            paddingTop: 12,
             paddingBottom: 32,
             gap: 16,
             width: '100%',
@@ -155,7 +184,7 @@ function Content() {
           padding: 6,
         }}
       >
-        {tabs.map((tab, i) => (
+        {tabs.map(tab => (
           <Pressable
             key={tab}
             accessibilityRole="tab"
@@ -169,15 +198,18 @@ function Content() {
             style={{
               flex: 1,
               alignItems: 'center',
-              paddingVertical: 12,
+              paddingVertical: 10,
               gap: 4,
               borderRadius: 24,
-              backgroundColor: route === tab ? '#e3ead9' : 'transparent',
+              backgroundColor:
+                route === tab ||
+                (route === 'steps' && tab === 'home') ||
+                (route === 'activity' && tab === 'workouts')
+                  ? '#e3ead9'
+                  : 'transparent',
             }}
           >
-            <Text style={{ color: colors.ink, fontSize: 20 }}>
-              {['⌂', '↗', '▦', '▥'][i]}
-            </Text>
+            <Icon name={tab} />
             <Text style={{ fontSize: 11, color: colors.ink }}>
               {routes[tab]}
             </Text>

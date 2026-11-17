@@ -3,6 +3,7 @@ import { View, Text, Pressable } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { timeIcon } from './prototypeAssets';
 import { styles as s, colors, Button } from './ui';
+import { Icon } from './Icon';
 import { Mascot } from './mascot';
 import { Entry, today } from './activityModel';
 import { Route } from './routes';
@@ -23,7 +24,7 @@ export function ActivitySection({
 }) {
   const recorded = workouts.filter(w => w.date === today());
   return (
-    <View style={{ flexDirection: 'row', gap: 12, minHeight: 188 }}>
+    <View style={{ flexDirection: 'row', gap: 12, height: 188 }}>
       <Pressable
         accessibilityRole="button"
         onPress={onSteps}
@@ -79,7 +80,7 @@ export function ActivitySection({
                 {value} <Text style={{ fontSize: 12 }}>{unit}</Text>
               </Text>
               {i ? (
-                <Text style={s.heading}>☑</Text>
+                <Icon name="check" size={30} />
               ) : (
                 <SvgXml xml={timeIcon} width={26} height={26} />
               )}
@@ -152,8 +153,22 @@ export function HomeScreen({
               })}
         </Text>
         <View style={{ flexDirection: 'row' }}>
-          <Button quiet label="‹" onPress={() => setDate(shift(date, -7))} />
-          <Button quiet label="›" onPress={() => setDate(shift(date, 7))} />
+          {[-7, 7].map(delta => (
+            <Pressable
+              key={delta}
+              accessibilityRole="button"
+              accessibilityLabel={delta < 0 ? 'Previous week' : 'Next week'}
+              onPress={() => setDate(shift(date, delta))}
+              style={{
+                width: 44,
+                height: 36,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Icon name={delta < 0 ? 'left' : 'right'} size={16} />
+            </Pressable>
+          ))}
         </View>
       </View>
       <View style={{ flexDirection: 'row', gap: 4 }}>
@@ -170,9 +185,11 @@ export function HomeScreen({
                 flex: 1,
                 paddingVertical: 12,
                 alignItems: 'center',
-                borderRadius: 20,
+                borderRadius: 18,
                 backgroundColor: d === date ? colors.selection : 'transparent',
-                gap: 8,
+                gap: 3,
+                borderWidth: 1,
+                borderColor: d === date ? '#738466' : 'transparent',
               }}
             >
               <Text style={{ color: colors.muted, fontSize: 12 }}>
@@ -200,7 +217,7 @@ export function HomeScreen({
       <Text style={{ color: colors.muted, fontSize: 11 }}>
         ● Planned or recorded activity
       </Text>
-      <View style={s.row}>
+      <View style={[s.row, { minHeight: 40, paddingHorizontal: 20 }]}>
         <Text style={s.body}>
           {isToday ? 'Today, ' : ''}
           {new Date(date + 'T12:00:00').toLocaleDateString('en', {
@@ -260,27 +277,43 @@ export function HomeScreen({
                 </Text>
               </View>
             ))}
-            <Button
-              label={
-                planned
-                  ? isToday
-                    ? 'Start workout'
-                    : 'View workout'
-                  : date > today()
-                  ? 'Schedule workout'
-                  : 'Choose a workout'
-              }
-              onPress={() =>
-                go(planned ? 'workouts' : date > today() ? 'plan' : 'workouts')
-              }
-            />
-            {date <= today() && (
-              <Button quiet label="Log activity" onPress={() => onLog(date)} />
-            )}
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: 8,
+                marginTop: 6,
+              }}
+            >
+              <Button
+                label={
+                  planned
+                    ? isToday
+                      ? 'Start workout'
+                      : 'View workout'
+                    : date > today()
+                    ? 'Schedule workout'
+                    : 'Choose a workout'
+                }
+                onPress={() =>
+                  go(
+                    planned ? 'workouts' : date > today() ? 'plan' : 'workouts',
+                  )
+                }
+              />
+              {date <= today() && (
+                <Button
+                  quiet
+                  label="Log activity"
+                  onPress={() => onLog(date)}
+                />
+              )}
+            </View>
           </>
         )}
       </View>
-      <Text style={s.heading}>Today’s activity</Text>
+      <Text style={[s.heading, { marginTop: 10 }]}>Today’s activity</Text>
       <ActivitySection workouts={workouts} onSteps={() => go('steps')} />
     </View>
   );
