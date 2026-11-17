@@ -1,45 +1,189 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+  Alert,
+  BackHandler,
+  KeyboardAvoidingView,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+  Pressable,
+} from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { HomeScreen } from './src/HomeScreen';
+import { StepsScreen } from './src/StepsScreen';
+import { CameraScreen } from './src/CameraScreen';
+import { ActivityScreen } from './src/ActivityScreen';
+import { Entry, readEntries, writeEntries, today } from './src/activityModel';
+import { Route, routes, tabs } from './src/routes';
+import { setMascotMood } from './src/mascot';
+import { Button, colors, styles as s } from './src/ui';
+export default function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <Content />
     </SafeAreaProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
+function Content() {
+  const [stack, setStack] = useState<Route[]>(['home']),
+    [entries, setEntries] = useState<Entry[]>([]),
+    [error, setError] = useState(false),
+    [loaded, setLoaded] = useState(false),
+    [logDate, setLogDate] = useState(today());
+  const route = stack[stack.length - 1];
+  const go = (next: Route) => setStack(previous => [...previous, next]);
+  const back = () =>
+    setStack(previous =>
+      previous.length > 1 ? previous.slice(0, -1) : previous,
+    );
+  const load = () => {
+    setError(false);
+    setLoaded(false);
+    readEntries()
+      .then(setEntries)
+      .catch(() => setError(true))
+      .finally(() => setLoaded(true));
+  };
+  useEffect(load, []);
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (stack.length === 1) return false;
+      back();
+      return true;
+    });
+    return () => sub.remove();
+  }, [stack.length]);
+  const log = (date: string) => {
+    setLogDate(date);
+    go('activity');
+  };
+  async function save(entry: Entry) {
+    try {
+      const next = [entry, ...entries];
+      await writeEntries(next);
+      setEntries(next);
+      setMascotMood('energized');
+      back();
+      return true;
+    } catch {
+      Alert.alert(
+        'Could not save',
+        'Your activity has not been saved. Please try again.',
+      );
+      return false;
+    }
+  }
   return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.paper }}>
+      <StatusBar barStyle="dark-content" />
+      <View style={[s.row, { paddingHorizontal: 20, minHeight: 48 }]}>
+        {stack.length > 1 ? (
+          <Button quiet label="‹ Back" onPress={back} />
+        ) : (
+          <View />
+        )}
+        <Button quiet label="Account" onPress={() => go('profile')} />
+      </View>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+        <ScrollView
+          key={route}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            padding: 20,
+            paddingBottom: 32,
+            gap: 16,
+            width: '100%',
+            maxWidth: 600,
+            alignSelf: 'center',
+          }}
+        >
+          {route === 'home' ? (
+            <HomeScreen
+              entries={entries}
+              go={go}
+              onLog={log}
+              error={error}
+              retry={load}
+            />
+          ) : route === 'steps' ? (
+            <StepsScreen />
+          ) : route === 'camera' ? (
+            <CameraScreen onBack={back} />
+          ) : route === 'activity' ? (
+            <>
+              <ActivityScreen
+                date={logDate}
+                save={save}
+                enabled={loaded && !error}
+              />
+              {error && <Button label="Reload activities" onPress={load} />}
+            </>
+          ) : (
+            <>
+              <Text style={s.title}>{routes[route]}</Text>
+              <Text style={s.body}>
+                This module will be connected by its owner.
+              </Text>
+              {route === 'workouts' && (
+                <>
+                  <Button label="Log activity" onPress={() => log(today())} />
+                  <Button
+                    quiet
+                    label="Camera setup"
+                    onPress={() => go('camera')}
+                  />
+                </>
+              )}
+              <Button
+                quiet
+                label="Back to Today"
+                onPress={() => setStack(['home'])}
+              />
+            </>
+          )}
+        </ScrollView>
+      </KeyboardAvoidingView>
+      <View
+        accessibilityRole="tablist"
+        style={{
+          flexDirection: 'row',
+          backgroundColor: '#f0f2e9',
+          borderRadius: 30,
+          marginHorizontal: 20,
+          marginBottom: 8,
+          padding: 6,
+        }}
+      >
+        {tabs.map((tab, i) => (
+          <Pressable
+            key={tab}
+            accessibilityRole="tab"
+            accessibilityState={{
+              selected:
+                route === tab ||
+                (route === 'steps' && tab === 'home') ||
+                (route === 'activity' && tab === 'workouts'),
+            }}
+            onPress={() => setStack([tab])}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              paddingVertical: 12,
+              gap: 4,
+              borderRadius: 24,
+              backgroundColor: route === tab ? '#e3ead9' : 'transparent',
+            }}
+          >
+            <Text style={{ color: colors.ink, fontSize: 20 }}>
+              {['⌂', '↗', '▦', '▥'][i]}
+            </Text>
+            <Text style={{ fontSize: 11, color: colors.ink }}>
+              {routes[tab]}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;

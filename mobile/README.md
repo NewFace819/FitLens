@@ -1,30 +1,39 @@
-# FitLens Mobile App
+# FitLens Android UI port
 
-Mobile client for FitLens. **Stack: React Native 0.88 + TypeScript, Android only** (decided 2026-11-14). iOS is out of scope.
+Based on `feature/update-ui-prototype` (21973db). React Native CLI 0.88,
+Android only; this project does not use Expo Go.
 
-Status: bare skeleton from `@react-native-community/cli` (default template screen). No FitLens features yet. See `docs/PROJECT_STATE.md`.
-
-## Requirements
-
-- Node.js >= 22.11
-- JDK 17 (JDK 22 is too new for the Android Gradle build; install 17 and point `JAVA_HOME` at it)
-- Android Studio with Android SDK, and `ANDROID_HOME` set to the SDK folder
-- An Android emulator or a phone with USB debugging
-
-Guide: https://reactnative.dev/docs/set-up-your-environment (choose Android).
-
-## Run
-
-```bash
-cd mobile
+```sh
 npm install
-npm start          # Metro dev server
-npm run android    # in a second terminal, with emulator/phone connected
+npm start
+# In another terminal, with Android SDK/JDK and emulator ready:
+npm run android
 ```
 
-Other scripts: `npm test`, `npm run lint`.
+## Đỗ Huy scope
 
-## Architecture Highlights
-- **On-Device Vision:** Pose estimation (MediaPipe) runs locally on the phone's RAM. On React Native this needs a native Android module or a camera frame-processor plugin; approach not chosen yet.
-- **Local Storage:** SQLite for offline workout caching and streak tracking.
-- **Privacy:** Zero video retention; only joint angles and rep statistics are transmitted.
+- `src/HomeScreen.tsx`: weekly date selection, day stage, activity bento.
+  `HomePlan[]` and `WorkoutMetric[]` are integration props for teammates.
+- `src/mascot.tsx`: original mascot SVG states and `setMascotMood()`.
+- `src/HomeScreen.tsx`: `renderActivitySection()` and `ActivitySection`.
+- `src/activityModel.ts`, `ActivityScreen.tsx`: port of manual activity logging
+  from `prototype/activity-model.js`, persisted via AsyncStorage instead of
+  localStorage. Walking/running/cycling/swimming, date, duration, distance,
+  ascent, effort and notes. No GPS or sensor capture.
+- `src/CameraScreen.tsx`: original camera illustration, mirror/framing preview,
+  sample weight/rep summary; Start Set is visual only, matching the prototype.
+- `src/routes.ts`: shared routes and Today/Workouts/Plan/Insights dock.
+- Nutrition and Chat have no routes in the mobile app.
+
+Steps is a sample-data port. Workouts, Plan, Insights and Profile remain explicit
+integration placeholders; Home receives empty schedule/workout inputs until those
+modules are connected. Post-walk recap and full Account sheet are not ported yet.
+No backend, camera access or pose detection is added. Native rendering still needs
+visual comparison on Android; CSS blur/wave effects are approximated.
+
+## Checks
+
+`npm run typecheck`, `npm test -- --runInBand`.
+
+Manual: select dates/weeks, log an activity and reopen app, inspect the activity
+on its date, open all four tabs, open camera from Workouts, mirror/adjust/back.
