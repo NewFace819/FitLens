@@ -41,6 +41,7 @@ export default function DevHub() {
       />
       <ListRow label="Workout reminders" detail="This week" onPress={() => nav.navigate('Reminders')} />
       <ListRow label="Post-workout check-in" detail="Latest session" onPress={() => openCheckIn(nav)} />
+      <ListRow label="Welcome introduction" detail="First launch" onPress={() => nav.navigate('Welcome')} />
       <Divider />
       <Text style={[type.eyebrow, { marginBottom: space.sm }]}>Sample data · synthetic</Text>
       <Button
