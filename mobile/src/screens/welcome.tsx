@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   ctaButtonPressed: {
-    opacity: 0.82,
+    backgroundColor: '#4057BD',
   },
   ctaText: {
     color: '#FFFFFF',
