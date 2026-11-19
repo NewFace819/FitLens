@@ -102,7 +102,7 @@ flowchart LR
 
 **Khi tham chiếu đứt** (đối tượng bị xóa): màn hình hiển thị "không còn tồn tại", không crash. Quy tắc xóa **[CHỐT]**:
 - Xóa `Workout`: chặn nếu còn `Session` `planned` trỏ tới. Hiện thông báo yêu cầu gỡ buổi trước.
-- Xóa `Session`: các `Reminder` của nó bị xóa theo (Tu xử lý trong hàm của mình khi nhận sự kiện hoặc kiểm tra lúc đọc).
+- Xóa `Session`: các `Reminder` của nó bị xóa theo (Tu xử lý trong hàm của mình khi nhận sự kiện hoặc kiểm tra lúc đọc). Thông báo trên điện thoại: Tu tự đồng bộ lại mỗi khi lịch đổi (nghe `subscribe()` của storage); Hải, Đức Huy **không cần gọi gì** khi dời, xóa hay hoàn tất buổi.
 - `HistoryEntry` và `Review` **không bao giờ bị xóa theo** workout hay session; đó là lịch sử.
 
 ## 6. Hàm giao nhau (hợp đồng chữ ký) **[CHỐT]**
@@ -127,12 +127,27 @@ Mỗi người xuất một đối tượng `window.FitLens<Tên>`. Kiểu trả
 | `getReviews({from?, to?})` | Đức Huy | `Review[]` mới nhất trước | Hải (RPE tuần trước), Thông (gợi ý xác nhận vùng tránh), Tu |
 | `getRhythm(date)` | Tu | `Rhythm` | Đỗ Huy, Thông |
 | `getReminder(sessionId)` | Tu | `Reminder \| null` (nếu buổi chưa có nhắc riêng thì trả nhắc mặc định `sessionId = null`) | Hải (Plan), Tu |
-| `setReminder(sessionId, {enabled, minutesBefore})` | Tu | `Reminder` | Hải (Plan), Tu |
+| `setReminder(sessionId, {enabled, minutesBefore})` | Tu | `Reminder`. `minutesBefore` chỉ nhận `0`, `15`, `30` | Hải (Plan), Tu |
+| `getLoadAdjustForWeek(weekStart)` | Tu | số −0.3…+0.1 (giảm/tăng tải tuần sau theo RPE và báo đau tuần trước) | Hải (`generateDraft`) |
 | `setMascotMood(mood)` | Đỗ Huy | `void` | Tu, Đức Huy |
 | `getActivities({from?, to?})` | Đỗ Huy | `Activity[]` | Thông (Insights, Home) |
 | `renderActivitySection(el)` | Đỗ Huy | `void` | Hải (trang Workouts) |
 
-**`appendReview` [CHỐT]:** Đức Huy định nghĩa trong `training-history.js` (đúng theo bảng phân công của anh ấy). Tu gọi từ màn check-in. Tu không ghi thẳng vào lịch sử.
+**`appendReview` [CHỐT]:** Đức Huy định nghĩa trong `mobile/src/modules/history/history.ts` (đúng theo bảng phân công của anh ấy). Tu gọi từ màn check-in (`submitCheckIn`). Tu không ghi thẳng vào lịch sử.
+
+Chữ ký (khớp `ReviewRepository<Review>` trên nhánh `codex/npdwuy-training-foundation`, 19/11/2026):
+
+```ts
+appendReview(review: Review): Review            // đồng bộ, trả bản đã lưu
+getReview(historyId: string): Review | null
+getReviews(range?: { from?: DateKey; to?: DateKey }): Review[]   // mới nhất trước
+```
+
+- Kiểu `Review` do Tu giữ, ở `mobile/src/modules/checkin/review-model.ts`; Đức Huy import, không định nghĩa lại.
+- Tu tạo `review.id` (`rv-`) và `createdAt` qua `buildReview()`; `appendReview` lưu nguyên, không đổi.
+- Mỗi `historyId` một review: lưu lại thì **thay** review cũ.
+- `getReviews` lọc theo ngày lịch địa phương của `createdAt`.
+- **Ghi bền (đang làm, Đức Huy, nhánh `feature/npdwuy-training`):** ghi cache đồng bộ chưa chắc đã lưu xuống AsyncStorage, nên Đức Huy thêm `appendReviewDurable(review): Promise<Review>` (chỉ trả về khi đã lưu xuống máy) và màn check-in gọi `submitCheckInDurable()`. Tu đồng ý cách này. `appendReview` đồng bộ vẫn giữ nguyên chữ ký cho các chỗ khác.
 
 **Quy ước hàm:**
 - Hàm đọc không có tác dụng phụ.
@@ -164,7 +179,7 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 | Profile, HomeMetrics | Thông | _chưa có_ |
 | Workout, Session | Hải | `WORKOUT_SCHEDULE_DESIGN.md` |
 | HistoryEntry, SetRecord | Đức Huy | _chưa có_ |
-| Review, Rhythm, Reminder | Tu | _chưa có_ |
+| Review, Rhythm, Reminder | Tu | `RHYTHM_CHECKIN_REMINDER.md` |
 | Activity, Mascot, Route | Đỗ Huy | _chưa có_ |
 
 **Trường tối thiểu mà người khác cần đọc** (phần giao nhau, người sở hữu có thể thêm trường nhưng không được bỏ các trường này):
