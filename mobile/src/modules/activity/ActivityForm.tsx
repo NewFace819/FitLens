@@ -1,7 +1,8 @@
+import { newId } from '../../shared/ids';
 import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, Alert } from 'react-native';
-import { Entry, activityTypes, validateEntry } from './activityModel';
-import { styles as s, Button } from './ui';
+import { Activity as Entry, activityTypes, validateActivity } from './activity';
+import { styles as s, Button } from '../home/primitives';
 export function ActivityScreen({
   date,
   save,
@@ -26,12 +27,12 @@ export function ActivityScreen({
     lock.current = true;
     setBusy(true);
     try {
-      const e = validateEntry({
-        id: 'activity:' + Date.now(),
+      const e = validateActivity({
+        id: newId('ac'),
         type,
         name,
         date: day,
-        seconds: Number(minutes) * 60,
+        durationSec: Number(minutes) * 60,
         distanceKm: distance.trim() ? Number(distance) : null,
         elevationM: ascent.trim() ? Number(ascent) : null,
         note,

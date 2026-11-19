@@ -1,221 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  BackHandler,
-  KeyboardAvoidingView,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-  Pressable,
-} from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { Icon } from './src/Icon';
-import { HomeScreen } from './src/HomeScreen';
-import { StepsScreen } from './src/StepsScreen';
-import { CameraScreen } from './src/CameraScreen';
-import { ActivityScreen } from './src/ActivityScreen';
-import { Entry, readEntries, writeEntries, today } from './src/activityModel';
-import { Route, routes, tabs } from './src/routes';
-import { setMascotMood } from './src/mascot';
-import { Button, colors, styles as s } from './src/ui';
+/**
+ * FitLens app root (React Native CLI).
+ * Hydrates shared storage, loads sample data (contract §8), then shows the stack.
+ * Home + dock belong to Đỗ Huy; 'Home' is a temporary dev hub for now.
+ */
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, StatusBar, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { syncReminderNotifications } from './src/modules/reminders/notifications';
+import { hasSeenWelcome } from './src/modules/welcome/welcome';
+import CameraScreen from './src/screens/camera';
+import HistoryScreen from './src/screens/history';
+import InsightsScreen from './src/screens/insights';
+import OnboardingScreen from './src/screens/onboarding';
+import ProfileScreen from './src/screens/profile';
+import RecapScreen from './src/screens/recap';
+import WorkoutScreen from './src/screens/workout';
+import CheckInScreen from './src/screens/check-in';
+import DevHub from './src/screens/dev-hub';
+import RemindersScreen from './src/screens/reminders';
+import RhythmScreen from './src/screens/rhythm';
+import { PlanRoute, WorkoutsRoute } from './src/screens/workouts-routes';
+import WelcomeScreen from './src/screens/welcome';
+import type { RootStackParamList } from './src/shared/routes';
+import { ensureSeeded } from './src/shared/seed';
+import { hydrate } from './src/shared/storage';
+import { nativePersistence } from './src/shared/storage-native';
+import { colors } from './src/ui/theme';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const theme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, background: colors.background } };
+
 export default function App() {
+  const [ready, setReady] = useState(false);
+  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList>('Home');
+
+  useEffect(() => {
+    hydrate(nativePersistence)
+      .then(() => {
+        ensureSeeded();
+        const seen = hasSeenWelcome();
+        setInitialRoute(seen ? 'Home' : 'Welcome');
+        setReady(true);
+        return syncReminderNotifications(); // never prompts here
+      })
+      .catch(() => setReady(true));
+  }, []);
+
   return (
     <SafeAreaProvider>
-      <Content />
-    </SafeAreaProvider>
-  );
-}
-function Content() {
-  const [stack, setStack] = useState<Route[]>(['home']),
-    [entries, setEntries] = useState<Entry[]>([]),
-    [error, setError] = useState(false),
-    [loaded, setLoaded] = useState(false),
-    [logDate, setLogDate] = useState(today());
-  const route = stack[stack.length - 1];
-  const go = (next: Route) => setStack(previous => [...previous, next]);
-  const back = () =>
-    setStack(previous =>
-      previous.length > 1 ? previous.slice(0, -1) : previous,
-    );
-  const load = () => {
-    setError(false);
-    setLoaded(false);
-    readEntries()
-      .then(setEntries)
-      .catch(() => setError(true))
-      .finally(() => setLoaded(true));
-  };
-  useEffect(load, []);
-  useEffect(() => {
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (stack.length === 1) return false;
-      back();
-      return true;
-    });
-    return () => sub.remove();
-  }, [stack.length]);
-  const log = (date: string) => {
-    setLogDate(date);
-    go('activity');
-  };
-  async function save(entry: Entry) {
-    try {
-      const next = [entry, ...entries];
-      await writeEntries(next);
-      setEntries(next);
-      setMascotMood('energized');
-      back();
-      return true;
-    } catch {
-      Alert.alert(
-        'Could not save',
-        'Your activity has not been saved. Please try again.',
-      );
-      return false;
-    }
-  }
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.paper }}>
       <StatusBar barStyle="dark-content" />
-      {route !== 'home' && (
-        <View style={[s.row, { paddingHorizontal: 20, minHeight: 48 }]}>
-          <Button quiet label="‹ Back" onPress={back} />
+      {ready ? (
+        <NavigationContainer theme={theme}>
+          <Stack.Navigator
+            initialRouteName={initialRoute}
+            screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}
+          >
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Home" component={DevHub} />
+            <Stack.Screen name="Rhythm" component={RhythmScreen} />
+            <Stack.Screen name="Reminders" component={RemindersScreen} />
+            <Stack.Screen name="CheckIn" component={CheckInScreen} />
+            <Stack.Screen name="Workouts" component={WorkoutsRoute} />
+            <Stack.Screen name="Plan" component={PlanRoute} />
+            {/* Registered up front; placeholders until each owner replaces the screen file. */}
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Insights" component={InsightsScreen} />
+            <Stack.Screen name="Workout" component={WorkoutScreen} />
+            <Stack.Screen name="Recap" component={RecapScreen} />
+            <Stack.Screen name="History" component={HistoryScreen} />
+            <Stack.Screen name="Camera" component={CameraScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      ) : (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}>
+          <ActivityIndicator color={colors.accent} />
         </View>
       )}
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Open Account"
-        onPress={() => go('profile')}
-        style={{
-          position: 'absolute',
-          top: 48,
-          right: 20,
-          zIndex: 3,
-          width: 44,
-          height: 44,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <View
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 18,
-            borderWidth: 1,
-            borderColor: '#e6c9b7',
-            backgroundColor: '#f5e4d7',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Icon name="profile" size={20} color="#a65536" />
-        </View>
-      </Pressable>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-        <ScrollView
-          key={route}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{
-            paddingHorizontal: 20,
-            paddingTop: 12,
-            paddingBottom: 32,
-            gap: 16,
-            width: '100%',
-            maxWidth: 600,
-            alignSelf: 'center',
-          }}
-        >
-          {route === 'home' ? (
-            <HomeScreen
-              entries={entries}
-              go={go}
-              onLog={log}
-              error={error}
-              retry={load}
-            />
-          ) : route === 'steps' ? (
-            <StepsScreen />
-          ) : route === 'camera' ? (
-            <CameraScreen onBack={back} />
-          ) : route === 'activity' ? (
-            <>
-              <ActivityScreen
-                date={logDate}
-                save={save}
-                enabled={loaded && !error}
-              />
-              {error && <Button label="Reload activities" onPress={load} />}
-            </>
-          ) : (
-            <>
-              <Text style={s.title}>{routes[route]}</Text>
-              <Text style={s.body}>
-                This module will be connected by its owner.
-              </Text>
-              {route === 'workouts' && (
-                <>
-                  <Button label="Log activity" onPress={() => log(today())} />
-                  <Button
-                    quiet
-                    label="Camera setup"
-                    onPress={() => go('camera')}
-                  />
-                </>
-              )}
-              <Button
-                quiet
-                label="Back to Today"
-                onPress={() => setStack(['home'])}
-              />
-            </>
-          )}
-        </ScrollView>
-      </KeyboardAvoidingView>
-      <View
-        accessibilityRole="tablist"
-        style={{
-          flexDirection: 'row',
-          backgroundColor: '#f0f2e9',
-          borderRadius: 30,
-          marginHorizontal: 20,
-          marginBottom: 8,
-          padding: 6,
-        }}
-      >
-        {tabs.map(tab => (
-          <Pressable
-            key={tab}
-            accessibilityRole="tab"
-            accessibilityState={{
-              selected:
-                route === tab ||
-                (route === 'steps' && tab === 'home') ||
-                (route === 'activity' && tab === 'workouts'),
-            }}
-            onPress={() => setStack([tab])}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              paddingVertical: 10,
-              gap: 4,
-              borderRadius: 24,
-              backgroundColor:
-                route === tab ||
-                (route === 'steps' && tab === 'home') ||
-                (route === 'activity' && tab === 'workouts')
-                  ? '#e3ead9'
-                  : 'transparent',
-            }}
-          >
-            <Icon name={tab} />
-            <Text style={{ fontSize: 11, color: colors.ink }}>
-              {routes[tab]}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }

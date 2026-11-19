@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { SvgXml } from 'react-native-svg';
-import { cameraScene } from './prototypeAssets';
+import { cameraScene } from '../home/prototypeAssets';
 
-export function CameraScreen({ onBack }: { onBack: () => void }) {
+export function CameraScreen({
+  onBack,
+  exerciseId,
+  targetReps,
+}: {
+  onBack: () => void;
+  exerciseId?: string;
+  targetReps?: number;
+}) {
   const [ready, setReady] = useState(true);
   const [mirror, setMirror] = useState(false);
   return (
     <View style={{ gap: 18 }}>
       <Text style={s.caption}>UPPER BODY SET 01 / 03</Text>
-      <Text style={s.title}>Lateral Raise</Text>
+      <Text style={s.title}>
+        {exerciseId
+          ? exerciseId
+              .split('-')
+              .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+              .join(' ')
+          : 'Lateral Raise'}
+      </Text>
       <View style={s.frame}>
         <View style={s.top}>
           <Text style={s.badge}>CAMERA OFF · PREVIEW</Text>
@@ -48,7 +63,10 @@ export function CameraScreen({ onBack }: { onBack: () => void }) {
         <View>
           <Text style={s.caption}>TARGET</Text>
           <Text style={s.title}>
-            12–15 <Text style={s.body}>reps</Text>
+            {Number.isFinite(targetReps) && targetReps! > 0
+              ? targetReps
+              : '12–15'}{' '}
+            <Text style={s.body}>reps</Text>
           </Text>
         </View>
       </View>

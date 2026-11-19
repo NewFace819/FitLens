@@ -7,7 +7,9 @@ import Svg, {
   Rect,
   SvgXml,
 } from 'react-native-svg';
-import * as art from './prototypeAssets';
+import * as art from '../home/prototypeAssets';
+import { getMascotMood } from './mascot';
+import { subscribe, getVersion } from '../../shared/storage';
 const moods = {
   happy: art.happy,
   calm: art.calm,
@@ -18,24 +20,9 @@ const moods = {
   exhausted: art.exhausted,
   concerned: art.concerned,
 };
-export type MascotMood = keyof typeof moods;
-let mood: MascotMood = 'happy';
-const listeners = new Set<() => void>();
-export function setMascotMood(next: MascotMood) {
-  if (!(next in moods)) return;
-  mood = next;
-  listeners.forEach(fn => fn());
-}
 export function Mascot() {
-  const value = useSyncExternalStore(
-    fn => {
-      listeners.add(fn);
-      return () => {
-        listeners.delete(fn);
-      };
-    },
-    () => mood,
-  );
+  useSyncExternalStore(subscribe, getVersion, getVersion);
+  const value = getMascotMood();
   return (
     <View
       accessible

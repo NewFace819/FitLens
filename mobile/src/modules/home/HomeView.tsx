@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { timeIcon } from './prototypeAssets';
-import { styles as s, colors, Button } from './ui';
+import { styles as s, colors, Button } from './primitives';
 import { Icon } from './Icon';
-import { Mascot } from './mascot';
-import { Entry, today } from './activityModel';
-import { Route } from './routes';
+import { Mascot } from '../mascot/MascotView';
+import { Activity as Entry } from '../activity/activity';
+import { addDays, weekStartOf, toDateKey } from '../../shared/dates';
+const today = () => toDateKey(new Date());
+export type HomeDestination = 'workouts' | 'plan' | 'steps';
 export type HomePlan = {
   id: string;
   date: string;
@@ -14,7 +16,7 @@ export type HomePlan = {
   minutes?: number;
   exercises?: number;
 };
-export type WorkoutMetric = { date: string; seconds: number; sets: number };
+export type WorkoutMetric = { date: string; durationSec: number; sets: number };
 export function ActivitySection({
   onSteps,
   workouts = [],
@@ -59,7 +61,7 @@ export function ActivitySection({
         {[
           [
             'Workout Time',
-            Math.round(recorded.reduce((n, w) => n + w.seconds, 0) / 60),
+            Math.round(recorded.reduce((n, w) => n + w.durationSec, 0) / 60),
             'min',
           ],
           ['Sets completed', recorded.reduce((n, w) => n + w.sets, 0), 'sets'],
@@ -91,11 +93,6 @@ export function ActivitySection({
     </View>
   );
 }
-export function renderActivitySection(
-  props: React.ComponentProps<typeof ActivitySection> = {},
-) {
-  return <ActivitySection {...props} />;
-}
 export function HomeScreen({
   entries,
   plans = [],
@@ -104,25 +101,25 @@ export function HomeScreen({
   onLog,
   error,
   retry,
+  onDateChange,
+  onSession,
 }: {
   entries: Entry[];
   plans?: HomePlan[];
   workouts?: WorkoutMetric[];
-  go: (route: Route) => void;
+  go: (route: HomeDestination) => void;
   onLog: (date: string) => void;
   error: boolean;
   retry: () => void;
+  onDateChange?: (date: string) => void;
+  onSession?: (id: string) => void;
 }) {
   const [date, setDate] = useState(today());
-  const shift = (value: string, n: number) => {
-    const d = new Date(value + 'T12:00:00');
-    d.setDate(d.getDate() + n);
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
-      2,
-      '0',
-    )}-${String(d.getDate()).padStart(2, '0')}`;
-  };
-  const first = shift(date, -((new Date(date + 'T12:00:00').getDay() + 6) % 7));
+  useEffect(() => {
+    onDateChange?.(date);
+  }, [date, onDateChange]);
+  const shift = addDays;
+  const first = weekStartOf(date);
   const records = entries.filter(e => e.date === date);
   const planned = plans.find(p => p.date === date);
   const isToday = date === today();
@@ -145,7 +142,7 @@ export function HomeScreen({
       </View>
       <View style={s.row}>
         <Text style={s.heading}>
-          {first === shift(today(), -((new Date().getDay() + 6) % 7))
+          {first === weekStartOf(today())
             ? 'This week'
             : new Date(first + 'T12:00:00').toLocaleDateString('en', {
                 month: 'short',
@@ -273,7 +270,7 @@ export function HomeScreen({
               >
                 <Text style={s.heading}>{e.name}</Text>
                 <Text style={s.body}>
-                  {Math.round(e.seconds / 60)} min · Saved
+                  {Math.round(e.durationSec / 60)} min · Saved
                 </Text>
               </View>
             ))}
@@ -297,9 +294,9 @@ export function HomeScreen({
                     : 'Choose a workout'
                 }
                 onPress={() =>
-                  go(
-                    planned ? 'workouts' : date > today() ? 'plan' : 'workouts',
-                  )
+                  planned && onSession
+                    ? onSession(planned.id)
+                    : go(date > today() ? 'plan' : 'workouts')
                 }
               />
               {date <= today() && (
