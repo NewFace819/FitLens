@@ -147,7 +147,7 @@ getReviews(range?: { from?: DateKey; to?: DateKey }): Review[]   // mới nhất
 - Tu tạo `review.id` (`rv-`) và `createdAt` qua `buildReview()`; `appendReview` lưu nguyên, không đổi.
 - Mỗi `historyId` một review: lưu lại thì **thay** review cũ.
 - `getReviews` lọc theo ngày lịch địa phương của `createdAt`.
-- **Còn mở:** Đức Huy muốn có xác nhận ghi bền (ghi cache đồng bộ chưa chắc đã lưu xuống AsyncStorage). Đề xuất: giữ hàm đồng bộ, lỗi lưu báo qua `onStorageError()` của `shared/storage` như các key khác.
+- **Ghi bền (đang làm, Đức Huy, nhánh `feature/npdwuy-training`):** ghi cache đồng bộ chưa chắc đã lưu xuống AsyncStorage, nên Đức Huy thêm `appendReviewDurable(review): Promise<Review>` (chỉ trả về khi đã lưu xuống máy) và màn check-in gọi `submitCheckInDurable()`. Tu đồng ý cách này. `appendReview` đồng bộ vẫn giữ nguyên chữ ký cho các chỗ khác.
 
 **Quy ước hàm:**
 - Hàm đọc không có tác dụng phụ.
