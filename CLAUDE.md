@@ -29,16 +29,19 @@ Current core ideas (any of these may change):
 
 ## Tech stack
 
-_TBD – fill in once decided (mobile framework, backend, AI/LLM provider, pose-estimation approach, database)._
-
-- **Mobile:** React Native, **Android only** (decided 2026-11-14). No iOS.
+- **Mobile:** React Native 0.88 CLI + TypeScript, **Android only** (decided 2026-11-14). No iOS. React Navigation (native stack), AsyncStorage, react-native-svg; Jest for tests. Notification library not chosen yet.
 - **Backend (target):** FastAPI; DB Supabase PostgreSQL; local cache SQLite; on-device pose estimation with MediaPipe (integration approach on React Native not chosen yet). See `docs/ARCHITECTURE_LITE.md`.
 - **App language:** English.
 - **LLM (PoC):** Google Gemini API free tier, `gemini-3.8-flash` (see `poc/plan_generator/`). Free-tier prompts may be used by Google to improve its products, so never send real personal data on the free tier.
 
 ## Repo layout
 
-_TBD – fill in as the structure settles._
+- `mobile/` – React Native app. `src/shared/` (storage, dates, ids, routes, seed), `src/modules/<module>/` (pure TS, one owner each, unit-tested), `src/screens/` (thin screens), `src/ui/`. Run `npm test` and `npx tsc --noEmit` there. Details in `mobile/README.md`.
+- `prototype/` – interactive HTML/CSS/JS UI prototype (reference for the mobile screens).
+- `poc/plan_generator/` – Gemini weekly-plan PoC (CLI).
+- `backend/` – FastAPI service; README only so far.
+- `docs/` – architecture, use cases, slides; `docs/PROJECT_STATE.md` is the current status and task list; `docs/design/` holds module designs.
+- `design/ui-snapshots/` – tagged UI screenshots.
 
 ## How to work in this repo
 

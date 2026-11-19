@@ -1,29 +1,40 @@
 # FitLens — Project State
 
-> Cập nhật: 2026-11-14. File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
+> Cập nhật: 2026-11-19 (tối). File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
 
 ## 1. Mốc (milestones)
 
 | Mốc | Thời điểm | Trạng thái |
 | :-- | :-- | :-- |
-| Proposal & PoC | Tuần 5 | _Nhóm điền_ |
-| MVP | Cuối kỳ | Chưa bắt đầu code backend/mobile |
+| Proposal & PoC | Tuần 5 | _Nhóm điền_ (PoC sinh lịch tập đã có trong `poc/plan_generator/`) |
+| MVP | Cuối kỳ | Đang làm: mobile đã có phần Rhythm/Reminders/Check-in trên `main`; backend chưa bắt đầu |
 
-## 2. Trạng thái theo thành phần của repo
+## 2. Trạng thái theo thành phần của repo (trên `main`)
 
 | Thành phần | Thư mục | Trạng thái | Ghi chú |
 | :-- | :-- | :-- | :-- |
-| Tài liệu kiến trúc, use case, slide | `docs/` | Có | `ARCHITECTURE.md`, `ARCHITECTURE_LITE.md`, `USE_CASE_DIAGRAM.md`, slide THA |
-| Prototype UI (HTML/CSS/JS) | `prototype/` | Có, bản trong repo cũ hơn bản đang dùng | Xem mục 3 |
+| Tài liệu kiến trúc, use case, slide | `docs/` | Có | `ARCHITECTURE.md`, `ARCHITECTURE_LITE.md`, `USE_CASE_DIAGRAM.md`, slide THA, `design/RHYTHM_CHECKIN_REMINDER.md`, `design/DATA_CONTRACT.md` |
+| Prototype UI (HTML/CSS/JS) | `prototype/` | Có, đã đồng bộ bản mới (PR #5, 14/11) | Đã có `plan.html`, `profile.html`, `streak.html`, `yearly-recap.html`. Vẫn còn `food.*`, `chat.*` cần xóa |
 | PoC sinh lịch tập bằng Gemini | `poc/plan_generator/` | Có | Chạy được từ CLI, chưa là API |
 | Backend FastAPI | `backend/` | Chưa có code | Chỉ có README |
-| Mobile React Native (Android) | `mobile/` | Lát cắt đầu: màn Workouts và Plan dùng chung model với prototype (nhánh `feature/workout-schedule`, chưa gộp) | 18 test Jest (gồm sửa workout, đổi giờ/ngày buổi tập), `tsc` và lint qua; chưa chạy trên máy ảo/điện thoại vì máy chưa có Android SDK và JDK 17 |
+| Mobile React Native (Android) | `mobile/` | RN 0.88.1 + TypeScript, chỉ Android | Xem mục 3. `tsc` và `jest` chạy qua (5 suite, 23 test, 19/11). Chưa build Android vì máy chưa có Android SDK và JDK 17 |
 | Pose estimation (MediaPipe) | — | Chưa có | Chỉ là thiết kế |
 | Database (Supabase) | — | Chưa có | Chỉ là thiết kế |
 
-## 3. Prototype UI: kiểm kê chức năng
+## 3. Mobile: trạng thái theo module
 
-Nguồn: `PROJECT_FEATURE_AND_NAVIGATION_MAP.md` (kiểm kê 04/11/2026, thư mục `D:\UI_Design`). Bản đó có thêm các trang như `plan.html`, `profile.html`, `streak.html`, `yearly-recap.html` mà `prototype/` trong repo chưa có, nên **cần đồng bộ prototype mới nhất vào repo**.
+| Module | Chủ | Trên `main` | Đang ở nhánh |
+| :-- | :-- | :-- | :-- |
+| Shared (storage, dates, ids, routes, seed) | chung | Có | — |
+| Rhythm, Reminders, Check-in | Tu | Có (PR #4). Thông báo chỉ preview, chưa chọn thư viện push | — |
+| Welcome (màn chào, routing lần đầu) | Thông | Có (PR #6) | — |
+| Workouts, Plan (lịch tuần) | Hải | Có (từ `feature/mobile-workout-plan`): chạy trên model của `../prototype` qua cache chung | — |
+| Route + màn tạm cho Onboarding, Profile, Insights, Workout, Recap, History, Camera | chủ từng màn | Có: `src/screens/<tên>.tsx` là placeholder, chủ màn thay file của mình | — |
+| History, buổi tập đang diễn ra | Đức Huy | Placeholder | `codex/npdwuy-training-foundation` (+2, tụt 12) |
+| Home, Mascot, Activity, Camera | Đỗ Huy | Placeholder | `feature/home-mascot-activity-camera-v2` (+2, tụt 8) |
+| Profile | Thông | Placeholder | — |
+
+## 4. Prototype UI: kiểm kê chức năng
 
 Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu** = bấm được nhưng dữ liệu cố định; **Chưa có** = chưa có xử lý.
 
@@ -36,64 +47,63 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 | Check-in & an toàn (báo đau, RPE sau buổi) | Dừng buổi và lịch sử có lưu; trường đánh giá sau buổi chưa ghi vào lịch sử |
 | Hoạt động khác (đi bộ, chạy, đạp xe, bơi) | Có lưu |
 | Chỉ số & hành trình (steps, insights, recap) | Pha trộn dữ liệu thật và dữ liệu mẫu |
-| ~~Dinh dưỡng~~, ~~Chat FitLens~~ | **Đã bỏ khỏi phạm vi (14/11/2026)** |
+| ~~Dinh dưỡng~~, ~~Chat FitLens~~ | **Đã bỏ khỏi phạm vi (14/11/2026)**; file vẫn còn trong `prototype/` |
 | Nhịp, streak & nhắc lịch | Có lưu; thông báo chỉ là preview, không có push thật |
 | Camera kiểm tra form | Chỉ UI: không mở camera, không đếm rep |
 | Mascot / Avatar | Chỉ biểu cảm; chưa có chỉ số/kỹ năng/trang bị |
 
-## 4. Khoảng trống so với định hướng (F1–F7)
+## 5. Khoảng trống so với định hướng (F1–F7)
 
-1. Vòng tự điều chỉnh: RPE sau buổi → tăng/giảm độ khó tuần sau **chưa nối hoàn chỉnh**.
+1. Vòng tự điều chỉnh: RPE sau buổi → tăng/giảm độ khó tuần sau **chưa nối hoàn chỉnh** (mobile đã có logic điều chỉnh tải trong `checkin/`, chưa nối với Plan).
 2. Camera: chưa có pose estimation thật.
 3. LLM: mới có PoC sinh lịch; chưa có Safety Router phía backend.
 4. Avatar: mới có biểu cảm, chưa "mạnh lên" theo luyện tập.
 5. Chưa có backend, DB, đồng bộ, đăng nhập (JWT).
 6. Thông báo nhắc lịch chưa gửi thật.
 
-## 5. Quyết định đã chốt
+## 6. Quyết định đã chốt
 
 - App language: English. LLM PoC: Gemini free tier (`gemini-3.8-flash`); không gửi dữ liệu cá nhân thật.
 - RPE: thang 1–10, hỏi một lần sau buổi tập, tách khỏi chấn thương.
 - Mobile: React Native (CLI, TypeScript), chỉ Android (14/11/2026). Không làm iOS.
 - Bỏ Dinh dưỡng và Chat khỏi phạm vi sản phẩm (14/11/2026). Gemini chỉ còn dùng để sinh lịch tập.
 - Zero video retention: camera xử lý trên thiết bị, backend không nhận ảnh/video.
+- Mobile: hàm contract **đồng bộ** trên cache đã hydrate; mỗi key có một chủ ghi; mỗi người một thư mục `mobile/src/modules/<module>`.
 
-## 6. Quyết định còn mở
+## 7. Quyết định còn mở
 
 - Cách chạy MediaPipe Pose trên React Native (module native Android hay plugin frame processor cho camera).
-- Khi nào bắt đầu backend và mobile.
-- Có đưa prototype mới nhất từ `D:\UI_Design` vào repo không, theo cách nào.
+- Thư viện thông báo cho Android (`expo-notifications`, `react-native-notify-kit`, …) — xem `mobile/README.md`.
+- Khi nào bắt đầu backend.
 
-## 7. Phân công prototype UI (hạn CN 15/11/2026)
+## 8. Kế hoạch tuần 1 (19/11 → 25/11)
 
-| Thành viên | Phần việc | Việc cần xong | Hàm xuất ra cho người khác |
-| :-- | :-- | :-- | :-- |
-| Thông | Hồ sơ & Insight | Onboarding và chỉnh sửa hồ sơ lưu được, mở lại vẫn còn. Trang Insights, steps, training focus, recap tháng/năm. Chỉ số trên Home | `getProfile()` (có vùng cần tránh), `getHomeMetrics()` (dùng dữ liệu mẫu nếu chưa có lịch sử) |
-| Tu | Nhắc lịch & Check-in | Mô hình nhịp: mục tiêu số buổi/tuần, streak, tạm nghỉ, tính từ lịch sử mẫu. Cài giờ nhắc. Màn check-in sau buổi hiển thị đủ trường và lưu kết quả để tuần sau điều chỉnh độ khó | `appendReview()` |
-| Hải | Workout & Lịch tuần | Thư viện workout: tạo/sửa/xóa, xem chi tiết. Lịch tuần sinh draft từ `getProfile()`, áp dụng, thêm/đổi/xóa buổi, kéo thả, sao chép tuần. Trang Workouts và Plan. Gỡ nút "Ask FitLens" khỏi Workout details | `getWorkout()`, `updateWorkout()`, `getWeekSchedule()` |
-| Đức Huy | Buổi tập đang diễn ra | Tách lịch sử tập ra `training-history.js`. Màn tập ghi kg/rep từng set, nghỉ, tạm dừng/tiếp tục, dùng số liệu lần trước, báo đau, hoàn tất buổi thì lưu vào lịch sử | `getHistory()`, `getLastSets()`, `appendReview()` |
-| Đỗ Huy | Home, Hoạt động & Camera | Home và dock điều hướng tới mọi trang chính, giữ danh sách route chung. Mascot, ghi hoạt động khác. Màn chuẩn bị camera (chỉ UI). **Gỡ toàn bộ Dinh dưỡng và Chat khỏi app** | `setMascotMood()`, `renderActivitySection()` |
+Mục tiêu: **app chạy được trên Android trước Chủ nhật 22/11** (dù nhiều màn còn là placeholder), và đến 25/11 luồng cơ bản chạy hết một vòng: Welcome → Onboarding → Plan → Màn tập → Check-in → nhắc lịch. Đăng nhập và database (Supabase) để tuần 2.
 
-**Tiến độ của Hải (nhánh `feature/workout-schedule`, 14/11/2026):**
-- Xong: lõi dùng chung `prototype/shared/` (enum, ngày, lưu trữ, ID), danh mục bài tập, model Workout, model Lịch (tuần, xung đột, buổi kế tiếp, sao chép tuần, migrate dữ liệu cũ), `workout-store.js` xuất `window.FitLensWorkout`. 45 test chạy bằng `cd prototype && npm test`.
-- Đã nối vào giao diện: trang Workouts và Workout details dùng model, tạo workout mới được lưu và hiện ở "Your workouts", đã gỡ "Ask FitLens".
-- Đã làm thêm (14/11): `draft-model.js` (gợi ý tuần, có test an toàn duyệt toàn bộ tổ hợp vùng tránh × thiết bị × mục tiêu) và trang `plan.html`: xem tuần, thêm buổi, đổi giờ/ngày, đánh dấu xong, xóa, sao chép sang tuần sau, "Build my week". 58 test qua. Trang Plan chưa đọc hồ sơ thật của Thông, đang dùng form hỏi nhanh (sẽ tự dùng `window.FitLensProfile.getProfile()` nếu Thông cung cấp).
-- Builder (xóa bài, xóa workout, đổi thứ tự, thêm bài, sửa set/reps) đã có ở cả prototype HTML và app RN.
-- Chưa làm: kéo thả, "adapt" workout theo thời lượng/thiết bị/năng lượng, nhiều giờ nhắc, đối chiếu giao diện chi tiết với snapshot 083–095; chưa chạy app RN trên Android thật.
-- Giới hạn đã biết: `workout-active.js` (Đức Huy) vẫn tra bài bằng ID cũ (`bench`, `squat`...), nên nút Start chỉ chuyển 12 bài của catalog cũ; các bài mới chưa bắt đầu được cho đến khi Đức Huy dùng danh mục chung.
+Quy tắc: mỗi người chỉ sửa thư mục/màn của mình; gọi sang người khác qua hàm contract; mọi route đã đăng ký sẵn nên **không ai sửa `App.tsx` / `routes.ts`** nữa (cần route mới thì báo Hải). PR nhỏ, merge hằng ngày.
 
-Lưu ý:
-- `appendReview()` xuất hiện ở cả Tu (màn check-in gọi) và Đức Huy (định nghĩa trong `training-history.js`). Hai người cần thống nhất chữ ký hàm.
-- Dinh dưỡng và Chat đã bỏ khỏi phạm vi: `ARCHITECTURE.md`, `ARCHITECTURE_LITE.md` và `CLAUDE.md` đã sửa. `USE_CASE_DIAGRAM.md` (UC03, F5, mermaid + PlantUML), `use-case-viewer.html`, `SLIDES_BLUEPRINT.md` và các file PDF/PPTX **chưa sửa**.
+| ID | Người | Task | Kết quả | Hạn | Cần |
+| :-- | :-- | :-- | :-- | :-- | :-- |
+| H1 | Hải | Đưa Workouts/Plan + `DATA_CONTRACT.md` vào `main` | PR merge | 19/11 | — |
+| H2 | Hải | Đăng ký sẵn mọi route + màn tạm | Xong (cùng PR với H1) | 19/11 | — |
+| H3 | Hải | Cài Android SDK + JDK 17, build APK đầu tiên, ghi hướng dẫn vào `mobile/README.md` | App chạy trên emulator/điện thoại | **22/11** | — |
+| H4 | Hải | Nút "Start" trên Plan mở `Workout` với `{session}` | Từ Plan vào được màn tập | 22/11 | — |
+| T1 | Thông | Onboarding (thay `screens/onboarding.tsx`): mục tiêu, kinh nghiệm, buổi/tuần, phút, thiết bị, vùng tránh; Welcome dẫn sang lần đầu | Lưu `fitlens.profile` | 23/11 | — |
+| T2 | Thông | Profile xem/sửa; thay placeholder `modules/profile`, `getProfile()` đúng contract | Plan dùng profile thật | 24/11 | — |
+| T3 | Thông | `getHomeMetrics()` với dữ liệu mẫu | Home có số liệu | 25/11 | — |
+| TU1 | Tu | Chốt chữ ký `appendReview()` với Đức Huy, ghi vào `DATA_CONTRACT.md` | — | 20/11 | — |
+| TU2 | Tu | Thử và chọn thư viện thông báo trên Android | Quyết định + lý do | 22/11 | H3 |
+| TU3 | Tu | Nhắc lịch thật qua `setNotificationScheduler()` | Có thông báo trên máy | 25/11 | TU2 |
+| TU4 | Tu | Check-in dùng lịch sử thật | Mở được ngay sau buổi tập | 25/11 | DH2 |
+| DH1 | Đức Huy | Rebase lên `main`, chốt `appendReview()` với Tu | — | 20/11 | — |
+| DH2 | Đức Huy | Thay placeholder `modules/history`: `getHistory`, `getLastSets`, `appendReview`, lưu buổi tập | `contract.test` vẫn qua | 22/11 | — |
+| DH3 | Đức Huy | Màn tập (thay `screens/workout.tsx`): kg/rep từng set, nghỉ, tạm dừng, "Use last time" | Tập được 1 buổi | 24/11 | — |
+| DH4 | Đức Huy | Hoàn tất → lưu lịch sử, `markSessionDone()`, sang `CheckIn`; báo đau → dừng | Màn tập nối sang check-in | 25/11 | DH3 |
+| DO1 | Đỗ Huy | Xóa `food.*`, `chat.*` khỏi `prototype/` | PR nhỏ | 21/11 | — |
+| DO2 | Đỗ Huy | Thử camera: MediaPipe JS trong WebView hay native | Chốt cách làm | 22/11 | H3 |
+| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`) | Video demo | 25/11 | DO2 |
+| DO4 | Đỗ Huy | Home bản đầu thay dev hub (rebase nhánh home có sẵn) | Home hiện buổi tới + nhịp | 25/11 | — |
 
-## 8. Việc tiếp theo
+Ưu tiên khi trễ: Đỗ Huy làm camera trước Home; H3 của Hải trước mọi việc khác của Hải.
 
-| Việc | Người phụ trách | Trạng thái |
-| :-- | :-- | :-- |
-| Đồng bộ prototype mới nhất vào `prototype/` | _điền_ | Chưa |
-| Thống nhất chữ ký `appendReview()` giữa Tu và Đức Huy | Tu, Đức Huy | Chưa |
-| Sửa use case, viewer, slide blueprint và xuất lại PDF/PPTX sau khi bỏ Dinh dưỡng và Chat | _điền_ | Chưa |
-| Xóa `food.*`, `chat.*` khỏi `prototype/` | Đỗ Huy | Chưa |
-| Dựng khung backend FastAPI + Safety Router | _điền_ | Chưa |
-| Khởi tạo project mobile | _điền_ | Chưa |
-| Điền mục "Tech stack" và "Repo layout" trong `CLAUDE.md` | _điền_ | Chưa |
+**Tuần 2 (26/11 → 1/12, chốt lại cuối tuần 1):** đăng nhập + database (Supabase Auth; Thông màn đăng nhập, Hải dựng Supabase, mỗi người đồng bộ dữ liệu của mình), camera trong màn tập (Đỗ Huy + Đức Huy), avatar mạnh dần (Đỗ Huy), RPE → lịch tuần sau và backend sinh lịch Gemini (Hải), luật an toàn khi báo đau (Tu). Khóa tính năng 1/12, nộp 3/12.

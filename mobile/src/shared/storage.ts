@@ -23,6 +23,7 @@ export const KEYS = {
   activities: 'fitlens.activities',
   mascot: 'fitlens.mascot',
   seed: 'fitlens.seed',
+  welcome: 'fitlens.welcome',
 } as const;
 
 export const PREFIX = 'fitlens.';

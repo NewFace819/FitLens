@@ -43,6 +43,17 @@ export default function DevHub() {
       <ListRow label="Post-workout check-in" detail="Latest session" onPress={() => openCheckIn(nav)} />
       <ListRow label="Workouts" detail="Library & builder" onPress={() => nav.navigate('Workouts')} />
       <ListRow label="Weekly plan" detail="Draft & schedule" onPress={() => nav.navigate('Plan')} />
+      {__DEV__ ? (
+        <ListRow label="Welcome introduction" detail="First launch" onPress={() => nav.navigate('Welcome')} />
+      ) : null}
+      <Divider />
+      <Text style={[type.eyebrow, { marginBottom: space.sm }]}>In progress</Text>
+      <ListRow label="Onboarding" detail="Thông" onPress={() => nav.navigate('Onboarding')} />
+      <ListRow label="Profile" detail="Thông" onPress={() => nav.navigate('Profile')} />
+      <ListRow label="Insights" detail="Thông" onPress={() => nav.navigate('Insights')} />
+      <ListRow label="Workout" detail="Đức Huy" onPress={() => nav.navigate('Workout', {})} />
+      <ListRow label="History" detail="Đức Huy" onPress={() => nav.navigate('History')} />
+      <ListRow label="Camera coach" detail="Đỗ Huy" onPress={() => nav.navigate('Camera', { exerciseId: 'goblet-squat' })} />
       <Divider />
       <Text style={[type.eyebrow, { marginBottom: space.sm }]}>Sample data · synthetic</Text>
       <Button
