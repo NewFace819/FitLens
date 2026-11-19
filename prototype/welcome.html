@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="light">
+<title>FitLens — Welcome</title>
+<link rel="stylesheet" href="fitlens-ui.css"><link rel="stylesheet" href="mascot-face.css"><link rel="stylesheet" href="welcome.css"><link rel="stylesheet" href="steps-sun.css"><link rel="stylesheet" href="onboarding-health.css"><link rel="stylesheet" href="onboarding-notifications.css">
+<script src="profile-model.js" defer></script><script src="mascot-face.js" defer></script><script src="steps-sun.js" defer></script><script src="steps-chart.js" defer></script><script src="health-steps-preview.js" defer></script><script src="health-integration.js" defer></script><script src="notification-preview.js" defer></script><script src="notification-integration.js" defer></script><script src="welcome.js" defer></script>
+</head><body>
+<main class="onboarding" data-state="welcome" aria-label="FitLens introduction">
+<div class="device-status" aria-hidden="true"><span>9:41</span><span class="device-island"></span><span class="device-icons"><svg viewBox="0 0 24 24"><path d="M3 20h3v-5H3zm5 0h3v-9H8zm5 0h3V7h-3zm5 0h3V3h-3z" fill="currentColor" stroke="none"/></svg><svg viewBox="0 0 24 24"><path d="M3 9a15 15 0 0 1 18 0M6 12a10 10 0 0 1 12 0M9 15a5 5 0 0 1 6 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg><svg viewBox="0 0 26 24"><rect x="2" y="6" width="19" height="12" rx="3"/><path d="M24 10v4"/><rect x="5" y="9" width="13" height="6" rx="1" fill="currentColor" stroke="none"/></svg></span></div>
+<nav class="onboarding-nav" aria-label="Introduction navigation"><button id="onboarding-back" class="back-button" aria-label="Back" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button><span class="brand">FITLENS</span></nav>
+<div class="mascot" aria-hidden="true"><div class="mascot-color"></div><svg id="welcome-face"></svg></div>
+<div class="onboarding-scenes">
+<section id="welcome-scene" class="scene" aria-labelledby="welcome-title"><div class="scene-copy"><h1 id="welcome-title" tabindex="-1">Welcome to<br>FitLens.</h1><p>Your pace. Your way.</p></div><div class="scene-actions"><button class="primary" id="get-started">Get Started</button></div></section>
+<section id="name-scene" class="scene" aria-labelledby="name-title" hidden><div class="scene-copy"><h1 id="name-title" tabindex="-1">What should<br>I call you?</h1></div><form id="name-form" class="name-form"><label class="sr-only" for="preferred-name">Your name</label><div class="name-input-row"><input id="preferred-name" name="name" autocomplete="given-name" enterkeyhint="done" maxlength="40" required placeholder="Your name" spellcheck="false" aria-describedby="name-error"><div class="name-controls"><button class="confirm-button" type="submit" aria-label="Confirm name" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div></div><p id="name-error" class="error" role="alert"></p></form></section>
+<section id="greeting-scene" class="scene" aria-labelledby="greeting-title" hidden><div class="scene-copy"><h1 id="greeting-title" tabindex="-1"><span id="greeting-prefix">Nice to meet you,</span> <span class="greeting-name"><span id="greeting-name"></span><span id="greeting-punctuation">!</span></span></h1><p id="greeting-caption">Let's make FitLens feel like yours.</p></div><div class="scene-actions"><button class="primary" id="continue-onboarding">Continue</button></div></section>
+<section id="health-scene" class="scene health-scene" aria-labelledby="health-title" hidden>
+  <div class="health-content-wrap"><div class="health-content">
+    <div class="health-heading"><h1 id="health-title" tabindex="-1">See your movement<br>come to life.</h1><p>Bring your daily activity into FitLens with <span data-health-source>Apple Health</span>.</p></div>
+    <div class="health-preview" aria-label="Illustrative activity data, not your health records">
+      <div class="health-preview-header"><h2>Your day so far</h2><span class="health-example-label">Preview</span></div>
+      <div class="health-sun-summary"><div id="health-steps-sun" aria-hidden="true"></div><div><span class="health-steps-label">Steps</span><strong>6,240 <small>steps</small></strong><p>Illustrative activity data</p></div></div>
+      <svg id="health-steps-chart" viewBox="0 0 360 156" role="img" aria-labelledby="health-chart-title health-chart-description"><title id="health-chart-title">Example steps across the day</title><desc id="health-chart-description">Illustrative cumulative steps reach 6,240 at 19:00. The gray comparison is also illustrative, not your personal baseline.</desc><g class="health-chart-grid"></g><g class="health-chart-lines"></g><g class="health-chart-axis"></g></svg>
+      <div class="health-chart-legend" aria-hidden="true"><span><i class="actual-key"></i>Example steps</span><span><i class="usual-key"></i>Example comparison</span></div>
+      <div class="health-supporting-metrics">
+        <div><span>Distance</span><strong>4.2 <small>km</small></strong></div>
+        <div><span>Walking Time</span><strong>32 <small>min</small></strong></div>
+        <div><span>Active Energy</span><strong>185 <small>kcal</small></strong></div>
+      </div>
+      <p class="health-heart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5c-3-3-7-1-8 2-1-3-5-5-8-2-5 5 4 12 8 15 4-3 13-10 8-15Z"/><path d="M4 12h4l2-3 3 6 2-3h5"/></svg>Heart rate, when available</p>
+    </div>
+    <details class="health-details"><summary>What FitLens can read</summary><ul><li>Daily steps.</li><li>Distance from walking and running.</li><li>Walking Time from recorded walking workouts, not estimated from steps.</li><li>Active Energy from all physical activity, not only walking.</li><li>Heart rate, when available.</li></ul><p>FitLens requests read access only. You can change access later in your health app. Your FitLens workouts still work without a connection.</p></details>
+  </div><div class="health-scroll-cue" aria-hidden="true"></div></div>
+  <div class="health-actions"><p id="health-request-status" class="health-request-status" role="status" hidden>Waiting for your choice…</p><button class="primary" id="connect-health">Connect Apple Health</button><button class="health-secondary" id="skip-health">Not now</button><p class="health-privacy">You choose what to share.</p></div>
+</section>
+<section id="health-response-scene" class="scene health-response-scene" aria-labelledby="health-response-title" hidden>
+  <div class="scene-copy"><span class="health-demo-badge" hidden>DEMO · SIMULATED RESPONSE</span><h1 id="health-response-title" tabindex="-1"></h1><p id="health-response-caption"></p><p id="health-response-detail" class="health-response-detail"></p></div>
+  <div class="scene-actions"><button class="health-secondary" id="retry-health" hidden>Try Again</button><button class="primary" id="continue-health">Continue</button><button class="health-secondary" id="health-options">Health options</button></div>
+</section>
+<section id="notifications-scene" class="scene notifications-scene" aria-labelledby="notifications-title" hidden>
+  <div class="notifications-content-wrap"><div class="notifications-content">
+    <div class="notifications-heading"><h1 id="notifications-title" tabindex="-1">A little nudge,<br>when it matters.</h1><p>Gentle reminders for workouts, check-ins, and moments worth looking back on.</p></div>
+    <figure class="notification-example">
+      <figcaption>EXAMPLE NOTIFICATION</figcaption>
+      <div class="notification-preview-stage">
+        <article class="notification-card" aria-label="Illustrative FitLens workout notification">
+          <img class="notification-app-icon" src="assets/branding/fitlens-notification-preview.svg" alt="" width="36" height="36">
+          <div class="notification-card-content"><div class="notification-meta"><strong>FitLens</strong><span>now</span></div><h2 class="notification-card-title"></h2><p class="notification-card-body"></p></div>
+        </article>
+      </div>
+      <p class="notification-example-note">Illustrative preview. No reminder is scheduled.</p>
+    </figure>
+  </div><div class="health-scroll-cue" aria-hidden="true"></div></div>
+  <div class="notifications-actions"><p id="notification-request-status" role="status" hidden>Waiting for your choice…</p><button class="primary" id="enable-notifications">Enable gentle reminders</button><button class="health-secondary" id="skip-notifications">Maybe later</button><p class="notification-reassurance">Only when it matters. Always your choice.</p></div>
+</section>
+<section id="notifications-response-scene" class="scene notification-response-scene" aria-labelledby="notification-response-title" hidden>
+  <div class="scene-copy"><span class="notification-demo-badge" hidden>DEMO · SIMULATED RESPONSE</span><h1 id="notification-response-title" tabindex="-1"></h1><p id="notification-response-caption"></p><p id="notification-settings-status" role="status"></p></div>
+  <div class="scene-actions"><button class="health-secondary" id="retry-notifications" hidden>Try Again</button><button class="health-secondary" id="notification-settings" hidden>Open Settings</button><button class="primary" id="continue-notifications">Continue</button></div>
+</section>
+</div><p id="onboarding-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+</main><aside id="health-demo-controls" class="health-demo-controls" hidden><strong>Development preview · simulated health states</strong><label for="health-demo-scenario">Connect response</label><select id="health-demo-scenario"><option value="readable">Readable example data</option><option value="no-data">No readable samples</option><option value="unavailable">Connection unavailable</option><option value="error">Request error</option><option value="skipped">Not now</option></select><p>Demo only. No health records are accessed and no permission grant is saved.</p></aside><aside id="notification-demo-controls" class="health-demo-controls" hidden><strong>Development preview · simulated notification permission</strong><label for="notification-demo-scenario">Permission response</label><select id="notification-demo-scenario"><option value="authorized">Authorized</option><option value="provisional">Provisional — quiet delivery</option><option value="denied">Denied</option><option value="not-determined">Not determined</option><option value="unavailable">Unavailable</option><option value="error">Request error</option><option value="skipped">Maybe later</option></select><p>Demo only. No system permission is granted and no reminder is scheduled.</p></aside></body></html>

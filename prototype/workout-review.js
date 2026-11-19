@@ -14,11 +14,12 @@ const sessions = {
   full: { name: 'Full Body', minutes: 56, exercises: ['Goblet Squat', 'Bench Press', 'Romanian Deadlift', 'Lat Pulldown', 'Shoulder Press', 'Seated Row', 'Lateral Raise'] }
 };
 const routineKey = new URLSearchParams(location.search).get('routine');
-const session = sessions[routineKey] || sessions.upper;
+const completed=FitLensTraining.read().history.find(h=>h.id===new URLSearchParams(location.search).get('completed'));
+const session = completed?{name:completed.name,minutes:Math.max(1,Math.round(completed.seconds/60)),exercises:completed.items.map(i=>FitLensTraining.exercises[i.id]?.name||i.id)}:sessions[routineKey] || sessions.upper;
 $('#session-name').textContent = session.name;
 $('#stat-duration').replaceChildren(document.createTextNode(session.minutes), Object.assign(document.createElement('span'), { textContent: ' min' }));
 $('#stat-exercises').textContent = session.exercises.length;
-$('#stat-sets').textContent = session.exercises.length * 3;
+$('#stat-sets').textContent = completed?completed.logs.flat().filter(s=>s.done).length:session.exercises.length * 3;
 const effortLevels = [
   ['Almost effortless', 'Gentle movement. Breathing feels natural and easy.', '#acd0d7', '#dce9df', '#a4c9cc'],
   ['Very light', 'Comfortable and relaxed. Plenty of energy left.', '#a7ccca', '#dce8d7', '#aacbc4'],
@@ -86,8 +87,8 @@ function updateFace() {
   $('#finish-context').textContent = `${level[0]} effort · ${hasDiscomfort ? 'Body notes added' : 'Your moment to reflect'}`;
   $('#effort-description').textContent = level[1];
   $('#effort').setAttribute('aria-valuetext', `${value} out of 10, ${level[0]}. ${level[1]}`);
-  $('#hero-caption').textContent = hasDiscomfort ? 'Let’s give your body a little care.' : value >= 8 ? 'That took a lot. Take a breath.' : 'Take a breath. Let’s check in.';
-  const mascotExpression=hasDiscomfort?'concerned':value<=3?'content':value<=5?'happy':value<=7?'energized':value<=9?'tired':'exhausted';
+  $('#hero-caption').textContent = completed?.outcome==='stopped'&&!hasDiscomfort ? 'Your session is saved. Take a moment to check in.' : hasDiscomfort ? 'Add a note about any discomfort.' : value >= 8 ? 'Record how this session felt.' : 'How did this session feel?';
+  const mascotExpression=(hasDiscomfort||completed?.outcome==='stopped')?'concerned':value<=3?'content':value<=5?'happy':value<=7?'energized':value<=9?'tired':'exhausted';
   reviewFace.set(mascotExpression,{animate:!reducedMotion.matches,duration:360});
   const comparison = value < 4 ? 'below' : value > 6 ? 'above' : 'within';
   $('#usual-status').textContent = `${comparison === 'below' ? 'Below' : comparison === 'above' ? 'Above' : 'Within'} usual range`;

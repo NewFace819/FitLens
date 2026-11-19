@@ -1,0 +1,124 @@
+/* FitLens lists: continuous content, inset rules, and semantic groups.
+   Density applies to browsing rows; editable set ledgers and charts keep their grids. */
+:root{--fl-list-line:#d9dfd2;--fl-list-surface:#fffdf7;--fl-list-pressed:#e8edde}
+
+/* Ordered workout lineup: number + image + two lines. Rules align with text. */
+#fitlens-home-preview .details-phone .exercise-row{position:relative;min-height:76px;padding:10px 0;gap:10px;border-bottom:0}
+#fitlens-home-preview .details-phone .exercise-row:not(:last-child)::after{content:'';position:absolute;left:82px;right:0;bottom:0;border-bottom:1px solid var(--fl-list-line);pointer-events:none}
+#fitlens-home-preview .details-phone .exercise-index{font-size:14px;min-width:18px;width:18px;align-self:center;margin-top:0;color:#65765b}
+#fitlens-home-preview .details-phone .exercise-main{min-height:56px;gap:10px}
+#fitlens-home-preview .details-phone .exercise-row .exercise-art,#fitlens-home-preview .details-phone .exercise-row .exercise-art.has-illustration{width:44px;height:48px;flex:0 0 44px}
+#fitlens-home-preview .details-phone .exercise-art img,#fitlens-home-preview .details-phone .exercise-art.has-illustration img{width:44px;height:48px;object-fit:contain}
+#fitlens-home-preview .details-phone .exercise-copy{gap:4px}
+#fitlens-home-preview .details-phone .exercise-copy strong{font-size:17px;line-height:1.3;font-weight:750}
+#fitlens-home-preview .details-phone .exercise-copy>span{font-size:15px;line-height:1.4;color:#5f7058}
+#fitlens-home-preview .details-phone .exercise-main>svg{width:16px;height:16px;color:#829077}
+#fitlens-home-preview .details-phone .exercise-main:active{background:var(--fl-list-pressed);border-radius:8px}
+#fitlens-home-preview .details-phone .library-option{position:relative;min-height:72px;padding:12px 0;border-bottom:0;font-size:17px;gap:12px}
+#fitlens-home-preview .details-phone .library-option:not(:last-child)::after{content:'';position:absolute;left:0;right:0;bottom:0;border-bottom:1px solid var(--fl-list-line)}
+#fitlens-home-preview .details-phone .library-option small{font-size:15px;line-height:1.4;color:#5f7058;margin-top:4px}
+#fitlens-home-preview .details-phone .option-row{min-height:52px;padding:12px 0;border-color:var(--fl-list-line);font-size:16px}
+#fitlens-home-preview .details-phone .option-row:last-child{border-bottom:0}
+
+/* Workout library has multiple actions per row, so it remains taller than a picker. */
+#fitlens-home-preview .library-phone .library-row{position:relative;padding:13px 0;gap:14px;border-bottom:0}
+#fitlens-home-preview .library-phone .library-row:not(:last-child)::after{content:'';position:absolute;left:66px;right:0;bottom:0;border-bottom:1px solid var(--fl-list-line)}
+#fitlens-home-preview .library-phone .library-art{width:52px;height:56px;flex:0 0 52px;border-radius:15px}
+#fitlens-home-preview .library-phone .library-art img{width:48px;height:52px;object-fit:contain}
+#fitlens-home-preview .library-phone .library-text h3{font-size:20px;line-height:1.3;font-weight:800;margin:0}
+#fitlens-home-preview .library-phone .library-text p{font-size:15px;line-height:1.4;margin:4px 0;color:#5f7058}
+#fitlens-home-preview .library-phone .library-links{gap:16px}
+#fitlens-home-preview .library-phone .library-links button,#fitlens-home-preview .library-phone .library-links a{font-size:15px;min-height:44px;font-weight:750;padding:8px 0}
+
+/* In-session navigation stays a list; the weight/reps ledger is deliberately untouched. */
+.session-phone .lineup-row{position:relative;min-height:56px;padding:12px 0;border-top:0;font-size:16px}
+.session-phone .lineup-row:not(:last-child)::after{content:'';position:absolute;left:35px;right:0;bottom:0;border-bottom:1px solid var(--fl-list-line)}
+.session-phone .lineup-row>span:first-child,.session-phone .lineup-row>span:last-child{font-size:14px;color:#65765b}
+.session-phone .lineup-row.selected{background:#e9eedf;border-radius:9px}
+.session-phone .sheet-row{border-color:var(--fl-list-line)}
+.session-phone .sheet-row:last-child{border-bottom:0}
+.coach-pick-list button{position:relative;min-height:52px;border-top:0;border-bottom:1px solid var(--fl-list-line);font-size:16px;font-weight:750}
+.coach-pick-list button:last-child{border-bottom:0}
+.coach-history li{font-size:14px;min-height:44px;border-top:0}
+.coach-history li+li{border-top:1px solid var(--fl-list-line)}
+.coach-history strong{font-size:15px}
+.fl-muscle-map .mm-detail li:last-child{border-bottom:0}
+
+/* Profile: a small number of meaningful groups, one surface per group. */
+.profile-preferences{padding-top:23px}
+.profile-group{margin-top:22px}
+.profile-group>h3{font-size:14px;font-weight:750;line-height:1.4;color:#5f7058;margin:0 14px 8px}
+.profile-group-items{background:var(--fl-list-surface);border-radius:18px;overflow:hidden}
+.profile-group-items .profile-row{position:relative;min-height:80px;padding:13px 14px;gap:12px;border-bottom:0}
+.profile-group-items .profile-row+.profile-row::before{content:'';position:absolute;left:14px;right:0;top:0;border-top:1px solid var(--fl-list-line);pointer-events:none}
+.profile-group-items .profile-row strong{font-size:17px;font-weight:750;line-height:1.3}
+.profile-group-items .profile-row .profile-value{font-size:15px;line-height:1.45;margin-top:4px;color:#5f7058}
+.profile-group-items .profile-row.has-areas .profile-value{color:#8b6a40}
+.profile-group-items .profile-row:active{background:var(--fl-list-pressed)}
+.profile-disclosure{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:#829077;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.profile-data-list li{border-color:var(--fl-list-line)}
+.profile-data-list li:last-child{border-bottom:0}
+
+/* Recent history is grouped under its existing header, with a consistent text rhythm. */
+.context-history>.context-session{position:relative;min-height:68px;padding:12px 14px;border-top:0;background:var(--fl-list-surface)}
+.context-history>.context-session:nth-child(2){border-radius:15px 15px 0 0}
+.context-history>.context-session:last-child{border-radius:0 0 15px 15px}
+.context-history>.context-session:nth-child(2):last-child{border-radius:15px}
+.context-history>.context-session+.context-session::before{content:'';position:absolute;left:14px;right:0;top:0;border-top:1px solid var(--fl-list-line)}
+.context-session strong{font-size:16px;font-weight:750;line-height:1.3}
+.context-session span{font-size:14px;line-height:1.4;margin-top:4px;color:#5f7058}
+.context-history>summary{font-size:16px;min-height:52px}
+.context-history>summary>span{font-size:14px}
+.home-session-row{min-height:68px;padding:12px 0;border-bottom:0}
+.home-session-row strong{font-size:16px;line-height:1.3;font-weight:750}
+.home-session-row span{font-size:14px;line-height:1.4;margin-top:4px}
+#individual-links{background:var(--fl-list-surface);border-radius:16px;padding:0 14px}
+#individual-links a{min-height:68px;font-size:17px;border-color:var(--fl-list-line)}
+#individual-links a:last-child{border-bottom:0}
+#individual-links small{font-size:14px;line-height:1.4;color:#5f7058}
+
+/* Food keeps its editorial typography and photography, with quieter list separators. */
+.directory-row{position:relative;grid-template-columns:88px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:0}
+.directory-row:not(:last-child)::after{content:'';position:absolute;left:102px;right:0;bottom:0;border-bottom:1px solid var(--rule,var(--fl-list-line))}
+.directory-photo{height:96px}
+.directory-row p,.directory-row div>span{font-size:14px;line-height:1.45}
+.directory-row h3{font-size:20px;line-height:1.3;margin-bottom:5px}
+.directory-row p{margin-bottom:5px}
+.diary-group>h3{border-bottom:0;padding-bottom:0;margin-bottom:8px}
+.diary-group>h3>span{font-size:14px}
+.diary-row{position:relative;border-bottom:0}
+.diary-row+.diary-row::before{content:'';position:absolute;left:0;right:44px;top:0;border-top:1px solid var(--rule,var(--fl-list-line))}
+.diary-edit{padding-top:12px;padding-bottom:12px;min-height:72px}
+.diary-edit>strong{font-size:17px;line-height:1.35}
+.diary-edit>span{font-size:15px;line-height:1.4;margin-top:4px}
+.log-pick-row{position:relative;min-height:72px;padding:10px 0;gap:12px;border-bottom:0}
+.log-pick-row:has(+.log-pick-row)::after{content:'';position:absolute;left:60px;right:0;bottom:0;border-bottom:1px solid var(--rule,var(--fl-list-line))}
+.log-pick-row>img{width:48px;height:52px}
+.log-pick-row .recent-log-symbol{width:48px;flex:0 0 48px}
+.log-pick-row strong{font-size:17px;line-height:1.35;font-weight:750}
+.log-pick-row small,.custom-meal-choice small{font-size:14px;line-height:1.4}
+.ingredient-list{border-top:0}
+.ingredient-row{position:relative;min-height:52px;padding:12px 0;border-bottom:0}
+.ingredient-row:not(:last-child)::after{content:'';position:absolute;left:33px;right:0;bottom:0;border-bottom:1px solid var(--rule,var(--fl-list-line))}
+.method-step{position:relative;border-bottom:0;padding:20px 0}
+.method-step:not(:last-child)::after{content:'';position:absolute;left:51px;right:0;bottom:0;border-bottom:1px solid var(--rule,var(--fl-list-line))}
+
+@media(max-width:360px){
+ #fitlens-home-preview .details-phone .exercise-row{gap:8px}
+ #fitlens-home-preview .details-phone .exercise-main{gap:8px}
+ #fitlens-home-preview .details-phone .exercise-row:not(:last-child)::after{left:78px}
+ #fitlens-home-preview .library-phone .library-row{gap:12px}
+ #fitlens-home-preview .library-phone .library-row:not(:last-child)::after{left:64px}
+ #fitlens-home-preview .library-phone .library-links{gap:12px}
+ #fitlens-home-preview .library-phone .library-links button{font-size:14px}
+ .profile-group-items .profile-row{padding-left:13px;padding-right:13px}
+ .directory-row{grid-template-columns:76px minmax(0,1fr);gap:12px}
+ .directory-row:not(:last-child)::after{left:88px}
+ .directory-photo{height:90px}
+}
+
+/* The title and metadata form one generous primary target; actions remain separate. */
+#fitlens-home-preview .library-phone .library-open{display:block;min-height:50px;width:100%;padding:0;text-align:left}
+#fitlens-home-preview .library-phone .library-name{display:block;font-size:20px;line-height:1.3;font-weight:800}
+#fitlens-home-preview .library-phone .library-meta{display:block;font-size:15px;line-height:1.4;margin:4px 0 0;color:#5f7058}
+#fitlens-home-preview .library-phone .library-art{align-self:flex-start}

@@ -1,80 +1,60 @@
 /**
- * FitLens (Android). Workouts and Plan, using the same pure-JS models as the browser prototype.
- * @format
+ * FitLens app root (React Native CLI).
+ * Hydrates shared storage, loads sample data (contract §8), then shows the stack.
+ * Home + dock belong to Đỗ Huy; 'Home' is a temporary dev hub for now.
  */
-
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { createAppStore } from './src/core/appStore';
-import type { KeyValueBackend } from './src/core/persistentStorage';
-import type { AppStore } from './src/core/types';
-import PlanScreen from './src/screens/PlanScreen';
-import WorkoutsScreen from './src/screens/WorkoutsScreen';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, StatusBar, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { syncReminderNotifications } from './src/modules/reminders/notifications';
+import CheckInScreen from './src/screens/check-in';
+import DevHub from './src/screens/dev-hub';
+import RemindersScreen from './src/screens/reminders';
+import RhythmScreen from './src/screens/rhythm';
+import { PlanRoute, WorkoutsRoute } from './src/screens/workouts-routes';
+import type { RootStackParamList } from './src/shared/routes';
+import { ensureSeeded } from './src/shared/seed';
+import { hydrate } from './src/shared/storage';
+import { nativePersistence } from './src/shared/storage-native';
 import { colors } from './src/ui/theme';
 
-type Tab = 'workouts' | 'plan';
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const theme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, background: colors.background } };
 
-/** `backend` and `today` are only passed by tests; the app uses device storage and the real date. */
-function App({ backend, today }: { backend?: KeyValueBackend; today?: string }) {
-  const [store, setStore] = useState<AppStore | null>(null);
-  const [tab, setTab] = useState<Tab>('workouts');
+export default function App() {
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    let alive = true;
-    createAppStore(backend).then(h => {
-      if (alive) {
-        setStore(h.store);
-      }
-    });
-    return () => {
-      alive = false;
-    };
-  }, [backend]);
+    hydrate(nativePersistence)
+      .then(() => {
+        ensureSeeded();
+        setReady(true);
+        return syncReminderNotifications(); // never prompts here
+      })
+      .catch(() => setReady(true));
+  }, []);
 
   return (
     <SafeAreaProvider>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.root}>
-        {store === null ? (
-          <View style={styles.loading}>
-            <ActivityIndicator color={colors.text} />
-          </View>
-        ) : (
-          <View style={styles.root}>
-            <View style={styles.body}>
-              {tab === 'workouts' ? <WorkoutsScreen store={store} /> : <PlanScreen store={store} today={today} />}
-            </View>
-            <View style={styles.tabs} accessibilityRole="tablist">
-              {(['workouts', 'plan'] as const).map(t => (
-                <Pressable
-                  key={t}
-                  testID={`tab-${t}`}
-                  accessibilityRole="tab"
-                  accessibilityState={{ selected: tab === t }}
-                  style={styles.tab}
-                  onPress={() => setTab(t)}>
-                  <Text style={[styles.tabText, tab === t && styles.tabOn]}>
-                    {t === 'workouts' ? 'Workouts' : 'Plan'}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-        )}
-      </SafeAreaView>
+      {ready ? (
+        <NavigationContainer theme={theme}>
+          <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
+            <Stack.Screen name="Home" component={DevHub} />
+            <Stack.Screen name="Rhythm" component={RhythmScreen} />
+            <Stack.Screen name="Reminders" component={RemindersScreen} />
+            <Stack.Screen name="CheckIn" component={CheckInScreen} />
+            <Stack.Screen name="Workouts" component={WorkoutsRoute} />
+            <Stack.Screen name="Plan" component={PlanRoute} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      ) : (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}>
+          <ActivityIndicator color={colors.accent} />
+        </View>
+      )}
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.bg },
-  body: { flex: 1 },
-  loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  tabs: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.card },
-  tab: { flex: 1, alignItems: 'center', paddingVertical: 14 },
-  tabText: { fontSize: 14, fontWeight: '800', color: colors.muted },
-  tabOn: { color: colors.text },
-});
-
-export default App;

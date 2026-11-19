@@ -2,16 +2,13 @@
 
 Mobile client for FitLens. **Stack: React Native 0.88 + TypeScript, Android only** (decided 2026-11-14). iOS is out of scope.
 
-Status: **Workouts** (list, workout detail with editing) and **Plan** screens: create/rename/delete a workout, change sets and reps, reorder, add and remove exercises (editing a routine makes your own copy); build a week from a few answers, add/remove/mark-done sessions, change a session's day and 24-hour time, copy a week, built on the same pure-JS models as the browser prototype. Not yet run on a device or emulator (this machine has no Android SDK); covered by Jest tests that render the screens. See `docs/PROJECT_STATE.md`.
+Status: React Native CLI project on the shared data layer from `docs/design/DATA_CONTRACT.md`.
 
-## How it is organised
+- **Tu:** Rhythm, Reminders, Check-in.
+- **Hải:** Workouts (list, detail with editing: rename, sets/reps, reorder, add/remove exercises; editing a routine makes your own copy) and Plan (build a week from a few answers, add/remove/mark-done sessions, change day and 24-hour time, copy a week). Built on the same pure-JS models as the browser prototype. Not done yet: drag-and-drop, adapting a workout to time/equipment.
+- History, Profile, Mascot are placeholders.
 
-- `App.tsx`: loads saved data, then shows the two tabs.
-- `src/core/`: `appStore.ts` builds the store from the shared models in `../prototype` (`workout-model.js`, `schedule-model.js`, `draft-model.js`, `shared/*`; one source of truth for logic, Metro is told to read that folder in `metro.config.js`). `persistentStorage.ts` keeps a synchronous in-memory copy (the models expect `localStorage`-style calls) and writes through to AsyncStorage.
-- `src/screens/`, `src/ui/`: the screens and small shared components.
-- `__tests__/`, `test-utils/`: Jest tests and a fake storage backend.
-
-Not done yet: drag-and-drop, adapting a workout to time/equipment, profile, history, reminders.
+Not yet run on a device or emulator (no Android SDK on the dev machine); covered by Jest tests that render the screens. See `docs/PROJECT_STATE.md`.
 
 ## Requirements
 
@@ -31,7 +28,57 @@ npm start          # Metro dev server
 npm run android    # in a second terminal, with emulator/phone connected
 ```
 
-Other scripts: `npm test` (18 tests, no emulator needed), `npm run lint`, `npx tsc --noEmit`.
+Other scripts: `npm test` (jest: domain + contract tests), `npm run lint`, `npx tsc --noEmit`.
+
+Sample data loads on first start (contract §8). The temporary `Home` screen has "Reset sample data".
+
+## Code layout
+
+```
+App.tsx                  # NavigationContainer + stack; hydrates storage, seeds sample data
+src/
+├── navigation.ts        # typed navigation helpers (React Navigation native stack)
+├── screens/             # Thin screens: call module functions only
+│   ├── dev-hub.tsx      # 'Home' — TEMPORARY until Home + dock (Đỗ Huy)
+│   ├── rhythm.tsx       # Tu
+│   ├── reminders.tsx    # Tu
+│   ├── check-in.tsx     # Tu  (route 'CheckIn', param { history })
+├── shared/              # Contract §1, 2, 4, 8, 12 — everyone imports, nobody re-types
+│   ├── constants.ts     # enums: Region, ExerciseFeedback, SessionStatus, …
+│   ├── dates.ts         # YYYY-MM-DD, HH:mm, weekStartOf (Monday)
+│   ├── ids.ts           # <prefix>-<random>
+│   ├── storage.ts       # fitlens.<entity> = { v, data }; sync read/write over a hydrated cache;
+│   │                    #   localStorageView = the same cache shaped like localStorage (for ../prototype models)
+│   ├── storage-native.ts# AsyncStorage persistence
+│   ├── routes.ts        # route names + param list
+│   └── seed.ts          # calls each owner's seed
+├── modules/             # One folder per owner. Pure TS, unit-tested, no React.
+│   ├── rhythm/          # Tu: getRhythm, setWeeklyGoal, pauseRhythm, resumeRhythm
+│   ├── checkin/         # Tu: Review shape, 1–10 feedback scale, submitCheckIn, load adjust
+│   ├── reminders/       # Tu: getReminder, setReminder, notifications.ts
+│   ├── history/         # Đức Huy  ⚠️ placeholder
+│   ├── workouts/        # Hải: store.ts binds ../prototype models (workout, schedule, draft, exercises)
+│   │                    #   to shared storage; schedule.ts/exercises.ts = contract functions
+│   ├── profile/         # Thông    ⚠️ placeholder
+│   └── mascot/          # Đỗ Huy   ⚠️ placeholder
+└── ui/                  # theme, shared components (components.tsx; parts.tsx for Hải's screens), mascot faces, useStore()
+```
+
+Rules (from the contract):
+- Each key has one owner who writes it. Everyone else calls the owner's functions.
+- Contract functions are **synchronous**. Storage hydrates once at start-up, then `read`/`write` are sync and saving to the device happens in the background.
+- Missing or broken data never crashes a screen; readers return defaults.
+- Hải's logic lives in `../prototype` (`workout-model.js`, `schedule-model.js`, `draft-model.js`, `shared/*`) so the browser prototype and the app share it; `metro.config.js` lets Metro read that folder.
+- The placeholder modules implement the contract signatures so Tu's screens work. Each owner replaces their own folder and keeps the signatures; `contract.test.ts` catches signature drift.
+
+## Native libraries
+
+- `@react-navigation/native` + `native-stack` with `react-native-screens`. Android setup is done in `MainActivity.kt` (`RNScreensFragmentFactory`) and `AndroidManifest.xml` (`enableOnBackInvokedCallback="false"`), per React Navigation docs.
+- `react-native-svg` (mascot faces), `@react-native-async-storage/async-storage` 2.2.
+- **Notifications: no library chosen yet.** `src/modules/reminders/notifications.ts` runs in *preview* mode: it computes what would be sent and sends nothing, like the HTML prototype. To send real reminders, plug in a library with `setNotificationScheduler()`. Candidates, all of which need an Android build to verify:
+  - `expo-notifications` through `install-expo-modules`: well maintained, but adds Expo modules to the CLI app.
+  - `react-native-notify-kit`: a maintained fork of Notifee, but has a single maintainer.
+  - `@notifee/react-native`: unmaintained since Dec 2024. Avoid.
 
 ## Architecture Highlights
 - **On-Device Vision:** Pose estimation (MediaPipe) runs locally on the phone's RAM. On React Native this needs a native Android module or a camera frame-processor plugin; approach not chosen yet.

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, Pressable } from 'react-native';
-import type { AppStore, Workout } from '../core/types';
+import type { AppStore, Workout } from '../modules/workouts/types';
 import { Button, Heading } from '../ui/parts';
 import WorkoutDetailScreen from './WorkoutDetailScreen';
 import { colors } from '../ui/theme';
@@ -97,11 +97,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     padding: 12,
     fontSize: 15,
-    color: colors.text,
+    color: colors.ink,
   },
   status: { minHeight: 20, fontSize: 13, fontWeight: '700', color: '#51705f' },
   section: { fontSize: 13, fontWeight: '900', letterSpacing: 1.5, color: colors.muted, marginTop: 8 },
   card: { backgroundColor: colors.card, borderWidth: 1, borderColor: '#e0e6d6', borderRadius: 20, padding: 14 },
-  title: { fontSize: 16, fontWeight: '900', color: colors.text },
+  title: { fontSize: 16, fontWeight: '900', color: colors.ink },
   meta: { fontSize: 12, fontWeight: '700', color: colors.muted, marginTop: 2 },
 });

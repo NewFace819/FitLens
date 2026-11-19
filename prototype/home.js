@@ -10,7 +10,6 @@
   const mouth = svg.querySelector('.fl-mouth-shape');
   const mask = svg.querySelector('clipPath path');
   const halo = phone.querySelector('.fl-halo');
-  const toggle = document.querySelector('#home-motion');
   const announcement = document.querySelector('#home-announcement');
   const happy = mouth.getAttribute('d');
   const delighted = FitLensFace.faces.energized.mouth;
@@ -22,9 +21,9 @@
   eyes[0].before(gaze);
   eyes.forEach(eye => gaze.append(eye));
 
-  // This preview opts into motion as requested. The on-screen switch pauses it
-  // locally without touching the browser's or operating system's preferences.
-  try { paused = sessionStorage.getItem('fitlens:home-motion') === 'paused'; } catch {}
+  const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+  paused=motionPreference.matches;
+  motionPreference.addEventListener('change',()=>{paused=motionPreference.matches;syncMotion();});
 
   function animate(element, frames, options) {
     const animation = element.animate(frames, options);
@@ -88,10 +87,6 @@
   function syncMotion() {
     phone.dataset.motion = paused ? 'paused' : 'full';
     phone.dataset.running = String(visible);
-    toggle.setAttribute('aria-pressed', String(paused));
-    const label = paused ? 'Resume ambient motion' : 'Pause ambient motion';
-    toggle.setAttribute('aria-label', label);
-    toggle.title = label;
     if (paused || !visible) settle();
     scheduleBlink();
   }
@@ -140,19 +135,14 @@
   });
   face.addEventListener('pointerleave', () => gaze.setAttribute('transform', 'translate(0 0)'));
   face.addEventListener('blur', () => gaze.setAttribute('transform', 'translate(0 0)'));
-  toggle.addEventListener('click', () => {
-    paused = !paused;
-    try { sessionStorage.setItem('fitlens:home-motion', paused ? 'paused' : 'full'); } catch {}
-    syncMotion();
-    announcement.textContent = paused ? 'Ambient motion paused.' : 'Ambient motion resumed.';
-  });
+
 
   // Carry only the chosen expression and activity type across pages in this
   // demo tab. Free-text reflections and body-area details stay on their page.
   function applyLatestCheckIn() {
     let checkin;
     try { checkin = JSON.parse(sessionStorage.getItem('fitlens:last-check-in')); } catch { return; }
-    if (!checkin || !['walk', 'workout'].includes(checkin.kind) ||
+    if (!checkin || checkin.kind !== 'workout' ||
       new Date(checkin.at).toDateString() !== new Date().toDateString()) return;
     const moods = {
       content: ['content', 'A little movement.', 'A moment well spent.', 'Content'],
@@ -181,12 +171,17 @@
     headline.append(accent);
     const link = document.querySelector('#home-last-checkin');
     const routine = ['upper','lower','full'].includes(checkin.routine) ? checkin.routine : 'upper';
-    link.href = checkin.kind === 'walk' ? 'post-walk-restored.html?v=home-motion-5' : `workout-review.html?routine=${routine}&v=home-motion-5`;
-    document.querySelector('#home-checkin-label').textContent = checkin.kind === 'walk' ? `${mood[3]} · Latest walk check-in` : 'Latest workout check-in';
+    link.href = `workout-review.html?routine=${routine}&v=home-motion-5`;
+    document.querySelector('#home-checkin-label').textContent = 'Latest workout check-in';
     link.hidden = false;
   }
   const content = document.querySelector('#home-scroll');
-  content.addEventListener('scroll', () => { phone.dataset.scrolled = String(content.scrollTop > 8); }, {passive:true});
+  content.addEventListener('scroll', () => {
+    const top=content.scrollTop,scrolled=String(top>8),deep=String(top>90);
+    if(phone.dataset.scrolled!==scrolled)phone.dataset.scrolled=scrolled;
+    if(phone.dataset.scrolledDeep!==deep)phone.dataset.scrolledDeep=deep;
+    window.FitLensHomeSurface?.update();
+  }, {passive:true});
   applyLatestCheckIn();
   syncMotion();
   document.addEventListener('visibilitychange', () => {

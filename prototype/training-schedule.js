@@ -1,0 +1,22 @@
+/* One lightweight scheduling sheet shared by the library and workout details. */
+(()=>{'use strict';
+window.FitLensSchedule=function(workout,{onScheduled}={}){
+ const M=FitLensTraining,item=M.copy(workout),opener=document.activeElement;
+ if(!item?.items?.length)throw new Error('Add an exercise before scheduling this workout.');
+ document.getElementById('schedule-sheet')?.remove();
+ const sheet=document.createElement('dialog');sheet.id='schedule-sheet';sheet.className='schedule-sheet';sheet.setAttribute('aria-labelledby','schedule-title');
+ sheet.innerHTML='<div class="sheet-grip"></div><header class="schedule-header"><div><span class="schedule-kicker">A LITTLE SPACE FOR YOU</span><h2 id="schedule-title">Schedule workout</h2></div><button type="button" class="schedule-close" aria-label="Close scheduling">×</button></header><p class="schedule-workout"></p><form id="schedule-form"><label class="schedule-field">Day<input type="date" name="date" required></label><div class="schedule-conflict" role="status" hidden><p></p><a>View this workout</a></div><label class="schedule-field schedule-time">Start time <span>Optional</span><input type="time" name="time"><small>Leave empty to keep your day flexible.</small></label><details class="schedule-reminder"><summary>Reminder preview <span>Optional</span></summary><label class="schedule-check"><input type="checkbox" name="reminder"> Show a reminder preview</label><label class="schedule-field schedule-before" hidden>Preview timing<select name="before"><option value="0">At workout time</option><option value="15">15 minutes before</option><option value="30">30 minutes before</option></select></label><p class="schedule-demo-note">Demo preview only. No notifications are sent.</p></details><p class="schedule-error" role="alert"></p><footer class="schedule-footer"><button type="submit">Schedule Workout</button></footer></form>';
+ const host=document.querySelector('.fl-phone')||document.body;host.append(sheet);
+ sheet.querySelector('.schedule-workout').textContent=item.name;
+ const form=sheet.querySelector('form'),day=form.elements.date,time=form.elements.time,reminder=form.elements.reminder,button=form.querySelector('[type=submit]'),conflict=sheet.querySelector('.schedule-conflict');
+ const occupied=d=>{const s=M.read();return [...s.sessions,...(s.draft?.sessions||[])].find(x=>x.date===d&&x.status!=='skipped');};
+ let date=M.today();for(let n=0;n<366&&occupied(date);n++)date=M.addDays(date,1);day.min=M.today();day.value=date;
+ function render(){const other=occupied(day.value);conflict.hidden=!other;if(other){conflict.querySelector('p').textContent=other.name+' is already on this day. Choose another day, or open it to make changes.';const link=conflict.querySelector('a'),isDraft=M.read().draft?.sessions.some(x=>x.id===other.id);link.href='workout-details.html?planned='+encodeURIComponent(other.id)+(isDraft?'&draft=1':'');}button.disabled=Boolean(other);reminder.disabled=!M.validTime(time.value);if(reminder.disabled)reminder.checked=false;sheet.querySelector('.schedule-before').hidden=!reminder.checked;sheet.querySelector('.schedule-check').classList.toggle('is-unavailable',reminder.disabled);}
+ day.oninput=day.onchange=()=>{sheet.querySelector('.schedule-error').textContent='';render();};time.oninput=render;reminder.onchange=render;
+ function place(){const r=host.getBoundingClientRect();sheet.style.width=Math.max(0,Math.min(440,r.width-24))+'px';sheet.style.left=r.left+(r.width-Math.min(440,r.width-24))/2+'px';sheet.style.bottom=Math.max(0,innerHeight-r.bottom)+12+'px';sheet.style.maxHeight=Math.max(160,Math.min(r.height-24,innerHeight-24))+'px';}
+ const close=()=>sheet.close();sheet.querySelector('.schedule-close').onclick=close;
+ sheet.addEventListener('close',()=>{removeEventListener('resize',place);opener?.focus({preventScroll:true});});addEventListener('resize',place);
+ let saving=false;form.onsubmit=e=>{e.preventDefault();if(saving)return;render();if(button.disabled||!form.reportValidity())return;try{saving=true;button.disabled=true;const result=M.add(item,day.value,{time:time.value||null,enabled:reminder.checked,before:Number(form.elements.before.value)});window.FitLensAllowWorkoutLeave?.();sheet.close();if(onScheduled)onScheduled(result);else location.href='plan.html?week='+M.weekStart(result.date)+'&added='+encodeURIComponent(result.id);}catch(error){saving=false;sheet.querySelector('.schedule-error').textContent=error.message;render();}};
+ place();sheet.showModal();render();
+};
+})();

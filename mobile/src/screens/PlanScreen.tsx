@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AppStore, Draft, Equipment, GOALS, Goal, HOME_EQUIPMENT, REGIONS, Region, Session } from '../core/types';
+import { AppStore, Draft, Equipment, GOALS, Goal, HOME_EQUIPMENT, REGIONS, Region, Session } from '../modules/workouts/types';
 import { Button, Chip, Heading, Sheet } from '../ui/parts';
 import { colors } from '../ui/theme';
 
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
   page: { padding: 20, paddingBottom: 40, gap: 10 },
   weekNav: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   weekMid: { alignItems: 'center' },
-  weekLabel: { fontSize: 17, fontWeight: '900', color: colors.text },
+  weekLabel: { fontSize: 17, fontWeight: '900', color: colors.ink },
   weekRange: { fontSize: 12, fontWeight: '700', color: colors.muted },
   arrow: {
     width: 40,
@@ -385,14 +385,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  arrowText: { fontSize: 22, fontWeight: '900', color: colors.text },
+  arrowText: { fontSize: 22, fontWeight: '900', color: colors.ink },
   actions: { flexDirection: 'row', gap: 8 },
   flex: { flex: 1 },
   status: { minHeight: 20, fontSize: 13, fontWeight: '700', color: '#51705f' },
   day: { backgroundColor: colors.card, borderWidth: 1, borderColor: '#e0e6d6', borderRadius: 20, padding: 12, gap: 6 },
   dayToday: { borderColor: colors.accent },
   dayHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  dayTitle: { fontSize: 15, fontWeight: '900', color: colors.text },
+  dayTitle: { fontSize: 15, fontWeight: '900', color: colors.ink },
   dayDate: { fontSize: 12, fontWeight: '700', color: colors.muted },
   add: {
     width: 34,
@@ -404,22 +404,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  addText: { fontSize: 18, fontWeight: '900', color: colors.text },
+  addText: { fontSize: 18, fontWeight: '900', color: colors.ink },
   empty: { fontSize: 13, fontWeight: '700', color: '#8a9d92' },
   session: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: colors.chip,
+    backgroundColor: colors.accentSoft,
     borderRadius: 14,
     padding: 10,
   },
   done: { opacity: 0.6 },
-  sessionTitle: { fontSize: 14, fontWeight: '800', color: colors.text },
+  sessionTitle: { fontSize: 14, fontWeight: '800', color: colors.ink },
   sessionMeta: { fontSize: 12, fontWeight: '700', color: colors.muted },
-  pick: { backgroundColor: colors.chip, borderRadius: 14, padding: 12, marginBottom: 6 },
+  pick: { backgroundColor: colors.accentSoft, borderRadius: 14, padding: 12, marginBottom: 6 },
   stack: { gap: 10 },
   error: { fontSize: 13, fontWeight: '700', color: colors.danger },
-  group: { fontSize: 13, fontWeight: '800', color: colors.text },
+  group: { fontSize: 13, fontWeight: '800', color: colors.ink },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
 });

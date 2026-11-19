@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import type { AppStore, Workout, WorkoutItem } from '../core/types';
+import type { AppStore, Workout, WorkoutItem } from '../modules/workouts/types';
 import { Button, Heading, Sheet } from '../ui/parts';
 import { colors } from '../ui/theme';
 
@@ -160,15 +160,15 @@ const styles = StyleSheet.create({
   meta: { fontSize: 12, fontWeight: '700', color: colors.muted },
   note: { fontSize: 13, fontWeight: '700', color: colors.accent },
   status: { minHeight: 20, fontSize: 13, fontWeight: '700', color: '#51705f' },
-  input: { borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.white, padding: 12, fontSize: 15, color: colors.text },
+  input: { borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.white, padding: 12, fontSize: 15, color: colors.ink },
   card: { backgroundColor: colors.card, borderWidth: 1, borderColor: '#e0e6d6', borderRadius: 20, padding: 14, gap: 10 },
-  title: { fontSize: 15, fontWeight: '900', color: colors.text },
+  title: { fontSize: 15, fontWeight: '900', color: colors.ink },
   row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  label: { fontSize: 13, fontWeight: '800', color: colors.text },
+  label: { fontSize: 13, fontWeight: '800', color: colors.ink },
   gap: { marginLeft: 8 },
-  step: { width: 34, height: 34, borderRadius: 17, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center' },
-  stepText: { fontSize: 18, fontWeight: '900', color: colors.text },
-  value: { minWidth: 22, textAlign: 'center', fontSize: 15, fontWeight: '900', color: colors.text },
-  reps: { minWidth: 70, borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.white, paddingHorizontal: 10, paddingVertical: 6, fontSize: 14, color: colors.text },
-  pick: { backgroundColor: colors.chip, borderRadius: 14, padding: 12, marginBottom: 6 },
+  step: { width: 34, height: 34, borderRadius: 17, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.accentSoft, alignItems: 'center', justifyContent: 'center' },
+  stepText: { fontSize: 18, fontWeight: '900', color: colors.ink },
+  value: { minWidth: 22, textAlign: 'center', fontSize: 15, fontWeight: '900', color: colors.ink },
+  reps: { minWidth: 70, borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.white, paddingHorizontal: 10, paddingVertical: 6, fontSize: 14, color: colors.ink },
+  pick: { backgroundColor: colors.accentSoft, borderRadius: 14, padding: 12, marginBottom: 6 },
 });

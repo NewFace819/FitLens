@@ -72,3 +72,15 @@
 .story-top{font-size:11px}.story-stage .eyebrow{font-size:11px}.journey-heading .eyebrow{font-size:11px}.trail-heading{font-size:11px}.chart-key{font-size:11px}
 .grid text,.axis text{font-size:11px}
 .month-summary>div>span{font-size:11px}.month-summary strong span{font-size:12px}.month-summary>div:last-of-type strong span{font-size:11px}.month-summary p{font-size:11px}.journey-bottom{font-size:13px}.story-footer>span{font-size:11px}
+/* Shared floating glass dock: four destinations with a quiet optical highlight. */
+#fitlens-home-preview .fl-phone .fl-bottom .fl-dock.fl-glass-dock{width:min(342px,calc(100% - 32px))!important;min-height:65px!important;height:auto!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important;padding:6px!important;margin:auto!important;border:1px solid #cbd3c6b3!important;border-radius:31px!important;background:linear-gradient(150deg,#fffef7e0,#f3f5ecce)!important;backdrop-filter:blur(18px) saturate(1.1)!important;-webkit-backdrop-filter:blur(18px) saturate(1.1)!important;box-shadow:0 3px 12px #29483b12,inset 0 1px 0 #ffffff80!important}
+#fitlens-home-preview .fl-phone .fl-bottom .fl-glass-dock .fl-dock-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;min-width:0!important;width:auto!important;min-height:51px!important;padding:5px 2px!important;border-radius:25px!important;color:#53684d!important;background:transparent!important;text-decoration:none!important;transition:background .18s ease,color .18s ease!important}
+#fitlens-home-preview .fl-phone .fl-bottom .fl-glass-dock .fl-dock-item.fl-selected{color:#29483b!important;background:#dfe7d5!important;box-shadow:none!important}
+#fitlens-home-preview .fl-phone .fl-bottom .fl-glass-dock svg{width:21px!important;height:21px!important;stroke-width:1.65!important}
+#fitlens-home-preview .fl-phone .fl-bottom .fl-glass-dock span{font-size:12px!important;line-height:16px!important;font-weight:750!important;letter-spacing:0!important}
+#fitlens-home-preview .training-phone .fl-bottom{position:absolute!important;bottom:0!important;left:0!important;right:0!important;z-index:40!important;padding:18px 0 10px!important;pointer-events:none;background:linear-gradient(transparent,#f7f5efb3)!important}
+#fitlens-home-preview .training-phone .fl-bottom nav{pointer-events:auto}
+#fitlens-home-preview .training-phone .fl-home-indicator{margin:13px auto 0!important}
+@media(prefers-reduced-motion:reduce){.drag-preview,.planned-card{transition:none!important;animation:none!important}}
+
+@media(max-width:480px){#fitlens-home-preview:has(.details-phone),#fitlens-home-preview:has(.phone),#fitlens-home-preview:has(.session-phone){padding:0!important}#fitlens-home-preview .fl-phone:is(.details-phone,.phone,.session-phone){width:100%!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}}

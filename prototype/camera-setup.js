@@ -12,7 +12,7 @@ document.querySelector('#return-workout').href=document.querySelector('#back-lin
 const cameraParams=new URLSearchParams(location.search);
 if(cameraParams.get('from')==='active'){
  const key=['upper','lower','full'].includes(routine)?routine:'upper';
- const back='workout-active.html?routine='+key+'&resume=1';
+ const back='workout-active.html?routine='+key+'&resume=1'+(cameraParams.get('planned')?'&planned='+encodeURIComponent(cameraParams.get('planned')):'');
  document.querySelector('#back-link').href=back;
  document.querySelector('#return-workout').href=back;
  document.querySelector('.exercise-heading h1').textContent=cameraParams.get('name')||'Exercise';
@@ -22,3 +22,5 @@ if(cameraParams.get('from')==='active'){
  values[0].replaceChildren(document.createTextNode((cameraParams.get('weight')||'0')+' '),Object.assign(document.createElement('small'),{textContent:cameraParams.get('unit')||'kg'}));
  values[1].replaceChildren(document.createTextNode((cameraParams.get('reps')||'—')+' '),Object.assign(document.createElement('small'),{textContent:'reps'}));
 }
+
+if(cameraParams.has('returnTo')){try{const u=new URL(cameraParams.get('returnTo'),location.href);if(u.origin===location.origin&&u.pathname.endsWith('/workout-details.html')){document.querySelector('#back-link').href=u.pathname+u.search;document.querySelector('#return-workout').href=u.pathname+u.search;}}catch{}}
