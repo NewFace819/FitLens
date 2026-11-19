@@ -24,6 +24,7 @@ export const KEYS = {
   mascot: 'fitlens.mascot',
   seed: 'fitlens.seed',
   welcome: 'fitlens.welcome',
+  onboarding: 'fitlens.onboarding',
 } as const;
 
 export const PREFIX = 'fitlens.';
@@ -114,6 +115,31 @@ export function write(key: string, data: unknown, currentVersion = 1): boolean {
   cache.set(key, env);
   changed();
   persistence?.save(key, JSON.stringify(env)).catch(() => reportError('Couldn’t save on this device. Please try again.'));
+  return true;
+}
+
+/**
+ * Write with confirmed persistence.
+ * Awaits persistence.save before updating the in-memory cache and notifying listeners.
+ * If persistence fails, reports an error, leaves cache untouched, and returns false.
+ */
+export async function writeConfirmed(key: string, data: unknown, currentVersion = 1): Promise<boolean> {
+  const existing = cache.get(key);
+  if (existing && existing.v > currentVersion) {
+    reportError(`${key} was saved by a newer version; not overwriting.`);
+    return false;
+  }
+  const env: Envelope = { v: currentVersion, data };
+  if (persistence) {
+    try {
+      await persistence.save(key, JSON.stringify(env));
+    } catch {
+      reportError('Couldn’t save on this device. Please try again.');
+      return false;
+    }
+  }
+  cache.set(key, env);
+  changed();
   return true;
 }
 
