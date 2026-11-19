@@ -3,9 +3,10 @@
  * Route param: `history` = HistoryEntry.id (DATA_CONTRACT §12).
  * Saves only through submitCheckIn → appendReview (Đức Huy) + setMascotMood (Đỗ Huy).
  */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { usePreventRemove } from '@react-navigation/native';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { getCheckInContext, submitCheckIn } from '../modules/checkin/checkin';
+import { getCheckInContext, submitCheckInDurable } from '../modules/checkin/checkin';
 import {
   DEFAULT_RPE, FEEDBACK_LABELS, NOTE_MAX, SENSATIONS, SENSATION_LABELS,
   effortLevel, hasPainSignal, moodAfterReview, scoreToFeedback,
@@ -57,6 +58,9 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
   const [sheet, setSheet] = useState<SheetName>(null);
   const [saved, setSaved] = useState<Review | null>(null);
   const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const savingRef = useRef(false);
+  usePreventRemove(saving, () => setError('Please wait while your check-in is being saved.'));
 
   const draft = { historyId: entry.id, rpe, discomfort, scores, note };
   const level = effortLevel(rpe);
@@ -69,13 +73,19 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
     );
   const updateRegion = (next: DiscomfortDetail) => setDiscomfort((list) => list.map((d) => (d.region === next.region ? next : d)));
 
-  const finish = () => {
+  const finish = async () => {
+    if (savingRef.current) return;
+    savingRef.current = true;
+    setSaving(true);
     setError('');
     try {
-      setSaved(submitCheckIn(draft, stoppedByPain));
+      setSaved(await submitCheckInDurable(draft, stoppedByPain));
       setSheet('saved');
     } catch {
       setError('Couldn’t save your check-in. Please try again.');
+    } finally {
+      savingRef.current = false;
+      setSaving(false);
     }
   };
 
@@ -89,10 +99,11 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
             {level.name} effort · {discomfort.length ? 'Body notes added' : 'Your moment to reflect'}
           </Text>
           {error ? <Text style={[type.caption, { color: colors.danger, marginBottom: space.sm }]}>{error}</Text> : null}
-          <Button title={existing ? 'Update check-in' : 'Finish check-in'} trailing="✓" onPress={finish} />
+          <Button title={saving ? 'Saving…' : existing ? 'Update check-in' : 'Finish check-in'} disabled={saving} trailing="✓" onPress={finish} />
         </>
       }
     >
+      <View pointerEvents={saving ? 'none' : 'auto'}>
       <View style={styles.nav}>
         <IconButton label="Back" onPress={() => goBackOrHome(nav)}>
           ‹
@@ -292,6 +303,7 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
         <Button title="Back to Today" trailing="↗" onPress={() => goHome(nav)} />
         <Button title="Keep editing" variant="text" onPress={() => setSheet(null)} style={{ marginTop: space.sm }} />
       </Sheet>
+      </View>
     </Screen>
   );
 }

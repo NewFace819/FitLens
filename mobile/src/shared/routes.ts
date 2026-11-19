@@ -12,6 +12,7 @@ export const ROUTES = {
   checkIn: 'CheckIn',
   workouts: 'Workouts',
   plan: 'Plan',
+  training: 'Training',
   onboarding: 'Onboarding',
   profile: 'Profile',
   insights: 'Insights',
@@ -30,6 +31,7 @@ export type RootStackParamList = {
   CheckIn: { history: string };
   Workouts: undefined;
   Plan: undefined;
+  Training: { workout?: string; session?: string } | undefined;
   // Thông
   Onboarding: undefined;
   Profile: undefined;
