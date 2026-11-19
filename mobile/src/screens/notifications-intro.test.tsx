@@ -92,10 +92,6 @@ test('NotificationsIntroScreen renders exact approved copy, reassurance note, an
   expect(texts).toContain(
     'Gentle reminders for workouts, check-ins, and moments worth looking back on.'
   );
-  expect(texts).toContain('EXAMPLE NOTIFICATION');
-  expect(texts).toContain('A little time for yourself?');
-  expect(texts).toContain('Your scheduled workout begins at 6:30 PM.');
-  expect(texts).toContain('Illustrative preview. No reminder is scheduled.');
   expect(texts).toContain('Enable gentle reminders');
   expect(texts).toContain('Maybe later');
   expect(texts).toContain('Only when it matters. Always your choice.');
@@ -135,6 +131,8 @@ test('API 33+ deliberate tap of Enable gentle reminders requests permission, upd
   // Success state shown with Continue button
   const statusCard = root.findByProps({ accessibilityLabel: 'Notifications allowed.' });
   expect(statusCard.props.accessibilityLabel).toBe('Notifications allowed.');
+  expect(statusCard.props.accessibilityRole).toBeUndefined();
+  expect(statusCard.props.accessibilityLiveRegion).toBe('polite');
   const cardTexts = statusCard.findAllByType(Text).map((t) => t.props.children);
   expect(cardTexts).toContain('Notifications allowed');
   expect(cardTexts).toContain('Allowed');
@@ -177,8 +175,9 @@ test('API 33+ already granted on mount displays permission success state and Con
   const continueBtn = root.findByProps({ accessibilityLabel: 'Continue' });
   expect(continueBtn).toBeDefined();
 
-  const statusCard = root.findByProps({ accessibilityLiveRegion: 'polite' });
-  expect(statusCard.props.accessibilityLabel).toBe('Notifications allowed.');
+  const statusCard = root.findByProps({
+    accessibilityLabel: 'Notifications allowed.',
+  });
   const cardTexts = statusCard.findAllByType(Text).map((t) => t.props.children);
   expect(cardTexts).toContain('Notifications allowed');
   expect(cardTexts).toContain('Allowed');
@@ -391,6 +390,117 @@ test('Below API 33 has no runtime prompt, shows neutral guidance, and offers Con
     index: 0,
     routes: [{ name: 'Home' }],
   });
+});
+
+test('Notification example uses native glass when the device supports refraction', async () => {
+  const adapter = createFakeNotificationAdapter();
+  let renderer: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(async () => {
+    renderer = ReactTestRenderer.create(<NotificationsIntroScreen adapter={adapter} />);
+  });
+
+  const root = renderer!.root;
+  const glass = root.findByProps({ testID: 'liquid-glass-view' });
+  expect(glass.props.refraction).toBe(true);
+  expect(glass.props.interactive).toBe(false);
+
+  await ReactTestRenderer.act(async () => {
+    glass.props.onPipelineReady({
+      nativeEvent: { tier: 'refraction', osVersion: 37, shaderCompiled: true },
+    });
+  });
+
+  expect(root.findByProps({ testID: 'liquid-glass-view' })).toBeDefined();
+  expect(root.findAllByProps({ id: 'exampleGlassFace' })).toHaveLength(0);
+});
+
+test.each(['runtime error', 'shader failure'])(
+  'Notification example keeps its text and falls back to static glass after a %s',
+  async (failure) => {
+    const adapter = createFakeNotificationAdapter();
+    let renderer: ReactTestRenderer.ReactTestRenderer;
+    await ReactTestRenderer.act(async () => {
+      renderer = ReactTestRenderer.create(<NotificationsIntroScreen adapter={adapter} />);
+    });
+
+    const root = renderer!.root;
+    const getExampleBody = () =>
+      root.findAllByType(Text).filter(
+        (node) => node.props.children === 'Your scheduled workout begins at 6:30 PM.',
+      );
+    const [exampleBody] = getExampleBody();
+    const glass = root.findByProps({ testID: 'liquid-glass-view' });
+    await ReactTestRenderer.act(async () => {
+      if (failure === 'runtime error') {
+        glass.props.onError();
+      } else {
+        glass.props.onPipelineReady({
+          nativeEvent: { tier: 'none', osVersion: 37, shaderCompiled: false },
+        });
+      }
+    });
+
+    expect(root.findAllByProps({ testID: 'liquid-glass-view' })).toHaveLength(0);
+    expect(root.findAllByProps({ id: 'exampleGlassFace' }).length).toBeGreaterThan(0);
+    expect(getExampleBody()).toEqual([exampleBody]);
+  },
+);
+
+test('Regression: notification example remains visible with static glass after adapter resolves unsupported on API 24–32', async () => {
+  const { getGlassCapabilities } = require('react-native-liquid-glassmorphism');
+  (getGlassCapabilities as jest.Mock).mockReturnValueOnce({
+    supported: true,
+    tier: 'tint',
+    osVersion: 24,
+    supportsNativeGlass: false,
+    supportsBlur: false,
+    supportsRefraction: false,
+    supportsShapes: false,
+  });
+
+  const adapter = createFakeNotificationAdapter({
+    canRequestRuntimePermission: jest.fn().mockReturnValue(false),
+    checkPermission: jest.fn().mockResolvedValue('unsupported'),
+  });
+
+  let renderer: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(async () => {
+    renderer = ReactTestRenderer.create(
+      <NotificationsIntroScreen adapter={adapter} />
+    );
+  });
+
+  const root = renderer!.root;
+
+  // Native glass view is absent on API 24–32
+  const nativeGlassViews = root.findAllByProps({ testID: 'liquid-glass-view' });
+  expect(nativeGlassViews).toHaveLength(0);
+
+  // Assert that sample title and body are visible exactly once
+  const texts = root.findAllByType(Text).map((t) => t.props.children);
+  const sampleTitles = texts.filter(
+    (t) => typeof t === 'string' && t.includes('A little time for yourself')
+  );
+  expect(sampleTitles).toHaveLength(1);
+
+  const sampleBodies = texts.filter(
+    (t) =>
+      typeof t === 'string' &&
+      t === 'Your scheduled workout begins at 6:30 PM.'
+  );
+  expect(sampleBodies).toHaveLength(1);
+
+  // Preserve existing Settings and Continue actions for unsupported state
+  const continueBtn = root.findByProps({ accessibilityLabel: 'Continue' });
+  expect(continueBtn).toBeDefined();
+
+  const settingsBtn = root.findByProps({
+    accessibilityLabel: 'Open Settings',
+  });
+  expect(settingsBtn).toBeDefined();
+
+  // Unsupported guidance banner is present
+  expect(texts).toContain('Notification settings');
 });
 
 test('Never prompts on mount, focus, foreground return, after Health skip, or on Maybe later', async () => {

@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   AppState,
   type AppStateStatus,
+  type NativeSyntheticEvent,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,6 +13,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Circle, ClipPath, Defs, Ellipse, LinearGradient, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
+import {
+  LiquidGlassView,
+  getGlassCapabilities,
+  type GlassPipelineInfo,
+} from 'react-native-liquid-glassmorphism';
 import {
   type NotificationPermissionAdapter,
   type NotificationPermissionStatus,
@@ -24,10 +30,12 @@ import { Mascot } from '../ui/components';
 
 export interface NotificationsIntroScreenProps {
   adapter?: NotificationPermissionAdapter;
+  onGlassPipelineReady?: (info: GlassPipelineInfo) => void;
 }
 
 export default function NotificationsIntroScreen({
   adapter = nativeNotificationPermissionAdapter,
+  onGlassPipelineReady,
 }: NotificationsIntroScreenProps) {
   const nav = useAppNavigation();
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
@@ -51,6 +59,34 @@ export default function NotificationsIntroScreen({
 
   const isCompact = screenHeight < 680 || screenWidth < 360;
   const mascotSize = isCompact ? 104 : 136;
+
+  const isNativeSupported = useRef(() => {
+    try {
+      const caps = getGlassCapabilities();
+      return caps.supported && caps.supportsRefraction;
+    } catch {
+      return false;
+    }
+  }).current();
+
+  const [useNativeGlass, setUseNativeGlass] = useState(isNativeSupported);
+
+  const handlePipelineReady = useCallback(
+    (event: NativeSyntheticEvent<GlassPipelineInfo>) => {
+      onGlassPipelineReady?.(event.nativeEvent);
+      if (
+        event.nativeEvent.tier === 'none' ||
+        (event.nativeEvent.osVersion >= 33 && !event.nativeEvent.shaderCompiled)
+      ) {
+        setUseNativeGlass(false);
+      }
+    },
+    [onGlassPipelineReady]
+  );
+
+  const handleGlassError = useCallback(() => {
+    setUseNativeGlass(false);
+  }, []);
 
   // Silent check on mount, focus return, or foreground return (never prompts)
   const refreshSilently = useCallback(async () => {
@@ -397,7 +433,7 @@ export default function NotificationsIntroScreen({
             </Text>
           </View>
 
-          {permissionStatus === 'idle' && (
+          {(permissionStatus === 'idle' || permissionStatus === 'unsupported') && (
             <View style={[styles.notificationExample, isCompact && styles.notificationExampleCompact]}>
               <Text style={styles.exampleLabel}>EXAMPLE NOTIFICATION</Text>
               <View style={[styles.exampleStage, isCompact && styles.exampleStageCompact]}>
@@ -430,20 +466,49 @@ export default function NotificationsIntroScreen({
                     />
                   </Svg>
                 </View>
-                <View style={[styles.exampleCard, isCompact && styles.exampleCardCompact]}>
-                  <View style={styles.exampleGlass} pointerEvents="none" aria-hidden>
-                    <Svg width="100%" height="100%">
-                      <Defs>
-                        <LinearGradient id="exampleGlassFace" x1="0%" y1="0%" x2="35%" y2="100%">
-                          <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.57} />
-                          <Stop offset="44%" stopColor="#FFFFFF" stopOpacity={0.22} />
-                          <Stop offset="78%" stopColor="#FFFBF7" stopOpacity={0} />
-                          <Stop offset="100%" stopColor="#FFFFFF" stopOpacity={0} />
-                        </LinearGradient>
-                      </Defs>
-                      <Rect width="100%" height="100%" fill="url(#exampleGlassFace)" />
-                    </Svg>
-                  </View>
+                <View
+                  style={[
+                    styles.exampleCard,
+                    isCompact && styles.exampleCardCompact,
+                    useNativeGlass && styles.exampleCardNative,
+                  ]}
+                >
+                  {useNativeGlass ? (
+                    <LiquidGlassView
+                      style={styles.exampleGlass}
+                      borderRadius={22}
+                      variant="regular"
+                      tintColor="rgba(255, 253, 251, 0.45)"
+                      blurRadius={20}
+                      refraction={true}
+                      thickness={0.65}
+                      edgeReflectionStrength={0.25}
+                      rim={true}
+                      specular={false}
+                      interactive={false}
+                      tilt={false}
+                      legibilityFloor={0.15}
+                      onPipelineReady={handlePipelineReady}
+                      onError={handleGlassError}
+                      pointerEvents="none"
+                      accessibilityElementsHidden
+                      aria-hidden
+                    />
+                  ) : (
+                    <View style={styles.exampleGlass} pointerEvents="none" aria-hidden>
+                      <Svg width="100%" height="100%">
+                        <Defs>
+                          <LinearGradient id="exampleGlassFace" x1="0%" y1="0%" x2="35%" y2="100%">
+                            <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.57} />
+                            <Stop offset="44%" stopColor="#FFFFFF" stopOpacity={0.22} />
+                            <Stop offset="78%" stopColor="#FFFBF7" stopOpacity={0} />
+                            <Stop offset="100%" stopColor="#FFFFFF" stopOpacity={0} />
+                          </LinearGradient>
+                        </Defs>
+                        <Rect width="100%" height="100%" fill="url(#exampleGlassFace)" />
+                      </Svg>
+                    </View>
+                  )}
                   <Svg width={36} height={36} viewBox="0 0 128 128" aria-hidden>
                     <Defs>
                       <ClipPath id="notificationExampleMouth">
@@ -889,6 +954,9 @@ const styles = StyleSheet.create({
   },
   exampleCardCompact: {
     padding: 10,
+  },
+  exampleCardNative: {
+    backgroundColor: 'transparent',
   },
   exampleGlass: {
     ...StyleSheet.absoluteFill,
