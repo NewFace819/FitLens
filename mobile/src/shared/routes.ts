@@ -4,6 +4,7 @@
  * Home/dock routes are owned by Đỗ Huy; this lists only what exists so far.
  */
 export const ROUTES = {
+  welcome: 'Welcome',
   home: 'Home',
   rhythm: 'Rhythm',
   reminders: 'Reminders',
@@ -12,6 +13,7 @@ export const ROUTES = {
 
 /** React Navigation param list. Missing/invalid params → the screen goes back to its parent. */
 export type RootStackParamList = {
+  Welcome: undefined;
   Home: undefined;
   Rhythm: undefined;
   Reminders: undefined;
