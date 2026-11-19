@@ -1,5 +1,8 @@
 # Training — npdwuy
 
+For team agents continuing this work, read [HANDOFF.md](HANDOFF.md) first for
+branch dependencies, verified evidence, API boundaries and remaining acceptance gates.
+
 Training is integrated with Hải's real Workout/Plan branch. Open a workout or
 a planned session → Start workout, or Home → Start or resume workout.
 Custom workouts and template targets (including ranges/time labels) use the owner models.
