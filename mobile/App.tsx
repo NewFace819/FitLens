@@ -8,11 +8,12 @@ import { ActivityIndicator, StatusBar, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { getStartupRoute } from './src/modules/onboarding/onboarding';
 import { syncReminderNotifications } from './src/modules/reminders/notifications';
-import { hasSeenWelcome } from './src/modules/welcome/welcome';
 import CameraScreen from './src/screens/camera';
 import HistoryScreen from './src/screens/history';
 import InsightsScreen from './src/screens/insights';
+import IntroductionFlow from './src/screens/introduction-flow';
 import OnboardingScreen from './src/screens/onboarding';
 import ProfileScreen from './src/screens/profile';
 import RecapScreen from './src/screens/recap';
@@ -22,7 +23,6 @@ import DevHub from './src/screens/dev-hub';
 import RemindersScreen from './src/screens/reminders';
 import RhythmScreen from './src/screens/rhythm';
 import { PlanRoute, WorkoutsRoute } from './src/screens/workouts-routes';
-import WelcomeScreen from './src/screens/welcome';
 import type { RootStackParamList } from './src/shared/routes';
 import { ensureSeeded } from './src/shared/seed';
 import { hydrate } from './src/shared/storage';
@@ -40,8 +40,8 @@ export default function App() {
     hydrate(nativePersistence)
       .then(() => {
         ensureSeeded();
-        const seen = hasSeenWelcome();
-        setInitialRoute(seen ? 'Home' : 'Welcome');
+        const startup = getStartupRoute();
+        setInitialRoute(startup.rootRoute);
         setReady(true);
         return syncReminderNotifications(); // never prompts here
       })
@@ -57,7 +57,7 @@ export default function App() {
             initialRouteName={initialRoute}
             screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}
           >
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Welcome" component={IntroductionFlow} />
             <Stack.Screen name="Home" component={DevHub} />
             <Stack.Screen name="Rhythm" component={RhythmScreen} />
             <Stack.Screen name="Reminders" component={RemindersScreen} />
