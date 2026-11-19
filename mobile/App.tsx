@@ -10,10 +10,18 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { syncReminderNotifications } from './src/modules/reminders/notifications';
 import { hasSeenWelcome } from './src/modules/welcome/welcome';
+import CameraScreen from './src/screens/camera';
+import HistoryScreen from './src/screens/history';
+import InsightsScreen from './src/screens/insights';
+import OnboardingScreen from './src/screens/onboarding';
+import ProfileScreen from './src/screens/profile';
+import RecapScreen from './src/screens/recap';
+import WorkoutScreen from './src/screens/workout';
 import CheckInScreen from './src/screens/check-in';
 import DevHub from './src/screens/dev-hub';
 import RemindersScreen from './src/screens/reminders';
 import RhythmScreen from './src/screens/rhythm';
+import { PlanRoute, WorkoutsRoute } from './src/screens/workouts-routes';
 import WelcomeScreen from './src/screens/welcome';
 import type { RootStackParamList } from './src/shared/routes';
 import { ensureSeeded } from './src/shared/seed';
@@ -54,6 +62,16 @@ export default function App() {
             <Stack.Screen name="Rhythm" component={RhythmScreen} />
             <Stack.Screen name="Reminders" component={RemindersScreen} />
             <Stack.Screen name="CheckIn" component={CheckInScreen} />
+            <Stack.Screen name="Workouts" component={WorkoutsRoute} />
+            <Stack.Screen name="Plan" component={PlanRoute} />
+            {/* Registered up front; placeholders until each owner replaces the screen file. */}
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Insights" component={InsightsScreen} />
+            <Stack.Screen name="Workout" component={WorkoutScreen} />
+            <Stack.Screen name="Recap" component={RecapScreen} />
+            <Stack.Screen name="History" component={HistoryScreen} />
+            <Stack.Screen name="Camera" component={CameraScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       ) : (

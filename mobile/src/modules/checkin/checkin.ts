@@ -26,7 +26,7 @@ export function getCheckInContext(historyId: string): CheckInContext | null {
   const ids = workout ? workout.items.map((i) => i.exerciseId) : [...new Set(entry.sets.map((s) => s.exerciseId))];
   return {
     entry,
-    title: workout?.name ?? 'Workout',
+    title: workout?.title ?? 'Workout',
     exercises: ids.map((id) => ({ id, name: getExercise(id)?.name ?? id })),
     setCount: entry.sets.length || (workout?.items.reduce((n, i) => n + i.sets, 0) ?? 0),
     existing: getReview(historyId),

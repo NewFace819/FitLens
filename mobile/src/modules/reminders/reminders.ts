@@ -47,7 +47,7 @@ export function upcomingSessions(now: Date = new Date()): PlannedSession[] {
   const monday = weekStartOf(toDateKey(now));
   return [...getWeekSchedule(monday), ...getWeekSchedule(addDays(monday, 7))].map((s) => ({
     ...s,
-    title: getWorkout(s.workoutId)?.name ?? 'Workout',
+    title: getWorkout(s.workoutId)?.title ?? 'Workout',
   }));
 }
 

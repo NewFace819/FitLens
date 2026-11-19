@@ -44,3 +44,5 @@
 }
 
 #schedule-workout{display:block;width:100%;min-height:44px;border:0;background:none;color:#536f4d;font:800 15px Nunito,sans-serif;margin-top:7px}#start-workout:disabled{opacity:.45;cursor:default}.single-schedule-label,.empty-session-hint{font-size:16px;line-height:1.6;color:#708365}.single-schedule-label{font-size:14px}.details-phone #routine-title{overflow-wrap:anywhere}
+
+.reorder-buttons .remove-exercise{color:#a3472a;border-color:#efc9bb}

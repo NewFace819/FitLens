@@ -144,7 +144,7 @@ function SessionSheet({ session, onClose, onSaved }: { session: PlannedSession |
   if (!session) return null;
 
   const save = (newTime: string | null) => {
-    if (newTime !== session.time && !updateSession(session.id, { time: newTime })) {
+    if (newTime !== session.time && !updateSession(session.id, { time: newTime }).ok) {
       setError('Another session already uses this time that day.');
       return;
     }

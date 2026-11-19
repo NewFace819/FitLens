@@ -1,5 +1,5 @@
 /**
- * TEMPORARY dev hub (route 'Home') so Tu's screens can be opened before Home + dock exist.
+ * TEMPORARY dev hub (route 'Home') so Tu's and Hải's screens can be opened before Home + dock exist.
  * Home and navigation belong to Đỗ Huy — replace this file when Home lands.
  */
 import { Alert, StyleSheet, Text, View } from 'react-native';
@@ -31,7 +31,7 @@ export default function DevHub() {
       <View style={styles.header}>
         <Mascot mood={getMascotMood()} size={96} />
         <Text style={type.eyebrow}>FitLens · dev hub</Text>
-        <Text style={type.title}>Reminders & Check-in</Text>
+        <Text style={type.title}>Workouts, Plan & Check-in</Text>
         <Text style={type.caption}>Temporary entry point until Home and the dock are ready.</Text>
       </View>
       <ListRow
@@ -41,9 +41,19 @@ export default function DevHub() {
       />
       <ListRow label="Workout reminders" detail="This week" onPress={() => nav.navigate('Reminders')} />
       <ListRow label="Post-workout check-in" detail="Latest session" onPress={() => openCheckIn(nav)} />
+      <ListRow label="Workouts" detail="Library & builder" onPress={() => nav.navigate('Workouts')} />
+      <ListRow label="Weekly plan" detail="Draft & schedule" onPress={() => nav.navigate('Plan')} />
       {__DEV__ ? (
         <ListRow label="Welcome introduction" detail="First launch" onPress={() => nav.navigate('Welcome')} />
       ) : null}
+      <Divider />
+      <Text style={[type.eyebrow, { marginBottom: space.sm }]}>In progress</Text>
+      <ListRow label="Onboarding" detail="Thông" onPress={() => nav.navigate('Onboarding')} />
+      <ListRow label="Profile" detail="Thông" onPress={() => nav.navigate('Profile')} />
+      <ListRow label="Insights" detail="Thông" onPress={() => nav.navigate('Insights')} />
+      <ListRow label="Workout" detail="Đức Huy" onPress={() => nav.navigate('Workout', {})} />
+      <ListRow label="History" detail="Đức Huy" onPress={() => nav.navigate('History')} />
+      <ListRow label="Camera coach" detail="Đỗ Huy" onPress={() => nav.navigate('Camera', { exerciseId: 'goblet-squat' })} />
       <Divider />
       <Text style={[type.eyebrow, { marginBottom: space.sm }]}>Sample data · synthetic</Text>
       <Button

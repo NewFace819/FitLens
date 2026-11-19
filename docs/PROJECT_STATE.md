@@ -1,6 +1,6 @@
 # FitLens — Project State
 
-> Cập nhật: 2026-11-19. File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
+> Cập nhật: 2026-11-19 (tối). File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
 
 ## 1. Mốc (milestones)
 
@@ -13,7 +13,7 @@
 
 | Thành phần | Thư mục | Trạng thái | Ghi chú |
 | :-- | :-- | :-- | :-- |
-| Tài liệu kiến trúc, use case, slide | `docs/` | Có | `ARCHITECTURE.md`, `ARCHITECTURE_LITE.md`, `USE_CASE_DIAGRAM.md`, slide THA, `design/RHYTHM_CHECKIN_REMINDER.md`. `DATA_CONTRACT.md` **chưa lên `main`** (đang ở nhánh `feature/workout-schedule` / `feature/mobile-workout-plan`) |
+| Tài liệu kiến trúc, use case, slide | `docs/` | Có | `ARCHITECTURE.md`, `ARCHITECTURE_LITE.md`, `USE_CASE_DIAGRAM.md`, slide THA, `design/RHYTHM_CHECKIN_REMINDER.md`, `design/DATA_CONTRACT.md` |
 | Prototype UI (HTML/CSS/JS) | `prototype/` | Có, đã đồng bộ bản mới (PR #5, 14/11) | Đã có `plan.html`, `profile.html`, `streak.html`, `yearly-recap.html`. Vẫn còn `food.*`, `chat.*` cần xóa |
 | PoC sinh lịch tập bằng Gemini | `poc/plan_generator/` | Có | Chạy được từ CLI, chưa là API |
 | Backend FastAPI | `backend/` | Chưa có code | Chỉ có README |
@@ -27,8 +27,9 @@
 | :-- | :-- | :-- | :-- |
 | Shared (storage, dates, ids, routes, seed) | chung | Có | — |
 | Rhythm, Reminders, Check-in | Tu | Có (PR #4). Thông báo chỉ preview, chưa chọn thư viện push | — |
-| Welcome (màn chào, routing lần đầu) | Thông | Chưa | `feature/welcome-native` — **PR #6 đang mở**, không tụt so với `main` |
-| Workouts, Plan (lịch tuần) | Hải | Placeholder | `feature/mobile-workout-plan` (+10 commit, tụt 9; gồm cả `DATA_CONTRACT.md`). Merge `main` vào sẽ conflict 10 file (`App.tsx`, `package*.json`, `theme.ts`, README, prototype workouts/plan) |
+| Welcome (màn chào, routing lần đầu) | Thông | Có (PR #6) | — |
+| Workouts, Plan (lịch tuần) | Hải | Có (từ `feature/mobile-workout-plan`): chạy trên model của `../prototype` qua cache chung | — |
+| Route + màn tạm cho Onboarding, Profile, Insights, Workout, Recap, History, Camera | chủ từng màn | Có: `src/screens/<tên>.tsx` là placeholder, chủ màn thay file của mình | — |
 | History, buổi tập đang diễn ra | Đức Huy | Placeholder | `codex/npdwuy-training-foundation` (+2, tụt 12) |
 | Home, Mascot, Activity, Camera | Đỗ Huy | Placeholder | `feature/home-mascot-activity-camera-v2` (+2, tụt 8) |
 | Profile | Thông | Placeholder | — |
@@ -75,19 +76,34 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 - Thư viện thông báo cho Android (`expo-notifications`, `react-native-notify-kit`, …) — xem `mobile/README.md`.
 - Khi nào bắt đầu backend.
 
-## 8. Việc tiếp theo
+## 8. Kế hoạch tuần 1
 
-| Việc | Người phụ trách | Trạng thái |
-| :-- | :-- | :-- |
-| Review & merge PR #6 (Welcome native) | _điền_ (reviewer) | Đang chờ review |
-| Đưa `DATA_CONTRACT.md` + Workouts/Plan lên `main`: merge `main` vào `feature/mobile-workout-plan`, gỡ conflict, mở PR | Hải | Chưa |
-| Merge `main` vào nhánh training và home/mascot, mở PR | Đức Huy, Đỗ Huy | Chưa |
-| Thống nhất chữ ký `appendReview()` giữa Tu và Đức Huy | Tu, Đức Huy | Chưa rõ (nhánh Đức Huy chưa merge) |
-| Xóa `food.*`, `chat.*`, `chat-entry.*` khỏi `prototype/` | Đỗ Huy | Chưa |
-| Sửa use case, viewer, slide blueprint và xuất lại PDF/PPTX sau khi bỏ Dinh dưỡng và Chat | _điền_ | Chưa |
-| Cài Android SDK + JDK 17 và build thử app lên máy thật/emulator | _điền_ | Chưa |
-| Dựng khung backend FastAPI + Safety Router | _điền_ | Chưa |
-| Xóa các nhánh đã merge (`docs/project-state-rn-android`, `docs/rhythm-checkin-design`, `docs/ui-snapshot-2026-10-28`, `feature/rhythm-checkin`, `feature/update-ui-prototype`) và nhánh cũ `tech-test` | _điền_ | Chưa |
-| ~~Đồng bộ prototype mới nhất vào `prototype/`~~ | Thông | Xong (PR #5) |
-| ~~Khởi tạo project mobile~~ | Tu | Xong (PR #4) |
-| ~~Điền "Tech stack" và "Repo layout" trong `CLAUDE.md`~~ | — | Xong (19/11) |
+Mục tiêu: **trước tiên app phải chạy được trên Android** (dù nhiều màn còn là placeholder), sau đó luồng cơ bản chạy hết một vòng: Welcome → Onboarding → Plan → Màn tập → Check-in → nhắc lịch. Đăng nhập và database (Supabase) để tuần 2.
+
+Quy tắc: mỗi người chỉ sửa thư mục/màn của mình; gọi sang người khác qua hàm contract; mọi route đã đăng ký sẵn nên **không ai sửa `App.tsx` / `routes.ts`** nữa (cần route mới thì báo Hải). PR nhỏ, merge hằng ngày.
+
+| ID | Người | Task | Kết quả | Cần |
+| :-- | :-- | :-- | :-- | :-- |
+| H1 | Hải | Đưa Workouts/Plan + `DATA_CONTRACT.md` vào `main` | PR merge | — |
+| H2 | Hải | Đăng ký sẵn mọi route + màn tạm | Xong (cùng PR với H1) | — |
+| H3 | Hải | Cài Android SDK + JDK 17, build APK đầu tiên, ghi hướng dẫn vào `mobile/README.md` | App chạy trên emulator/điện thoại | — |
+| H4 | Hải | Nút "Start" trên Plan mở `Workout` với `{session}` | Từ Plan vào được màn tập | — |
+| T1 | Thông | Onboarding (thay `screens/onboarding.tsx`): mục tiêu, kinh nghiệm, buổi/tuần, phút, thiết bị, vùng tránh; Welcome dẫn sang lần đầu | Lưu `fitlens.profile` | — |
+| T2 | Thông | Profile xem/sửa; thay placeholder `modules/profile`, `getProfile()` đúng contract | Plan dùng profile thật | — |
+| T3 | Thông | `getHomeMetrics()` với dữ liệu mẫu | Home có số liệu | — |
+| TU1 | Tu | Chốt chữ ký `appendReview()` với Đức Huy, ghi vào `DATA_CONTRACT.md` | — | — |
+| TU2 | Tu | Thử và chọn thư viện thông báo trên Android | Quyết định + lý do | H3 |
+| TU3 | Tu | Nhắc lịch thật qua `setNotificationScheduler()` | Có thông báo trên máy | TU2 |
+| TU4 | Tu | Check-in dùng lịch sử thật | Mở được ngay sau buổi tập | DH2 |
+| DH1 | Đức Huy | Rebase lên `main`, chốt `appendReview()` với Tu | — | — |
+| DH2 | Đức Huy | Thay placeholder `modules/history`: `getHistory`, `getLastSets`, `appendReview`, lưu buổi tập | `contract.test` vẫn qua | — |
+| DH3 | Đức Huy | Màn tập (thay `screens/workout.tsx`): kg/rep từng set, nghỉ, tạm dừng, "Use last time" | Tập được 1 buổi | — |
+| DH4 | Đức Huy | Hoàn tất → lưu lịch sử, `markSessionDone()`, sang `CheckIn`; báo đau → dừng | Màn tập nối sang check-in | DH3 |
+| DO1 | Đỗ Huy | Xóa `food.*`, `chat.*` khỏi `prototype/` | PR nhỏ | — |
+| DO2 | Đỗ Huy | Thử camera: MediaPipe JS trong WebView hay native | Chốt cách làm | H3 |
+| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`) | Video demo | DO2 |
+| DO4 | Đỗ Huy | Home bản đầu thay dev hub (rebase nhánh home có sẵn) | Home hiện buổi tới + nhịp | — |
+
+Ưu tiên khi trễ: Đỗ Huy làm camera trước Home; H3 của Hải trước mọi việc khác của Hải.
+
+**Tuần 2 (chốt lại cuối tuần 1):** đăng nhập + database (Supabase Auth; Thông màn đăng nhập, Hải dựng Supabase, mỗi người đồng bộ dữ liệu của mình), camera trong màn tập (Đỗ Huy + Đức Huy), avatar mạnh dần (Đỗ Huy), RPE → lịch tuần sau và backend sinh lịch Gemini (Hải), luật an toàn khi báo đau (Tu).

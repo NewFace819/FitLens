@@ -17,7 +17,7 @@ const loadState = (): RhythmState => read(KEYS.rhythm, EMPTY_STATE, { version: V
 const saveState = (s: RhythmState) => write(KEYS.rhythm, s, VERSION);
 
 export function getRhythm(date: DateKey = toDateKey(new Date())): Rhythm {
-  const sessions = getHistory().map((h) => ({ id: h.id, date: h.date, title: getWorkout(h.workoutId)?.name ?? 'Workout' }));
+  const sessions = getHistory().map((h) => ({ id: h.id, date: h.date, title: getWorkout(h.workoutId)?.title ?? 'Workout' }));
   return computeRhythm(sessions, loadState(), getProfile().daysPerWeek, date);
 }
 

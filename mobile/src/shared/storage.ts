@@ -117,6 +117,29 @@ export function write(key: string, data: unknown, currentVersion = 1): boolean {
   return true;
 }
 
+/**
+ * localStorage-shaped view of the same cache, for the shared pure-JS models in ../prototype
+ * (workouts, schedule; see modules/workouts/store.ts). Values are the raw `{v, data}` JSON, so the
+ * models' own envelope handling works unchanged and there is still only one cache.
+ */
+export const localStorageView = {
+  getItem(key: string): string | null {
+    const env = cache.get(key);
+    return env ? JSON.stringify(env) : null;
+  },
+  /** Throws on a value that is not an envelope; the models catch it and report a storage failure. */
+  setItem(key: string, value: string): void {
+    const env: unknown = JSON.parse(value);
+    if (!isEnvelope(env)) throw new Error(`${key}: not a {v, data} envelope`);
+    if (!write(key, env.data, env.v)) throw new Error(`${key}: not saved`);
+  },
+  removeItem(key: string): void {
+    if (!cache.delete(key)) return;
+    changed();
+    persistence?.remove([key]).catch(() => reportError('Couldn’t clear saved data.'));
+  },
+};
+
 export function has(key: string): boolean {
   return cache.has(key);
 }

@@ -90,7 +90,7 @@ export function seedHistory(today: DateKey, monday: DateKey): void {
       date,
       durationSec: 40 * 60 + n * 60,
       stoppedByPain: false,
-      sets: [{ exerciseId: workoutId === 'tpl-lower' ? 'goblet-squat' : 'push-up', kg: workoutId === 'tpl-lower' ? 12 : null, reps: 10 }],
+      sets: [{ exerciseId: workoutId === 'tpl-lower' ? 'goblet-squat' : 'bench-press', kg: workoutId === 'tpl-lower' ? 12 : null, reps: 10 }],
     });
   for (let w = 6; w >= 1; w--) {
     const start = addDays(monday, -7 * w);
@@ -108,7 +108,7 @@ export function seedHistory(today: DateKey, monday: DateKey): void {
       date,
       durationSec: 45 * 60,
       stoppedByPain: false,
-      sets: [{ exerciseId: workoutId === 'tpl-lower' ? 'goblet-squat' : 'push-up', kg: null, reps: 10 }],
+      sets: [{ exerciseId: workoutId === 'tpl-lower' ? 'goblet-squat' : 'bench-press', kg: null, reps: 10 }],
     });
   }
   write(KEYS.history, entries);
