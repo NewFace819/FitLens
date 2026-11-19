@@ -11,13 +11,14 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Svg, { Defs, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
+import Svg, { Circle, ClipPath, Defs, Ellipse, LinearGradient, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 import {
   type NotificationPermissionAdapter,
   type NotificationPermissionStatus,
   nativeNotificationPermissionAdapter,
 } from '../modules/onboarding/notification-permission';
 import { saveOnboardingStep } from '../modules/onboarding/onboarding';
+import { getProfile } from '../modules/profile/profile';
 import { useAppFocusEffect, useAppNavigation, useScopedBackHandler } from '../navigation';
 import { Mascot } from '../ui/components';
 
@@ -49,7 +50,7 @@ export default function NotificationsIntroScreen({
   const [isFocused, setIsFocused] = useState<string | null>(null);
 
   const isCompact = screenHeight < 680 || screenWidth < 360;
-  const mascotSize = isCompact ? 130 : 170;
+  const mascotSize = isCompact ? 104 : 136;
 
   // Silent check on mount, focus return, or foreground return (never prompts)
   const refreshSilently = useCallback(async () => {
@@ -313,77 +314,77 @@ export default function NotificationsIntroScreen({
   );
 
   const isGranted = permissionStatus === 'granted';
+  const name = getProfile().name;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.topContainer}>
-          <View style={styles.topBar}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Back"
-              disabled={isSubmitting}
-              onPress={handleBack}
-              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-              style={({ pressed }) => [
-                styles.backButton,
-                isSubmitting && styles.backButtonDisabled,
-                pressed && !isSubmitting && styles.backButtonPressed,
-              ]}
-            >
-              <Svg width={24} height={24} viewBox="0 0 24 24" aria-hidden={true}>
-                <Path
-                  d="m14 5-7 7 7 7"
-                  stroke="#273046"
-                  strokeWidth={2.4}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-              </Svg>
-            </Pressable>
-            <Text style={styles.brand}>FITLENS</Text>
-          </View>
-
-          <View
-            style={[styles.mascotSection, isCompact && styles.mascotSectionCompact]}
-            accessibilityElementsHidden
-            aria-hidden
+      <View style={[styles.screenLayout, isCompact && styles.screenLayoutCompact]}>
+        <View style={styles.topBar}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Back"
+            disabled={isSubmitting}
+            onPress={handleBack}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            style={({ pressed }) => [
+              styles.backButton,
+              isSubmitting && styles.backButtonDisabled,
+              pressed && !isSubmitting && styles.backButtonPressed,
+            ]}
           >
-            <View style={[styles.glowWrapper, isCompact && styles.glowWrapperCompact]}>
-              <Svg width="100%" height="100%" viewBox="0 0 300 240">
-                <Defs>
-                  <RadialGradient id="notificationsGlow" cx="50%" cy="50%" rx="50%" ry="50%">
-                    <Stop
-                      offset="0%"
-                      stopColor={isGranted ? '#a3d9a5' : '#78aee0'}
-                      stopOpacity="0.45"
-                    />
-                    <Stop
-                      offset="45%"
-                      stopColor={isGranted ? '#cdecd0' : '#b3d6df'}
-                      stopOpacity="0.25"
-                    />
-                    <Stop
-                      offset="75%"
-                      stopColor={isGranted ? '#eaf5eb' : '#deebef'}
-                      stopOpacity="0.10"
-                    />
-                    <Stop offset="100%" stopColor="#f7f3ec" stopOpacity="0" />
-                  </RadialGradient>
-                </Defs>
-                <Rect x="0" y="0" width="300" height="240" fill="url(#notificationsGlow)" />
-              </Svg>
-            </View>
-            <View style={styles.mascotRotate}>
-              <Mascot mood={isGranted ? 'content' : 'content'} size={mascotSize} />
-            </View>
-          </View>
+            <Svg width={24} height={24} viewBox="0 0 24 24" aria-hidden={true}>
+              <Path
+                d="m14 5-7 7 7 7"
+                stroke="#273046"
+                strokeWidth={2.4}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </Svg>
+          </Pressable>
+          <Text style={styles.brand}>FITLENS</Text>
+        </View>
 
+        <View
+          style={[styles.mascotSection, isCompact && styles.mascotSectionCompact]}
+          accessibilityElementsHidden
+          aria-hidden
+        >
+          <View style={[styles.glowWrapper, isCompact && styles.glowWrapperCompact]}>
+            <Svg width="100%" height="100%" viewBox="0 0 300 240">
+              <Defs>
+                <RadialGradient id="notificationsGlow" cx="50%" cy="50%" rx="50%" ry="50%">
+                  <Stop
+                    offset="0%"
+                    stopColor={isGranted ? '#a3d9a5' : '#78aee0'}
+                    stopOpacity="0.45"
+                  />
+                  <Stop
+                    offset="45%"
+                    stopColor={isGranted ? '#cdecd0' : '#b3d6df'}
+                    stopOpacity="0.25"
+                  />
+                  <Stop
+                    offset="75%"
+                    stopColor={isGranted ? '#eaf5eb' : '#deebef'}
+                    stopOpacity="0.10"
+                  />
+                  <Stop offset="100%" stopColor="#f7f3ec" stopOpacity="0" />
+                </RadialGradient>
+              </Defs>
+              <Rect x="0" y="0" width="300" height="240" fill="url(#notificationsGlow)" />
+            </Svg>
+          </View>
+          <View style={styles.mascotRotate}>
+            <Mascot mood="content" size={mascotSize} />
+          </View>
+        </View>
+        <ScrollView
+          style={styles.scrollBody}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
           <View style={[styles.copySection, isCompact && styles.copySectionCompact]}>
             <Text
               style={[styles.heading, isCompact && styles.headingCompact]}
@@ -396,11 +397,89 @@ export default function NotificationsIntroScreen({
             </Text>
           </View>
 
+          {permissionStatus === 'idle' && (
+            <View style={[styles.notificationExample, isCompact && styles.notificationExampleCompact]}>
+              <Text style={styles.exampleLabel}>EXAMPLE NOTIFICATION</Text>
+              <View style={[styles.exampleStage, isCompact && styles.exampleStageCompact]}>
+                <View style={styles.exampleAmbient} pointerEvents="none" aria-hidden>
+                  <Svg width="100%" height="100%" viewBox="0 0 360 176" preserveAspectRatio="none">
+                    <Defs>
+                      <RadialGradient id="exampleBlue" cx="31%" cy="45%" rx="31%" ry="45%">
+                        <Stop offset="0%" stopColor="#9FB4F7" stopOpacity={0.9} />
+                        <Stop offset="68%" stopColor="#BAC9FA" stopOpacity={0.57} />
+                        <Stop offset="100%" stopColor="#BAC9FA" stopOpacity={0} />
+                      </RadialGradient>
+                      <RadialGradient id="examplePeach" cx="72%" cy="56%" rx="28%" ry="44%">
+                        <Stop offset="0%" stopColor="#F5B393" stopOpacity={0.72} />
+                        <Stop offset="68%" stopColor="#F9CDB1" stopOpacity={0.45} />
+                        <Stop offset="100%" stopColor="#F9CDB1" stopOpacity={0} />
+                      </RadialGradient>
+                      <LinearGradient id="exampleRibbon" x1="0%" y1="45%" x2="100%" y2="55%">
+                        <Stop offset="0%" stopColor="#829DF0" stopOpacity={0} />
+                        <Stop offset="23%" stopColor="#829DF0" stopOpacity={0.32} />
+                        <Stop offset="52%" stopColor="#AFADF1" stopOpacity={0.29} />
+                        <Stop offset="80%" stopColor="#F6AD94" stopOpacity={0.25} />
+                        <Stop offset="100%" stopColor="#F6AD94" stopOpacity={0} />
+                      </LinearGradient>
+                    </Defs>
+                    <Rect width={360} height={176} fill="url(#exampleBlue)" />
+                    <Rect width={360} height={176} fill="url(#examplePeach)" />
+                    <Path
+                      d="M0 113C62 153 102 53 160 47C227 39 273 109 360 49V79C265 142 223 71 165 78C110 85 64 169 0 132Z"
+                      fill="url(#exampleRibbon)"
+                    />
+                  </Svg>
+                </View>
+                <View style={[styles.exampleCard, isCompact && styles.exampleCardCompact]}>
+                  <View style={styles.exampleGlass} pointerEvents="none" aria-hidden>
+                    <Svg width="100%" height="100%">
+                      <Defs>
+                        <LinearGradient id="exampleGlassFace" x1="0%" y1="0%" x2="35%" y2="100%">
+                          <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.57} />
+                          <Stop offset="44%" stopColor="#FFFFFF" stopOpacity={0.22} />
+                          <Stop offset="78%" stopColor="#FFFBF7" stopOpacity={0} />
+                          <Stop offset="100%" stopColor="#FFFFFF" stopOpacity={0} />
+                        </LinearGradient>
+                      </Defs>
+                      <Rect width="100%" height="100%" fill="url(#exampleGlassFace)" />
+                    </Svg>
+                  </View>
+                  <Svg width={36} height={36} viewBox="0 0 128 128" aria-hidden>
+                    <Defs>
+                      <ClipPath id="notificationExampleMouth">
+                        <Path d="M38 60C44 54 55 62 64 61C74 61 82 56 87 60C93 69 81 80 65 80C50 80 37 69 38 60Z" />
+                      </ClipPath>
+                    </Defs>
+                    <Rect width={128} height={128} rx={29} fill="#294638" />
+                    <Circle cx={36} cy={46} r={2.5} fill="#FFF1D6" />
+                    <Circle cx={92} cy={48} r={2.5} fill="#FFF1D6" />
+                    <Path
+                      d="M38 60C44 54 55 62 64 61C74 61 82 56 87 60C93 69 81 80 65 80C50 80 37 69 38 60Z"
+                      fill="#FFF1D6"
+                    />
+                    <Ellipse cx={75} cy={82} rx={15} ry={10} fill="#EE9884" clipPath="url(#notificationExampleMouth)" />
+                  </Svg>
+                  <View style={styles.exampleContent}>
+                    <View style={styles.exampleMeta}>
+                      <Text style={styles.exampleAppName}>FitLens</Text>
+                      <Text style={styles.exampleTime}>now</Text>
+                    </View>
+                    <Text style={styles.exampleTitle}>
+                      {`A little time for yourself${name ? `, ${name}` : ''}?`}
+                    </Text>
+                    <Text style={styles.exampleBody}>Your scheduled workout begins at 6:30 PM.</Text>
+                  </View>
+                </View>
+              </View>
+              <Text style={styles.exampleNote}>Illustrative preview. No reminder is scheduled.</Text>
+            </View>
+          )}
+
           {/* Granted feedback card */}
           {isGranted && (
             <View
               style={styles.noticeCard}
-              accessibilityRole="status"
+              accessibilityLiveRegion="polite"
               accessibilityLabel="Notifications allowed."
             >
               <View style={styles.noticeHeader}>
@@ -417,7 +496,7 @@ export default function NotificationsIntroScreen({
 
           {/* Denied / Dismissed Feedback Banner */}
           {permissionStatus === 'denied' && (
-            <View style={styles.noticeBanner} accessibilityRole="status">
+            <View style={styles.noticeBanner} accessibilityLiveRegion="polite">
               <Text style={styles.noticeTitle}>Reminders aren’t enabled.</Text>
               <Text style={styles.noticeMessage}>
                 You can try again now, or continue and turn on notifications later in settings.
@@ -427,7 +506,7 @@ export default function NotificationsIntroScreen({
 
           {/* Blocked / Settings Required Banner */}
           {permissionStatus === 'blocked' && (
-            <View style={styles.noticeBanner} accessibilityRole="status">
+            <View style={styles.noticeBanner} accessibilityLiveRegion="polite">
               <Text style={styles.noticeTitle}>Notifications are turned off.</Text>
               <Text style={styles.noticeMessage}>
                 To receive gentle reminders, enable notifications for FitLens in your device settings.
@@ -437,7 +516,7 @@ export default function NotificationsIntroScreen({
 
           {/* Unsupported (Android < 33) Banner */}
           {permissionStatus === 'unsupported' && (
-            <View style={styles.noticeBanner} accessibilityRole="status">
+            <View style={styles.noticeBanner} accessibilityLiveRegion="polite">
               <Text style={styles.noticeTitle}>Notification settings</Text>
               <Text style={styles.noticeMessage}>
                 This version of Android does not show a permission prompt for notifications. You can manage notification preferences anytime in device settings.
@@ -447,18 +526,18 @@ export default function NotificationsIntroScreen({
 
           {/* Request Error Banner */}
           {permissionStatus === 'request-error' && (
-            <View style={styles.noticeBanner} accessibilityRole="status">
+            <View style={styles.noticeBanner} accessibilityLiveRegion="polite">
               <Text style={styles.noticeTitle}>Could not request notification permission.</Text>
               <Text style={styles.noticeMessage}>
                 Please try again or continue without reminders.
               </Text>
             </View>
           )}
-        </View>
+        </ScrollView>
 
-        <View style={[styles.actionSection, isCompact && styles.actionSectionCompact]}>
+        <View style={styles.actionSection}>
           {statusAnnouncement && (
-            <Text style={styles.statusText} accessibilityRole="status">
+            <Text style={styles.statusText} accessibilityLiveRegion="polite">
               {statusAnnouncement}
             </Text>
           )}
@@ -661,7 +740,7 @@ export default function NotificationsIntroScreen({
             Only when it matters. Always your choice.
           </Text>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -671,14 +750,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7F3EC',
   },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
+  screenLayout: {
+    flex: 1,
     paddingHorizontal: 26,
     paddingBottom: 24,
   },
-  topContainer: {
+  screenLayoutCompact: {
+    paddingHorizontal: 20,
+    paddingBottom: 18,
+  },
+  scrollBody: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingTop: 3,
+    paddingBottom: 14,
   },
   topBar: {
     flexDirection: 'row',
@@ -712,25 +798,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    height: 210,
-    marginTop: 6,
-    marginBottom: 10,
+    height: 90,
+    marginTop: 3,
+    marginBottom: 14,
   },
   mascotSectionCompact: {
-    height: 160,
-    marginTop: 2,
+    height: 54,
+    marginTop: 0,
     marginBottom: 6,
   },
   glowWrapper: {
     position: 'absolute',
-    width: 280,
-    height: 220,
+    width: 236,
+    height: 120,
     alignItems: 'center',
     justifyContent: 'center',
   },
   glowWrapperCompact: {
-    width: 220,
-    height: 170,
+    width: 200,
+    height: 96,
   },
   mascotRotate: {
     transform: [{ rotate: '-4deg' }],
@@ -739,30 +825,110 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   copySectionCompact: {
-    paddingTop: 4,
+    paddingTop: 0,
   },
   heading: {
-    fontSize: 38,
+    fontSize: 32,
     fontWeight: '800',
-    lineHeight: 42,
-    letterSpacing: -1.2,
+    lineHeight: 36,
+    letterSpacing: -1,
     color: '#273046',
   },
   headingCompact: {
-    fontSize: 32,
-    lineHeight: 36,
-    letterSpacing: -1.0,
+    fontSize: 30,
+    lineHeight: 34,
   },
   subtitle: {
-    fontSize: 17,
-    lineHeight: 25,
+    fontSize: 16,
+    lineHeight: 24,
     color: '#505B70',
-    marginTop: 18,
+    marginTop: 13,
   },
   subtitleCompact: {
     fontSize: 15,
-    lineHeight: 22,
-    marginTop: 12,
+    lineHeight: 20,
+    marginTop: 10,
+  },
+  notificationExample: {
+    marginTop: 22,
+  },
+  notificationExampleCompact: {
+    marginTop: 9,
+  },
+  exampleLabel: {
+    color: '#505B70',
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 1.1,
+    marginBottom: 8,
+  },
+  exampleStage: {
+    paddingVertical: 18,
+    position: 'relative',
+  },
+  exampleStageCompact: {
+    paddingVertical: 8,
+  },
+  exampleAmbient: {
+    ...StyleSheet.absoluteFill,
+    left: -8,
+    right: -8,
+  },
+  exampleCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    padding: 14,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: 'rgba(129, 133, 173, 0.22)',
+    borderTopColor: 'rgba(255, 255, 255, 0.96)',
+    borderLeftColor: 'rgba(255, 255, 255, 0.78)',
+    backgroundColor: 'rgba(255, 253, 251, 0.47)',
+    overflow: 'hidden',
+  },
+  exampleCardCompact: {
+    padding: 10,
+  },
+  exampleGlass: {
+    ...StyleSheet.absoluteFill,
+  },
+  exampleContent: {
+    flex: 1,
+    minWidth: 0,
+  },
+  exampleMeta: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: 4,
+    marginBottom: 5,
+  },
+  exampleAppName: {
+    color: '#273046',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  exampleTime: {
+    color: '#505B70',
+    fontSize: 12,
+  },
+  exampleTitle: {
+    color: '#273046',
+    fontSize: 16,
+    fontWeight: '700',
+    lineHeight: 21,
+  },
+  exampleBody: {
+    color: '#424D61',
+    fontSize: 14,
+    lineHeight: 20,
+    marginTop: 4,
+  },
+  exampleNote: {
+    color: '#505B70',
+    fontSize: 12,
+    lineHeight: 17,
   },
   noticeCard: {
     backgroundColor: '#FFFFFF',
@@ -807,10 +973,9 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
   actionSection: {
-    paddingTop: 24,
-  },
-  actionSectionCompact: {
-    paddingTop: 16,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#D7D1C6',
+    paddingTop: 10,
   },
   statusText: {
     fontSize: 13,
@@ -827,7 +992,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   primaryButton: {
-    minHeight: 56,
+    minHeight: 52,
     borderRadius: 18,
     backgroundColor: '#4F68D5',
     alignItems: 'center',
@@ -863,15 +1028,12 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   secondaryButton: {
-    minHeight: 52,
-    borderRadius: 18,
-    borderWidth: 1.5,
-    borderColor: '#D1D7E0',
+    minHeight: 44,
+    borderRadius: 14,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    marginTop: 12,
     position: 'relative',
   },
   secondaryButtonPressed: {
@@ -890,7 +1052,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#6A788F',
     textAlign: 'center',
-    marginTop: 12,
+    marginTop: 4,
   },
   focusRing: {
     position: 'absolute',

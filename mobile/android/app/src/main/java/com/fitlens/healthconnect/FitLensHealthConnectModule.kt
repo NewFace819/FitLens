@@ -1,17 +1,16 @@
 package com.fitlens.healthconnect
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.activity.ComponentActivity
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.time.TimeRangeFilter
-import com.facebook.react.bridge.ActivityEventListener
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -25,13 +24,9 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 class FitLensHealthConnectModule(reactContext: ReactApplicationContext) :
-    ReactContextBaseJavaModule(reactContext), ActivityEventListener {
+    ReactContextBaseJavaModule(reactContext) {
 
-    private var pendingPermissionPromise: Promise? = null
-
-    init {
-        reactContext.addActivityEventListener(this)
-    }
+    private var permissionRequestInFlight = false
 
     override fun getName(): String = "FitLensHealthConnect"
 
@@ -86,9 +81,9 @@ class FitLensHealthConnectModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun requestPermission(promise: Promise) {
-        val currentActivity = reactApplicationContext.currentActivity
+        val currentActivity = reactApplicationContext.currentActivity as? ComponentActivity
         if (currentActivity == null) {
-            promise.reject("NO_ACTIVITY", "Current activity is null")
+            promise.reject("NO_ACTIVITY", "No activity available to request Health Connect permission")
             return
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -104,20 +99,31 @@ class FitLensHealthConnectModule(reactContext: ReactApplicationContext) :
             }
             return
         }
-        if (pendingPermissionPromise != null) {
-            promise.reject("ALREADY_IN_FLIGHT", "A permission request is already in flight")
-            return
-        }
+        currentActivity.runOnUiThread {
+            if (permissionRequestInFlight) {
+                promise.reject("ALREADY_IN_FLIGHT", "A permission request is already in flight")
+                return@runOnUiThread
+            }
 
-        pendingPermissionPromise = promise
-        try {
-            val contract = PermissionController.createRequestPermissionResultContract()
-            val permissions = setOf(HealthPermission.getReadPermission(StepsRecord::class))
-            val intent = contract.createIntent(reactApplicationContext, permissions)
-            currentActivity.startActivityForResult(intent, REQUEST_CODE_HEALTH_PERMISSIONS)
-        } catch (e: Throwable) {
-            pendingPermissionPromise = null
-            promise.reject("REQUEST_LAUNCH_ERROR", e.message, e)
+            permissionRequestInFlight = true
+            var unregister: (() -> Unit)? = null
+            try {
+                val permission = HealthPermission.getReadPermission(StepsRecord::class)
+                val launcher = currentActivity.activityResultRegistry.register(
+                    "fitlens.health.steps",
+                    PermissionController.createRequestPermissionResultContract(),
+                ) {
+                    unregister?.invoke()
+                    permissionRequestInFlight = false
+                    checkPermission(promise)
+                }
+                unregister = launcher::unregister
+                launcher.launch(setOf(permission))
+            } catch (e: Exception) {
+                unregister?.invoke()
+                permissionRequestInFlight = false
+                promise.reject("REQUEST_LAUNCH_ERROR", e.message, e)
+            }
         }
     }
 
@@ -213,30 +219,5 @@ class FitLensHealthConnectModule(reactContext: ReactApplicationContext) :
                 promise.reject("PROVIDER_STORE_ERROR", e.message, e)
             }
         }
-    }
-
-    override fun onActivityResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE_HEALTH_PERMISSIONS) {
-            val pending = pendingPermissionPromise
-            pendingPermissionPromise = null
-            if (pending != null) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val client = HealthConnectClient.getOrCreate(reactApplicationContext)
-                        val granted = client.permissionController.getGrantedPermissions()
-                        val isGranted = granted.contains(HealthPermission.getReadPermission(StepsRecord::class))
-                        pending.resolve(isGranted)
-                    } catch (e: Throwable) {
-                        pending.reject("CHECK_PERMISSION_ERROR", e.message, e)
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onNewIntent(intent: Intent) {}
-
-    companion object {
-        private const val REQUEST_CODE_HEALTH_PERMISSIONS = 51241
     }
 }

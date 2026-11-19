@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppState, type AppStateStatus, BackHandler, Text } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
-import HealthIntroScreen, { formatStepCount } from './health-intro';
+import HealthIntroScreen from './health-intro';
 import { clearAll, hydrate, type Persistence } from '../shared/storage';
 import { getOnboardingMilestone, getOnboardingStep } from '../modules/onboarding/onboarding';
 import type { HealthConnectAdapter } from '../modules/health/health-connect';
@@ -80,9 +80,11 @@ test('HealthIntroScreen renders exact approved copy, privacy note, and actions',
   expect(texts).toContain('FITLENS');
   expect(texts).toContain('See your movement\ncome to life.');
   expect(texts).toContain('Bring your daily activity into FitLens with Health Connect.');
-  expect(texts).toContain('Connect Health Connect');
+  expect(texts).toContain('Connect to Health Connect');
   expect(texts).toContain('Not now');
   expect(texts).toContain('You choose what to share.');
+  expect(texts).toContain('Example data');
+  expect(texts).not.toContain('What FitLens can read');
   expect(adapter.requestPermission).not.toHaveBeenCalled();
 });
 
@@ -97,7 +99,7 @@ test('Silently checks SDK status and permission on mount without triggering perm
   expect(adapter.requestPermission).not.toHaveBeenCalled();
 });
 
-test('Displays formatted steps and Continue button when permission is already granted on mount', async () => {
+test('Shows connection status and Continue without a steps card when permission is already granted', async () => {
   const adapter = createFakeAdapter({
     checkPermission: jest.fn().mockResolvedValue(true),
     getTodaySteps: jest.fn().mockResolvedValue({ hasData: true, steps: 6240 }),
@@ -112,8 +114,12 @@ test('Displays formatted steps and Continue button when permission is already gr
   const continueBtn = root.findByProps({ accessibilityLabel: 'Continue' });
   expect(continueBtn).toBeDefined();
 
-  const previewStatus = root.findByProps({ accessibilityRole: 'status' });
-  expect(previewStatus.props.accessibilityLabel).toBe('Steps today: 6,240 steps');
+  const connectionStatus = root.findByProps({ accessibilityLiveRegion: 'polite' });
+  expect(connectionStatus.props.children).toBe('Health Connect connected.');
+  const texts = root.findAllByType(Text).map((text) => text.props.children);
+  expect(texts).not.toContain('Steps today');
+  expect(texts).not.toContain('Example data');
+  expect(texts).not.toContain('6,240');
 
   // Tapping Continue saves milestone and navigates to NotificationsIntro
   await ReactTestRenderer.act(async () => {
@@ -125,7 +131,7 @@ test('Displays formatted steps and Continue button when permission is already gr
   expect(mockNavigate).toHaveBeenCalledWith('NotificationsIntro');
 });
 
-test('Displays zero/empty state when permission is granted but no step data is available yet', async () => {
+test('Shows a brief status when permission is granted without activity data', async () => {
   const adapter = createFakeAdapter({
     checkPermission: jest.fn().mockResolvedValue(true),
     getTodaySteps: jest.fn().mockResolvedValue({ hasData: false, steps: null }),
@@ -139,14 +145,14 @@ test('Displays zero/empty state when permission is granted but no step data is a
   const root = renderer!.root;
   expect(root.findByProps({ accessibilityLabel: 'Continue' })).toBeDefined();
 
-  const previewStatus = root.findByProps({ accessibilityRole: 'status' });
-  expect(previewStatus.props.accessibilityLabel).toBe('No steps are available for today yet.');
+  const connectionStatus = root.findByProps({ accessibilityLiveRegion: 'polite' });
+  expect(connectionStatus.props.children).toBe('Health Connect connected. Your activity data isn’t available here yet.');
 
   const texts = root.findAllByType(Text).map((t) => t.props.children);
-  expect(texts).toContain('No steps are available for today yet.');
+  expect(texts).toContain('Health Connect connected. Your activity data isn’t available here yet.');
 });
 
-test('User taps Connect Health Connect -> grants -> updates to connected state with steps', async () => {
+test('User taps Connect to Health Connect -> grants -> updates to connected state with steps', async () => {
   const adapter = createFakeAdapter({
     requestPermission: jest.fn().mockResolvedValue(true),
     getTodaySteps: jest.fn().mockResolvedValue({ hasData: true, steps: 1250 }),
@@ -157,7 +163,7 @@ test('User taps Connect Health Connect -> grants -> updates to connected state w
     renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
   });
 
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
   await ReactTestRenderer.act(async () => {
     await connectBtn.props.onPress();
@@ -169,11 +175,12 @@ test('User taps Connect Health Connect -> grants -> updates to connected state w
   const continueBtn = renderer!.root.findByProps({ accessibilityLabel: 'Continue' });
   expect(continueBtn).toBeDefined();
 
-  const previewStatus = renderer!.root.findByProps({ accessibilityLabel: 'Steps today: 1,250 steps' });
-  expect(previewStatus).toBeDefined();
+  expect(renderer!.root.findByProps({ accessibilityLiveRegion: 'polite' }).props.children).toBe(
+    'Health Connect connected.'
+  );
 });
 
-test('User taps Connect Health Connect -> denies -> shows polite notice and Try again button', async () => {
+test('User taps Connect to Health Connect -> denies -> shows polite notice and Try again button', async () => {
   const adapter = createFakeAdapter({
     requestPermission: jest.fn().mockResolvedValue(false),
   });
@@ -183,7 +190,7 @@ test('User taps Connect Health Connect -> denies -> shows polite notice and Try 
     renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
   });
 
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
   await ReactTestRenderer.act(async () => {
     await connectBtn.props.onPress();
@@ -244,8 +251,8 @@ test('Shows unavailable banner and single Not now button when Health Connect is 
   const notNowBtn = renderer!.root.findByProps({ accessibilityLabel: 'Not now' });
   expect(notNowBtn).toBeDefined();
 
-  // Primary Connect Health Connect button is NOT shown
-  expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Connect Health Connect' })).toHaveLength(0);
+  // Primary Connect to Health Connect button is NOT shown
+  expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Connect to Health Connect' })).toHaveLength(0);
 
   // Can still proceed cleanly with Not now
   await ReactTestRenderer.act(async () => {
@@ -264,7 +271,7 @@ test('Displays error message and retry when requestPermission throws an error', 
     renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
   });
 
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
   await ReactTestRenderer.act(async () => {
     await connectBtn.props.onPress();
@@ -285,7 +292,7 @@ test('Displays error message and retry when getTodaySteps throws an error', asyn
     renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
   });
 
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
   await ReactTestRenderer.act(async () => {
     await connectBtn.props.onPress();
@@ -310,7 +317,7 @@ test('Guards double taps on Connect button while connection request is in flight
     renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
   });
 
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
   await ReactTestRenderer.act(async () => {
     connectBtn.props.onPress();
@@ -339,7 +346,7 @@ test('Tapping Not now while connection is in-flight invalidates late resolve and
     renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
   });
 
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   const notNowBtn = renderer!.root.findByProps({ accessibilityLabel: 'Not now' });
 
   await ReactTestRenderer.act(async () => {
@@ -650,31 +657,6 @@ test('Android system Back consumes event and does not trigger second transition 
   backSpy.mockRestore();
 });
 
-test('Collapsible details toggles What FitLens can read', async () => {
-  const adapter = createFakeAdapter();
-  let renderer: ReactTestRenderer.ReactTestRenderer;
-  await ReactTestRenderer.act(async () => {
-    renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
-  });
-
-  const toggle = renderer!.root.findByProps({ accessibilityLabel: 'What FitLens can read' });
-  expect(renderer!.root.findAllByProps({ children: '• Daily step count.' })).toHaveLength(0);
-
-  await ReactTestRenderer.act(async () => {
-    toggle.props.onPress();
-  });
-
-  const bullet = renderer!.root.findByProps({ children: '• Daily step count.' });
-  expect(bullet).toBeDefined();
-});
-
-test('formatStepCount formats step integers with standard grouping', () => {
-  expect(formatStepCount(0)).toBe('0');
-  expect(formatStepCount(123)).toBe('123');
-  expect(formatStepCount(6240)).toBe('6,240');
-  expect(formatStepCount(1500000)).toBe('1,500,000');
-});
-
 test('Already granted on mount but read fails -> shows read error -> retrying read directly succeeds without opening permission dialog', async () => {
   let failRead = true;
   const adapter = createFakeAdapter({
@@ -709,12 +691,13 @@ test('Already granted on mount but read fails -> shows read error -> retrying re
   expect(adapter.requestPermission).not.toHaveBeenCalled();
   expect(adapter.getTodaySteps).toHaveBeenCalledTimes(2);
 
-  // Screen now shows steps total and Continue button
+  // Screen now shows the connection status and Continue
   const continueBtn = renderer!.root.findByProps({ accessibilityLabel: 'Continue' });
   expect(continueBtn).toBeDefined();
 
-  const previewStatus = renderer!.root.findByProps({ accessibilityLabel: 'Steps today: 6,240 steps' });
-  expect(previewStatus).toBeDefined();
+  expect(renderer!.root.findByProps({ accessibilityLiveRegion: 'polite' }).props.children).toBe(
+    'Health Connect connected.'
+  );
 });
 
 test('Distinguishes genuine count of zero from absent samples as rendered', async () => {
@@ -729,7 +712,7 @@ test('Distinguishes genuine count of zero from absent samples as rendered', asyn
     rendererZero = ReactTestRenderer.create(<HealthIntroScreen adapter={zeroAdapter} />);
   });
 
-  const zeroStatus = rendererZero!.root.findByProps({ accessibilityLabel: 'Steps today: 0 steps' });
+  const zeroStatus = rendererZero!.root.findByProps({ children: 'Health Connect connected.' });
   expect(zeroStatus).toBeDefined();
   expect(rendererZero!.root.findByProps({ accessibilityLabel: 'Continue' })).toBeDefined();
 
@@ -744,10 +727,10 @@ test('Distinguishes genuine count of zero from absent samples as rendered', asyn
     rendererEmpty = ReactTestRenderer.create(<HealthIntroScreen adapter={emptyAdapter} />);
   });
 
-  const emptyStatus = rendererEmpty!.root.findByProps({ accessibilityLabel: 'No steps are available for today yet.' });
+  const emptyStatus = rendererEmpty!.root.findByProps({ children: 'Health Connect connected. Your activity data isn’t available here yet.' });
   expect(emptyStatus).toBeDefined();
   const texts = rendererEmpty!.root.findAllByType(Text).map((t) => t.props.children);
-  expect(texts).toContain('No steps are available for today yet.');
+  expect(texts).toContain('Health Connect connected. Your activity data isn’t available here yet.');
   expect(rendererEmpty!.root.findByProps({ accessibilityLabel: 'Continue' })).toBeDefined();
 });
 
@@ -791,8 +774,8 @@ test('Blur / refocus invalidates old in-flight requests so late results do not o
     renderer = ReactTestRenderer.create(<HealthIntroScreen adapter={adapter} />);
   });
 
-  // User taps Connect Health Connect
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  // User taps Connect to Health Connect
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   await ReactTestRenderer.act(async () => {
     connectBtn.props.onPress();
   });
@@ -890,7 +873,7 @@ test('Foreground return after revocation clears displayed total without promptin
 
   // Initially connected with steps
   expect(renderer!.root.findByProps({ accessibilityLabel: 'Continue' })).toBeDefined();
-  expect(renderer!.root.findByProps({ accessibilityLabel: 'Steps today: 6,240 steps' })).toBeDefined();
+  expect(renderer!.root.findByProps({ children: 'Health Connect connected.' })).toBeDefined();
 
   // User backgrounds app, goes to Settings, and revokes step permission
   hasGrant = false;
@@ -904,7 +887,7 @@ test('Foreground return after revocation clears displayed total without promptin
   expect(adapter.requestPermission).not.toHaveBeenCalled();
 
   // Displayed step total must be cleared
-  expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Steps today: 6,240 steps' })).toHaveLength(0);
+  expect(renderer!.root.findAllByProps({ children: 'Health Connect connected.' })).toHaveLength(0);
 
   // Notice banner shown for revoked access
   const texts = renderer!.root.findAllByType(Text).map((t) => t.props.children);
@@ -945,7 +928,7 @@ test('Open provider failure displays error and keeps retry / skip path', async (
   expect(mockNavigate).toHaveBeenCalledWith('NotificationsIntro');
 });
 
-test('Foreground return from provider-update-required to available with no grant switches CTA to Connect Health Connect without requesting permission', async () => {
+test('Foreground return from provider-update-required to available with no grant switches CTA to Connect to Health Connect without requesting permission', async () => {
   let appStateListener: ((state: AppStateStatus) => void) | undefined;
   const appStateSpy = jest.spyOn(AppState, 'addEventListener').mockImplementation((event: string, cb: any) => {
     if (event === 'change') {
@@ -969,7 +952,7 @@ test('Foreground return from provider-update-required to available with no grant
   const initialTexts = renderer!.root.findAllByType(Text).map((t) => t.props.children);
   expect(initialTexts).toContain('Health Connect needs to be installed or updated.');
   expect(renderer!.root.findByProps({ accessibilityLabel: 'Update Health Connect' })).toBeDefined();
-  expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Connect Health Connect' })).toHaveLength(0);
+  expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Connect to Health Connect' })).toHaveLength(0);
 
   // User leaves app to update Health Connect, provider updates to available with no step grant yet
   sdkStatus = 'available';
@@ -987,9 +970,9 @@ test('Foreground return from provider-update-required to available with no grant
   expect(updatedTexts).not.toContain('Health Connect needs to be installed or updated.');
   expect(updatedTexts).not.toContain('Step access wasn’t granted.');
 
-  // CTA switches to Connect Health Connect and Not now
+  // CTA switches to Connect to Health Connect and Not now
   expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Update Health Connect' })).toHaveLength(0);
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   expect(connectBtn).toBeDefined();
   expect(connectBtn.props.accessibilityState?.disabled ?? false).toBe(false);
   expect(renderer!.root.findByProps({ accessibilityLabel: 'Not now' })).toBeDefined();
@@ -1012,7 +995,7 @@ test('Refocus from unavailable to available with no grant switches to ready-to-c
   // Verify initial unavailable UI
   const initialTexts = renderer!.root.findAllByType(Text).map((t) => t.props.children);
   expect(initialTexts).toContain('Health Connect isn’t available on this device.');
-  expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Connect Health Connect' })).toHaveLength(0);
+  expect(renderer!.root.findAllByProps({ accessibilityLabel: 'Connect to Health Connect' })).toHaveLength(0);
 
   // Screen blurs, SDK becomes available, screen refocuses
   await ReactTestRenderer.act(async () => {
@@ -1032,7 +1015,7 @@ test('Refocus from unavailable to available with no grant switches to ready-to-c
   expect(updatedTexts).not.toContain('Health Connect isn’t available on this device.');
 
   // Ready-to-connect CTA is rendered
-  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = renderer!.root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   expect(connectBtn).toBeDefined();
   expect(connectBtn.props.accessibilityState?.disabled ?? false).toBe(false);
   expect(renderer!.root.findByProps({ accessibilityLabel: 'Not now' })).toBeDefined();
@@ -1067,9 +1050,9 @@ test('Pending permission request -> Not now -> failed destination save stays on 
   });
 
   const root = renderer!.root;
-  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
-  // 1. User taps Connect Health Connect: native request is now in flight
+  // 1. User taps Connect to Health Connect: native request is now in flight
   await ReactTestRenderer.act(async () => {
     connectBtn.props.onPress();
   });
@@ -1100,7 +1083,7 @@ test('Pending permission request -> Not now -> failed destination save stays on 
   expect(notNowBtn.props.accessibilityState?.disabled ?? false).toBe(false);
 
   // Connect button cannot launch a second native dialog while first dialog is still active
-  const connectBtnDuringPending = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtnDuringPending = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   expect(connectBtnDuringPending.props.accessibilityState?.disabled ?? false).toBe(true);
   expect(connectBtnDuringPending.props.disabled).toBe(true);
 
@@ -1117,7 +1100,7 @@ test('Pending permission request -> Not now -> failed destination save stays on 
 
   // Stale late result does NOT navigate, does NOT set connected steps card, does NOT overwrite save error
   expect(mockNavigate).not.toHaveBeenCalled();
-  expect(root.findAllByProps({ accessibilityLabel: 'Steps today: 5,000 steps' })).toHaveLength(0);
+  expect(root.findAllByProps({ children: 'Health Connect connected.' })).toHaveLength(0);
   expect(root.findByProps({ accessibilityRole: 'alert' }).props.children).toBe('Could not save progress. Please try again.');
 
   // Connect button is now re-enabled after native request settled
@@ -1164,10 +1147,10 @@ test('Pending permission request -> Back -> failed greeting save recovers cleanl
   });
 
   const root = renderer!.root;
-  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   const backBtn = root.findByProps({ accessibilityLabel: 'Back' });
 
-  // 1. User taps Connect Health Connect: native request is in flight
+  // 1. User taps Connect to Health Connect: native request is in flight
   await ReactTestRenderer.act(async () => {
     connectBtn.props.onPress();
   });
@@ -1187,7 +1170,7 @@ test('Pending permission request -> Back -> failed greeting save recovers cleanl
   expect(errorAlert.props.children).toBe('Could not save progress. Please try again.');
 
   // Connect button disabled while dialog is open
-  const connectBtnPending = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtnPending = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   expect(connectBtnPending.props.accessibilityState?.disabled ?? false).toBe(true);
 
   // Back button lock is released and usable
@@ -1284,9 +1267,9 @@ test('Pending Connect -> successful Not now -> blur -> refocus with no grant cle
   });
 
   const root = renderer!.root;
-  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
-  // 1. Start Connect Health Connect and leave its native request unresolved
+  // 1. Start Connect to Health Connect and leave its native request unresolved
   await ReactTestRenderer.act(async () => {
     connectBtn.props.onPress();
   });
@@ -1317,8 +1300,8 @@ test('Pending Connect -> successful Not now -> blur -> refocus with no grant cle
   expect(root.findAllByProps({ children: 'Waiting for your choice…' })).toHaveLength(0);
   expect(root.findAllByProps({ children: 'Connecting…' })).toHaveLength(0);
 
-  // Ready-to-connect buttons are shown: Connect Health Connect and Not now
-  const connectBtnRefocused = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  // Ready-to-connect buttons are shown: Connect to Health Connect and Not now
+  const connectBtnRefocused = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   expect(connectBtnRefocused).toBeDefined();
   const notNowRefocused = root.findByProps({ accessibilityLabel: 'Not now' });
   expect(notNowRefocused).toBeDefined();
@@ -1382,7 +1365,7 @@ test('Pending Connect -> Not now -> blur -> refocus -> late native success trigg
   });
 
   const root = renderer!.root;
-  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
   // 1. Start Connect
   await ReactTestRenderer.act(async () => {
@@ -1417,8 +1400,8 @@ test('Pending Connect -> Not now -> blur -> refocus -> late native success trigg
   const continueBtn = root.findByProps({ accessibilityLabel: 'Continue' });
   expect(continueBtn).toBeDefined();
 
-  const previewStatus = root.findByProps({ accessibilityRole: 'status' });
-  expect(previewStatus.props.accessibilityLabel).toBe('Steps today: 7,200 steps');
+  const connectionStatus = root.findByProps({ accessibilityLiveRegion: 'polite' });
+  expect(connectionStatus.props.children).toBe('Health Connect connected.');
 
   // Must not automatically navigate
   expect(mockNavigate).not.toHaveBeenCalled();
@@ -1441,7 +1424,7 @@ test('Pending Connect -> Not now -> blur -> refocus -> late native failure relea
   });
 
   const root = renderer!.root;
-  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtn = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
 
   // 1. Start Connect
   await ReactTestRenderer.act(async () => {
@@ -1462,7 +1445,7 @@ test('Pending Connect -> Not now -> blur -> refocus -> late native failure relea
     mockNavigationListeners.focus?.forEach((cb) => cb());
   });
 
-  const connectBtnRefocused = root.findByProps({ accessibilityLabel: 'Connect Health Connect' });
+  const connectBtnRefocused = root.findByProps({ accessibilityLabel: 'Connect to Health Connect' });
   expect(connectBtnRefocused.props.accessibilityState?.disabled ?? false).toBe(true);
 
   // 3. Old native request rejects with error
@@ -1477,7 +1460,7 @@ test('Pending Connect -> Not now -> blur -> refocus -> late native failure relea
 
 test('Invalidated read after blur does not overwrite newer focus session refresh data when resolving late', async () => {
   let resolveOldRead: (v: any) => void;
-  const oldReadPromise = new Promise<{ hasData: boolean; steps: number }>((resolve) => {
+  const oldReadPromise = new Promise<{ hasData: boolean; steps: number | null }>((resolve) => {
     resolveOldRead = resolve;
   });
 
@@ -1517,16 +1500,16 @@ test('Invalidated read after blur does not overwrite newer focus session refresh
 
   // Newer read resolved with 9,500 steps
   expect(callCount).toBe(2);
-  const previewStatus = root.findByProps({ accessibilityRole: 'status' });
-  expect(previewStatus.props.accessibilityLabel).toBe('Steps today: 9,500 steps');
+  const connectionStatus = root.findByProps({ accessibilityLiveRegion: 'polite' });
+  expect(connectionStatus.props.children).toBe('Health Connect connected.');
 
-  // Now the old invalidated read resolves with stale steps (1,200)
+  // Now the old invalidated read resolves without samples
   await ReactTestRenderer.act(async () => {
-    resolveOldRead!({ hasData: true, steps: 1200 });
+    resolveOldRead!({ hasData: false, steps: null });
   });
 
   // Stale result must NOT overwrite newer refresh data
-  expect(previewStatus.props.accessibilityLabel).toBe('Steps today: 9,500 steps');
+  expect(connectionStatus.props.children).toBe('Health Connect connected.');
   expect(root.findAllByProps({ accessibilityRole: 'alert' })).toHaveLength(0);
 });
 
@@ -1564,8 +1547,8 @@ test('Invalidated read after blur does not display error when rejecting late aft
   });
 
   // Newer refresh succeeded with 8,400 steps
-  const previewStatus = root.findByProps({ accessibilityRole: 'status' });
-  expect(previewStatus.props.accessibilityLabel).toBe('Steps today: 8,400 steps');
+  const connectionStatus = root.findByProps({ accessibilityLiveRegion: 'polite' });
+  expect(connectionStatus.props.children).toBe('Health Connect connected.');
 
   // Old invalidated read rejects
   await ReactTestRenderer.act(async () => {
@@ -1574,5 +1557,5 @@ test('Invalidated read after blur does not display error when rejecting late aft
 
   // Must not overwrite with read-error
   expect(root.findAllByProps({ accessibilityRole: 'alert' })).toHaveLength(0);
-  expect(previewStatus.props.accessibilityLabel).toBe('Steps today: 8,400 steps');
+  expect(connectionStatus.props.children).toBe('Health Connect connected.');
 });

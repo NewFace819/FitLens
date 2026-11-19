@@ -14,7 +14,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Defs, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 import {
   type HealthConnectAdapter,
-  type TodayStepsResult,
   nativeHealthConnectAdapter,
 } from '../modules/health/health-connect';
 import { saveOnboardingStep } from '../modules/onboarding/onboarding';
@@ -35,9 +34,11 @@ export interface HealthIntroScreenProps {
   adapter?: HealthConnectAdapter;
 }
 
-export function formatStepCount(steps: number): string {
-  return steps.toLocaleString('en-US');
-}
+const activityExamples = [
+  { label: 'Distance', value: '4.2', unit: 'km' },
+  { label: 'Walking Time', value: '32', unit: 'min' },
+  { label: 'Active Energy', value: '185', unit: 'kcal' },
+];
 
 export default function HealthIntroScreen({
   adapter = nativeHealthConnectAdapter,
@@ -46,7 +47,7 @@ export default function HealthIntroScreen({
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
 
   const [connectionState, setConnectionState] = useState<HealthConnectionState>('idle');
-  const [todaySteps, setTodaySteps] = useState<TodayStepsResult | null>(null);
+  const [hasStepData, setHasStepData] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isNativePending, setIsNativePending] = useState(false);
   const submittingRef = useRef(false);
@@ -58,11 +59,10 @@ export default function HealthIntroScreen({
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [statusAnnouncement, setStatusAnnouncement] = useState<string | null>(null);
-  const [showDetails, setShowDetails] = useState(false);
   const [isFocused, setIsFocused] = useState<string | null>(null);
 
   const isCompact = screenHeight < 680 || screenWidth < 360;
-  const mascotSize = isCompact ? 130 : 170;
+  const mascotSize = isCompact ? 104 : 116;
 
   // Silent check / refresh on mount, focus return, or foreground return (never prompts)
   const refreshSilently = useCallback(async () => {
@@ -73,7 +73,7 @@ export default function HealthIntroScreen({
       if (opId !== operationIdRef.current || !isScreenFocusedRef.current) return;
 
       if (sdkStatus === 'unavailable') {
-        setTodaySteps(null);
+        setHasStepData(false);
         setConnectionState('unavailable');
         setStatusAnnouncement((prev) =>
           prev === 'Waiting for your choice…' || prev === 'Reading steps from Health Connect…'
@@ -83,7 +83,7 @@ export default function HealthIntroScreen({
         return;
       }
       if (sdkStatus === 'provider-update-required') {
-        setTodaySteps(null);
+        setHasStepData(false);
         setConnectionState('provider-update');
         setStatusAnnouncement((prev) =>
           prev === 'Waiting for your choice…' || prev === 'Reading steps from Health Connect…'
@@ -113,7 +113,7 @@ export default function HealthIntroScreen({
         try {
           const result = await adapter.getTodaySteps();
           if (opId !== operationIdRef.current || !isScreenFocusedRef.current) return;
-          setTodaySteps(result);
+          setHasStepData(result.hasData && result.steps !== null);
           setConnectionState('connected');
           setErrorMessage((prev) =>
             prev === 'Could not save progress. Please try again.' ? prev : null
@@ -128,9 +128,9 @@ export default function HealthIntroScreen({
           setConnectionState('read-error');
         }
       } else {
-        // If permission is lost / revoked, clear displayed step total
+        // If permission is lost / revoked, clear the previous read result
         // If recovering from provider-update or unavailable, switch to ready-to-connect ('idle')
-        setTodaySteps(null);
+        setHasStepData(false);
         setConnectionState((prev) => {
           if (prev === 'connected') return 'denied';
           if (prev === 'provider-update' || prev === 'unavailable' || prev === 'connecting') return 'idle';
@@ -249,13 +249,9 @@ export default function HealthIntroScreen({
         try {
           const stepsResult = await adapter.getTodaySteps();
           if (opId !== operationIdRef.current || !isScreenFocusedRef.current) return;
-          setTodaySteps(stepsResult);
+          setHasStepData(stepsResult.hasData && stepsResult.steps !== null);
           setConnectionState('connected');
-          setStatusAnnouncement(
-            stepsResult.hasData && stepsResult.steps !== null
-              ? `Health Connect connected. Steps today: ${formatStepCount(stepsResult.steps)}`
-              : 'Health Connect connected. No steps are available for today yet.'
-          );
+          setStatusAnnouncement(null);
         } catch {
           if (opId !== operationIdRef.current || !isScreenFocusedRef.current) return;
           setErrorMessage('Could not read your steps. Please try again.');
@@ -309,13 +305,9 @@ export default function HealthIntroScreen({
       const stepsResult = await adapter.getTodaySteps();
       if (opId !== operationIdRef.current || !isScreenFocusedRef.current) return;
 
-      setTodaySteps(stepsResult);
+      setHasStepData(stepsResult.hasData && stepsResult.steps !== null);
       setConnectionState('connected');
-      setStatusAnnouncement(
-        stepsResult.hasData && stepsResult.steps !== null
-          ? `Health Connect connected. Steps today: ${formatStepCount(stepsResult.steps)}`
-          : 'Health Connect connected. No steps are available for today yet.'
-      );
+      setStatusAnnouncement(null);
     } catch {
       if (opId !== operationIdRef.current || !isScreenFocusedRef.current) return;
       setErrorMessage('Could not read your steps. Please try again.');
@@ -424,133 +416,133 @@ export default function HealthIntroScreen({
 
   const isConnecting = connectionState === 'connecting';
   const isConnected = connectionState === 'connected';
+  const visibleStatus = isConnected
+    ? hasStepData
+      ? 'Health Connect connected.'
+      : 'Health Connect connected. Your activity data isn’t available here yet.'
+    : statusAnnouncement;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.topContainer}>
-          <View style={styles.topBar}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Back"
-              disabled={isSubmitting}
-              onPress={handleBack}
-              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-              style={({ pressed }) => [
-                styles.backButton,
-                isSubmitting && styles.backButtonDisabled,
-                pressed && !isSubmitting && styles.backButtonPressed,
-              ]}
-            >
-              <Svg width={24} height={24} viewBox="0 0 24 24" aria-hidden={true}>
-                <Path
-                  d="m14 5-7 7 7 7"
-                  stroke="#273046"
-                  strokeWidth={2.4}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-              </Svg>
-            </Pressable>
-            <Text style={styles.brand}>FITLENS</Text>
-          </View>
-
-          <View
-            style={[styles.mascotSection, isCompact && styles.mascotSectionCompact]}
-            accessibilityElementsHidden
-            aria-hidden
+      <View style={styles.screenLayout}>
+        <View style={styles.topBar}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Back"
+            disabled={isSubmitting}
+            onPress={handleBack}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            style={({ pressed }) => [
+              styles.backButton,
+              isSubmitting && styles.backButtonDisabled,
+              pressed && !isSubmitting && styles.backButtonPressed,
+            ]}
           >
-            <View style={[styles.glowWrapper, isCompact && styles.glowWrapperCompact]}>
-              <Svg width="100%" height="100%" viewBox="0 0 300 240">
-                <Defs>
-                  <RadialGradient id="healthGlow" cx="50%" cy="50%" rx="50%" ry="50%">
-                    <Stop
-                      offset="0%"
-                      stopColor={isConnected ? '#a3d9a5' : '#78aee0'}
-                      stopOpacity="0.45"
-                    />
-                    <Stop
-                      offset="45%"
-                      stopColor={isConnected ? '#cdecd0' : '#b3d6df'}
-                      stopOpacity="0.25"
-                    />
-                    <Stop
-                      offset="75%"
-                      stopColor={isConnected ? '#eaf5eb' : '#deebef'}
-                      stopOpacity="0.10"
-                    />
-                    <Stop offset="100%" stopColor="#f7f3ec" stopOpacity="0" />
-                  </RadialGradient>
-                </Defs>
-                <Rect x="0" y="0" width="300" height="240" fill="url(#healthGlow)" />
-              </Svg>
-            </View>
-            <View style={styles.mascotRotate}>
-              <Mascot mood={isConnected ? 'content' : 'calm'} size={mascotSize} />
-            </View>
-          </View>
+            <Svg width={24} height={24} viewBox="0 0 24 24" aria-hidden={true}>
+              <Path
+                d="m14 5-7 7 7 7"
+                stroke="#273046"
+                strokeWidth={2.4}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </Svg>
+          </Pressable>
+          <Text style={styles.brand}>FITLENS</Text>
+        </View>
 
-          <View style={[styles.copySection, isCompact && styles.copySectionCompact]}>
+        <View
+          style={[styles.mascotSection, isCompact && styles.mascotSectionCompact]}
+          accessibilityElementsHidden
+          aria-hidden
+        >
+          <View style={[styles.glowWrapper, isCompact && styles.glowWrapperCompact]}>
+            <Svg width="100%" height="100%" viewBox="0 0 300 240">
+              <Defs>
+                <RadialGradient id="healthGlow" cx="50%" cy="50%" rx="50%" ry="50%">
+                  <Stop
+                    offset="0%"
+                    stopColor={isConnected ? '#a3d9a5' : '#78aee0'}
+                    stopOpacity="0.45"
+                  />
+                  <Stop
+                    offset="45%"
+                    stopColor={isConnected ? '#cdecd0' : '#b3d6df'}
+                    stopOpacity="0.25"
+                  />
+                  <Stop
+                    offset="75%"
+                    stopColor={isConnected ? '#eaf5eb' : '#deebef'}
+                    stopOpacity="0.10"
+                  />
+                  <Stop offset="100%" stopColor="#f7f3ec" stopOpacity="0" />
+                </RadialGradient>
+              </Defs>
+              <Rect x="0" y="0" width="300" height="240" fill="url(#healthGlow)" />
+            </Svg>
+          </View>
+          <View style={styles.mascotRotate}>
+            <Mascot mood={isConnected ? 'content' : 'calm'} size={mascotSize} />
+          </View>
+        </View>
+        <ScrollView
+          style={styles.scrollBody}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View>
             <Text
               style={[styles.heading, isCompact && styles.headingCompact]}
               accessibilityRole="header"
             >
               {'See your movement\ncome to life.'}
             </Text>
-            <Text style={[styles.subtitle, isCompact && styles.subtitleCompact]}>
+            <Text style={styles.subtitle}>
               Bring your daily activity into FitLens with Health Connect.
             </Text>
           </View>
 
-          {/* Connected Card: Steps Preview */}
-          {isConnected && (
-            <View
-              style={styles.previewCard}
-              accessibilityRole="status"
-              accessibilityLabel={
-                todaySteps?.hasData && todaySteps.steps !== null
-                  ? `Steps today: ${formatStepCount(todaySteps.steps)} steps`
-                  : 'No steps are available for today yet.'
-              }
-            >
-              <View style={styles.previewHeader}>
-                <Text style={styles.previewTitle}>Steps today</Text>
-                <View style={styles.connectedBadge}>
-                  <Text style={styles.connectedBadgeText}>Connected</Text>
-                </View>
+          {(connectionState === 'idle' || isConnecting) && (
+            <View style={styles.activityPreview}>
+              <Text style={styles.activityPreviewLabel}>Example data</Text>
+              <View style={styles.activityMetrics}>
+                {activityExamples.map(({ label, value, unit }) => (
+                  <View
+                    key={label}
+                    style={styles.activityMetric}
+                    accessible
+                    accessibilityLabel={`${label}, ${value} ${unit}`}
+                  >
+                    <Text style={styles.activityMetricLabel}>{label}</Text>
+                    <Text style={styles.activityMetricValue}>
+                      {value} <Text style={styles.activityMetricUnit}>{unit}</Text>
+                    </Text>
+                  </View>
+                ))}
               </View>
-
-              {todaySteps?.hasData && todaySteps.steps !== null ? (
-                <View style={styles.stepsDisplay}>
-                  <Text style={styles.stepsCount}>
-                    {formatStepCount(todaySteps.steps)}
-                  </Text>
-                  <Text style={styles.stepsUnit}> steps</Text>
-                </View>
-              ) : (
-                <View style={styles.emptyStepsContainer}>
-                  <Text style={styles.emptyStepsText}>
-                    No steps are available for today yet.
-                  </Text>
-                  <Text style={styles.emptyStepsSubtext}>
-                    Steps will appear here as you move throughout the day.
-                  </Text>
-                </View>
-              )}
+              <View style={styles.activityHeartRow}>
+                <Svg width={17} height={17} viewBox="0 0 24 24" aria-hidden>
+                  <Path
+                    d="M20 5c-3-3-7-1-8 2-1-3-5-5-8-2-5 5 4 12 8 15 4-3 13-10 8-15ZM4 12h4l2-3 3 6 2-3h5"
+                    fill="none"
+                    stroke="#627087"
+                    strokeWidth={1.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+                <Text style={styles.activityHeartLabel}>Heart rate, when available</Text>
+              </View>
             </View>
           )}
 
           {/* Denied Feedback Banner */}
           {connectionState === 'denied' && (
-            <View style={styles.noticeBanner} accessibilityRole="status">
+            <View style={styles.noticeBanner} accessibilityLiveRegion="polite">
               <Text style={styles.noticeTitle}>Step access wasn’t granted.</Text>
               <Text style={styles.noticeMessage}>
-                FitLens needs step read access to show your daily activity preview. You can try
+                FitLens needs step read access to show your daily activity. You can try
                 again or continue without connecting.
               </Text>
             </View>
@@ -558,7 +550,7 @@ export default function HealthIntroScreen({
 
           {/* Provider Update Required Banner */}
           {connectionState === 'provider-update' && (
-            <View style={styles.noticeBanner} accessibilityRole="status">
+            <View style={styles.noticeBanner} accessibilityLiveRegion="polite">
               <Text style={styles.noticeTitle}>Health Connect needs to be installed or updated.</Text>
               <Text style={styles.noticeMessage}>
                 Install or update Health Connect from the Google Play Store to sync your daily
@@ -569,7 +561,7 @@ export default function HealthIntroScreen({
 
           {/* Unavailable Banner */}
           {connectionState === 'unavailable' && (
-            <View style={styles.noticeBanner} accessibilityRole="status">
+            <View style={styles.noticeBanner} accessibilityLiveRegion="polite">
               <Text style={styles.noticeTitle}>Health Connect isn’t available on this device.</Text>
               <Text style={styles.noticeMessage}>
                 Your device does not support Health Connect. Your FitLens workouts and progress will
@@ -577,33 +569,12 @@ export default function HealthIntroScreen({
               </Text>
             </View>
           )}
+        </ScrollView>
 
-          {/* Collapsible details: What FitLens can read */}
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="What FitLens can read"
-            onPress={() => setShowDetails((prev) => !prev)}
-            style={styles.detailsToggle}
-          >
-            <Text style={styles.detailsToggleText}>What FitLens can read</Text>
-            <Text style={styles.detailsToggleIcon}>{showDetails ? '−' : '+'}</Text>
-          </Pressable>
-
-          {showDetails && (
-            <View style={styles.detailsContent}>
-              <Text style={styles.detailsBullet}>• Daily step count.</Text>
-              <Text style={styles.detailsFootnote}>
-                FitLens requests read access only. You can change access anytime in Health Connect
-                settings. Your workouts still work without a connection.
-              </Text>
-            </View>
-          )}
-        </View>
-
-        <View style={[styles.actionSection, isCompact && styles.actionSectionCompact]}>
-          {statusAnnouncement && (
-            <Text style={styles.statusText} accessibilityRole="status">
-              {statusAnnouncement}
+        <View style={styles.actionSection}>
+          {visibleStatus && (
+            <Text style={styles.statusText} accessibilityLiveRegion="polite">
+              {visibleStatus}
             </Text>
           )}
 
@@ -711,7 +682,7 @@ export default function HealthIntroScreen({
                   connectionState === 'connect-error' ||
                   connectionState === 'denied'
                     ? 'Try again'
-                    : 'Connect Health Connect'
+                    : 'Connect to Health Connect'
                 }
                 accessibilityState={{
                   disabled: isConnecting || isSubmitting || isNativePending,
@@ -756,7 +727,7 @@ export default function HealthIntroScreen({
                     connectionState === 'connect-error' ||
                     connectionState === 'denied'
                       ? 'Try again'
-                      : 'Connect Health Connect'}
+                      : 'Connect to Health Connect'}
                   </Text>
                 )}
                 {isFocused === 'connect' ? <View style={styles.focusRing} /> : null}
@@ -783,7 +754,7 @@ export default function HealthIntroScreen({
 
           <Text style={styles.privacyNote}>You choose what to share.</Text>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -793,20 +764,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7F3EC',
   },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
+  screenLayout: {
+    flex: 1,
     paddingHorizontal: 26,
     paddingBottom: 24,
   },
-  topContainer: {
+  scrollBody: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingTop: 3,
+    paddingBottom: 14,
   },
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 12,
-    paddingBottom: 8,
+    paddingTop: 8,
     gap: 14,
     minHeight: 44,
   },
@@ -834,119 +807,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    height: 210,
-    marginTop: 6,
-    marginBottom: 10,
+    height: 72,
+    marginBottom: 6,
   },
   mascotSectionCompact: {
-    height: 160,
-    marginTop: 2,
-    marginBottom: 6,
+    height: 64,
   },
   glowWrapper: {
     position: 'absolute',
-    width: 280,
-    height: 220,
+    width: 220,
+    height: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   glowWrapperCompact: {
-    width: 220,
-    height: 170,
+    width: 190,
+    height: 88,
   },
   mascotRotate: {
     transform: [{ rotate: '-4deg' }],
   },
-  copySection: {
-    paddingTop: 8,
-  },
-  copySectionCompact: {
-    paddingTop: 4,
-  },
   heading: {
-    fontSize: 38,
+    fontSize: 32,
     fontWeight: '800',
-    lineHeight: 42,
-    letterSpacing: -1.2,
+    lineHeight: 35,
+    letterSpacing: -1,
     color: '#273046',
   },
   headingCompact: {
-    fontSize: 32,
-    lineHeight: 36,
-    letterSpacing: -1.0,
+    fontSize: 30,
+    lineHeight: 33,
   },
   subtitle: {
-    fontSize: 17,
-    lineHeight: 25,
-    color: '#505B70',
-    marginTop: 18,
-  },
-  subtitleCompact: {
     fontSize: 15,
     lineHeight: 22,
-    marginTop: 12,
-  },
-  previewCard: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E3E5D9',
-    borderRadius: 20,
-    padding: 16,
-    marginTop: 20,
-  },
-  previewHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  previewTitle: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: '#273046',
-  },
-  connectedBadge: {
-    backgroundColor: '#E8F5E9',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  connectedBadgeText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#2E7D32',
-  },
-  stepsDisplay: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginTop: 4,
-  },
-  stepsCount: {
-    fontSize: 36,
-    fontWeight: '800',
-    letterSpacing: -0.8,
-    color: '#273046',
-    fontVariant: ['tabular-nums'],
-  },
-  stepsUnit: {
-    fontSize: 16,
-    fontWeight: '600',
     color: '#505B70',
-  },
-  emptyStepsContainer: {
-    marginTop: 4,
-  },
-  emptyStepsText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#505B70',
-    lineHeight: 21,
-  },
-  emptyStepsSubtext: {
-    fontSize: 13,
-    color: '#7B8497',
-    marginTop: 4,
-    lineHeight: 18,
+    marginTop: 8,
+    marginBottom: 12,
   },
   noticeBanner: {
     backgroundColor: '#FFF8E1',
@@ -967,47 +864,65 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: '#6D4C41',
   },
-  detailsToggle: {
-    minHeight: 44,
+  activityPreview: {
+    backgroundColor: '#FFFEFA',
+    borderColor: '#E2DDD2',
+    borderWidth: 1,
+    borderRadius: 22,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+  },
+  activityPreviewLabel: {
+    color: '#505B70',
+    fontSize: 12,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+  activityMetrics: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#D7D1C6',
     flexDirection: 'row',
-    alignItems: 'center',
+    gap: 6,
+    paddingTop: 10,
+  },
+  activityMetric: {
+    flex: 1,
     justifyContent: 'space-between',
-    marginTop: 18,
-    paddingVertical: 8,
   },
-  detailsToggleText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#505B70',
-  },
-  detailsToggleIcon: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#505B70',
-  },
-  detailsContent: {
-    backgroundColor: '#F0ECE3',
-    borderRadius: 12,
-    padding: 12,
-    marginTop: 4,
-  },
-  detailsBullet: {
-    fontSize: 13,
-    color: '#3B485A',
-    fontWeight: '600',
-    marginBottom: 6,
-  },
-  detailsFootnote: {
+  activityMetricLabel: {
+    color: '#424D61',
     fontSize: 12,
     lineHeight: 17,
+    marginBottom: 8,
+  },
+  activityMetricValue: {
+    color: '#273046',
+    fontSize: 22,
+    lineHeight: 26,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+  },
+  activityMetricUnit: {
+    color: '#424D61',
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  activityHeartRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+    marginTop: 10,
+  },
+  activityHeartLabel: {
+    flexShrink: 1,
     color: '#505B70',
+    fontSize: 13,
+    lineHeight: 18,
   },
   actionSection: {
-    paddingTop: 20,
-    gap: 8,
-  },
-  actionSectionCompact: {
-    paddingTop: 14,
+    paddingTop: 8,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#D7D1C6',
   },
   statusText: {
     fontSize: 13,
@@ -1024,7 +939,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   primaryButton: {
-    minHeight: 56,
+    minHeight: 52,
     borderRadius: 18,
     backgroundColor: '#4F68D5',
     alignItems: 'center',
@@ -1082,6 +997,7 @@ const styles = StyleSheet.create({
   privacyNote: {
     fontSize: 13,
     color: '#505B70',
+    fontWeight: '600',
     textAlign: 'center',
     marginTop: 4,
     lineHeight: 18,

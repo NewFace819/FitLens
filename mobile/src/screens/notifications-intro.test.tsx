@@ -92,6 +92,10 @@ test('NotificationsIntroScreen renders exact approved copy, reassurance note, an
   expect(texts).toContain(
     'Gentle reminders for workouts, check-ins, and moments worth looking back on.'
   );
+  expect(texts).toContain('EXAMPLE NOTIFICATION');
+  expect(texts).toContain('A little time for yourself?');
+  expect(texts).toContain('Your scheduled workout begins at 6:30 PM.');
+  expect(texts).toContain('Illustrative preview. No reminder is scheduled.');
   expect(texts).toContain('Enable gentle reminders');
   expect(texts).toContain('Maybe later');
   expect(texts).toContain('Only when it matters. Always your choice.');
@@ -173,7 +177,7 @@ test('API 33+ already granted on mount displays permission success state and Con
   const continueBtn = root.findByProps({ accessibilityLabel: 'Continue' });
   expect(continueBtn).toBeDefined();
 
-  const statusCard = root.findByProps({ accessibilityRole: 'status' });
+  const statusCard = root.findByProps({ accessibilityLiveRegion: 'polite' });
   expect(statusCard.props.accessibilityLabel).toBe('Notifications allowed.');
   const cardTexts = statusCard.findAllByType(Text).map((t) => t.props.children);
   expect(cardTexts).toContain('Notifications allowed');
