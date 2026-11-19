@@ -276,7 +276,8 @@ export default function NotificationsIntroScreen({
     try {
       const ok = await saveOnboardingStep('completed');
       if (ok) {
-        nav.reset({
+        const rootNav = (nav as any).getParent?.() ?? nav;
+        rootNav.reset({
           index: 0,
           routes: [{ name: 'Home' }],
         });
