@@ -4,7 +4,7 @@
  * appendReview() (Tu never writes history) and sets the mascot through Đỗ Huy.
  */
 import { addDays, toDateKey, weekStartOf } from '../../shared/dates';
-import { appendReview, getHistory, getReview, getReviews, type HistoryEntry } from '../history/history';
+import { appendReview, appendReviewDurable, getHistory, getReview, getReviews, type HistoryEntry } from '../history/history';
 import { setMascotMood } from '../mascot/mascot';
 import { getExercise } from '../workouts/exercises';
 import { getWorkout } from '../workouts/schedule';
@@ -23,18 +23,25 @@ export function getCheckInContext(historyId: string): CheckInContext | null {
   const entry = getHistory().find((h) => h.id === historyId);
   if (!entry) return null;
   const workout = getWorkout(entry.workoutId);
-  const ids = workout ? workout.items.map((i) => i.exerciseId) : [...new Set(entry.sets.map((s) => s.exerciseId))];
+  const ids = [...new Set(entry.sets.map((s) => s.exerciseId))];
   return {
     entry,
     title: workout?.title ?? 'Workout',
     exercises: ids.map((id) => ({ id, name: getExercise(id)?.name ?? id })),
-    setCount: entry.sets.length || (workout?.items.reduce((n, i) => n + i.sets, 0) ?? 0),
+    setCount: entry.sets.length,
     existing: getReview(historyId),
   };
 }
 
 export function submitCheckIn(draft: ReviewDraft, stoppedByPain: boolean, now: Date = new Date()): Review {
   const saved = appendReview(buildReview(draft, now));
+  setMascotMood(moodAfterReview(draft, stoppedByPain));
+  return saved;
+}
+
+/** UI acknowledgement comes only after the review has reached device storage. */
+export async function submitCheckInDurable(draft: ReviewDraft, stoppedByPain: boolean, now: Date = new Date()): Promise<Review> {
+  const saved = await appendReviewDurable(buildReview(draft, now));
   setMascotMood(moodAfterReview(draft, stoppedByPain));
   return saved;
 }

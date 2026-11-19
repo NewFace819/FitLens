@@ -40,6 +40,7 @@ export default function DevHub() {
         onPress={() => nav.navigate('Rhythm')}
       />
       <ListRow label="Workout reminders" detail="This week" onPress={() => nav.navigate('Reminders')} />
+      <ListRow label="Start or resume workout" detail="Training" onPress={() => nav.navigate('Training')} />
       <ListRow label="Post-workout check-in" detail="Latest session" onPress={() => openCheckIn(nav)} />
       <ListRow label="Workouts" detail="Library & builder" onPress={() => nav.navigate('Workouts')} />
       <ListRow label="Weekly plan" detail="Draft & schedule" onPress={() => nav.navigate('Plan')} />

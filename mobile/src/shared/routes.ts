@@ -10,6 +10,7 @@ export const ROUTES = {
   checkIn: 'CheckIn',
   workouts: 'Workouts',
   plan: 'Plan',
+  training: 'Training',
 } as const;
 
 /** React Navigation param list. Missing/invalid params → the screen goes back to its parent. */
@@ -20,4 +21,5 @@ export type RootStackParamList = {
   CheckIn: { history: string };
   Workouts: undefined;
   Plan: undefined;
+  Training: { workout?: string; session?: string } | undefined;
 };
