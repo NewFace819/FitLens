@@ -20,6 +20,10 @@ export function HomeDock() {
         borderRadius: 30,
         marginHorizontal: 20,
         padding: 6,
+        marginBottom: 8,
+        borderWidth: 1,
+        borderColor: '#ffffffb0',
+        elevation: 2,
       }}
     >
       {items.map(item => (

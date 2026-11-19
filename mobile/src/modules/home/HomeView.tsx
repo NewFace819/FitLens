@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { SvgXml } from 'react-native-svg';
+import Svg, { Rect, SvgXml } from 'react-native-svg';
 import { timeIcon } from './prototypeAssets';
 import { styles as s, colors, Button } from './primitives';
+import { StepSun } from './StepSun';
 import { Icon } from './Icon';
 import { Mascot } from '../mascot/MascotView';
 import { Activity as Entry } from '../activity/activity';
@@ -15,6 +16,7 @@ export type HomePlan = {
   name: string;
   minutes?: number;
   exercises?: number;
+  time?: string | null;
 };
 export type WorkoutMetric = { date: string; durationSec: number; sets: number };
 export function ActivitySection({
@@ -41,21 +43,7 @@ export function ActivitySection({
         <Text style={s.body}>
           Steps <Text style={{ fontSize: 10 }}>Sample</Text> ›
         </Text>
-        <View
-          style={{
-            alignSelf: 'center',
-            width: 116,
-            height: 116,
-            borderRadius: 60,
-            backgroundColor: '#f5cf55',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 29, color: '#62491f', fontWeight: '600' }}>
-            3,150
-          </Text>
-        </View>
+        <StepSun size={126} steps={3150} />
       </Pressable>
       <View style={{ flex: 1, gap: 12 }}>
         {[
@@ -103,6 +91,7 @@ export function HomeScreen({
   retry,
   onDateChange,
   onSession,
+  onAccount,
 }: {
   entries: Entry[];
   plans?: HomePlan[];
@@ -113,8 +102,10 @@ export function HomeScreen({
   retry: () => void;
   onDateChange?: (date: string) => void;
   onSession?: (id: string) => void;
+  onAccount?: () => void;
 }) {
   const [date, setDate] = useState(today());
+  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   useEffect(() => {
     onDateChange?.(date);
   }, [date, onDateChange]);
@@ -139,6 +130,37 @@ export function HomeScreen({
           FitLens
         </Text>
         <Mascot />
+        {onAccount && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Open Account"
+            onPress={onAccount}
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              width: 44,
+              height: 44,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <View
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                borderWidth: 1,
+                borderColor: '#e6c9b7',
+                backgroundColor: '#f5e4d7',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Icon name="profile" size={20} color="#a65536" />
+            </View>
+          </Pressable>
+        )}
       </View>
       <View style={s.row}>
         <Text style={s.heading}>
@@ -227,11 +249,48 @@ export function HomeScreen({
         )}
       </View>
       <View
+        onLayout={event => {
+          const { width, height } = event.nativeEvent.layout;
+          setStageSize(previous =>
+            previous.width === width && previous.height === height
+              ? previous
+              : { width, height },
+          );
+        }}
         style={[
           s.card,
-          { backgroundColor: planned ? '#29483b' : 'transparent' },
+          {
+            backgroundColor: 'transparent',
+            borderRadius: 30,
+            gap: 10,
+          },
         ]}
       >
+        {planned && (
+          <Svg
+            pointerEvents="none"
+            width={stageSize.width}
+            height={stageSize.height}
+            style={{ position: 'absolute', left: 0, top: 0 }}
+          >
+            <Rect
+              width={stageSize.width}
+              height={stageSize.height}
+              rx={30}
+              fill="#29483b"
+            />
+          </Svg>
+        )}
+        {planned && (
+          <Text style={{ color: '#d1dfbd', fontSize: 13 }}>
+            Scheduled{planned.time ? ` · ${planned.time}` : ''}
+          </Text>
+        )}
+        {!planned && records.length > 0 && (
+          <Text style={{ color: colors.muted, fontSize: 13 }}>
+            Saved on this day.
+          </Text>
+        )}
         <Text style={[s.title, planned && { color: '#fff9ec' }]}>
           {error
             ? 'Activity couldn’t be loaded.'
@@ -268,8 +327,10 @@ export function HomeScreen({
                   borderBottomColor: colors.rule,
                 }}
               >
-                <Text style={s.heading}>{e.name}</Text>
-                <Text style={s.body}>
+                <Text style={[s.heading, planned && { color: '#fff9ec' }]}>
+                  {e.name}
+                </Text>
+                <Text style={[s.body, planned && { color: '#d1dfbd' }]}>
                   {Math.round(e.durationSec / 60)} min · Saved
                 </Text>
               </View>
@@ -284,6 +345,7 @@ export function HomeScreen({
               }}
             >
               <Button
+                inverse={Boolean(planned)}
                 label={
                   planned
                     ? isToday
@@ -302,6 +364,7 @@ export function HomeScreen({
               {date <= today() && (
                 <Button
                   quiet
+                  inverse={Boolean(planned)}
                   label="Log activity"
                   onPress={() => onLog(date)}
                 />

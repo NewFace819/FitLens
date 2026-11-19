@@ -39,11 +39,13 @@ export function Button({
   onPress,
   quiet = false,
   disabled = false,
+  inverse = false,
 }: {
   label: string;
   onPress: () => void;
   quiet?: boolean;
   disabled?: boolean;
+  inverse?: boolean;
 }) {
   return (
     <Pressable
@@ -52,17 +54,28 @@ export function Button({
       onPress={onPress}
       style={({ pressed }) => ({
         minHeight: 46,
-        padding: 14,
+        paddingVertical: 12,
+        paddingHorizontal: 18,
         borderRadius: 18,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: quiet ? 'transparent' : colors.primary,
+        backgroundColor: quiet
+          ? 'transparent'
+          : inverse
+          ? '#fff9ec'
+          : colors.primary,
         opacity: disabled || pressed ? 0.5 : 1,
       })}
     >
       <Text
         style={{
-          color: quiet ? colors.ink : '#fff9ec',
+          color: inverse
+            ? quiet
+              ? '#d1dfbd'
+              : colors.primary
+            : quiet
+            ? colors.ink
+            : '#fff9ec',
           fontSize: 14,
           fontWeight: '500',
         }}
