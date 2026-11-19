@@ -76,34 +76,34 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 - Thư viện thông báo cho Android (`expo-notifications`, `react-native-notify-kit`, …) — xem `mobile/README.md`.
 - Khi nào bắt đầu backend.
 
-## 8. Kế hoạch tuần 1 (19/11 → 25/11)
+## 8. Kế hoạch tuần 1
 
-Mục tiêu: **app chạy được trên Android trước Chủ nhật 22/11** (dù nhiều màn còn là placeholder), và đến 25/11 luồng cơ bản chạy hết một vòng: Welcome → Onboarding → Plan → Màn tập → Check-in → nhắc lịch. Đăng nhập và database (Supabase) để tuần 2.
+Mục tiêu: **trước tiên app phải chạy được trên Android** (dù nhiều màn còn là placeholder), sau đó luồng cơ bản chạy hết một vòng: Welcome → Onboarding → Plan → Màn tập → Check-in → nhắc lịch. Đăng nhập và database (Supabase) để tuần 2.
 
 Quy tắc: mỗi người chỉ sửa thư mục/màn của mình; gọi sang người khác qua hàm contract; mọi route đã đăng ký sẵn nên **không ai sửa `App.tsx` / `routes.ts`** nữa (cần route mới thì báo Hải). PR nhỏ, merge hằng ngày.
 
-| ID | Người | Task | Kết quả | Hạn | Cần |
-| :-- | :-- | :-- | :-- | :-- | :-- |
-| H1 | Hải | Đưa Workouts/Plan + `DATA_CONTRACT.md` vào `main` | PR merge | 19/11 | — |
-| H2 | Hải | Đăng ký sẵn mọi route + màn tạm | Xong (cùng PR với H1) | 19/11 | — |
-| H3 | Hải | Cài Android SDK + JDK 17, build APK đầu tiên, ghi hướng dẫn vào `mobile/README.md` | App chạy trên emulator/điện thoại | **22/11** | — |
-| H4 | Hải | Nút "Start" trên Plan mở `Workout` với `{session}` | Từ Plan vào được màn tập | 22/11 | — |
-| T1 | Thông | Onboarding (thay `screens/onboarding.tsx`): mục tiêu, kinh nghiệm, buổi/tuần, phút, thiết bị, vùng tránh; Welcome dẫn sang lần đầu | Lưu `fitlens.profile` | 23/11 | — |
-| T2 | Thông | Profile xem/sửa; thay placeholder `modules/profile`, `getProfile()` đúng contract | Plan dùng profile thật | 24/11 | — |
-| T3 | Thông | `getHomeMetrics()` với dữ liệu mẫu | Home có số liệu | 25/11 | — |
-| TU1 | Tu | Chốt chữ ký `appendReview()` với Đức Huy, ghi vào `DATA_CONTRACT.md` | — | 20/11 | — |
-| TU2 | Tu | Thử và chọn thư viện thông báo trên Android | Quyết định + lý do | 22/11 | H3 |
-| TU3 | Tu | Nhắc lịch thật qua `setNotificationScheduler()` | Có thông báo trên máy | 25/11 | TU2 |
-| TU4 | Tu | Check-in dùng lịch sử thật | Mở được ngay sau buổi tập | 25/11 | DH2 |
-| DH1 | Đức Huy | Rebase lên `main`, chốt `appendReview()` với Tu | — | 20/11 | — |
-| DH2 | Đức Huy | Thay placeholder `modules/history`: `getHistory`, `getLastSets`, `appendReview`, lưu buổi tập | `contract.test` vẫn qua | 22/11 | — |
-| DH3 | Đức Huy | Màn tập (thay `screens/workout.tsx`): kg/rep từng set, nghỉ, tạm dừng, "Use last time" | Tập được 1 buổi | 24/11 | — |
-| DH4 | Đức Huy | Hoàn tất → lưu lịch sử, `markSessionDone()`, sang `CheckIn`; báo đau → dừng | Màn tập nối sang check-in | 25/11 | DH3 |
-| DO1 | Đỗ Huy | Xóa `food.*`, `chat.*` khỏi `prototype/` | PR nhỏ | 21/11 | — |
-| DO2 | Đỗ Huy | Thử camera: MediaPipe JS trong WebView hay native | Chốt cách làm | 22/11 | H3 |
-| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`) | Video demo | 25/11 | DO2 |
-| DO4 | Đỗ Huy | Home bản đầu thay dev hub (rebase nhánh home có sẵn) | Home hiện buổi tới + nhịp | 25/11 | — |
+| ID | Người | Task | Kết quả | Cần |
+| :-- | :-- | :-- | :-- | :-- |
+| H1 | Hải | Đưa Workouts/Plan + `DATA_CONTRACT.md` vào `main` | PR merge | — |
+| H2 | Hải | Đăng ký sẵn mọi route + màn tạm | Xong (cùng PR với H1) | — |
+| H3 | Hải | Cài Android SDK + JDK 17, build APK đầu tiên, ghi hướng dẫn vào `mobile/README.md` | App chạy trên emulator/điện thoại | — |
+| H4 | Hải | Nút "Start" trên Plan mở `Workout` với `{session}` | Từ Plan vào được màn tập | — |
+| T1 | Thông | Onboarding (thay `screens/onboarding.tsx`): mục tiêu, kinh nghiệm, buổi/tuần, phút, thiết bị, vùng tránh; Welcome dẫn sang lần đầu | Lưu `fitlens.profile` | — |
+| T2 | Thông | Profile xem/sửa; thay placeholder `modules/profile`, `getProfile()` đúng contract | Plan dùng profile thật | — |
+| T3 | Thông | `getHomeMetrics()` với dữ liệu mẫu | Home có số liệu | — |
+| TU1 | Tu | Chốt chữ ký `appendReview()` với Đức Huy, ghi vào `DATA_CONTRACT.md` | — | — |
+| TU2 | Tu | Thử và chọn thư viện thông báo trên Android | Quyết định + lý do | H3 |
+| TU3 | Tu | Nhắc lịch thật qua `setNotificationScheduler()` | Có thông báo trên máy | TU2 |
+| TU4 | Tu | Check-in dùng lịch sử thật | Mở được ngay sau buổi tập | DH2 |
+| DH1 | Đức Huy | Rebase lên `main`, chốt `appendReview()` với Tu | — | — |
+| DH2 | Đức Huy | Thay placeholder `modules/history`: `getHistory`, `getLastSets`, `appendReview`, lưu buổi tập | `contract.test` vẫn qua | — |
+| DH3 | Đức Huy | Màn tập (thay `screens/workout.tsx`): kg/rep từng set, nghỉ, tạm dừng, "Use last time" | Tập được 1 buổi | — |
+| DH4 | Đức Huy | Hoàn tất → lưu lịch sử, `markSessionDone()`, sang `CheckIn`; báo đau → dừng | Màn tập nối sang check-in | DH3 |
+| DO1 | Đỗ Huy | Xóa `food.*`, `chat.*` khỏi `prototype/` | PR nhỏ | — |
+| DO2 | Đỗ Huy | Thử camera: MediaPipe JS trong WebView hay native | Chốt cách làm | H3 |
+| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`) | Video demo | DO2 |
+| DO4 | Đỗ Huy | Home bản đầu thay dev hub (rebase nhánh home có sẵn) | Home hiện buổi tới + nhịp | — |
 
 Ưu tiên khi trễ: Đỗ Huy làm camera trước Home; H3 của Hải trước mọi việc khác của Hải.
 
-**Tuần 2 (26/11 → 1/12, chốt lại cuối tuần 1):** đăng nhập + database (Supabase Auth; Thông màn đăng nhập, Hải dựng Supabase, mỗi người đồng bộ dữ liệu của mình), camera trong màn tập (Đỗ Huy + Đức Huy), avatar mạnh dần (Đỗ Huy), RPE → lịch tuần sau và backend sinh lịch Gemini (Hải), luật an toàn khi báo đau (Tu). Khóa tính năng 1/12, nộp 3/12.
+**Tuần 2 (chốt lại cuối tuần 1):** đăng nhập + database (Supabase Auth; Thông màn đăng nhập, Hải dựng Supabase, mỗi người đồng bộ dữ liệu của mình), camera trong màn tập (Đỗ Huy + Đức Huy), avatar mạnh dần (Đỗ Huy), RPE → lịch tuần sau và backend sinh lịch Gemini (Hải), luật an toàn khi báo đau (Tu).
