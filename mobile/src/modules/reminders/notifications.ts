@@ -32,7 +32,19 @@ export type SyncResult =
   | { mode: 'denied'; pending: number }
   | { mode: 'preview'; pending: number };
 
-export async function syncReminderNotifications(options: { ask?: boolean } = {}, now: Date = new Date()): Promise<SyncResult> {
+let queue: Promise<unknown> = Promise.resolve();
+
+/**
+ * Runs one sync at a time: a sync started by an older change can never
+ * re-schedule a reminder that a newer sync has already cancelled.
+ */
+export function syncReminderNotifications(options: { ask?: boolean } = {}, now?: Date): Promise<SyncResult> {
+  const run = queue.then(() => syncNow(options, now ?? new Date()));
+  queue = run.catch(() => undefined);
+  return run;
+}
+
+async function syncNow(options: { ask?: boolean }, now: Date): Promise<SyncResult> {
   const plan = pendingNotifications(now);
   if (!scheduler) return { mode: 'preview', pending: plan.length };
   if (!(await scheduler.ensurePermission(options.ask === true && plan.length > 0))) {
@@ -41,6 +53,22 @@ export async function syncReminderNotifications(options: { ask?: boolean } = {},
   await scheduler.cancelAll();
   for (const n of plan) await scheduler.schedule(n);
   return { mode: 'device', scheduled: plan.length };
+}
+
+/**
+ * Dev only: schedule one reminder `seconds` from now so the device path can be
+ * checked without waiting for a real session. A later sync cancels it.
+ */
+export async function sendTestReminder(seconds = 60, now: Date = new Date()): Promise<string> {
+  if (!scheduler) return 'Preview mode: no notification library plugged in.';
+  if (!(await scheduler.ensurePermission(true))) return 'Notifications are off for FitLens — turn them on in Android settings.';
+  await scheduler.schedule({
+    sessionId: 'dev-test',
+    at: new Date(now.getTime() + seconds * 1000),
+    title: 'Test reminder',
+    body: 'If you can read this, FitLens reminders work on this phone.',
+  });
+  return `Test reminder scheduled in ${seconds} seconds. You can leave the app.`;
 }
 
 export function describeSync(r: SyncResult): string {

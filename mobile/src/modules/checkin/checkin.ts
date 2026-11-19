@@ -49,7 +49,18 @@ export function getLoadAdjustForWeek(weekStart: string): number {
   return weeklyLoadAdjust(reviews, entries.filter((e) => e.stoppedByPain).length);
 }
 
-/** Latest finished session without a review (for "check in now" entry points). */
-export function latestUnreviewed(): HistoryEntry | null {
-  return getHistory().find((h) => !getReview(h.id) && h.date <= toDateKey(new Date())) ?? null;
+/**
+ * Latest finished session without a review, done within the last `withinDays`
+ * days (for "check in now" entry points). A fallback in case the workout screen
+ * didn't open the check-in; older sessions are not worth asking about.
+ */
+export function latestUnreviewed(withinDays = 2, now: Date = new Date()): HistoryEntry | null {
+  const today = toDateKey(now);
+  const from = addDays(today, -withinDays);
+  return getHistory({ from, to: today }).find((h) => !getReview(h.id)) ?? null;
+}
+
+/** "Upper Body, Wed" style label for a check-in prompt. */
+export function checkInPrompt(entry: HistoryEntry): string {
+  return getWorkout(entry.workoutId)?.title ?? 'Your workout';
 }

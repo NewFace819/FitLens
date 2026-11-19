@@ -9,6 +9,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { syncReminderNotifications } from './src/modules/reminders/notifications';
+import { startDeviceReminders } from './src/modules/reminders/device';
+import { notifyKitScheduler } from './src/modules/reminders/notifykit-scheduler';
 import { hasSeenWelcome } from './src/modules/welcome/welcome';
 import CameraScreen from './src/screens/camera';
 import HistoryScreen from './src/screens/history';
@@ -30,6 +32,7 @@ import { nativePersistence } from './src/shared/storage-native';
 import { colors } from './src/ui/theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+startDeviceReminders(notifyKitScheduler); // real Android reminders, kept in step with the schedule (Tu)
 const theme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, background: colors.background } };
 
 export default function App() {
