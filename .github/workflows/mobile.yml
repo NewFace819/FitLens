@@ -1,0 +1,35 @@
+name: Mobile verification
+
+on:
+  pull_request:
+    paths: ['mobile/**', 'prototype/**', '.github/workflows/mobile.yml']
+  push:
+    branches: [main, 'feature/**', 'codex/**']
+    paths: ['mobile/**', 'prototype/**', '.github/workflows/mobile.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run lint -- --quiet
+      - run: npm run test:foundation
+      - run: npm run test:training
+      - run: npm test -- --runInBand
+      - name: Bundle Android JavaScript
+        run: node node_modules/react-native/cli.js bundle --platform android --dev false --entry-file index.js --bundle-output /tmp/fitlens.android.bundle --max-workers 2
