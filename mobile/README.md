@@ -19,6 +19,29 @@ Not yet run on a device or emulator (no Android SDK on the dev machine); covered
 
 Guide: https://reactnative.dev/docs/set-up-your-environment (choose Android).
 
+### Windows setup, step by step
+
+What the build needs (from `android/build.gradle`): compile SDK **37**, build-tools **37.0.0**, NDK **27.1.12297006**. Gradle 9.4.1 downloads itself on the first build.
+
+1. **Node.js 22 LTS** from nodejs.org. Check: `node -v` shows v22.11 or newer.
+2. **JDK 17**: install *Microsoft Build of OpenJDK 17* or *Eclipse Temurin 17* (MSI). Then set the user variable `JAVA_HOME` to its folder, e.g. `C:\Program Files\Microsoft\jdk-17.x.x-hotspot`. Check in a new terminal: `java -version` shows 17.
+3. **Android Studio** (latest). On first start choose *Standard* setup. Then *More Actions → SDK Manager*:
+   - *SDK Platforms*: tick **Android 17 (API 37)** (needed to compile) and one image to run, e.g. **Android 16 (API 36)** with *Google APIs x86_64 system image* (tick *Show Package Details*).
+   - *SDK Tools* (tick *Show Package Details*): **Android SDK Build-Tools 37.0.0**, **NDK (Side by side) 27.1.12297006**, **Android SDK Platform-Tools**, **Android Emulator**.
+4. **Environment variables** (Start → "Edit environment variables for your account"):
+   - `ANDROID_HOME` = `%LOCALAPPDATA%\Android\Sdk`
+   - Add to `Path`: `%LOCALAPPDATA%\Android\Sdk\platform-tools`
+   - Open a new terminal and check: `adb --version`.
+5. **A device**: either *Device Manager → Create device* (e.g. Pixel 8, API 36 image) and start it, or a phone with *Developer options → USB debugging* on. `adb devices` must list it.
+6. **Run** (two terminals, in `mobile/`): `npm ci` once, then `npm start` and `npm run android`. The first build takes 10–20 minutes.
+
+If it fails:
+- *Unsupported class file major version* / Gradle errors about Java → `JAVA_HOME` is not JDK 17. Fix it and run `cd android && gradlew --stop`.
+- *SDK location not found* → `ANDROID_HOME` is missing, or create `android/local.properties` with `sdk.dir=C:\\Users\\<you>\\AppData\\Local\\Android\\Sdk` (this file is not committed).
+- *Failed to install the app / no devices* → start the emulator first and check `adb devices`.
+- Phone shows a red "Unable to load script" screen → run `adb reverse tcp:8081 tcp:8081` and reload, and make sure `npm start` is running.
+- Very long path errors → keep the repo near the drive root (e.g. `C:\dev\FitLens`).
+
 ## Run
 
 ```bash
