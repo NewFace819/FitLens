@@ -14,16 +14,16 @@ export const REGION_LABELS: Record<Region, string> = {
   hips: 'Hips',
 };
 
-export const EQUIPMENT = ['dumbbells', 'bands'] as const;
+export const EQUIPMENT = ['dumbbells', 'bands', 'mat', 'bench', 'barbell', 'machine'] as const;
 export type Equipment = (typeof EQUIPMENT)[number];
 
 export const GOALS = ['habit', 'strength', 'muscle', 'endurance'] as const;
 export type Goal = (typeof GOALS)[number];
 
-export const EXPERIENCES = ['beginner', 'intermediate', 'advanced'] as const;
+export const EXPERIENCES = ['new', 'returning', 'regular'] as const;
 export type Experience = (typeof EXPERIENCES)[number];
 
-export const PLACES = ['home', 'gym', 'outdoor'] as const;
+export const PLACES = ['home', 'gym'] as const;
 export type Place = (typeof PLACES)[number];
 
 export const SESSION_STATUSES = ['planned', 'done', 'skipped'] as const;

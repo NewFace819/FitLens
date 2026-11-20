@@ -22,7 +22,7 @@ export type Profile = {
 export const DEFAULT_PROFILE: Profile = {
   id: 'pf-local',
   goal: 'habit',
-  experience: 'beginner',
+  experience: 'new',
   daysPerWeek: 3,
   minutes: 30,
   equipment: [],
