@@ -66,6 +66,10 @@ src/
 │   ├── rhythm.tsx       # Tu
 │   ├── reminders.tsx    # Tu
 │   ├── check-in.tsx     # Tu  (route 'CheckIn', param { history })
+│   ├── welcome.tsx      # Thông
+│   ├── WorkoutsScreen.tsx, WorkoutDetailScreen.tsx, PlanScreen.tsx  # Hải (store + callbacks as props)
+│   ├── workouts-routes.tsx  # Hải: routes 'Workouts', 'WorkoutDetail', 'Plan' (navigation lives here)
+│   └── placeholder.tsx + onboarding, profile, insights, workout, recap, history, camera  # stand-ins; each owner replaces their file
 ├── shared/              # Contract §1, 2, 4, 8, 12 — everyone imports, nobody re-types
 │   ├── constants.ts     # enums: Region, ExerciseFeedback, SessionStatus, …
 │   ├── dates.ts         # YYYY-MM-DD, HH:mm, weekStartOf (Monday)
