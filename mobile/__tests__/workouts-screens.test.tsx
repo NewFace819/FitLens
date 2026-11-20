@@ -16,11 +16,18 @@ const TODAY = '2026-11-12'; // a Thursday in the week of 2026-11-09
 
 const tick = () => new Promise<void>(r => setTimeout(() => r(), 5));
 
+const onStart = jest.fn();
+const onStartSession = jest.fn();
+
 function Harness({ today }: { today: string }) {
   const [tab, setTab] = useState<'workouts' | 'plan'>('workouts');
   return (
     <View>
-      {tab === 'workouts' ? <WorkoutsScreen store={getStore()} /> : <PlanScreen store={getStore()} today={today} />}
+      {tab === 'workouts' ? (
+        <WorkoutsScreen store={getStore()} onStart={onStart} />
+      ) : (
+        <PlanScreen store={getStore()} today={today} onStartSession={onStartSession} />
+      )}
       {(['workouts', 'plan'] as const).map(t => (
         <Pressable key={t} testID={`tab-${t}`} onPress={() => setTab(t)}>
           <Text>{t}</Text>
@@ -34,6 +41,8 @@ function Harness({ today }: { today: string }) {
 const saved = { get: (key: string) => localStorageView.getItem(key) ?? undefined };
 
 async function render() {
+  onStart.mockClear();
+  onStartSession.mockClear();
   await hydrate(null); // empty storage for every test
   let tree!: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(async () => {
@@ -250,4 +259,36 @@ test('Plan: set a time and move a session to another day; a clash is refused', a
   await press(tree, 'save-session');
   expect(text(tree)).toContain('18:45 · ');
   expect(byId(tree, 'plan-status').props.children).toBe('Saved.');
+});
+
+test('Start: a workout opens the workout screen with its id; an empty workout cannot start', async () => {
+  const { tree } = await render();
+  await press(tree, 'workout-tpl-upper');
+  await press(tree, 'start-workout');
+  expect(onStart).toHaveBeenCalledWith('tpl-upper');
+
+  await press(tree, 'back');
+  await ReactTestRenderer.act(async () => {
+    byId(tree, 'workout-name').props.onChangeText('Empty one');
+  });
+  await press(tree, 'create-workout');
+  expect(has(tree, 'start-workout')).toBe(false);
+});
+
+test('Start: a planned session opens the workout screen with the session id; a done one does not', async () => {
+  const { tree } = await render();
+  await press(tree, 'tab-plan');
+  await press(tree, 'add-2026-11-10');
+  await press(tree, 'pick-tpl-core');
+  const id = [...new Set(tree.root
+    .findAll(n => typeof n.props.testID === 'string' && n.props.testID.startsWith('session-') && typeof n.type === 'string')
+    .map(n => n.props.testID as string))][0];
+  await press(tree, id);
+  await press(tree, 'start-session');
+  expect(onStartSession).toHaveBeenCalledWith(id.replace('session-', ''));
+
+  await press(tree, id);
+  await press(tree, 'mark-done');
+  await press(tree, id);
+  expect(has(tree, 'start-session')).toBe(false);
 });

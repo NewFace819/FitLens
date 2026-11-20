@@ -28,7 +28,14 @@ const HOURS = Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0'));
 const MINUTES = ['00', '15', '30', '45'];
 const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter(x => x !== v) : [...list, v]);
 
-export default function PlanScreen({ store, today }: { store: AppStore; today?: string }) {
+type PlanProps = {
+  store: AppStore;
+  today?: string;
+  /** Opens the workout screen for a planned session (route 'Workout', param `session`). Hidden when absent. */
+  onStartSession?: (sessionId: string) => void;
+};
+
+export default function PlanScreen({ store, today, onStartSession }: PlanProps) {
   const todayStr = today ?? store.todayStr();
   const thisWeek = store.weekStartOf(todayStr) as string;
   const [week, setWeek] = useState(thisWeek);
@@ -267,6 +274,17 @@ export default function PlanScreen({ store, today }: { store: AppStore; today?: 
             <Text style={styles.error} testID="edit-error">
               {editError}
             </Text>
+          )}
+          {selected && selected.status === 'planned' && onStartSession && store.getWorkout(selected.workoutId) && (
+            <Button
+              label="Start workout"
+              testID="start-session"
+              onPress={() => {
+                const id = selected.id;
+                setSelected(null);
+                onStartSession(id);
+              }}
+            />
           )}
           <Button label="Save changes" testID="save-session" onPress={saveEdits} />
           {selected && selected.status !== 'done' && (

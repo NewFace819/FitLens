@@ -214,3 +214,18 @@ Tên trang lấy từ `shared/routes.js` (không có `food`, `chat`). Dữ liệ
 | `date` | `YYYY-MM-DD` | Mở một ngày cụ thể |
 
 Thiếu hoặc sai tham số thì trang quay về trang cha, không báo lỗi trắng màn hình.
+
+**Route của app mobile** (`mobile/src/shared/routes.ts`, đăng ký sẵn trong `App.tsx`; chỉ Hải sửa hai file này, ai cần route mới thì báo):
+
+| Route | Tham số | Chủ | Ghi chú |
+| :-- | :-- | :-- | :-- |
+| `Welcome`, `Onboarding`, `Profile`, `Insights` | — | Thông | |
+| `Home` | — | Đỗ Huy | Tạm thời là dev hub |
+| `Rhythm`, `Reminders` | — | Tu | |
+| `CheckIn` | `{history}` | Tu | Màn tập mở sau khi lưu buổi |
+| `Workouts`, `Plan` | — | Hải | |
+| `WorkoutDetail` | `{workout}` | Hải | Mở một workout từ màn khác (ví dụ Home) |
+| `Workout` | `{session?, workout?, cameraReps?}` | Đức Huy | Plan mở với `session`, Workout details mở với `workout` (tập tự do). `cameraReps` do Camera trả về |
+| `Recap` | `{history}` | Đức Huy | |
+| `History` | — | Đức Huy | |
+| `Camera` | `{exerciseId, targetReps?}` | Đỗ Huy | Xong thì trả số rep: `nav.navigate({ name: 'Workout', params: { cameraReps }, merge: true })` |

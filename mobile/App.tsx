@@ -21,7 +21,7 @@ import CheckInScreen from './src/screens/check-in';
 import DevHub from './src/screens/dev-hub';
 import RemindersScreen from './src/screens/reminders';
 import RhythmScreen from './src/screens/rhythm';
-import { PlanRoute, WorkoutsRoute } from './src/screens/workouts-routes';
+import { PlanRoute, WorkoutDetailRoute, WorkoutsRoute } from './src/screens/workouts-routes';
 import WelcomeScreen from './src/screens/welcome';
 import type { RootStackParamList } from './src/shared/routes';
 import { ensureSeeded } from './src/shared/seed';
@@ -64,6 +64,7 @@ export default function App() {
             <Stack.Screen name="CheckIn" component={CheckInScreen} />
             <Stack.Screen name="Workouts" component={WorkoutsRoute} />
             <Stack.Screen name="Plan" component={PlanRoute} />
+            <Stack.Screen name="WorkoutDetail" component={WorkoutDetailRoute} />
             {/* Registered up front; placeholders until each owner replaces the screen file. */}
             <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
