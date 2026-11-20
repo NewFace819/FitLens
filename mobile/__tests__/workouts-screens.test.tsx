@@ -18,6 +18,8 @@ const tick = () => new Promise<void>(r => setTimeout(() => r(), 5));
 
 const onStart = jest.fn();
 const onStartSession = jest.fn();
+let profile: Record<string, unknown> = {};
+let loadAdjust = 0;
 
 function Harness({ today }: { today: string }) {
   const [tab, setTab] = useState<'workouts' | 'plan'>('workouts');
@@ -26,7 +28,13 @@ function Harness({ today }: { today: string }) {
       {tab === 'workouts' ? (
         <WorkoutsScreen store={getStore()} onStart={onStart} />
       ) : (
-        <PlanScreen store={getStore()} today={today} onStartSession={onStartSession} />
+        <PlanScreen
+          store={getStore()}
+          today={today}
+          onStartSession={onStartSession}
+          getProfile={() => profile}
+          getLoadAdjust={() => loadAdjust}
+        />
       )}
       {(['workouts', 'plan'] as const).map(t => (
         <Pressable key={t} testID={`tab-${t}`} onPress={() => setTab(t)}>
@@ -42,6 +50,8 @@ const saved = { get: (key: string) => localStorageView.getItem(key) ?? undefined
 
 async function render() {
   onStart.mockClear();
+  profile = {};
+  loadAdjust = 0;
   onStartSession.mockClear();
   await hydrate(null); // empty storage for every test
   let tree!: ReactTestRenderer.ReactTestRenderer;
@@ -291,4 +301,39 @@ test('Start: a planned session opens the workout screen with the session id; a d
   await press(tree, 'mark-done');
   await press(tree, id);
   expect(has(tree, 'start-session')).toBe(false);
+});
+
+const nativeRows = (tree: ReactTestRenderer.ReactTestRenderer, id: string) =>
+  tree.root.findAll(n => n.props.testID === id && typeof n.type === 'string');
+const checked = (tree: ReactTestRenderer.ReactTestRenderer, id: string) => byId(tree, id).props.selected;
+
+test('Build my week starts from the saved profile; profile areas to avoid cannot be unticked', async () => {
+  const { tree } = await render();
+  profile = { goal: 'strength', daysPerWeek: 4, minutes: 30, equipment: ['dumbbells', 'bands'], avoidRegions: ['knees'] };
+  await press(tree, 'tab-plan');
+  await press(tree, 'build-week');
+  expect(checked(tree, 'goal-strength')).toBe(true);
+  expect(checked(tree, 'days-4')).toBe(true);
+  expect(checked(tree, 'equip-dumbbells')).toBe(true);
+  expect(checked(tree, 'avoid-knees')).toBe(true);
+  expect(has(tree, 'avoid-locked-note')).toBe(true);
+  await press(tree, 'avoid-knees'); // locked: stays ticked
+  expect(checked(tree, 'avoid-knees')).toBe(true);
+  await press(tree, 'avoid-back'); // an extra area can be added for this week, and removed again
+  expect(checked(tree, 'avoid-back')).toBe(true);
+  await press(tree, 'avoid-back');
+  expect(checked(tree, 'avoid-back')).toBe(false);
+  await press(tree, 'preview-draft');
+  expect(nativeRows(tree, 'draft-row')).toHaveLength(4);
+  expect(text(tree)).not.toContain('Lower-body foundations');
+});
+
+test('a pain week from check-in gives a lighter draft and says why', async () => {
+  const { tree } = await render();
+  loadAdjust = -0.3;
+  await press(tree, 'tab-plan');
+  await press(tree, 'build-week'); // empty profile → defaults, 3 days
+  await press(tree, 'preview-draft');
+  expect(nativeRows(tree, 'draft-row')).toHaveLength(2);
+  expect(byId(tree, 'draft-adjust-note').props.children).toContain('pain');
 });

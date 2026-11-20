@@ -126,6 +126,7 @@ Mỗi người xuất một đối tượng `window.FitLens<Tên>`. Kiểu trả
 | `getReview(historyId)` | Đức Huy | `Review \| null` | Tu, Thông |
 | `getReviews({from?, to?})` | Đức Huy | `Review[]` mới nhất trước | Hải (RPE tuần trước), Thông (gợi ý xác nhận vùng tránh), Tu |
 | `getRhythm(date)` | Tu | `Rhythm` | Đỗ Huy, Thông |
+| `getLoadAdjustForWeek(weekStart)` | Tu | Số từ `-0.3` đến `+0.1`, tính từ check-in tuần trước: `-0.3` có báo đau, `-0.2`/`-0.1` thấy quá nặng, `+0.1` thấy nhẹ, `0` không đổi hoặc chưa có dữ liệu | Hải (Plan: tham số `loadAdjust` của `generateDraft`, xem `WORKOUT_SCHEDULE_DESIGN.md` §5) |
 | `getReminder(sessionId)` | Tu | `Reminder \| null` (nếu buổi chưa có nhắc riêng thì trả nhắc mặc định `sessionId = null`) | Hải (Plan), Tu |
 | `setReminder(sessionId, {enabled, minutesBefore})` | Tu | `Reminder` | Hải (Plan), Tu |
 | `setMascotMood(mood)` | Đỗ Huy | `void` | Tu, Đức Huy |
@@ -178,7 +179,7 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 - `HomeMetrics`: `{date, steps, activeMinutes, activeEnergyKcal | null, isSample}`.
 - `Activity`: `id`, `type`, `date`, `durationSec`, `distanceKm | null`.
 
-Quy tắc an toàn: `discomfortRegions` (Tu) là tạm thời, **không tự cập nhật `avoidRegions`**. Chỉ hồ sơ (Thông) đổi `avoidRegions` khi người dùng xác nhận.
+Quy tắc an toàn: `discomfortRegions` (Tu) là tạm thời, **không tự cập nhật `avoidRegions`**. Chỉ hồ sơ (Thông) đổi `avoidRegions` khi người dùng xác nhận. Plan (Hải) lấy `avoidRegions` từ `getProfile()` và **không cho bỏ** các vùng đó khi lập lịch tuần; chỉ được tránh thêm vùng cho riêng tuần đó.
 
 ## 10. Quy trình thay đổi hợp đồng
 

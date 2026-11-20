@@ -4,6 +4,8 @@
  */
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getLoadAdjustForWeek } from '../modules/checkin/checkin';
+import { getProfile } from '../modules/profile/profile';
 import { getStore } from '../modules/workouts/store';
 import { goBackOrHome, useAppNavigation, useAppRoute } from '../navigation';
 import { TopBar } from '../ui/components';
@@ -55,7 +57,12 @@ export function PlanRoute() {
   return (
     <SafeAreaView style={style} edges={['top', 'bottom']}>
       <TopBar title="Plan" />
-      <PlanScreen store={getStore()} onStartSession={(session) => nav.navigate('Workout', { session })} />
+      <PlanScreen
+        store={getStore()}
+        onStartSession={(session) => nav.navigate('Workout', { session })}
+        getProfile={getProfile}
+        getLoadAdjust={getLoadAdjustForWeek}
+      />
     </SafeAreaView>
   );
 }

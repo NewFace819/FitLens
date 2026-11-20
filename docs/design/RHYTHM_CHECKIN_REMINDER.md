@@ -73,7 +73,7 @@ type Reminder = { id: string; sessionId: string|null; enabled: boolean; minutesB
 | :-- | :-- |
 | `getRhythm(date)` | Đỗ Huy (Home), Thông (Insights) |
 | `getReminder(sessionId)`, `setReminder(sessionId, …)` | Hải (Plan), Tu |
-| `getLoadAdjustForWeek(weekStart)` → −0.3…+0.1 | Hải: tham số `loadAdjust` của `generateDraft` |
+| `getLoadAdjustForWeek(weekStart)` → −0.3…+0.1 | Hải: tham số `loadAdjust` của `generateDraft` (đổi thời lượng mỗi buổi, −0.3 bớt 1 buổi; xem `WORKOUT_SCHEDULE_DESIGN.md` §5) |
 | `suggestAdjustments(reviews)` → `swap/easier/keep/harder` theo từng bài | Hải |
 
 ## 6. Tu gọi của người khác (trong repo hiện là bản tạm, có ghi chú ở đầu file)
