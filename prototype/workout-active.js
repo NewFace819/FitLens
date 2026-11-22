@@ -34,9 +34,40 @@ let logs=plan.map(ex=>Array.from({length:ex.sets},()=>({weight:ex.needs?.length=
 try{const state=JSON.parse(sessionStorage.getItem('fitlens-ui-active'));if(state?.routine===routineKey&&JSON.stringify(state.ids)===JSON.stringify(plan.map(i=>i.id))&&(()=>{try{const payload=JSON.parse(sessionStorage.getItem('fitlens-ui-session-plan'));return !payload?.launchId||payload.launchId===state.launchId;}catch{return false;}})()){rhythmSessionId=state.rhythmSessionId||rhythmSessionId;logs=state.logs;index=state.index;elapsed=state.elapsed;phase=['working','rest','paused','stopped','completed'].includes(state.phase)?state.phase:'working';remaining=state.remaining||0;pausedFrom=state.pausedFrom==='rest'?'rest':'working';}}catch{}
 const requested=plan.findIndex(i=>i.id===params.get('exercise'));if(requested>=0)index=requested;
 function save(){try{sessionStorage.setItem('fitlens-ui-active',JSON.stringify({routine:routineKey,ids:plan.map(i=>i.id),logs,index,elapsed,phase,remaining,rhythmSessionId,pausedFrom,launchId:JSON.parse(sessionStorage.getItem('fitlens-ui-session-plan')||'{}').launchId||null}));}catch{}}
-function commitRhythm(){if(phase==='completed'){const h=FitLensTraining.read().history.find(h=>h.id===rhythmSessionId||h.id===params.get('planned'));const url=h?'workout-review.html?completed='+encodeURIComponent(h.id):'workouts.html';$('#finish-session').href=$('#pain-review').href=url;return h?.id;}const stopped=phase==='stopped';if(!stopped&&totalDone()===0){phase='completed';save();$('#finish-session').href='workouts.html';return;}const h=FitLensTraining.complete({sessionId:params.get('planned'),name:customSessionName||names[routineKey],items:plan,seconds:elapsed,logs,id:rhythmSessionId,outcome:stopped?'stopped':'completed'});sessionStorage.setItem('fitlens:last-completed-id',h.id);phase='completed';save();const url='workout-review.html?routine='+routineKey+'&completed='+encodeURIComponent(h.id);$('#finish-session').href=url;$('#pain-review').href=url;return h.id;}
-$('#finish-session').addEventListener('click',commitRhythm);
-$('#pain-review').addEventListener('click',commitRhythm);
+function commitRhythm(){
+ const stopped=phase==='stopped';
+ const plannedId=params.get('planned');
+ let history;
+ if(phase==='completed'){
+  history=FitLensTraining.read().history.find(entry=>entry.id===rhythmSessionId||entry.id===plannedId);
+ }else{
+  if(stopped||totalDone()>0){
+   history=FitLensTraining.complete({sessionId:plannedId,name:customSessionName||names[routineKey],items:plan,seconds:elapsed,logs,id:rhythmSessionId,outcome:stopped?'stopped':'completed'});
+   try{sessionStorage.setItem('fitlens:last-completed-id',history.id);}catch{}
+  }
+  if(!stopped)phase='completed';
+  save();
+ }
+ const url=history?'workout-review.html?routine='+routineKey+'&completed='+encodeURIComponent(history.id):'workouts.html';
+ $('#finish-session').href=$('#pain-review').href=url;
+ return history?.id;
+}
+function saveStoppedWorkout(event){
+ try{
+  commitRhythm();
+  $('#pain-save-error').hidden=true;
+ }catch{
+  event?.preventDefault();
+  $('#pain-save-error').hidden=false;
+ }
+}
+$('#finish-session').addEventListener('click',event=>{
+ if(phase==='stopped'){
+  saveStoppedWorkout(event);
+  if(event.defaultPrevented){$('#menu-dialog').close();openSheet($('#pain-dialog'));}
+ }else commitRhythm();
+});
+$('#pain-review').addEventListener('click',saveStoppedWorkout);
 function say(message){$('#session-announcement').textContent=message;}
 function time(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
 function currentRow(){return logs[index].findIndex(s=>!s.done);}
@@ -82,7 +113,14 @@ $('#open-lineup').addEventListener('click',()=>{const list=$('#lineup-list');lis
 $('#session-menu').addEventListener('click',()=>openSheet($('#menu-dialog')));
 $('#pause-session').addEventListener('click',()=>{if(phase==='paused')phase=pausedFrom;else{pausedFrom=phase;phase='paused';}$('#menu-dialog').close();render();save();});
 $('#skip-exercise').addEventListener('click',()=>{if(index<plan.length-1)index++;if(phase==='paused')pausedFrom='working';else phase='working';remaining=0;$('#menu-dialog').close();render();save();$('.session-scroll').scrollTop=0;});
-$('#report-pain').addEventListener('click',()=>{phase='stopped';remaining=0;render();save();openSheet($('#pain-dialog'));});
+$('#report-pain').addEventListener('click',()=>{
+ if(phase==='completed')return;
+ phase='stopped';remaining=0;
+ save();
+ saveStoppedWorkout();
+ render();
+ openSheet($('#pain-dialog'));
+});
 const coachTools=document.createElement('div');coachTools.className='coach-inline-tools';coachTools.innerHTML='<button type="button" id="pin-live" aria-pressed="false">☆ Pin as focus</button><button type="button" id="history-live">Last 3 sessions</button>';$('.exercise-poster').after(coachTools);
 const liveWhy=document.createElement('div');liveWhy.className='coach-why';liveWhy.hidden=true;coachTools.after(liveWhy);
 const milestone=document.createElement('div');milestone.className='coach-milestone';milestone.hidden=true;milestone.setAttribute('role','status');liveWhy.after(milestone);let milestoneExercise=null;
@@ -94,4 +132,7 @@ setInterval(()=>{if(phase==='working'||phase==='rest'){elapsed++;$('#elapsed').t
 render();
 save();
 
-if(phase==='stopped')openSheet($('#pain-dialog'));
+if(phase==='stopped'){
+ saveStoppedWorkout();
+ openSheet($('#pain-dialog'));
+}

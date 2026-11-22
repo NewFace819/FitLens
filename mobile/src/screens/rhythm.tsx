@@ -3,7 +3,7 @@
  * Reads getRhythm(); writes only through setWeeklyGoal / pauseRhythm / resumeRhythm.
  */
 import { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { GOAL_OPTIONS, progressMessage, type Rhythm, type RhythmStatus, type WeekResult } from '../modules/rhythm/rhythm-model';
 import { getRhythm, pauseRhythm, resumeRhythm, setWeeklyGoal } from '../modules/rhythm/rhythm';
 import { checkInPrompt, latestUnreviewed } from '../modules/checkin/checkin';
@@ -31,16 +31,17 @@ const MOODS: Record<RhythmStatus, Mood> = {
   comeback: 'energized',
 };
 const PAGE_SIZE = 4;
-const workoutsComingSoon = () => Alert.alert('Workouts', 'The workout library is coming with the Workouts tab.');
 
 type SheetName = null | 'goal' | 'settings' | 'pause' | 'resume' | 'rules' | 'week';
 
 export default function RhythmScreen() {
   useStore();
+  const nav = useAppNavigation();
   const rhythm = getRhythm();
   const [sheet, setSheet] = useState<SheetName>(null);
   const [openWeek, setOpenWeek] = useState<WeekResult | null>(null);
   const close = () => setSheet(null);
+  const openWorkouts = () => nav.navigate('Workouts');
   const pauseOpen = rhythm.paused && rhythm.pausedUntil === null;
   const nav = useAppNavigation();
   const unreviewed = latestUnreviewed();
@@ -78,9 +79,9 @@ export default function RhythmScreen() {
         </View>
       ) : null}
       {rhythm.status === 'active' || rhythm.status === 'comeback' ? (
-        <ListRow label="Choose your next session" onPress={workoutsComingSoon} />
+        <ListRow label="Choose your next session" onPress={openWorkouts} />
       ) : null}
-      {rhythm.status === 'complete' ? <ListRow label="Browse workouts" onPress={workoutsComingSoon} /> : null}
+      {rhythm.status === 'complete' ? <ListRow label="Browse workouts" onPress={openWorkouts} /> : null}
       {pauseOpen ? <ListRow label="Return from a break" onPress={() => setSheet('resume')} /> : null}
 
       {rhythm.status !== 'empty' && rhythm.status !== 'scheduled' ? (

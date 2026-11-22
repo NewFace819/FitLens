@@ -24,10 +24,10 @@ import {
   getActiveTraining,
   saveActiveTraining,
 } from '../modules/training/training-service';
-import type { TrainingAction } from '../modules/training/training-model';
+import { isDurationTarget, type TrainingAction } from '../modules/training/training-model';
 import { getExercise } from '../modules/workouts/exercises';
 import { getStore } from '../modules/workouts/store';
-import { getWeekSchedule } from '../modules/workouts/schedule';
+import { getSession, getWeekSchedule } from '../modules/workouts/schedule';
 import { toDateKey, weekStartOf } from '../shared/dates';
 import { storageReady } from '../shared/storage';
 import { Button, Divider, ListRow, Screen, TopBar } from '../ui/components';
@@ -43,6 +43,8 @@ const time = (ms: number) =>
 export default function TrainingScreen() {
   const nav = useAppNavigation();
   const params = useAppRoute<'Training'>().params;
+  const selectedId = params?.session ?? params?.workout;
+  const selectionKey = selectedId ? `${params?.session ? 'session' : 'workout'}:${selectedId}` : null;
   const [initial] = useState(() => {
     try {
       return { session: getActiveTraining(), error: '' };
@@ -64,6 +66,7 @@ export default function TrainingScreen() {
   const [ack, setAck] = useState(initial.session?.revision ?? 0);
   const [now, setNow] = useState(Date.now());
   const [rest, setRest] = useState('');
+  const [acceptedSelection, setAcceptedSelection] = useState<{ activeId: string; key: string } | null>(null);
   const dirty = session !== null && ack < session.revision;
   usePreventRemove(dirty || pending > 0 || busy, () => {
     Alert.alert(
@@ -114,7 +117,13 @@ export default function TrainingScreen() {
   };
   const act = (action: TrainingAction) =>
     change(s => actOnSession(s, action, Date.now()));
-  const begin = async (input: { workout?: string; session?: string }) => {
+  const acceptSelection = (activeId: string) => {
+    if (selectionKey) setAcceptedSelection({ activeId, key: selectionKey });
+  };
+  const begin = async (
+    input: { workout?: string; session?: string },
+    replace?: ActiveTraining,
+  ) => {
     if (busyRef.current) return;
     busyRef.current = true;
     setBusy(true);
@@ -122,7 +131,8 @@ export default function TrainingScreen() {
     try {
       if (rest !== '' && !/^\d+$/.test(rest))
         throw new Error('Enter a whole rest duration in seconds.');
-      const next = await beginWorkout(input, rest === '' ? undefined : Number(rest));
+      const next = await beginWorkout(input, rest === '' ? undefined : Number(rest), Date.now(), replace);
+      acceptSelection(next.id);
       publish(next);
       setAck(next.revision);
     } catch (e) {
@@ -208,8 +218,20 @@ export default function TrainingScreen() {
 
   const view = session ? advanceClock(session, now) : null;
   const exercise = view?.training.exercises[view.training.exerciseIndex];
+  const timed = isDurationTarget(exercise?.targetReps);
+  const lastSets = exercise ? getLastSets(exercise.exerciseId) : [];
+  const hasLastSets = lastSets.some(set => (set.durationSec !== undefined) === timed);
   const terminal = !!session?.finishedAt;
   const locked = busy || terminal || session?.training.phase === 'paused';
+  const matchesSelection = params?.session
+    ? session?.sessionId === params.session
+    : session?.sessionId === null && session.workoutId === params?.workout;
+  const showConflict = !!session && !!selectionKey && !matchesSelection &&
+    !(acceptedSelection?.activeId === session.id && acceptedSelection.key === selectionKey);
+  const selectedWorkoutId = showConflict
+    ? params?.session ? getSession(params.session)?.workoutId : params?.workout
+    : undefined;
+  const selectedTitle = selectedWorkoutId ? getStore().getWorkout(selectedWorkoutId)?.title : undefined;
   const schedules = getWeekSchedule(weekStartOf(toDateKey(new Date()))).filter(
     s => s.status === 'planned',
   );
@@ -227,7 +249,31 @@ export default function TrainingScreen() {
           starting a workout.
         </Text>
       ) : null}
-      {session && view && exercise ? (
+      {session && params && showConflict ? (
+        <View style={styles.stack}>
+          <Text style={type.title}>A workout is in progress</Text>
+          <Text style={type.body}>
+            {terminal ? `${session.title} still needs to be saved.` : `${session.title} is still active.`}{' '}
+            {selectedTitle ? `You selected ${selectedTitle}.` : 'You selected a different workout.'}
+          </Text>
+          <Button
+            title={terminal ? 'Return to save current workout' : 'Resume current workout'}
+            disabled={busy}
+            onPress={() => acceptSelection(session.id)}
+          />
+          {!terminal ? (
+            <>
+              <Text style={type.caption}>Starting the selected workout discards the current workout and its sets.</Text>
+              <Button
+                title="Discard and start selected workout"
+                variant="danger"
+                disabled={busy || !storageReady() || !selectedTitle}
+                onPress={() => { begin(params, session); }}
+              />
+            </>
+          ) : null}
+        </View>
+      ) : session && view && exercise ? (
         <View style={styles.stack}>
           <Text style={type.title}>{session.title}</Text>
           <Text style={type.caption}>
@@ -277,16 +323,17 @@ export default function TrainingScreen() {
               set={set}
               index={index}
               locked={locked}
-              onEdit={(kg, reps) =>
-                act({ type: 'editSet', setIndex: index, kg, reps })
+              timed={timed}
+              onEdit={values =>
+                act({ type: 'editSet', setIndex: index, ...values })
               }
               onUndo={() => act({ type: 'undoSet', setIndex: index })}
-              onComplete={(kg, reps) =>
+              onComplete={values =>
                 change(s =>
                   actOnSession(
                     actOnSession(
                       s,
-                      { type: 'editSet', setIndex: index, kg, reps },
+                      { type: 'editSet', setIndex: index, ...values },
                       Date.now(),
                     ),
                     { type: 'completeSet', setIndex: index },
@@ -303,17 +350,11 @@ export default function TrainingScreen() {
             onPress={() => act({ type: 'addSet' })}
           />
           <Button
-            title={
-              getLastSets(exercise.exerciseId).length
-                ? 'Use last time'
-                : 'No previous sets'
-            }
-            disabled={locked || !getLastSets(exercise.exerciseId).length}
+            title={hasLastSets ? 'Use last time' : 'No previous sets'}
+            disabled={locked || !hasLastSets}
             variant="secondary"
             onPress={() =>
-              change(s =>
-                applyLastSets(s, getLastSets(exercise.exerciseId), Date.now()),
-              )
+              change(s => applyLastSets(s, lastSets, Date.now()))
             }
           />
           <Button

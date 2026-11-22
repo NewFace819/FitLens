@@ -29,6 +29,21 @@ const rest = () =>
     5000,
     { setIndex: 0 },
   );
+test('legacy timed snapshots preserve recorded reps while unfinished sets accept duration', () => {
+  const legacy = start();
+  const exercise = legacy.training.exercises[0];
+  exercise.targetReps = '5 min';
+  exercise.sets[0] = { kg: 0, reps: 20, done: true };
+  const restored = m.restoreTraining(legacy);
+  assert.deepEqual(restored.training.exercises[0].sets, exercise.sets);
+
+  const edited = act(restored, 'editSet', 1000, { setIndex: 1, durationSec: 285 });
+  const completed = act(edited, 'completeSet', 1000, { setIndex: 1 });
+  assert.deepEqual(completedSets(m.restoreTraining(completed).training), [
+    { exerciseId: 'push-up', kg: 0, reps: 20 },
+    { exerciseId: 'push-up', durationSec: 285 },
+  ]);
+});
 test('clock counts real elapsed time across background, without tick dependence', () => {
   const s = rest();
   const later = m.advanceClock(s, 35000);

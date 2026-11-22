@@ -9,11 +9,10 @@ export type ExercisePlan = Readonly<{
   restSec: number;
   targetReps?: number | string;
 }>;
-export type TrainingSet = Readonly<{
-  kg: number | null;
-  reps: number | null;
-  done: boolean;
-}>;
+export type SetValues =
+  | { kg: number | null; reps: number | null; durationSec?: never }
+  | { durationSec: number | null; kg?: never; reps?: never };
+export type TrainingSet = Readonly<SetValues & { done: boolean }>;
 export type TrainingExercise = Readonly<{
   exerciseId: string;
   restSec: number;
@@ -28,12 +27,7 @@ export type TrainingState = Readonly<{
 }>;
 export type TrainingAction =
   | { type: 'addSet' }
-  | {
-      type: 'editSet';
-      setIndex: number;
-      kg: number | null;
-      reps: number | null;
-    }
+  | ({ type: 'editSet'; setIndex: number } & SetValues)
   | { type: 'completeSet'; setIndex: number }
   | { type: 'undoSet'; setIndex: number }
   | { type: 'nextExercise' }
@@ -50,8 +44,7 @@ export type TrainingResult =
       reason: 'locked' | 'invalidSet' | 'invalidValues' | 'invalidTransition';
     };
 
-// Null means not entered; zero kg is valid for bodyweight. Completed sets need
-// explicit kg and positive integral reps, matching the prototype's input rules.
+// Null means not entered; zero kg is valid for bodyweight.
 const validKg = (value: unknown): value is number =>
   typeof value === 'number' &&
   Number.isFinite(value) &&
@@ -65,6 +58,27 @@ const validReps = (value: unknown): value is number =>
 
 export const validTarget = (value: unknown): value is number | string =>
   validReps(value) || (typeof value === 'string' && value.trim().length > 0 && value.length <= 80);
+
+export const isDurationTarget = (target: ExercisePlan['targetReps']): boolean =>
+  typeof target === 'string' &&
+  /^(?:\d+:[0-5]\d|\d+(?:\.\d+)?(?:\s*[-–]\s*\d+(?:\.\d+)?)?\s*(?:s|secs?|seconds?|m|mins?|minutes?))$/i.test(target.trim());
+
+export const validDuration = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
+
+export function validSetValues(values: SetValues, done: boolean): boolean {
+  if (values.durationSec !== undefined) {
+    return values.kg === undefined && values.reps === undefined &&
+      (validDuration(values.durationSec) || (!done && values.durationSec === null));
+  }
+  return (validKg(values.kg) || (!done && values.kg === null)) &&
+    (validReps(values.reps) || (!done && values.reps === null));
+}
+
+const emptySet = (target: ExercisePlan['targetReps']): TrainingSet =>
+  isDurationTarget(target)
+    ? { durationSec: null, done: false }
+    : { kg: null, reps: null, done: false };
 
 /** Input comes from a workout adapter, not raw persisted training state. */
 export function createTraining(
@@ -91,11 +105,7 @@ export function createTraining(
       exerciseId: item.exerciseId,
       restSec: item.restSec,
       ...(item.targetReps !== undefined ? { targetReps: item.targetReps } : {}),
-      sets: Array.from({ length: item.setCount }, () => ({
-        kg: null,
-        reps: null,
-        done: false,
-      })),
+      sets: Array.from({ length: item.setCount }, () => emptySet(item.targetReps)),
     })),
     exerciseIndex: 0,
     phase: 'working',
@@ -151,7 +161,7 @@ export function transitionTraining(
   const exercise = state.exercises[state.exerciseIndex];
   if (action.type === 'addSet') {
     if (!exercise) return fail('invalidTransition');
-    const sets = [...exercise.sets, { kg: null, reps: null, done: false }];
+    const sets = [...exercise.sets, emptySet(exercise.targetReps)];
     return accept({
       ...state,
       exercises: state.exercises.map((row, index) =>
@@ -167,21 +177,23 @@ export function transitionTraining(
     return fail('invalidSet');
   }
   const set = exercise.sets[action.setIndex];
+  const timed = isDurationTarget(exercise.targetReps);
   let updated: TrainingSet;
   let phase = state.phase;
   switch (action.type) {
     case 'editSet':
       if (set.done) return fail('locked');
       if (
-        !(action.kg === null || validKg(action.kg)) ||
-        !(action.reps === null || validReps(action.reps))
+        timed !== (action.durationSec !== undefined) || !validSetValues(action, false)
       )
         return fail('invalidValues');
-      updated = { kg: action.kg, reps: action.reps, done: false };
+      updated = action.durationSec !== undefined
+        ? { durationSec: action.durationSec, done: false }
+        : { kg: action.kg, reps: action.reps, done: false };
       break;
     case 'completeSet':
       if (set.done) return fail('invalidTransition');
-      if (!validKg(set.kg) || !validReps(set.reps))
+      if (timed !== (set.durationSec !== undefined) || !validSetValues(set, true))
         return fail('invalidValues');
       updated = { ...set, done: true };
       phase =
@@ -218,10 +230,12 @@ export function transitionTraining(
  */
 export function completedSets(state: TrainingState): SetRecord[] {
   return state.exercises.flatMap(exercise =>
-    exercise.sets.flatMap(set =>
-      set.done && validKg(set.kg) && validReps(set.reps)
-        ? [{ exerciseId: exercise.exerciseId, kg: set.kg, reps: set.reps }]
-        : [],
-    ),
+    exercise.sets.flatMap((set): SetRecord[] => {
+      if (!set.done) return [];
+      const { exerciseId } = exercise;
+      if (validDuration(set.durationSec)) return [{ exerciseId, durationSec: set.durationSec }];
+      if (validKg(set.kg) && validReps(set.reps)) return [{ exerciseId, kg: set.kg, reps: set.reps }];
+      return [];
+    }),
   );
 }

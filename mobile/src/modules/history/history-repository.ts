@@ -35,18 +35,11 @@ export async function saveHistory(entry: HistoryEntry): Promise<HistoryEntry> {
     !Number.isFinite(Date.parse(entry.completedAt)) ||
     !Array.isArray(entry.sets) ||
     (!entry.sets.length && !entry.stoppedByPain) ||
-    entry.sets.some(
+    parsed.sets.length !== entry.sets.length ||
+    parsed.sets.some(
       s =>
-        !s ||
-        typeof s.exerciseId !== 'string' ||
-        !s.exerciseId.trim() ||
-        typeof s.kg !== 'number' ||
-        !Number.isFinite(s.kg) ||
-        s.kg < 0 ||
-        s.kg > 1000 ||
-        !Number.isInteger(s.reps) ||
-        s.reps < 1 ||
-        s.reps > 999,
+        s.durationSec === undefined &&
+        (s.kg === null || s.kg > 1000 || s.reps < 1 || s.reps > 999),
     )
   ) {
     throw new Error('Invalid completed workout.');

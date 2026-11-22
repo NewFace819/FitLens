@@ -1,3 +1,5 @@
+import { validDuration } from './training-model';
+
 /** Empty means draft; only explicit, finite decimal numbers may be completed. */
 export function parseSetInput(
   kgText: string,
@@ -18,4 +20,15 @@ export function parseSetInput(
   )
     return null;
   return { kg, reps };
+}
+
+
+export function parseSetDuration(text: string): { durationSec: number | null } | null {
+  const value = text.trim();
+  if (!value) return { durationSec: null };
+  const match = /^(\d+):([0-5]\d)$/.exec(value);
+  const durationSec = match
+    ? Number(match[1]) * 60 + Number(match[2])
+    : /^\d+$/.test(value) ? Number(value) : NaN;
+  return validDuration(durationSec) ? { durationSec } : null;
 }

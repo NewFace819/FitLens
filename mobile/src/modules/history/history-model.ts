@@ -1,5 +1,8 @@
 /** Owner: Đức Huy (npdwuy). Pure helpers; no UI, storage or shared-module writes. */
-export type SetRecord = { exerciseId: string; kg: number | null; reps: number };
+export type SetRecord = { exerciseId: string } & (
+  | { kg: number | null; reps: number; durationSec?: never }
+  | { durationSec: number; kg?: never; reps?: never }
+);
 
 // Structural match for Tu's history placeholder. Date validation is supplied by
 // the shared date module when the integration branch is selected.
@@ -30,9 +33,13 @@ const isNonNegativeInteger = (value: unknown): value is number =>
   typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 
 export function parseSetRecord(value: unknown): SetRecord | null {
+  if (!isObject(value) || !isId(value.exerciseId)) return null;
+  if (value.durationSec !== undefined) {
+    if (!isNonNegativeInteger(value.durationSec) || value.durationSec === 0 ||
+        value.kg !== undefined || value.reps !== undefined) return null;
+    return { exerciseId: value.exerciseId, durationSec: value.durationSec };
+  }
   if (
-    !isObject(value) ||
-    !isId(value.exerciseId) ||
     !isNonNegativeInteger(value.reps) ||
     !(
       value.kg === null ||

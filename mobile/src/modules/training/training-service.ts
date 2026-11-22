@@ -56,8 +56,9 @@ export async function beginWorkout(
   params: { workout?: string; session?: string },
   restSec?: number,
   nowMs = Date.now(),
+  replace?: Pick<ActiveTraining, 'id' | 'revision'>,
 ): Promise<ActiveTraining> {
-  if (getActiveTraining())
+  if (!replace && getActiveTraining())
     throw new Error('Resume or discard the current workout first.');
   if (restSec !== undefined && (!Number.isInteger(restSec) || restSec < 0 || restSec > 3600))
     throw new Error('Choose a rest time from 0 to 3600 seconds.');
@@ -85,7 +86,16 @@ export async function beginWorkout(
     nowMs,
   );
   if (!session) throw new Error('Workout plan is invalid.');
-  return saveActiveTraining(session);
+  if (!replace) return saveActiveTraining(session);
+
+  // Validate the replacement before changing the existing checkpoint. If the
+  // write fails or another screen changes the workout, its snapshot stays put.
+  return updateDurable(KEYS.activeTraining, raw => {
+    const active = restoreTraining(raw);
+    if (!active || active.id !== replace.id || active.revision !== replace.revision || active.finishedAt)
+      throw new Error('The active workout has changed. Reopen Training and try again.');
+    return session;
+  });
 }
 
 /** Call only after explicit user confirmation. Does not erase history/reviews. */

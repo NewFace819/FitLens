@@ -124,6 +124,20 @@ local `eslint-plugin-jest` rule directory enumeration. Browser persistence and
 dialogs used adapters. Android lifecycle, camera and OS notifications still
 require native verification.
 
+### Regression checks after the fixes
+
+- Training asks before replacing a different active workout. Resuming preserves
+  the logged sets. Invalid selections, stale revisions and failed replacement
+  writes leave the previous checkpoint intact.
+- Timed sets accept seconds or `m:ss`, store actual duration in history and reuse
+  it after reload. Previously recorded rep-based sets keep their original values.
+- Rhythm opens Workouts. The prototype saves a stopped result before opening
+  check-in and keeps one history entry when the stopped page reloads.
+
+All four browser reproductions passed after the fixes. Automated suites passed
+23 foundation tests, 34 Training and persistence tests, 48 Jest tests and 55
+prototype tests. Native Android acceptance remains open.
+
 ## Next agent: remaining work and acceptance
 
 1. Read repository instructions and inspect current Git status before changing

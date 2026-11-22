@@ -1,6 +1,8 @@
 /** Pure clock + resumable workout snapshot. Background time counts; explicit pause freezes time. */
 import {
   createTraining,
+  isDurationTarget,
+  validSetValues,
   validTarget,
   transitionTraining,
   type TrainingState,
@@ -145,15 +147,17 @@ export function applyLastSets(
     throw new Error('locked');
   let next = advanceClock(session, nowMs);
   const exercise = next.training.exercises[next.training.exerciseIndex];
-  const sets = previous.filter(s => s.exerciseId === exercise.exerciseId);
+  const timed = isDurationTarget(exercise.targetReps);
+  const sets = previous.filter(s => s.exerciseId === exercise.exerciseId && (s.durationSec !== undefined) === timed);
   exercise.sets.forEach((set, setIndex) => {
     const old = sets[setIndex];
     if (set.done || !old || old.kg === null) return;
     const result = transitionTraining(next.training, {
       type: 'editSet',
       setIndex,
-      kg: old.kg,
-      reps: old.reps,
+      ...(old.durationSec !== undefined
+        ? { durationSec: old.durationSec }
+        : { kg: old.kg, reps: old.reps }),
     });
     if (result.ok) next = { ...next, training: result.state };
   });
@@ -200,22 +204,13 @@ export function restoreTraining(raw: unknown): ActiveTraining | null {
       !ex.sets.length
     )
       return null;
+    const timed = isDurationTarget(ex.targetReps);
     for (const set of ex.sets) {
       if (
         !set ||
         typeof set.done !== 'boolean' ||
-        !(
-          set.kg === null ||
-          (typeof set.kg === 'number' &&
-            Number.isFinite(set.kg) &&
-            set.kg >= 0 &&
-            set.kg <= 1000)
-        ) ||
-        !(
-          set.reps === null ||
-          (Number.isInteger(set.reps) && set.reps >= 1 && set.reps <= 999)
-        ) ||
-        (set.done && (set.kg === null || set.reps === null))
+        (set.durationSec !== undefined && !timed) ||
+        !validSetValues(set, set.done)
       )
         return null;
     }

@@ -20,7 +20,8 @@ Review this dependent branch against feature/mobile-workout-plan before main int
 
 ## Behavior and persistence
 
-- Weight 0 is explicit bodyweight; a blank weight or reps cannot complete a set.
+- Repetition sets require weight and reps. Enter 0 kg for bodyweight. Timed sets
+  accept seconds or `m:ss` and store the performed `durationSec`.
 - Targets are shown separately and never counted as performed reps.
 - Add set creates an empty draft. Use last time fills unfinished rows by index.
   Different set counts do not add or delete rows; completed rows remain unchanged.

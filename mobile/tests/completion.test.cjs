@@ -72,6 +72,31 @@ test('free workouts use null session, concurrent Finish calls share one operatio
   assert.equal(history.getHistory().length, 1);
   assert.equal(history.getHistory()[0].sessionId, null);
 });
+test('confirmed workout replacement preserves the old checkpoint on failure or conflict', async () => {
+  const p = await setup();
+  const active = await service.beginWorkout({ workout: 'tpl-upper' }, 30, now);
+  const requested = { session: 'ss-seed04' };
+  const draft = model.actOnSession(active, { type: 'editSet', setIndex: 0, kg: 20, reps: 8 }, now);
+  await service.saveActiveTraining(draft);
+  await assert.rejects(service.beginWorkout(requested, undefined, now, active), /has changed/);
+  await assert.rejects(service.beginWorkout({ workout: 'missing' }, undefined, now, draft), /unavailable/);
+
+  const save = p.save;
+  p.save = async (key, value) => {
+    if (key === storage.KEYS.activeTraining) throw Error('Device full');
+    await save(key, value);
+  };
+  await assert.rejects(service.beginWorkout(requested, undefined, now, draft), /Device full/);
+  await storage.hydrate(p);
+  assert.deepEqual(service.getActiveTraining(), draft);
+  p.save = save;
+
+  const next = await service.beginWorkout(requested, undefined, now, draft);
+  assert.equal(next.sessionId, requested.session);
+  assert.notEqual(next.id, active.id);
+  assert.deepEqual(service.getActiveTraining(), next);
+  assert.deepEqual(history.getHistory(), []);
+});
 test('every completion failure keeps a recoverable snapshot; reload/retry never duplicates', async () => {
   for (const failure of ['checkpoint', 'history', 'schedule', 'clear']) {
     const p = await setup();

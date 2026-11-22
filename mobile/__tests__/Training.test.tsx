@@ -9,12 +9,14 @@ import TrainingScreen from '../src/screens/training';
 import { hydrate, KEYS, type Persistence } from '../src/shared/storage';
 import { getHistory } from '../src/modules/history/history';
 import { getActiveTraining } from '../src/modules/training/training-service';
+import type { RootStackParamList } from '../src/shared/routes';
 import { usePreventRemove } from '@react-navigation/native';
 
 const mockNav = { replace: jest.fn(), navigate: jest.fn() };
+let mockParams: RootStackParamList['Training'];
 jest.mock('../src/navigation', () => ({
   useAppNavigation: () => mockNav,
-  useAppRoute: () => ({ params: undefined }),
+  useAppRoute: () => ({ params: mockParams }),
 }));
 jest.mock('@react-navigation/native', () => ({ usePreventRemove: jest.fn() }));
 // Native visual primitives are mocked, but the screen, set editor, models,
@@ -50,6 +52,7 @@ beforeEach(async () => {
   jest.useFakeTimers();
   jest.setSystemTime(new Date('2026-11-19T03:00:00Z'));
   jest.clearAllMocks();
+  mockParams = undefined;
   disk = new Map();
   persistence = {
     loadAll: async () => [...disk],
@@ -92,6 +95,12 @@ const enter = async (label: string, value: string) => {
   await act(async () => {
     input.props.onChangeText(value);
   });
+};
+
+const reopenTraining = async (params?: RootStackParamList['Training']) => {
+  await act(async () => app.unmount());
+  mockParams = params;
+  await act(async () => { app = Renderer.create(<TrainingScreen />); });
 };
 
 test('records a set, pauses/resumes and navigates only after durable Finish', async () => {
@@ -184,4 +193,46 @@ test('reopening the screen restores a paused workout without counting background
   expect(getActiveTraining()?.elapsedMs).toBe(paused?.elapsedMs);
   expect(getActiveTraining()?.restMs).toBe(paused?.restMs);
   expect(getActiveTraining()?.training.exercises[0].sets[0].done).toBe(true);
+});
+
+test('launching a different workout requires an explicit choice', async () => {
+  await click('Upper Body');
+  await enter('Set 1 weight in kg', '20');
+  await enter('Set 1 repetitions', '10');
+  await click('Complete set');
+
+  await reopenTraining({ workout: 'tpl-lower' });
+  expect(button('Undo set')).toBeUndefined();
+  await click('Resume current workout');
+  expect(button('Undo set')).toBeDefined();
+  expect(getActiveTraining()?.workoutId).toBe('tpl-upper');
+
+  await reopenTraining({ workout: 'tpl-lower' });
+  await click('Discard and start selected workout');
+  expect(getActiveTraining()?.workoutId).toBe('tpl-lower');
+  expect(getHistory()).toHaveLength(0);
+  expect(button('Resume current workout')).toBeUndefined();
+
+  await click('Finish workout');
+  await click('A fresh-air walk');
+  expect(button('Complete set')).toBeDefined();
+  expect(button('Resume current workout')).toBeUndefined();
+});
+
+test('timed walking records actual seconds and can reuse a previous duration', async () => {
+  await click('A fresh-air walk');
+  await enter('Set 1 duration', '5:60');
+  expect(button('Complete set').props.disabled).toBe(true);
+  await enter('Set 1 duration', '5:05');
+  await click('Complete set');
+  expect(getActiveTraining()?.training.exercises[0].sets[0]).toEqual({ durationSec: 305, done: true });
+  await click('Finish workout');
+  await hydrate(persistence);
+  expect(getHistory()[0].sets).toEqual([{ exerciseId: 'easy-walking-warm-up', durationSec: 305 }]);
+  expect(mockNav.replace).toHaveBeenCalledWith('CheckIn', { history: getHistory()[0].id });
+
+  await reopenTraining();
+  await click('A fresh-air walk');
+  await click('Use last time');
+  expect(getActiveTraining()?.training.exercises[0].sets[0]).toEqual({ durationSec: 305, done: false });
 });
