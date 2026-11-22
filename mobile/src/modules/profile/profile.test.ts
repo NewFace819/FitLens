@@ -3,8 +3,10 @@ import {
   getProfile,
   hasConfirmedName,
   isValidName,
+  isValidProfilePreferences,
   normalizeName,
   saveProfileName,
+  saveProfilePreferences,
   seedProfile,
 } from './profile';
 import { clearAll, hydrate, KEYS, write, type Persistence } from '../../shared/storage';
@@ -124,4 +126,131 @@ test('failed persistence in saveProfileName rolls back / leaves cache untouched 
   // In-memory cache must not count the name as confirmed or saved
   expect(getProfile().name).toBe('');
   expect(hasConfirmedName()).toBe(false);
+});
+
+test('saveProfilePreferences updates plan fields and preserves name/id', async () => {
+  await saveProfileName('Hải');
+  expect(getProfile().name).toBe('Hải');
+
+  const ok = await saveProfilePreferences({
+    goal: 'muscle',
+    experience: 'advanced',
+    daysPerWeek: 4,
+    minutes: 45,
+  });
+
+  expect(ok).toBe(true);
+  const p = getProfile();
+  expect(p.name).toBe('Hải');
+  expect(p.goal).toBe('muscle');
+  expect(p.experience).toBe('advanced');
+  expect(p.daysPerWeek).toBe(4);
+  expect(p.minutes).toBe(45);
+});
+
+test('saveProfilePreferences updates equipment and avoidRegions, allowing empty lists', async () => {
+  const ok1 = await saveProfilePreferences({
+    equipment: ['dumbbells', 'bands'],
+    avoidRegions: ['knees', 'back'],
+  });
+  expect(ok1).toBe(true);
+  expect(getProfile().equipment).toEqual(['dumbbells', 'bands']);
+  expect(getProfile().avoidRegions).toEqual(['knees', 'back']);
+
+  // Empty selections are completely valid
+  const ok2 = await saveProfilePreferences({
+    equipment: [],
+    avoidRegions: [],
+  });
+  expect(ok2).toBe(true);
+  expect(getProfile().equipment).toEqual([]);
+  expect(getProfile().avoidRegions).toEqual([]);
+});
+
+test('saveProfilePreferences rejects invalid patches and leaves profile unchanged', async () => {
+  seedProfile();
+  const baseline = getProfile();
+
+  // Invalid goal
+  expect(await saveProfilePreferences({ goal: 'invalid' as any })).toBe(false);
+  // Invalid experience
+  expect(await saveProfilePreferences({ experience: 'expert' as any })).toBe(false);
+  // Invalid daysPerWeek (< 1 or > 7)
+  expect(await saveProfilePreferences({ daysPerWeek: 0 })).toBe(false);
+  expect(await saveProfilePreferences({ daysPerWeek: 8 })).toBe(false);
+  expect(await saveProfilePreferences({ daysPerWeek: 3.5 })).toBe(false);
+  // Invalid minutes
+  expect(await saveProfilePreferences({ minutes: -10 })).toBe(false);
+  // Invalid equipment
+  expect(await saveProfilePreferences({ equipment: ['kettlebell' as any] })).toBe(false);
+  // Invalid avoidRegions
+  expect(await saveProfilePreferences({ avoidRegions: ['neck' as any] })).toBe(false);
+
+  expect(getProfile()).toEqual(baseline);
+});
+
+test('failed persistence in saveProfilePreferences rolls back cache', async () => {
+  const failingPersistence: Persistence = {
+    loadAll: async () => [],
+    save: async () => {
+      throw new Error('Write error');
+    },
+    remove: async () => {},
+  };
+
+  await hydrate(failingPersistence);
+  seedProfile();
+  const initialGoal = getProfile().goal;
+
+  const ok = await saveProfilePreferences({ goal: 'endurance' });
+  expect(ok).toBe(false);
+  expect(getProfile().goal).toBe(initialGoal);
+});
+
+test('saveProfilePreferences preserves non-picker custom values like minutes: 25 when updating other fields', async () => {
+  // Set custom minutes: 25
+  write(KEYS.profile, {
+    ...DEFAULT_PROFILE,
+    name: 'Đức Huy',
+    goal: 'habit',
+    minutes: 25,
+    daysPerWeek: 3,
+  });
+
+  expect(getProfile().minutes).toBe(25);
+
+  // Update only goal
+  const ok = await saveProfilePreferences({ goal: 'muscle' });
+  expect(ok).toBe(true);
+
+  const updated = getProfile();
+  expect(updated.goal).toBe('muscle');
+  expect(updated.minutes).toBe(25); // preserved 25 minutes!
+  expect(updated.daysPerWeek).toBe(3);
+  expect(updated.name).toBe('Đức Huy');
+});
+
+test('saveProfilePreferences with empty patch preserves stored data identically', async () => {
+  write(KEYS.profile, {
+    ...DEFAULT_PROFILE,
+    name: 'Test Name',
+    minutes: 25,
+  });
+  const baseline = getProfile();
+
+  const ok = await saveProfilePreferences({});
+  expect(ok).toBe(true);
+  expect(getProfile()).toEqual(baseline);
+});
+
+test('isValidProfilePreferences validates patch correctly', () => {
+  expect(isValidProfilePreferences({})).toBe(true);
+  expect(isValidProfilePreferences({ goal: 'strength' })).toBe(true);
+  expect(isValidProfilePreferences({ goal: 'unknown' as any })).toBe(false);
+  expect(isValidProfilePreferences({ daysPerWeek: 3 })).toBe(true);
+  expect(isValidProfilePreferences({ daysPerWeek: 10 })).toBe(false);
+  expect(isValidProfilePreferences({ equipment: ['dumbbells'] })).toBe(true);
+  expect(isValidProfilePreferences({ equipment: ['barbell' as any] })).toBe(false);
+  expect(isValidProfilePreferences({ avoidRegions: ['knees', 'ankles'] })).toBe(true);
+  expect(isValidProfilePreferences({ avoidRegions: ['feet' as any] })).toBe(false);
 });

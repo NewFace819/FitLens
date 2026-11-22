@@ -30,6 +30,46 @@ export const DEFAULT_PROFILE: Profile = {
   avoidRegions: [],
 };
 
+export type ProfilePreferencesPatch = {
+  goal?: Goal;
+  experience?: Experience;
+  daysPerWeek?: number;
+  minutes?: number;
+  equipment?: Equipment[];
+  avoidRegions?: Region[];
+};
+
+export const GOAL_OPTIONS: readonly { value: Goal; title: string; subtitle: string }[] = [
+  { value: 'habit', title: 'Build a habit', subtitle: 'Consistency and regular movement' },
+  { value: 'strength', title: 'Get stronger', subtitle: 'Progressive strength and stability' },
+  { value: 'muscle', title: 'Build muscle', subtitle: 'Hypertrophy and physical conditioning' },
+  { value: 'endurance', title: 'Improve stamina', subtitle: 'Aerobic and muscular endurance' },
+] as const;
+
+export const EXPERIENCE_OPTIONS: readonly { value: Experience; title: string; subtitle: string }[] = [
+  { value: 'beginner', title: 'Beginner', subtitle: 'New to exercise or returning after a break' },
+  { value: 'intermediate', title: 'Intermediate', subtitle: 'Regular training for 6+ months' },
+  { value: 'advanced', title: 'Advanced', subtitle: 'Multiple years of consistent workouts' },
+] as const;
+
+export const SESSIONS_PER_WEEK_OPTIONS = [2, 3, 4, 5] as const;
+
+export const DURATION_OPTIONS = [15, 30, 45, 60] as const;
+
+export const EQUIPMENT_OPTIONS: readonly { value: Equipment; label: string; description: string }[] = [
+  { value: 'dumbbells', label: 'Dumbbells', description: 'Adjustable or fixed weight pairs' },
+  { value: 'bands', label: 'Resistance Bands', description: 'Loop bands or elastic tubing' },
+] as const;
+
+export const REGION_OPTIONS: readonly { value: Region; label: string }[] = [
+  { value: 'knees', label: 'Knees' },
+  { value: 'back', label: 'Lower Back' },
+  { value: 'wrists', label: 'Wrists' },
+  { value: 'shoulders', label: 'Shoulders' },
+  { value: 'ankles', label: 'Ankles' },
+  { value: 'hips', label: 'Hips' },
+] as const;
+
 function parse(data: unknown): Profile {
   const p = (data ?? {}) as Partial<Profile> & Record<string, unknown>;
   return {
@@ -78,6 +118,59 @@ export async function saveProfileName(name: string): Promise<boolean> {
   const updated: Profile = {
     ...current,
     name: normalized,
+  };
+  return writeConfirmed(KEYS.profile, updated);
+}
+
+export function isValidProfilePreferences(patch: ProfilePreferencesPatch): boolean {
+  if (patch.goal !== undefined && !isOneOf(GOALS, patch.goal)) {
+    return false;
+  }
+  if (patch.experience !== undefined && !isOneOf(EXPERIENCES, patch.experience)) {
+    return false;
+  }
+  if (patch.daysPerWeek !== undefined) {
+    if (!Number.isInteger(patch.daysPerWeek) || patch.daysPerWeek < 1 || patch.daysPerWeek > 7) {
+      return false;
+    }
+  }
+  if (patch.minutes !== undefined) {
+    if (!Number.isFinite(patch.minutes) || patch.minutes <= 0) {
+      return false;
+    }
+  }
+  if (patch.equipment !== undefined) {
+    if (!Array.isArray(patch.equipment) || !patch.equipment.every((e) => isOneOf(EQUIPMENT, e))) {
+      return false;
+    }
+  }
+  if (patch.avoidRegions !== undefined) {
+    if (!Array.isArray(patch.avoidRegions) || !patch.avoidRegions.every((r) => isOneOf(REGIONS, r))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Stores updated training and plan preferences through the profile owner API.
+ * Uses writeConfirmed to ensure that failed persistence does not leave dirty
+ * cache or count as successful progress.
+ * Preserves all other profile fields (including name, id, and any future extensions).
+ */
+export async function saveProfilePreferences(patch: ProfilePreferencesPatch): Promise<boolean> {
+  if (!isValidProfilePreferences(patch)) {
+    return false;
+  }
+  const current = getProfile();
+  const updated: Profile = {
+    ...current,
+    ...(patch.goal !== undefined ? { goal: patch.goal } : {}),
+    ...(patch.experience !== undefined ? { experience: patch.experience } : {}),
+    ...(patch.daysPerWeek !== undefined ? { daysPerWeek: patch.daysPerWeek } : {}),
+    ...(patch.minutes !== undefined ? { minutes: patch.minutes } : {}),
+    ...(patch.equipment !== undefined ? { equipment: [...patch.equipment] } : {}),
+    ...(patch.avoidRegions !== undefined ? { avoidRegions: [...patch.avoidRegions] } : {}),
   };
   return writeConfirmed(KEYS.profile, updated);
 }
