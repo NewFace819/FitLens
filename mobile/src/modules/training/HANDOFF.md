@@ -100,6 +100,30 @@ hydration, reset during writes, ordered bridge removal, custom workout snapshots
 planned-rest defaults, owner start callbacks, delayed CheckIn saves and UI recovery.
 React renderer/native mocks are not evidence of device layout or OS lifecycle correctness.
 
+### Browser QA on `db954e4` (2026-11-22)
+
+Tested the seven mobile screens with sample data through React Native Web and the
+Training flow in the HTML prototype. All 11 mobile workout templates opened.
+Browser checks covered set validation and undo, rest and pause, resuming a
+session, discarding and finishing, scheduled completion, editing and saving
+check-ins, workout editing, weekly planning, rhythm goals and reminder settings.
+With simulated storage, a paused session recovered after reload. Injected
+checkpoint, Finish and check-in write failures recovered on retry. Retrying
+Finish produced one history entry.
+
+| Finding | Reproduction |
+| --- | --- |
+| Mobile Training silently opens an active workout in place of the selected workout. | Start Upper Body, return to Home, then open Workouts → Lower Body → Start workout. Training shows Upper Body without a prompt. |
+| Mobile Training cannot record duration for timed exercises. | Start A fresh-air walk. Its first exercise targets 5 min per set, but the editor accepts only kg and whole-number reps. Entering `5:00` leaves Complete set disabled. |
+| The HTML prototype can lose completed sets after a pain stop. | Complete a set, select I feel pain → Back to stopped session, then leave without opening check-in. No history entry appears. Starting the workout again shows zero completed sets. |
+| The mobile Rhythm shortcut still opens a placeholder. | Select Your rhythm → Browse workouts. A coming-soon alert appears even though the Home → Workouts route works. |
+
+TypeScript, the Android Metro production JS bundle and all 155 automated tests
+passed. Lint passed after filtering the Windows-generated `desktop.ini` from the
+local `eslint-plugin-jest` rule directory enumeration. Browser persistence and
+dialogs used adapters. Android lifecycle, camera and OS notifications still
+require native verification.
+
 ## Next agent: remaining work and acceptance
 
 1. Read repository instructions and inspect current Git status before changing
