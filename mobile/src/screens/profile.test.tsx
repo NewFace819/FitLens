@@ -450,6 +450,75 @@ test('Equipment & Areas editor toggles multi-selects and saves empty arrays', as
   expect(getProfile().avoidRegions).toEqual([]);
 });
 
+test('Equipment & Areas editor Cancel button discards draft changes', async () => {
+  write(KEYS.profile, {
+    ...DEFAULT_PROFILE,
+    equipment: ['dumbbells'],
+    avoidRegions: ['knees'],
+  });
+
+  const renderer = await renderProfileScreen();
+  const root = renderer.root;
+  const equipRow = root.findByProps({ accessibilityLabel: 'Equipment & Areas to Avoid' });
+
+  ReactTestRenderer.act(() => {
+    equipRow.props.onPress();
+  });
+
+  // Toggle resistance bands on
+  const bandsCheckbox = root.findByProps({
+    accessibilityLabel: 'Resistance Bands, Loop bands or elastic tubing',
+  });
+  ReactTestRenderer.act(() => {
+    bandsCheckbox.props.onPress();
+  });
+
+  // Cancel editing
+  const cancelBtn = root.findByProps({ accessibilityLabel: 'Cancel editing' });
+  ReactTestRenderer.act(() => {
+    cancelBtn.props.onPress();
+  });
+
+  // Returned to overview, profile remains unchanged
+  expect(root.findByProps({ children: 'Settings', accessibilityRole: 'header' })).toBeTruthy();
+  expect(getProfile().equipment).toEqual(['dumbbells']);
+  expect(getProfile().avoidRegions).toEqual(['knees']);
+});
+
+test('Equipment & Areas editor saves partial updates only modifying changed fields', async () => {
+  write(KEYS.profile, {
+    ...DEFAULT_PROFILE,
+    equipment: ['dumbbells'],
+    avoidRegions: ['knees'],
+  });
+
+  const renderer = await renderProfileScreen();
+  const root = renderer.root;
+  const equipRow = root.findByProps({ accessibilityLabel: 'Equipment & Areas to Avoid' });
+
+  ReactTestRenderer.act(() => {
+    equipRow.props.onPress();
+  });
+
+  // Toggle resistance bands on (equipment modified, avoidRegions untouched)
+  const bandsCheckbox = root.findByProps({
+    accessibilityLabel: 'Resistance Bands, Loop bands or elastic tubing',
+  });
+  ReactTestRenderer.act(() => {
+    bandsCheckbox.props.onPress();
+  });
+
+  // Save preferences
+  const saveBtn = root.findByProps({ accessibilityLabel: 'Save preferences' });
+  await ReactTestRenderer.act(async () => {
+    await saveBtn.props.onPress();
+  });
+
+  expect(root.findByProps({ children: 'Settings', accessibilityRole: 'header' })).toBeTruthy();
+  expect(getProfile().equipment).toEqual(['dumbbells', 'bands']);
+  expect(getProfile().avoidRegions).toEqual(['knees']);
+});
+
 test('Health Connect status page displays connection state and settings button calls adapter', async () => {
   const openSettingsMock = jest.fn().mockResolvedValue(true);
   const adapter = createMockAdapter({
@@ -507,6 +576,35 @@ test('Health Connect represents update-needed and unavailable statuses accuratel
   const unavailRenderer = await renderProfileScreen({ healthConnectAdapter: unavailAdapter });
   const unavailRow = unavailRenderer.root.findByProps({ accessibilityLabel: 'Health Connect, Unavailable' });
   expect(unavailRow).toBeTruthy();
+});
+
+test('Health Connect provider-update-required status page action updates provider', async () => {
+  const openProviderMock = jest.fn().mockResolvedValue(true);
+  const updateAdapter = createMockAdapter({
+    getSdkStatus: jest.fn().mockResolvedValue('provider-update-required'),
+    checkPermission: jest.fn().mockResolvedValue(false),
+    openHealthConnectProvider: openProviderMock,
+  });
+
+  const renderer = await renderProfileScreen({ healthConnectAdapter: updateAdapter });
+  const root = renderer.root;
+  const updateRow = root.findByProps({ accessibilityLabel: 'Health Connect, Update needed' });
+
+  ReactTestRenderer.act(() => {
+    updateRow.props.onPress();
+  });
+
+  expect(root.findByProps({ children: 'Health Connect', accessibilityRole: 'header' })).toBeTruthy();
+
+  // Action button visible text and accessible label agree: 'Update Health Connect'
+  const updateBtn = root.findByProps({ accessibilityLabel: 'Update Health Connect' });
+  expect(updateBtn).toBeTruthy();
+
+  await ReactTestRenderer.act(async () => {
+    await updateBtn.props.onPress();
+  });
+
+  expect(openProviderMock).toHaveBeenCalledTimes(1);
 });
 
 test('Reminders row navigates to existing Reminders route via nav.navigate', async () => {

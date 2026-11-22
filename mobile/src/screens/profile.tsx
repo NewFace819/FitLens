@@ -250,6 +250,31 @@ export function VectorCheckmark({
   );
 }
 
+export function VectorBackArrow({
+  size = 24,
+  color = SETTINGS_COLORS.textPrimary,
+  strokeWidth = 2.4,
+  style,
+}: {
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+  style?: StyleProp<ViewStyle>;
+}) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" style={style} aria-hidden={true}>
+      <Path
+        d="m14 5-7 7 7 7"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </Svg>
+  );
+}
+
 // -------------------------------------------------------------------
 // Component: Account Avatar with Initials
 // -------------------------------------------------------------------
@@ -1412,6 +1437,14 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Hardware Back button on Android: cancels editing and discards draft
+  useScopedBackHandler(
+    useCallback(() => {
+      onCancel();
+      return true;
+    }, [onCancel])
+  );
+
   const toggleEquipment = (item: Equipment) => {
     setSelectedEquipment((prev) => (prev.includes(item) ? prev.filter((e) => e !== item) : [...prev, item]));
   };
@@ -1467,31 +1500,79 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-      {/* Top Header */}
-      <View style={styles.editorTopBar}>
+      {/* Top Header matching Training Plan visual hierarchy */}
+      <View style={[styles.editorTopBar, styles.trainingPlanTopBar]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Cancel editing"
           onPress={onCancel}
-          style={({ pressed }) => [styles.editorNavBtn, pressed && styles.pressed]}
-          hitSlop={8}
+          style={({ pressed }) => [styles.editorHeaderCircleBtn, pressed && styles.pressed]}
+          hitSlop={4}
         >
-          <Text style={styles.editorNavBtnText}>Cancel</Text>
+          <View style={styles.editorCancelCircle}>
+            <Svg width={42} height={42} style={StyleSheet.absoluteFill} pointerEvents="none">
+              <Defs>
+                <LinearGradient id="equipCancelEdgeGrad" x1="0" y1="0" x2="0" y2="1">
+                  <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.65} />
+                  <Stop offset="45%" stopColor="#FFFFFF" stopOpacity={0.15} />
+                  <Stop offset="100%" stopColor="#3C3C43" stopOpacity={0.12} />
+                </LinearGradient>
+              </Defs>
+              <Circle cx={21} cy={21} r={20.5} stroke="url(#equipCancelEdgeGrad)" strokeWidth={1} fill="none" />
+            </Svg>
+            <VectorClose
+              size={17}
+              color="#3C3C43"
+              strokeWidth={1.6}
+              pathOverride="M 4.0 4.0 L 12.0 12.0 M 12.0 4.0 L 4.0 12.0"
+            />
+          </View>
         </Pressable>
-        <Text style={styles.editorNavTitle} accessibilityRole="header">
+
+        <Text
+          style={styles.editorNavTitle}
+          accessibilityRole="header"
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
           Equipment & Areas
         </Text>
+
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Save preferences"
+          accessibilityLabel={isSaving ? 'Saving preferences…' : 'Save preferences'}
+          accessibilityState={{ disabled: isSaving, busy: isSaving }}
           onPress={handleSave}
           disabled={isSaving}
-          style={({ pressed }) => [styles.editorNavBtn, pressed && styles.pressed]}
-          hitSlop={8}
+          style={({ pressed }) => [
+            styles.editorHeaderCircleBtn,
+            isSaving && styles.disabledBtn,
+            pressed && styles.pressed,
+          ]}
+          hitSlop={4}
         >
-          <Text style={[styles.editorSaveBtnText, isSaving && styles.disabledText]}>
-            {isSaving ? 'Saving…' : 'Save'}
-          </Text>
+          <View style={[styles.editorSaveCircle, isSaving && styles.editorSaveCircleDisabled]}>
+            <Svg width={42} height={42} style={StyleSheet.absoluteFill} pointerEvents="none">
+              <Defs>
+                <LinearGradient id="equipSaveEdgeGrad" x1="0" y1="0" x2="0" y2="1">
+                  <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.42} />
+                  <Stop offset="45%" stopColor="#FFFFFF" stopOpacity={0.16} />
+                  <Stop offset="100%" stopColor="#142364" stopOpacity={0.25} />
+                </LinearGradient>
+              </Defs>
+              <Circle cx={21} cy={21} r={20.5} stroke="url(#equipSaveEdgeGrad)" strokeWidth={1} fill="none" />
+            </Svg>
+            {isSaving ? (
+              <ActivityIndicator size="small" color="#FFFFFF" />
+            ) : (
+              <VectorCheckmark
+                size={18}
+                color="#FFFFFF"
+                strokeWidth={1.65}
+                pathOverride="M 4.2 9.4 L 7.4 12.6 L 14.8 4.2"
+              />
+            )}
+          </View>
         </Pressable>
       </View>
 
@@ -1532,7 +1613,14 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
                       <Text style={styles.selectableRowSubtitle}>{opt.description}</Text>
                     </View>
                     <View style={[styles.checkboxBox, isSelected && styles.checkboxBoxActive]}>
-                      {isSelected ? <Text style={styles.checkboxCheck}>✓</Text> : null}
+                      {isSelected ? (
+                        <VectorCheckmark
+                          size={13}
+                          color="#FFFFFF"
+                          strokeWidth={2.0}
+                          pathOverride="M 2.8 7.0 L 5.6 9.8 L 11.2 3.8"
+                        />
+                      ) : null}
                     </View>
                   </Pressable>
                   {i < EQUIPMENT_OPTIONS.length - 1 ? <View style={styles.innerDivider} /> : null}
@@ -1571,7 +1659,14 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
                       <Text style={styles.selectableRowTitle}>{opt.label}</Text>
                     </View>
                     <View style={[styles.checkboxBox, isSelected && styles.checkboxBoxActive]}>
-                      {isSelected ? <Text style={styles.checkboxCheck}>✓</Text> : null}
+                      {isSelected ? (
+                        <VectorCheckmark
+                          size={13}
+                          color="#FFFFFF"
+                          strokeWidth={2.0}
+                          pathOverride="M 2.8 7.0 L 5.6 9.8 L 11.2 3.8"
+                        />
+                      ) : null}
                     </View>
                   </Pressable>
                   {i < REGION_OPTIONS.length - 1 ? <View style={styles.innerDivider} /> : null}
@@ -1595,6 +1690,16 @@ interface HealthConnectStatusPageProps {
   onBack: () => void;
 }
 
+interface HealthConnectBadge {
+  title: string;
+  desc: string;
+  dotColor: string;
+  badgeBg: string;
+  badgeText: string;
+  actionText: string | null;
+  actionLabel: string | null;
+}
+
 function HealthConnectStatusPage({
   sdkStatus,
   permissionGranted,
@@ -1602,6 +1707,14 @@ function HealthConnectStatusPage({
   onBack,
 }: HealthConnectStatusPageProps) {
   const [openingSettings, setOpeningSettings] = useState(false);
+
+  // Hardware Back button on Android: returns to overview
+  useScopedBackHandler(
+    useCallback(() => {
+      onBack();
+      return true;
+    }, [onBack])
+  );
 
   const handleOpenSettings = async () => {
     setOpeningSettings(true);
@@ -1616,7 +1729,7 @@ function HealthConnectStatusPage({
     }
   };
 
-  const getStatusBadge = () => {
+  const getStatusBadge = (): HealthConnectBadge => {
     if (sdkStatus === 'available') {
       if (permissionGranted) {
         return {
@@ -1625,6 +1738,8 @@ function HealthConnectStatusPage({
           dotColor: SETTINGS_COLORS.statusGreen,
           badgeBg: '#DCFCE7',
           badgeText: 'Connected',
+          actionText: 'Open Health Connect Settings',
+          actionLabel: 'Open Health Connect settings',
         };
       }
       return {
@@ -1633,6 +1748,8 @@ function HealthConnectStatusPage({
         dotColor: '#F59E0B',
         badgeBg: '#FEF3C7',
         badgeText: 'Not connected',
+        actionText: 'Open Health Connect Settings',
+        actionLabel: 'Open Health Connect settings',
       };
     }
     if (sdkStatus === 'provider-update-required') {
@@ -1642,6 +1759,8 @@ function HealthConnectStatusPage({
         dotColor: '#F97316',
         badgeBg: '#FFEDD5',
         badgeText: 'Update needed',
+        actionText: 'Update Health Connect',
+        actionLabel: 'Update Health Connect',
       };
     }
     return {
@@ -1650,6 +1769,8 @@ function HealthConnectStatusPage({
       dotColor: '#9CA3AF',
       badgeBg: '#F3F4F6',
       badgeText: 'Unavailable',
+      actionText: null,
+      actionLabel: null,
     };
   };
 
@@ -1658,7 +1779,7 @@ function HealthConnectStatusPage({
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
       {/* Top Header */}
-      <View style={styles.editorTopBar}>
+      <View style={[styles.editorTopBar, styles.subpageTopBar]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Back to Settings"
@@ -1666,9 +1787,9 @@ function HealthConnectStatusPage({
           style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
           hitSlop={8}
         >
-          <Text style={styles.backButtonChevron}>‹</Text>
+          <VectorBackArrow size={24} color={SETTINGS_COLORS.textPrimary} strokeWidth={2.4} />
         </Pressable>
-        <Text style={styles.editorNavTitle} accessibilityRole="header">
+        <Text style={styles.editorNavTitle} accessibilityRole="header" numberOfLines={1} ellipsizeMode="tail">
           Health Connect
         </Text>
         <View style={styles.headerSpacer} />
@@ -1688,20 +1809,16 @@ function HealthConnectStatusPage({
               <Text style={styles.statusCardTitle}>{badge.title}</Text>
               <Text style={styles.statusCardDesc}>{badge.desc}</Text>
 
-              {sdkStatus === 'available' || sdkStatus === 'provider-update-required' ? (
+              {badge.actionText ? (
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel="Open Health Connect settings"
+                  accessibilityLabel={openingSettings ? 'Opening…' : (badge.actionLabel ?? badge.actionText)}
                   onPress={handleOpenSettings}
                   disabled={openingSettings}
                   style={({ pressed }) => [styles.primaryActionBtn, pressed && styles.pressed]}
                 >
                   <Text style={styles.primaryActionBtnText}>
-                    {openingSettings
-                      ? 'Opening…'
-                      : sdkStatus === 'provider-update-required'
-                        ? 'Update Health Connect'
-                        : 'Open Health Connect Settings'}
+                    {openingSettings ? 'Opening…' : badge.actionText}
                   </Text>
                 </Pressable>
               ) : null}
@@ -1748,10 +1865,18 @@ interface PrivacyDataPageProps {
 }
 
 function PrivacyDataPage({ onBack }: PrivacyDataPageProps) {
+  // Hardware Back button on Android: returns to overview
+  useScopedBackHandler(
+    useCallback(() => {
+      onBack();
+      return true;
+    }, [onBack])
+  );
+
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
       {/* Top Header */}
-      <View style={styles.editorTopBar}>
+      <View style={[styles.editorTopBar, styles.subpageTopBar]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Back to Settings"
@@ -1759,9 +1884,9 @@ function PrivacyDataPage({ onBack }: PrivacyDataPageProps) {
           style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
           hitSlop={8}
         >
-          <Text style={styles.backButtonChevron}>‹</Text>
+          <VectorBackArrow size={24} color={SETTINGS_COLORS.textPrimary} strokeWidth={2.4} />
         </Pressable>
-        <Text style={styles.editorNavTitle} accessibilityRole="header">
+        <Text style={styles.editorNavTitle} accessibilityRole="header" numberOfLines={1} ellipsizeMode="tail">
           Privacy & Data
         </Text>
         <View style={styles.headerSpacer} />
@@ -1856,19 +1981,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   backButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
     marginLeft: -4,
-  },
-  backButtonChevron: {
-    fontSize: 32,
-    color: SETTINGS_COLORS.textPrimary,
-    lineHeight: 34,
-    marginTop: -2,
   },
   accountCardWrap: {
     marginHorizontal: 16,
@@ -2095,6 +2214,12 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 6,
   },
+  subpageTopBar: {
+    borderBottomWidth: 0,
+    borderBottomColor: 'transparent',
+    paddingTop: 12,
+    paddingBottom: 6,
+  },
   editorHeaderCircleBtn: {
     minWidth: 48,
     minHeight: 48,
@@ -2158,7 +2283,8 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   headerSpacer: {
-    minWidth: 64,
+    minWidth: 44,
+    width: 44,
   },
   editorScrollContent: {
     paddingVertical: 20,
