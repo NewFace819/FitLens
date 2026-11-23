@@ -1,6 +1,6 @@
 # FitLens — Project State
 
-> Cập nhật: 2026-11-19 (tối). File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
+> Cập nhật: 2026-11-23. File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
 
 ## 1. Mốc (milestones)
 
@@ -18,7 +18,7 @@
 | PoC sinh lịch tập bằng Gemini | `poc/plan_generator/` | Có | Chạy được từ CLI, chưa là API |
 | Backend FastAPI | `backend/` | Chưa có code | Chỉ có README |
 | Mobile React Native (Android) | `mobile/` | RN 0.88.1 + TypeScript, chỉ Android | Xem mục 3. `tsc` và `jest` chạy qua (5 suite, 23 test, 19/11). Chưa build Android vì máy chưa có Android SDK và JDK 17 |
-| Pose estimation (MediaPipe) | — | Chưa có | Chỉ là thiết kế |
+| Pose estimation (MediaPipe) | `poc/rep_counter/`, `mobile/src/modules/camera/rep-counter.ts` | PoC Python + bộ đếm TypeScript | PoC đếm squat từ video bằng MediaPipe Pose (đúng 9/9 trên video quay đủ người, xem README của PoC). Bộ đếm và công thức góc gối đã port sang TS thuần, có test khớp PoC. **Chưa chạy trên camera Android**: còn thiếu bước lấy landmark thời gian thực (DO2) |
 | Database (Supabase) | — | Chưa có | Chỉ là thiết kế |
 
 ## 3. Mobile: trạng thái theo module
@@ -55,7 +55,7 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 ## 5. Khoảng trống so với định hướng (F1–F7)
 
 1. Vòng tự điều chỉnh: RPE sau buổi → tăng/giảm độ khó tuần sau **chưa nối hoàn chỉnh** (mobile đã có logic điều chỉnh tải trong `checkin/`, chưa nối với Plan).
-2. Camera: chưa có pose estimation thật.
+2. Camera: thuật toán đếm rep đã có (PoC + `rep-counter.ts`), nhưng chưa có pose estimation chạy trên camera Android (cần chốt DO2: module native hay WebView).
 3. LLM: mới có PoC sinh lịch; chưa có Safety Router phía backend.
 4. Avatar: mới có biểu cảm, chưa "mạnh lên" theo luyện tập.
 5. Chưa có backend, DB, đồng bộ, đăng nhập (JWT).
@@ -101,7 +101,7 @@ Quy tắc: mỗi người chỉ sửa thư mục/màn của mình; gọi sang ng
 | DH4 | Đức Huy | Hoàn tất → lưu lịch sử, `markSessionDone()`, sang `CheckIn`; báo đau → dừng | Màn tập nối sang check-in | DH3 |
 | DO1 | Đỗ Huy | Xóa `food.*`, `chat.*` khỏi `prototype/` | PR nhỏ | — |
 | DO2 | Đỗ Huy | Thử camera: MediaPipe JS trong WebView hay native | Chốt cách làm | H3 |
-| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`) | Video demo | DO2 |
+| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`). Đã có sẵn `SquatCounter` và `kneeAngle()` trong `modules/camera/rep-counter.ts`: chỉ cần đưa 33 landmark vào `kneeAngle()` rồi kết quả vào `update()` | Video demo | DO2 |
 | DO4 | Đỗ Huy | Home bản đầu thay dev hub (rebase nhánh home có sẵn) | Home hiện buổi tới + nhịp | — |
 
 Ưu tiên khi trễ: Đỗ Huy làm camera trước Home; H3 của Hải trước mọi việc khác của Hải.
