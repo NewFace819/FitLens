@@ -63,8 +63,10 @@ jobs:
             mobile/android/gradle/wrapper/gradle-wrapper.properties
       - name: Install Android SDK pieces named in android/build.gradle
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platforms;android-37" "build-tools;37.0.0" "ndk;27.1.12297006"
+          SDKMANAGER="${ANDROID_HOME:-$ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+          ls -l "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "platforms;android-37" "build-tools;37.0.0" "ndk;27.1.12297006"
       - run: npm ci
       - name: Build
         working-directory: mobile/android
