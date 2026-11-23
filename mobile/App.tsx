@@ -10,6 +10,8 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getStartupRoute } from './src/modules/onboarding/onboarding';
 import { syncReminderNotifications } from './src/modules/reminders/notifications';
+import { startDeviceReminders } from './src/modules/reminders/device';
+import { notifyKitScheduler } from './src/modules/reminders/notifykit-scheduler';
 import CameraScreen from './src/screens/camera';
 import HistoryScreen from './src/screens/history';
 import InsightsScreen from './src/screens/insights';
@@ -30,6 +32,7 @@ import { nativePersistence } from './src/shared/storage-native';
 import { colors } from './src/ui/theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+startDeviceReminders(notifyKitScheduler); // real Android reminders, kept in step with the schedule (Tu)
 const theme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, background: colors.background } };
 
 export default function App() {

@@ -6,7 +6,9 @@ import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GOAL_OPTIONS, progressMessage, type Rhythm, type RhythmStatus, type WeekResult } from '../modules/rhythm/rhythm-model';
 import { getRhythm, pauseRhythm, resumeRhythm, setWeeklyGoal } from '../modules/rhythm/rhythm';
-import { nextMonday, shortDate, weekLabel } from '../shared/dates';
+import { checkInPrompt, latestUnreviewed } from '../modules/checkin/checkin';
+import { useAppNavigation } from '../navigation';
+import { dayLabel, nextMonday, shortDate, weekLabel } from '../shared/dates';
 import type { Mood } from '../shared/constants';
 import { Button, Chip, Divider, IconButton, ListRow, Mascot, Screen, Sheet, TopBar } from '../ui/components';
 import { colors, radius, space, type } from '../ui/theme';
@@ -40,6 +42,8 @@ export default function RhythmScreen() {
   const [openWeek, setOpenWeek] = useState<WeekResult | null>(null);
   const close = () => setSheet(null);
   const pauseOpen = rhythm.paused && rhythm.pausedUntil === null;
+  const nav = useAppNavigation();
+  const unreviewed = latestUnreviewed();
 
   return (
     <Screen>
@@ -55,6 +59,14 @@ export default function RhythmScreen() {
       />
 
       <WeekCard rhythm={rhythm} />
+
+      {unreviewed ? (
+        <ListRow
+          label={`How did ${checkInPrompt(unreviewed)} feel?`}
+          detail={`Check in · ${dayLabel(unreviewed.date)}`}
+          onPress={() => nav.navigate('CheckIn', { history: unreviewed.id })}
+        />
+      ) : null}
 
       {rhythm.status === 'empty' ? (
         <View style={{ marginTop: space.lg }}>

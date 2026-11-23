@@ -5,7 +5,7 @@
 import { hydrate, KEYS, read, write } from '../shared/storage';
 import { resetSampleData } from '../shared/seed';
 import { addDays, weekStartOf } from '../shared/dates';
-import { getCheckInContext, getLoadAdjustForWeek, submitCheckIn } from './checkin/checkin';
+import { getCheckInContext, getLoadAdjustForWeek, latestUnreviewed, submitCheckIn } from './checkin/checkin';
 import { getHistory, getReview, getReviews } from './history/history';
 import { getMascotMood } from './mascot/mascot';
 import { getReminder, pendingNotifications, setReminder } from './reminders/reminders';
@@ -58,6 +58,15 @@ test('check-in: ?history=<id> → appendReview → getReview / getReviews / masc
   // Re-saving replaces, one review per history entry.
   submitCheckIn({ historyId: entry.id, rpe: 5, discomfort: [], scores: {}, note: '' }, false, NOW);
   expect(getReviews().length).toBe(1);
+});
+
+test('fallback check-in entry: latest unreviewed session of the last 2 days only', () => {
+  const recent = latestUnreviewed(2, NOW); // Thu → Wed's session; Monday's is too old
+  expect(recent?.date).toBe('2026-11-11');
+  expect(getCheckInContext(recent!.id)).not.toBe(null);
+  submitCheckIn({ historyId: recent!.id, rpe: 6, discomfort: [], scores: {}, note: '' }, false, NOW);
+  expect(latestUnreviewed(2, NOW)).toBe(null);
+  expect(latestUnreviewed(3, NOW)?.date).toBe('2026-11-09');
 });
 
 test('load adjust for next week reads last week reviews', () => {
