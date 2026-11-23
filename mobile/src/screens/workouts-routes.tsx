@@ -17,7 +17,7 @@ export function WorkoutsRoute({ navigation }: NativeStackScreenProps<RootStackPa
   useStore();
   return (
     <SafeAreaView style={style} edges={['top', 'bottom']}>
-      <WorkoutsScreen store={getStore()} onStart={workout => navigation.navigate('Training', { workout })} />
+      <WorkoutsScreen store={getStore()} onStart={workout => navigation.navigate('Workout', { workout })} />
     </SafeAreaView>
   );
 }
@@ -26,7 +26,7 @@ export function PlanRoute({ navigation }: NativeStackScreenProps<RootStackParamL
   useStore();
   return (
     <SafeAreaView style={style} edges={['top', 'bottom']}>
-      <PlanScreen store={getStore()} onStart={session => navigation.navigate('Training', { session })} />
+      <PlanScreen store={getStore()} onStart={session => navigation.navigate('Workout', { session })} />
     </SafeAreaView>
   );
 }

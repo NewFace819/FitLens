@@ -43,7 +43,6 @@ export default function RhythmScreen() {
   const close = () => setSheet(null);
   const openWorkouts = () => nav.navigate('Workouts');
   const pauseOpen = rhythm.paused && rhythm.pausedUntil === null;
-  const nav = useAppNavigation();
   const unreviewed = latestUnreviewed();
 
   return (

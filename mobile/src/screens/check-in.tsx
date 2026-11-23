@@ -29,7 +29,7 @@ const FEEDBACK_COLORS: Record<ExerciseFeedback, string> = {
 
 export default function CheckInScreen() {
   const nav = useAppNavigation();
-  const history = useAppRoute<'CheckIn'>().params?.history;
+  const { history, fromWorkout } = useAppRoute<'CheckIn'>().params ?? {};
   const ctx = history ? getCheckInContext(history) : null;
 
   if (!ctx) {
@@ -40,10 +40,13 @@ export default function CheckInScreen() {
       </Screen>
     );
   }
-  return <CheckInForm key={ctx.entry.id} ctx={ctx} />;
+  return <CheckInForm key={ctx.entry.id} ctx={ctx} fromWorkout={fromWorkout} />;
 }
 
-function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInContext>> }) {
+function CheckInForm({ ctx, fromWorkout }: {
+  ctx: NonNullable<ReturnType<typeof getCheckInContext>>;
+  fromWorkout?: boolean;
+}) {
   const nav = useAppNavigation();
   const { entry, existing } = ctx;
   const stoppedByPain = entry.stoppedByPain;
@@ -90,6 +93,10 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
   };
 
   const rated = Object.keys(scores).length;
+  const leaveCheckIn = () => {
+    if (fromWorkout) nav.replace('Recap', { history: entry.id });
+    else goHome(nav);
+  };
 
   return (
     <Screen
@@ -286,7 +293,7 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
         <Text style={[type.body, { marginBottom: space.lg }]}>
           Your session is already saved. Without a check-in, next week’s plan can’t adjust to how this one felt.
         </Text>
-        <Button title="Skip for now" variant="secondary" onPress={() => goHome(nav)} />
+        <Button title="Skip for now" variant="secondary" onPress={leaveCheckIn} />
         <Button title="Keep checking in" variant="text" onPress={() => setSheet(null)} style={{ marginTop: space.sm }} />
       </Sheet>
 
@@ -300,7 +307,7 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
           {saved?.exerciseFeedback.length ? ` ${saved.exerciseFeedback.length} exercises rated.` : ''}
           {saved?.note ? ' Your note is included.' : ''}
         </Text>
-        <Button title="Back to Today" trailing="↗" onPress={() => goHome(nav)} />
+        <Button title={fromWorkout ? 'View recap' : 'Back to Today'} trailing="↗" onPress={leaveCheckIn} />
         <Button title="Keep editing" variant="text" onPress={() => setSheet(null)} style={{ marginTop: space.sm }} />
       </Sheet>
       </View>

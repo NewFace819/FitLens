@@ -2,29 +2,20 @@
 
 ## Status and branch dependency
 
-Implementation checkpoint: `5bf87af84e73b3db30e4e89c8074631139bd7fee`.
-Head branch: `feature/npdwuy-training`. Review base: `feature/mobile-workout-plan`
-at `e380872`, which contains Hải's real Workout/Plan implementation.
-The changes inherited from that base belong to their original authors.
-Do not merge into main before the dependency and affected-owner reviews are resolved.
-If the base changes or merges, inspect the resulting diff before retargeting the PR;
-do not blindly replay Hải's commits or overwrite either branch.
-
-The feature is implemented and automatically tested. Native Android acceptance,
-camera handoff and team review remain open. Keep the PR draft until these gates
-are addressed or explicitly scoped by the team. No merge or release is authorized
-by this handoff.
+Head branch: `feature/npdwuy-training`. Review base: `main`, which already
+includes Hải's Workout/Plan implementation from PR #9. PR #8 carries forward
+the Training changes, including both browser QA commits.
 
 ## Scope and entry points
 
 Đức Huy / npdwuy owns active Training and History/Review persistence.
 Đỗ Huy owns Home, mascot, Activities and camera UI; these are different people.
 
-- Workout detail → Start workout passes `{ workout }` to `Training`.
+- Workout detail → Start workout passes `{ workout }` to `Workout`.
 - Planned-session editor → Start workout passes `{ session }`.
-- Home dev hub → Start or resume workout provides recovery and direct selection.
-- Training → CheckIn passes `{ history }`, the stable completed-history ID.
-- Home's existing Post-workout check-in can reopen the latest unreviewed result.
+- Home → Start or resume workout provides recovery and direct selection.
+- Workout → CheckIn → Recap uses the same completed-history ID. History reopens any saved recap.
+- Rhythm's check-in shortcut reopens the latest unreviewed result.
 
 The data path is owner workout/catalog → immutable training snapshot → completed
 sets → History → calendar completion → CheckIn → Review. A later edit to the
@@ -35,7 +26,7 @@ Rest defaults to each workout item's rest; a supplied override applies to all it
 Read [README.md](README.md) for behavior and file responsibilities. Key files:
 `training-model.ts`, `session-model.ts`, `training-service.ts`,
 `../history/history-repository.ts`, `../../shared/storage.ts`,
-`../../screens/training.tsx` and `../../screens/training-set-row.tsx`.
+`../../screens/workout.tsx` and `../../screens/training-set-row.tsx`.
 
 ## Cross-owner APIs to review
 
@@ -45,7 +36,7 @@ Read [README.md](README.md) for behavior and file responsibilities. Key files:
 | Hải / schedule | `getSession`, `markSessionDoneDurable`; uses the existing pure JS schedule model, with a queued storage snapshot for completion. Old APIs remain. |
 | Tu / CheckIn | `submitCheckInDurable` and the screen's saving/error state; old `submitCheckIn` remains. Exercise/count summaries now reflect performed sets. |
 | npdwuy / History | Stable `history.ts` facade and seed function; `saveHistory`, `appendReviewDurable`; legacy `appendReview` is synchronous and may throw on rejected writes. Review uses Tu's type/parser. |
-| Navigation | Additive typed `Training` route and optional start callbacks on Workout/Plan screens. |
+| Navigation | Existing typed `Workout` route and optional start callbacks on Workout/Plan screens. |
 
 No backend, pose engine or duplicate camera implementation is included.
 The data contract is still a draft: affected owners must review these boundaries,
@@ -138,7 +129,7 @@ All four browser reproductions passed after the fixes. Automated suites passed
 23 foundation tests, 34 Training and persistence tests, 48 Jest tests and 55
 prototype tests. Native Android acceptance remains open.
 
-## Next agent: remaining work and acceptance
+## Android and owner-review checklist
 
 1. Read repository instructions and inspect current Git status before changing
    anything. Preserve unrelated user files (`desktop.ini`, `scan-output`, personal
@@ -156,12 +147,9 @@ prototype tests. Native Android acceptance remains open.
    saves, free/scheduled Finish, pain-stop, last-time and duplicate-free retry.
 5. Review additive APIs with Hải, Tu and shared navigation/storage owners. Decide
    whether native testing must precede ready-for-review versus final merge.
-6. Integrate Training with Đỗ Huy's camera route when an actual route/API exists on
-   the integration base. The base inspected here has none. Preserve the active
-   snapshot when returning; camera must not independently create completion records.
-7. Resolve the dependency, recheck the PR diff, rerun checks affected by changes,
-   then let the team decide readiness and merge. Do not mark all npdwuy work Done
-   while native/camera/owner gates remain unresolved.
+6. Integrate Workout with Đỗ Huy's rep result once implemented. Main has the
+   Camera setup screen. Preserve the active snapshot when returning; camera
+   must not create a separate completion record.
 
 ## User's working rule
 

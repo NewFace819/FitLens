@@ -12,7 +12,6 @@ export const ROUTES = {
   checkIn: 'CheckIn',
   workouts: 'Workouts',
   plan: 'Plan',
-  training: 'Training',
   onboarding: 'Onboarding',
   profile: 'Profile',
   insights: 'Insights',
@@ -28,17 +27,16 @@ export type RootStackParamList = {
   Home: undefined;
   Rhythm: undefined;
   Reminders: undefined;
-  CheckIn: { history: string };
+  CheckIn: { history: string; fromWorkout?: boolean };
   Workouts: undefined;
   Plan: undefined;
-  Training: { workout?: string; session?: string } | undefined;
   // Thông
   Onboarding: undefined;
   Profile: undefined;
   Insights: undefined;
   // Đức Huy — the session being trained. `session` (from Plan) or `workout` (free workout).
   // `cameraReps` is set by the Camera screen when it returns (see Camera below).
-  Workout: { session?: string; workout?: string; cameraReps?: number };
+  Workout: { session?: string; workout?: string; cameraReps?: number } | undefined;
   Recap: { history: string };
   History: undefined;
   // Đỗ Huy — rep counter for one exercise. When done it returns the count with

@@ -2,12 +2,21 @@ import React from 'react';
 import Renderer from 'react-test-renderer';
 import { Mascot } from './MascotView';
 import { getMascotMood, setMascotMood } from './mascot';
-import { hydrate } from '../../shared/storage';
+import { hydrate, KEYS, write } from '../../shared/storage';
 import { submitCheckIn } from '../checkin/checkin';
 let tree: Renderer.ReactTestRenderer | undefined;
 beforeEach(async () => {
   jest.useFakeTimers();
   await hydrate(null);
+  write(KEYS.history, [{
+    id: 'hs-mood',
+    sessionId: null,
+    workoutId: 'tpl-upper',
+    date: '2026-11-20',
+    durationSec: 60,
+    stoppedByPain: false,
+    sets: [{ exerciseId: 'bench-press', kg: 12, reps: 10 }],
+  }]);
 });
 afterEach(() => {
   if (tree) Renderer.act(() => tree!.unmount());

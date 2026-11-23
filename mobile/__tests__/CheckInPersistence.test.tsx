@@ -4,9 +4,12 @@ import CheckInScreen from '../src/screens/check-in';
 import {hydrate, KEYS, type Persistence} from '../src/shared/storage';
 import {saveHistory, getReview} from '../src/modules/history/history';
 
+const mockReplace = jest.fn();
+let mockFromWorkout = false;
+
 jest.mock('../src/navigation', () => ({
-  useAppNavigation: () => ({navigate: jest.fn()}),
-  useAppRoute: () => ({params: {history:'hs-checkin'}}),
+  useAppNavigation: () => ({navigate: jest.fn(), replace: mockReplace}),
+  useAppRoute: () => ({params: {history:'hs-checkin', fromWorkout:mockFromWorkout}}),
   goHome: jest.fn(), goBackOrHome: jest.fn(),
 }));
 jest.mock('@react-navigation/native', () => ({usePreventRemove: jest.fn()}));
@@ -55,4 +58,21 @@ test('failed save shows retryable error and never opens the success sheet',async
   persistence.save=save;
   await act(async()=>{await saveButton().props.onPress();});
   expect(success()).toBe(true);
+});
+
+test('a check-in opened by Workout links to the recap of the saved session', async () => {
+  mockFromWorkout = true;
+  try {
+    await act(async () => { app.update(<CheckInScreen />); });
+    await act(async () => { await saveButton().props.onPress(); });
+    expect(getReview('hs-checkin')).not.toBeNull();
+
+    const recap = app.root.findAll(
+      node => node.props.title === 'View recap' && typeof node.props.onPress === 'function',
+    )[0];
+    await act(async () => { recap.props.onPress(); });
+    expect(mockReplace).toHaveBeenCalledWith('Recap', { history: 'hs-checkin' });
+  } finally {
+    mockFromWorkout = false;
+  }
 });

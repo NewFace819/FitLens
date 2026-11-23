@@ -3,7 +3,7 @@
 For team agents continuing this work, read [HANDOFF.md](HANDOFF.md) first for
 branch dependencies, verified evidence, API boundaries and remaining acceptance gates.
 
-Training is integrated with Hải's real Workout/Plan branch. Open a workout or
+Training uses the Workout and Plan screens on main. Open a workout or
 a planned session → Start workout, or Home → Start or resume workout.
 Custom workouts and template targets (including ranges/time labels) use the owner models.
 Planned rest is used by default; entering a rest override applies it to every exercise.
@@ -16,7 +16,7 @@ Review this dependent branch against feature/mobile-workout-plan before main int
 - training-service.ts: resolve workout/session, persist one active workout and finish it.
 - ../history/history.ts: stable public facade, including the existing seedHistory API.
 - ../history/history-repository.ts: history and Review persistence; Review remains Tu's type.
-- ../../screens/training.tsx and training-set-row.tsx: UI and save/retry state.
+- ../../screens/workout.tsx and training-set-row.tsx: UI and save/retry state.
 
 ## Behavior and persistence
 
@@ -82,12 +82,12 @@ The CI workflow repeats these checks and creates the Android JavaScript bundle.
 ## Native smoke checklist (required before release)
 
 - Build with the project's supported JDK and Android SDK/NDK versions.
-- Free workout and scheduled workout: edit/complete/undo/add/skip → Finish → CheckIn.
+- Free workout and scheduled workout: edit/complete/undo/add/skip → Finish → CheckIn → Recap.
 - Pause during rest, background/foreground, and kill/relaunch with a saved checkpoint.
 - Retry an injected save failure without duplicate history or lost performed sets.
 - Use last time with a different set count; ordinary empty finish; pain stop.
 - Check keyboard behavior, back navigation, accessibility and actual device layout.
 
 JavaScript bundling and renderer tests do not replace this native smoke check.
-Camera routing is not wired: main has no camera route/API yet. Connect it through
-Đỗ Huy's route when available; do not add a second camera implementation here.
+Home opens Đỗ Huy's Camera setup screen. Workout can integrate measured reps
+when that screen returns a real count.

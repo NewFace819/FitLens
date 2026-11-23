@@ -5,7 +5,7 @@ import Renderer, {
   type ReactTestRenderer,
 } from 'react-test-renderer';
 import { getStore } from '../src/modules/workouts/store';
-import TrainingScreen from '../src/screens/training';
+import TrainingScreen from '../src/screens/workout';
 import { hydrate, KEYS, type Persistence } from '../src/shared/storage';
 import { getHistory } from '../src/modules/history/history';
 import { getActiveTraining } from '../src/modules/training/training-service';
@@ -13,7 +13,7 @@ import type { RootStackParamList } from '../src/shared/routes';
 import { usePreventRemove } from '@react-navigation/native';
 
 const mockNav = { replace: jest.fn(), navigate: jest.fn() };
-let mockParams: RootStackParamList['Training'];
+let mockParams: RootStackParamList['Workout'];
 jest.mock('../src/navigation', () => ({
   useAppNavigation: () => mockNav,
   useAppRoute: () => ({ params: mockParams }),
@@ -97,7 +97,7 @@ const enter = async (label: string, value: string) => {
   });
 };
 
-const reopenTraining = async (params?: RootStackParamList['Training']) => {
+const reopenTraining = async (params?: RootStackParamList['Workout']) => {
   await act(async () => app.unmount());
   mockParams = params;
   await act(async () => { app = Renderer.create(<TrainingScreen />); });
@@ -121,6 +121,7 @@ test('records a set, pauses/resumes and navigates only after durable Finish', as
   ]);
   expect(mockNav.replace).toHaveBeenCalledWith('CheckIn', {
     history: getHistory()[0].id,
+    fromWorkout: true,
   });
   await hydrate(persistence);
   expect(getHistory()).toHaveLength(1);
@@ -229,7 +230,7 @@ test('timed walking records actual seconds and can reuse a previous duration', a
   await click('Finish workout');
   await hydrate(persistence);
   expect(getHistory()[0].sets).toEqual([{ exerciseId: 'easy-walking-warm-up', durationSec: 305 }]);
-  expect(mockNav.replace).toHaveBeenCalledWith('CheckIn', { history: getHistory()[0].id });
+  expect(mockNav.replace).toHaveBeenCalledWith('CheckIn', { history: getHistory()[0].id, fromWorkout: true });
 
   await reopenTraining();
   await click('A fresh-air walk');
