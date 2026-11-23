@@ -112,10 +112,11 @@ Rules (from the contract):
 
 - `@react-navigation/native` + `native-stack` with `react-native-screens`. Android setup is done in `MainActivity.kt` (`RNScreensFragmentFactory`) and `AndroidManifest.xml` (`enableOnBackInvokedCallback="false"`), per React Navigation docs.
 - `react-native-svg` (mascot faces), `@react-native-async-storage/async-storage` 2.2.
-- **Notifications: no library chosen yet.** `src/modules/reminders/notifications.ts` runs in *preview* mode: it computes what would be sent and sends nothing, like the HTML prototype. To send real reminders, plug in a library with `setNotificationScheduler()`. Candidates, all of which need an Android build to verify:
-  - `expo-notifications` through `install-expo-modules`: well maintained, but adds Expo modules to the CLI app.
-  - `react-native-notify-kit`: a maintained fork of Notifee, but has a single maintainer.
-  - `@notifee/react-native`: unmaintained since Dec 2024. Avoid.
+- **Notifications: `react-native-notify-kit` 10.10.1** (maintained Notifee fork, chosen 2026-11-20 by Tu). Adapter: `src/modules/reminders/notifykit-scheduler.ts`, plugged in at start-up in `App.tsx` with `setNotificationScheduler()`. Without a scheduler, `notifications.ts` falls back to *preview* mode.
+  - Why this one: works in a bare RN CLI app with no Expo modules, built for the New Architecture (`newArchEnabled=true`), actively released. Risk: one maintainer; the API is Notifee's, so switching later only touches the adapter.
+  - Not chosen: `expo-notifications` (adds Expo modules to the CLI app), `@notifee/react-native` (archived, last release Dec 2024).
+  - Reminders use an inexact `SET_AND_ALLOW_WHILE_IDLE` alarm: may be a few minutes late, but needs no `SCHEDULE_EXACT_ALARM` permission (denied by default on Android 14+). The library's manifest adds `POST_NOTIFICATIONS` and `RECEIVE_BOOT_COMPLETED`.
+  - Jest uses the library's own mock (`jest.setup.js`).
 
 ## Architecture Highlights
 - **On-Device Vision:** Pose estimation (MediaPipe) runs locally on the phone's RAM. On React Native this needs a native Android module or a camera frame-processor plugin; approach not chosen yet.

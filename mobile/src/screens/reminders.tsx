@@ -5,7 +5,7 @@
  */
 import { useState } from 'react';
 import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
-import { describeSync, syncReminderNotifications } from '../modules/reminders/notifications';
+import { describeSync, sendTestReminder, syncReminderNotifications } from '../modules/reminders/notifications';
 import { MINUTES_BEFORE, leadLabel, type MinutesBefore, type PlannedSession } from '../modules/reminders/reminder-model';
 import { clearSessionReminder, getReminder, hasOwnReminder, setReminder, upcomingSessions } from '../modules/reminders/reminders';
 import { updateSession } from '../modules/workouts/schedule';
@@ -77,6 +77,15 @@ export default function RemindersScreen() {
           </View>
         ) : null}
       </View>
+
+      {__DEV__ ? (
+        <Button
+          title="Send a test reminder in 1 minute"
+          variant="secondary"
+          style={{ marginTop: space.md }}
+          onPress={() => sendTestReminder(60).then(setStatus, () => setStatus('Couldn’t schedule the test reminder.'))}
+        />
+      ) : null}
 
       {status ? (
         <Text style={[type.caption, { marginTop: space.md }]} accessibilityLiveRegion="polite">
