@@ -8,7 +8,17 @@ Status: React Native CLI project on the shared data layer from `docs/design/DATA
 - **Hải:** Workouts (list, detail with editing: rename, sets/reps, reorder, add/remove exercises; editing a routine makes your own copy) and Plan (build a week from a few answers, add/remove/mark-done sessions, change day and 24-hour time, copy a week). Built on the same pure-JS models as the browser prototype. Not done yet: drag-and-drop, adapting a workout to time/equipment.
 - History, Profile, Mascot are placeholders.
 
-Not yet run on a device or emulator (no Android SDK on the dev machine); covered by Jest tests that render the screens. See `docs/PROJECT_STATE.md`.
+Covered by Jest tests that render the screens. Not yet confirmed on a device or emulator by hand; see `docs/PROJECT_STATE.md`.
+
+### Try the app without installing the Android SDK
+
+GitHub builds an installable release APK (workflow *Android APK*, `.github/workflows/android-apk.yml`; it runs on pull requests that touch `mobile/` or `prototype/`, and on pushes to `main`).
+
+1. On GitHub open the repo, then *Actions*, then the latest successful *Android APK* run (or the *Checks* tab of a pull request).
+2. Under *Artifacts* download `fitlens-release-apk` and unzip it to get the `.apk`.
+3. Copy it to an Android phone (Android 7 or newer) and open it. Android asks to allow installing from this source; allow it for the app you used to open the file.
+
+It is built for real phones (`arm64-v8a`) and signed with the debug key, so it is for testing and demos only. For the emulator run the workflow by hand (*Run workflow*) with architectures `x86_64`. To change code and see it live you still need the full setup below.
 
 ## Requirements
 
