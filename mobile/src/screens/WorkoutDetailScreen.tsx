@@ -4,13 +4,13 @@ import type { AppStore, Workout, WorkoutItem } from '../modules/workouts/types';
 import { Button, Heading, Sheet } from '../ui/parts';
 import { colors } from '../ui/theme';
 
-type Props = { store: AppStore; workoutId: string; onBack: () => void; onDeleted: () => void };
+type Props = { onStart?: (workoutId: string) => void; store: AppStore; workoutId: string; onBack: () => void; onDeleted: () => void };
 
 /**
  * Look at a workout and change it: rename, sets and reps, order, add or remove exercises.
  * Routines (templates) are never changed: the first edit makes your own copy (the store does this).
  */
-export default function WorkoutDetailScreen({ store, workoutId, onBack, onDeleted }: Props) {
+export default function WorkoutDetailScreen({ store, workoutId, onBack, onDeleted, onStart }: Props) {
   const [workout, setWorkout] = useState<Workout | null>(() => store.getWorkout(workoutId));
   const [message, setMessage] = useState('');
   const [adding, setAdding] = useState(false);
@@ -86,6 +86,7 @@ export default function WorkoutDetailScreen({ store, workoutId, onBack, onDelete
       <Text style={styles.meta}>
         {items.length} {items.length === 1 ? 'exercise' : 'exercises'} · about {store.estimateMinutes(workout)} min
       </Text>
+      {onStart && items.length > 0 && <Button label="Start workout" testID="start-workout" onPress={() => onStart(workout.id)} />}
       {isTemplate && <Text style={styles.note}>Changing a routine makes your own copy. The original stays as it is.</Text>}
 
       {!isTemplate && (
