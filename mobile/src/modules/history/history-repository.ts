@@ -48,9 +48,21 @@ export async function saveHistory(entry: HistoryEntry): Promise<HistoryEntry> {
     const entries = parseHistory(data, isDateKey);
     const previous = entries.find(h => h.id === parsed.id);
     if (previous) {
-      if (JSON.stringify(previous) !== JSON.stringify(parsed))
+      const { workoutTitle: previousTitle, stoppedExerciseId: previousExercise, ...previousResult } = previous;
+      const { workoutTitle, stoppedExerciseId, ...result } = parsed;
+      if (
+        JSON.stringify(previousResult) !== JSON.stringify(result) ||
+        (previousTitle && workoutTitle && previousTitle !== workoutTitle) ||
+        (previousExercise && stoppedExerciseId && previousExercise !== stoppedExerciseId)
+      ) {
         throw new Error('History ID already belongs to a different result.');
-      return entries;
+      }
+      // A checkpoint from an older app version may already have saved the result.
+      const metadata = {
+        ...(!previousTitle && workoutTitle ? { workoutTitle } : {}),
+        ...(!previousExercise && stoppedExerciseId ? { stoppedExerciseId } : {}),
+      };
+      return entries.map(entry => entry.id === parsed.id ? { ...entry, ...metadata } : entry);
     }
     return [parsed, ...entries];
   });

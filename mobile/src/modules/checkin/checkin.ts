@@ -10,10 +10,13 @@ import { getExercise } from '../workouts/exercises';
 import { getWorkout } from '../workouts/schedule';
 import { buildReview, moodAfterReview, weeklyLoadAdjust, type Review, type ReviewDraft } from './review-model';
 
+const exerciseOption = (id: string) => ({ id, name: getExercise(id)?.name ?? id });
+
 export type CheckInContext = {
   entry: HistoryEntry;
   title: string;
-  exercises: { id: string; name: string }[];
+  exercises: ReturnType<typeof exerciseOption>[];
+  discomfortExercises: ReturnType<typeof exerciseOption>[];
   setCount: number;
   existing: Review | null;
 };
@@ -22,12 +25,16 @@ export type CheckInContext = {
 export function getCheckInContext(historyId: string): CheckInContext | null {
   const entry = getHistory().find((h) => h.id === historyId);
   if (!entry) return null;
-  const workout = getWorkout(entry.workoutId);
   const ids = [...new Set(entry.sets.map((s) => s.exerciseId))];
+  const exercises = ids.map(exerciseOption);
+  const { stoppedExerciseId } = entry;
   return {
     entry,
-    title: workout?.title ?? 'Workout',
-    exercises: ids.map((id) => ({ id, name: getExercise(id)?.name ?? id })),
+    title: entry.workoutTitle ?? getWorkout(entry.workoutId)?.title ?? 'Workout',
+    exercises,
+    discomfortExercises: stoppedExerciseId && !ids.includes(stoppedExerciseId)
+      ? [...exercises, exerciseOption(stoppedExerciseId)]
+      : exercises,
     setCount: entry.sets.length,
     existing: getReview(historyId),
   };
@@ -69,5 +76,5 @@ export function latestUnreviewed(withinDays = 2, now: Date = new Date()): Histor
 
 /** "Upper Body, Wed" style label for a check-in prompt. */
 export function checkInPrompt(entry: HistoryEntry): string {
-  return getWorkout(entry.workoutId)?.title ?? 'Your workout';
+  return entry.workoutTitle ?? getWorkout(entry.workoutId)?.title ?? 'Your workout';
 }

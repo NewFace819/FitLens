@@ -201,7 +201,7 @@ function CheckInForm({ ctx, fromWorkout }: {
           </View>
           <Text style={[type.caption, { marginTop: space.md }]}>Related exercise · optional</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
-            {ctx.exercises.map((e) => (
+            {ctx.discomfortExercises.map((e) => (
               <Chip key={e.id} tone="blush" label={e.name} selected={d.exerciseId === e.id} onPress={() => updateRegion({ ...d, exerciseId: d.exerciseId === e.id ? null : e.id })} />
             ))}
           </ScrollView>

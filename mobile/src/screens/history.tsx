@@ -21,7 +21,7 @@ export default function HistoryScreen() {
         entries.map(entry => (
           <ListRow
             key={entry.id}
-            label={getWorkout(entry.workoutId)?.title ?? 'Workout'}
+            label={entry.workoutTitle ?? getWorkout(entry.workoutId)?.title ?? 'Workout'}
             detail={[
               shortDate(entry.date),
               `${entry.sets.length} sets`,

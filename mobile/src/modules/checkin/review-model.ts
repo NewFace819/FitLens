@@ -199,9 +199,9 @@ export function suggestAdjustments(reviews: Review[], lookback = 3): Map<string,
  * (WORKOUT_SCHEDULE_DESIGN §5). Uses last week's reviews.
  */
 export function weeklyLoadAdjust(lastWeekReviews: Review[], stoppedByPainCount = 0): number {
-  if (!lastWeekReviews.length) return 0;
   const anyPain = stoppedByPainCount > 0 || lastWeekReviews.some((r) => r.exerciseFeedback.some((f) => f.feedback === 'painful') || r.discomfort.some((d) => d.sensation === 'pain'));
   if (anyPain) return -0.3;
+  if (!lastWeekReviews.length) return 0;
   const avg = lastWeekReviews.reduce((s, r) => s + r.rpe, 0) / lastWeekReviews.length;
   if (avg >= 9) return -0.2;
   if (avg >= 8) return -0.1;

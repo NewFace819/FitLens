@@ -136,16 +136,19 @@ async function finish(session: ActiveTraining): Promise<Completion> {
     throw new Error('Finish the workout before saving its result.');
   await saveActiveTraining(valid);
   const sets = completedSets(valid.training);
+  const stoppedByPain = valid.training.phase === 'stopped';
   let history: HistoryEntry | null = null;
   let missingSession = false;
-  if (sets.length || valid.training.phase === 'stopped') {
+  if (sets.length || stoppedByPain) {
     history = await saveHistory({
       id: valid.id,
       workoutId: valid.workoutId,
+      workoutTitle: valid.title,
       sessionId: valid.sessionId,
       date: toDateKey(new Date(valid.finishedAt)),
       durationSec: Math.floor(valid.elapsedMs / 1000),
-      stoppedByPain: valid.training.phase === 'stopped',
+      stoppedByPain,
+      ...(stoppedByPain ? { stoppedExerciseId: valid.training.exercises[valid.training.exerciseIndex].exerciseId } : {}),
       sets,
       completedAt: valid.finishedAt,
     });

@@ -62,7 +62,7 @@ export default function HomeScreen() {
     ...history.map(h => ({
       id: h.id,
       type: 'other' as const,
-      name: getWorkout(h.workoutId)?.title ?? 'Workout',
+      name: h.workoutTitle ?? getWorkout(h.workoutId)?.title ?? 'Workout',
       date: h.date,
       durationSec: h.durationSec,
       distanceKm: null,

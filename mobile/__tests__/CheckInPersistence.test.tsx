@@ -3,13 +3,18 @@ import Renderer, {act, type ReactTestRenderer} from 'react-test-renderer';
 import CheckInScreen from '../src/screens/check-in';
 import {hydrate, KEYS, type Persistence} from '../src/shared/storage';
 import {saveHistory, getReview} from '../src/modules/history/history';
+import {getCheckInContext} from '../src/modules/checkin/checkin';
+import {actOnSession} from '../src/modules/training/session-model';
+import {beginWorkout, completeWorkout} from '../src/modules/training/training-service';
+import {REGION_LABELS} from '../src/shared/constants';
 
 const mockReplace = jest.fn();
 let mockFromWorkout = false;
+let mockHistoryId = 'hs-checkin';
 
 jest.mock('../src/navigation', () => ({
   useAppNavigation: () => ({navigate: jest.fn(), replace: mockReplace}),
-  useAppRoute: () => ({params: {history:'hs-checkin', fromWorkout:mockFromWorkout}}),
+  useAppRoute: () => ({params: {history:mockHistoryId, fromWorkout:mockFromWorkout}}),
   goHome: jest.fn(), goBackOrHome: jest.fn(),
 }));
 jest.mock('@react-navigation/native', () => ({usePreventRemove: jest.fn()}));
@@ -28,6 +33,7 @@ jest.mock('../src/ui/components', () => {
 let app:ReactTestRenderer;
 let persistence:Persistence;
 beforeEach(async()=>{
+  mockHistoryId = 'hs-checkin';
   const disk=new Map<string,string>();
   persistence={loadAll:async()=>[...disk],save:async(k,v)=>{disk.set(k,v);},remove:async()=>{}};
   await hydrate(persistence);
@@ -75,4 +81,41 @@ test('a check-in opened by Workout links to the recap of the saved session', asy
   } finally {
     mockFromWorkout = false;
   }
+});
+
+test('a pain stop offers the unfinished exercise for body notes without counting it as performed', async () => {
+  const now = Date.parse('2026-11-19T03:00:00.000Z');
+  let workout = await beginWorkout({ workout: 'tpl-upper' }, 0, now);
+  workout = actOnSession(workout, { type: 'editSet', setIndex: 0, kg: 10, reps: 8 }, now + 1000);
+  workout = actOnSession(workout, { type: 'completeSet', setIndex: 0 }, now + 2000);
+  workout = actOnSession(workout, { type: 'nextExercise' }, now + 3000);
+  const performedId = workout.training.exercises[0].exerciseId;
+  const stoppedId = workout.training.exercises[1].exerciseId;
+  const stopped = actOnSession(workout, { type: 'stopByPain' }, now + 4000);
+  await completeWorkout(stopped);
+  await hydrate(persistence);
+
+  const ctx = getCheckInContext(stopped.id)!;
+  expect(ctx.entry.stoppedExerciseId).toBe(stoppedId);
+  expect(ctx.setCount).toBe(1);
+  expect(ctx.exercises.map(exercise => exercise.id)).toEqual([performedId]);
+  expect(ctx.discomfortExercises.map(exercise => exercise.id)).toEqual([performedId, stoppedId]);
+
+  mockHistoryId = stopped.id;
+  await act(async () => { app.update(<CheckInScreen />); });
+  const bodyPrompt = app.root.findAll(node =>
+    typeof node.props.onPress === 'function' &&
+    node.findAllByProps({ children: 'Anything feeling uncomfortable?' }).length > 0,
+  )[0];
+  const chip = (label: string) => app.root.findAllByProps({ label })[0];
+  await act(async () => { bodyPrompt.props.onPress(); });
+  await act(async () => { chip(REGION_LABELS.shoulders).props.onPress(); });
+  await act(async () => { chip('Pain').props.onPress(); });
+  const stoppedExercise = chip(ctx.discomfortExercises[1].name);
+  expect(stoppedExercise.props.selected).toBe(false);
+  await act(async () => { stoppedExercise.props.onPress(); });
+  await act(async () => { await saveButton().props.onPress(); });
+  expect(getReview(stopped.id)?.discomfort).toEqual([
+    { region: 'shoulders', sensation: 'pain', exerciseId: stoppedId },
+  ]);
 });

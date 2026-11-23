@@ -256,6 +256,12 @@ test('custom owner workout keeps range targets, explicit rest override and detac
   assert.equal(service.getActiveTraining().training.exercises[0].sets.length, 2);
   const result = await service.completeWorkout(done(active));
   assert.deepEqual(result.history.sets, [{ exerciseId, kg: 0, reps: 8 }]);
+  assert.equal(getCheckInContext(active.id).title, 'My ranges');
+
+  assert.deepEqual(store.deleteWorkout(workout.id), { ok: true });
+  await storage.writeDurable('fitlens.barrier', true);
+  await storage.hydrate(p);
+  assert.equal(getCheckInContext(active.id).title, 'My ranges');
 });
 
 test('default rest comes from each owner workout item', async () => {
