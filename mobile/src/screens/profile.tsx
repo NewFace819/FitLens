@@ -1695,6 +1695,7 @@ interface HealthConnectBadge {
   desc: string;
   dotColor: string;
   badgeBg: string;
+  badgeTextColor: string;
   badgeText: string;
   actionText: string | null;
   actionLabel: string | null;
@@ -1737,6 +1738,7 @@ function HealthConnectStatusPage({
           desc: 'FitLens has read access to your daily step count.',
           dotColor: SETTINGS_COLORS.statusGreen,
           badgeBg: '#DCFCE7',
+          badgeTextColor: '#166534',
           badgeText: 'Connected',
           actionText: 'Open Health Connect Settings',
           actionLabel: 'Open Health Connect settings',
@@ -1747,6 +1749,7 @@ function HealthConnectStatusPage({
         desc: 'FitLens can read your daily steps once permission is granted in system settings.',
         dotColor: '#F59E0B',
         badgeBg: '#FEF3C7',
+        badgeTextColor: '#92400E',
         badgeText: 'Not connected',
         actionText: 'Open Health Connect Settings',
         actionLabel: 'Open Health Connect settings',
@@ -1758,6 +1761,7 @@ function HealthConnectStatusPage({
         desc: 'Health Connect needs to be updated on your device via Google Play.',
         dotColor: '#F97316',
         badgeBg: '#FFEDD5',
+        badgeTextColor: '#9A3412',
         badgeText: 'Update needed',
         actionText: 'Update Health Connect',
         actionLabel: 'Update Health Connect',
@@ -1768,6 +1772,7 @@ function HealthConnectStatusPage({
       desc: 'Health Connect is not supported or not installed on this Android device.',
       dotColor: '#9CA3AF',
       badgeBg: '#F3F4F6',
+      badgeTextColor: '#374151',
       badgeText: 'Unavailable',
       actionText: null,
       actionLabel: null,
@@ -1803,7 +1808,7 @@ function HealthConnectStatusPage({
               <View style={styles.statusHeaderRow}>
                 <View style={[styles.statusDot, { backgroundColor: badge.dotColor }]} />
                 <View style={[styles.statusBadgePill, { backgroundColor: badge.badgeBg }]}>
-                  <Text style={[styles.statusBadgePillText, { color: badge.dotColor }]}>{badge.badgeText}</Text>
+                  <Text style={[styles.statusBadgePillText, { color: badge.badgeTextColor }]}>{badge.badgeText}</Text>
                 </View>
               </View>
               <Text style={styles.statusCardTitle}>{badge.title}</Text>
@@ -1833,7 +1838,7 @@ function HealthConnectStatusPage({
             <View style={styles.infoRow}>
               <Text style={styles.infoRowTitle}>Read-Only Access</Text>
               <Text style={styles.infoRowDesc}>
-                FitLens only reads your daily step count to reflect your movement in Rhythm. FitLens never writes or modifies Health Connect records.
+                FitLens only reads your daily step count. It never writes or modifies Health Connect records.
               </Text>
             </View>
             <View style={styles.innerDivider} />
@@ -1932,7 +1937,7 @@ function PrivacyDataPage({ onBack }: PrivacyDataPageProps) {
             <View style={styles.infoRow}>
               <Text style={styles.infoRowTitle}>Zero Cloud Tracking</Text>
               <Text style={styles.infoRowDesc}>
-                FitLens does not collect diagnostic analytics, tracking IDs, or personal telemetry. Clearing app data completely wipes all records.
+                FitLens does not collect diagnostic analytics, tracking IDs, or personal telemetry. Clearing FitLens app data removes data stored locally by the app.
               </Text>
             </View>
           </ContinuousSurface>
@@ -2537,6 +2542,7 @@ const styles = StyleSheet.create({
     backgroundColor: SETTINGS_COLORS.accentBlue,
     borderRadius: 12,
     paddingVertical: 13,
+    paddingHorizontal: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -2544,6 +2550,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+    textAlign: 'center',
   },
 
   // Info rows

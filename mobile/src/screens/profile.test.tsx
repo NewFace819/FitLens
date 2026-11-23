@@ -1,5 +1,5 @@
 import React from 'react';
-import { AccessibilityInfo, BackHandler, Modal, Text, TextInput } from 'react-native';
+import { AccessibilityInfo, BackHandler, Modal, StyleSheet, Text, TextInput } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import ProfileScreen, { AccountAvatar, getInitials, VectorClose, VectorCheckmark } from './profile';
 import { clearAll, hydrate, KEYS, write, type Persistence } from '../shared/storage';
@@ -538,6 +538,18 @@ test('Health Connect status page displays connection state and settings button c
 
   expect(root.findByProps({ children: 'Health Connect', accessibilityRole: 'header' })).toBeTruthy();
 
+  // Verify badge text and dark contrast-safe color for Connected
+  const connectedBadgeText = root.findByProps({ children: 'Connected' });
+  expect(connectedBadgeText).toBeTruthy();
+  const connectedStyle = StyleSheet.flatten(connectedBadgeText.props.style);
+  expect(connectedStyle.color).toBe('#166534');
+
+  // Verify Read-Only Access copy does not claim Rhythm integration
+  const texts = root.findAllByType(Text).map((t) => t.props.children);
+  expect(texts).toContain(
+    'FitLens only reads your daily step count. It never writes or modifies Health Connect records.'
+  );
+
   // Press Open Health Connect settings
   const settingsBtn = root.findByProps({ accessibilityLabel: 'Open Health Connect settings' });
   await ReactTestRenderer.act(async () => {
@@ -600,6 +612,12 @@ test('Health Connect provider-update-required status page action updates provide
   const updateBtn = root.findByProps({ accessibilityLabel: 'Update Health Connect' });
   expect(updateBtn).toBeTruthy();
 
+  // Verify badge text color for Update needed
+  const updateBadgeText = root.findByProps({ children: 'Update needed' });
+  expect(updateBadgeText).toBeTruthy();
+  const updateStyle = StyleSheet.flatten(updateBadgeText.props.style);
+  expect(updateStyle.color).toBe('#9A3412');
+
   await ReactTestRenderer.act(async () => {
     await updateBtn.props.onPress();
   });
@@ -634,6 +652,9 @@ test('Privacy & Data page displays explanations and Back returns to overview', a
   expect(texts).toContain('Health Connect Permissions');
   expect(texts).toContain('Workout Reminders');
   expect(texts).toContain('On-Device Camera Coaching');
+  expect(texts).toContain(
+    'FitLens does not collect diagnostic analytics, tracking IDs, or personal telemetry. Clearing FitLens app data removes data stored locally by the app.'
+  );
 
   const backBtn = root.findByProps({ accessibilityLabel: 'Back to Settings' });
   ReactTestRenderer.act(() => {

@@ -154,4 +154,3 @@ export function buildContinuousRectPath(w: number, h: number, r = 18): string {
     'Z',
   ].join(' ');
 }
-
