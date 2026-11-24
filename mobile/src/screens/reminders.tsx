@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { goBackOrHome, useAppNavigation } from '../navigation';
-import { describeSync, syncReminderNotifications } from '../modules/reminders/notifications';
+import { describeSync, sendTestReminder, syncReminderNotifications } from '../modules/reminders/notifications';
 import { MINUTES_BEFORE, leadLabel, type MinutesBefore, type PlannedSession } from '../modules/reminders/reminder-model';
 import { clearSessionReminder, getReminder, hasOwnReminder, setReminder, upcomingSessions } from '../modules/reminders/reminders';
 import { updateSession } from '../modules/workouts/schedule';
@@ -95,6 +95,14 @@ export default function RemindersScreen() {
           ) : null}
         </ContinuousSurface>
         <Text style={styles.footer}>A gentle nudge before each planned session. You choose how early.</Text>
+        {__DEV__ ? (
+          <Button
+            title="Send a test reminder in 1 minute"
+            variant="secondary"
+            style={styles.testReminderAction}
+            onPress={() => sendTestReminder(60).then(setStatus, () => setStatus('Couldn’t schedule the test reminder.'))}
+          />
+        ) : null}
         {status ? <Text style={styles.footer} accessibilityLiveRegion="polite">{status}</Text> : null}
 
         {sessions.length === 0 ? (
@@ -257,6 +265,7 @@ const styles = StyleSheet.create({
   sectionTitle: { marginHorizontal: 18, marginBottom: 8, fontSize: 13, fontWeight: '500', color: SETTINGS_COLORS.textSecondary },
   footer: { marginHorizontal: 18, marginTop: 8, fontSize: 13, lineHeight: 18, color: SETTINGS_COLORS.textSecondary },
   selection: { color: SETTINGS_COLORS.accentBlue, fontSize: 18 },
+  testReminderAction: { marginTop: space.md },
   pressed: { opacity: 0.72 },
   chips: { flexDirection: 'row', gap: space.sm },
   flexItem: { flex: 1 },

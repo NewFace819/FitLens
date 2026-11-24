@@ -1,6 +1,6 @@
 # Thiết kế: Nhịp, Check-in & Nhắc lịch (phần của Tu)
 
-> Nhánh: `feature/rhythm-checkin` · Code: `mobile/src/modules/{rhythm,checkin,reminders}` · Theo `DATA_CONTRACT.md` (nhánh `feature/workout-schedule`).
+> Code: `mobile/src/modules/{rhythm,checkin,reminders}` (trên `main`) · Theo `DATA_CONTRACT.md`.
 > Đây là "file chi tiết" của Tu mà contract mục 9 yêu cầu.
 
 ## 1. Quyết định của Tu (trả lời các mục chờ trong contract)
@@ -30,7 +30,8 @@ type Review = {
 
 - Mỗi `HistoryEntry` có tối đa một review; lưu lại thì review cũ bị thay.
 - "Dừng vì đau" đọc từ `HistoryEntry.stoppedByPain`, không lưu trùng trong Review.
-- Màn check-in mở bằng `?history=<HistoryEntry.id>` (contract mục 12).
+- Màn check-in mở bằng `?history=<HistoryEntry.id>` (contract mục 12). Trong app: `navigate('CheckIn', { history: entry.id })`, màn tập của Đức Huy gọi khi hoàn tất (DH4).
+- Lối vào dự phòng: màn Rhythm hiện "How did … feel?" cho buổi gần nhất **trong 2 ngày** chưa có review (`latestUnreviewed()`), phòng khi màn tập không chuyển sang check-in.
 
 ## 3. Rhythm (key `fitlens.rhythm`, `v = 1`)
 
@@ -65,6 +66,17 @@ type Reminder = { id: string; sessionId: string|null; enabled: boolean; minutesB
 - `setReminder(sessionId, {enabled, minutesBefore})`: trả `Reminder`.
 - **Giờ tập thuộc Hải**: Tu đổi giờ bằng `updateSession(id, {time})`, không bao giờ ghi `Session` trực tiếp.
 - Thông báo: chỉ cho buổi `planned`, có `time`, nhắc đang bật và thời điểm nhắc còn ở tương lai. Lên lịch cho tuần này và tuần sau, đồng bộ lại khi mở app và sau mỗi lần sửa.
+
+### 4.1 Thông báo thật trên Android (20/11/2026)
+
+- Thư viện: `react-native-notify-kit` (lý do ở `mobile/README.md`). Adapter: `reminders/notifykit-scheduler.ts`; phần còn lại của module không biết thư viện là gì, đổi thư viện chỉ sửa adapter.
+- Mỗi buổi một thông báo, id `fitlens-rem-<sessionId>`: đặt lại thì thay, không bị trùng. Kênh Android `fitlens-reminders`.
+- Alarm kiểu `SET_AND_ALLOW_WHILE_IDLE` (không chính xác tuyệt đối): có thể trễ vài phút, đổi lại không cần quyền `SCHEDULE_EXACT_ALARM`.
+- **Tự đồng bộ** (`reminders/device.ts`): alarm đã đặt vẫn kêu dù không ai đọc dữ liệu, nên "kiểm tra lúc đọc" (contract mục 5) không đủ. Tu lắng nghe `subscribe()` của `shared/storage`; khi danh sách thông báo cần có thay đổi (Hải dời/xóa buổi, Đức Huy `markSessionDone`, người dùng sửa nhắc) thì hủy hết và đặt lại. **Người khác không cần gọi gì.**
+- Các lần đồng bộ chạy lần lượt (hàng đợi), để lần đồng bộ cũ không đặt lại nhắc mà lần mới đã hủy.
+- Chỉ xin quyền thông báo khi người dùng bật/sửa nhắc, không xin lúc mở app.
+- Giới hạn: chỉ đặt trước 2 tuần. Không mở app hơn 2 tuần thì không có nhắc (chấp nhận cho MVP).
+- Bản dev có nút "Send a test reminder in 1 minute" ở màn Reminders.
 - **Thiếu trong contract:** không có hàm `getSession(id)`, nên Tu không kiểm tra được reminder nào đang trỏ tới buổi đã bị xóa. Hiện tại reminder "mồ côi" vô hại vì chỉ những buổi trả về từ `getWeekSchedule` mới được nhắc. Đề xuất Hải thêm `getSession(id)`.
 
 ## 5. Hàm Tu xuất cho người khác
@@ -75,6 +87,9 @@ type Reminder = { id: string; sessionId: string|null; enabled: boolean; minutesB
 | `getReminder(sessionId)`, `setReminder(sessionId, …)` | Hải (Plan), Tu |
 | `getLoadAdjustForWeek(weekStart)` → −0.3…+0.1 | Hải: tham số `loadAdjust` của `generateDraft` |
 | `suggestAdjustments(reviews)` → `swap/easier/keep/harder` theo từng bài | Hải |
+| `setWeeklyGoal`, `pauseRhythm`, `resumeRhythm` | Tu (màn Rhythm) |
+| `getCheckInContext(historyId)`, `submitCheckIn(draft, stoppedByPain)`, `latestUnreviewed(withinDays = 2)` | Tu; Đỗ Huy có thể dùng `latestUnreviewed` cho Home |
+| `syncReminderNotifications()` | Không ai cần gọi: tự chạy khi dữ liệu đổi |
 
 ## 6. Tu gọi của người khác (trong repo hiện là bản tạm, có ghi chú ở đầu file)
 

@@ -251,3 +251,21 @@ test('Plan: set a time and move a session to another day; a clash is refused', a
   expect(text(tree)).toContain('18:45 · ');
   expect(byId(tree, 'plan-status').props.children).toBe('Saved.');
 });
+
+test('workout and planned-session start callbacks carry the owner IDs', async () => {
+  await hydrate(null);
+  const store = getStore();
+  const onStart = jest.fn();
+  let tree!: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(async () => { tree = ReactTestRenderer.create(<WorkoutsScreen store={store} onStart={onStart} />); });
+  await press(tree, 'workout-tpl-upper');
+  await press(tree, 'start-workout');
+  expect(onStart).toHaveBeenLastCalledWith('tpl-upper');
+  const added = store.addSession({ workoutId: 'tpl-upper', date: TODAY });
+  if (!added.ok) throw new Error(added.reason);
+  await ReactTestRenderer.act(async () => { tree.unmount(); tree = ReactTestRenderer.create(<PlanScreen store={store} today={TODAY} onStart={onStart} />); });
+  await press(tree, `session-${added.session.id}`);
+  await press(tree, 'start-session');
+  expect(onStart).toHaveBeenLastCalledWith(added.session.id);
+  await ReactTestRenderer.act(async () => tree.unmount());
+});

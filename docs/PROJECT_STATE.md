@@ -26,7 +26,7 @@
 | Module | Chủ | Trên `main` | Đang ở nhánh |
 | :-- | :-- | :-- | :-- |
 | Shared (storage, dates, ids, routes, seed) | chung | Có | — |
-| Rhythm, Reminders, Check-in | Tu | Có (PR #4). Thông báo chỉ preview, chưa chọn thư viện push | — |
+| Rhythm, Reminders, Check-in | Tu | Có (PR #4). Thông báo thật (`react-native-notify-kit`) | `feature/tu-week1` |
 | Welcome (màn chào, routing lần đầu) | Thông | Có (PR #6) | — |
 | Workouts, Plan (lịch tuần) | Hải | Có (từ `feature/mobile-workout-plan`): chạy trên model của `../prototype` qua cache chung | — |
 | Route + màn tạm cho Onboarding, Profile, Insights, Workout, Recap, History, Camera | chủ từng màn | Có: `src/screens/<tên>.tsx` là placeholder, chủ màn thay file của mình | — |
@@ -91,10 +91,10 @@ Quy tắc: mỗi người chỉ sửa thư mục/màn của mình; gọi sang ng
 | T1 | Thông | Onboarding (thay `screens/onboarding.tsx`): mục tiêu, kinh nghiệm, buổi/tuần, phút, thiết bị, vùng tránh; Welcome dẫn sang lần đầu | Lưu `fitlens.profile` | — |
 | T2 | Thông | Profile xem/sửa; thay placeholder `modules/profile`, `getProfile()` đúng contract | Plan dùng profile thật | — |
 | T3 | Thông | `getHomeMetrics()` với dữ liệu mẫu | Home có số liệu | — |
-| TU1 | Tu | Chốt chữ ký `appendReview()` với Đức Huy, ghi vào `DATA_CONTRACT.md` | — | — |
-| TU2 | Tu | Thử và chọn thư viện thông báo trên Android | Quyết định + lý do | H3 |
-| TU3 | Tu | Nhắc lịch thật qua `setNotificationScheduler()` | Có thông báo trên máy | TU2 |
-| TU4 | Tu | Check-in dùng lịch sử thật | Mở được ngay sau buổi tập | DH2 |
+| TU1 | Tu | Chốt chữ ký `appendReview()` với Đức Huy, ghi vào `DATA_CONTRACT.md` | **Xong (20/11)**: đã ghi vào contract mục 6, khớp nhánh của Đức Huy; chờ Huy xác nhận | — |
+| TU2 | Tu | Thử và chọn thư viện thông báo trên Android | **Xong (20/11)**: `react-native-notify-kit`, lý do trong `mobile/README.md` (Tu tự build trên máy mình, không cần chờ H3) | — |
+| TU3 | Tu | Nhắc lịch thật qua `setNotificationScheduler()` | **Xong (20/11)**: thông báo thật trên emulator; tự đồng bộ khi lịch đổi | — |
+| TU4 | Tu | Check-in dùng lịch sử thật | **Phần Tu xong (20/11)**: đọc `getHistory` theo contract, thêm lối vào dự phòng ở màn Rhythm. Mở ngay sau buổi tập là một dòng `navigate('CheckIn', {history})` trong DH4 | DH2, DH4 |
 | DH1 | Đức Huy | Rebase lên `main`, chốt `appendReview()` với Tu | — | — |
 | DH2 | Đức Huy | Thay placeholder `modules/history`: `getHistory`, `getLastSets`, `appendReview`, lưu buổi tập | `contract.test` vẫn qua | — |
 | DH3 | Đức Huy | Màn tập (thay `screens/workout.tsx`): kg/rep từng set, nghỉ, tạm dừng, "Use last time" | Tập được 1 buổi | — |

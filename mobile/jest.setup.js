@@ -30,3 +30,5 @@ jest.mock('react-native-liquid-glassmorphism', () => {
     })),
   };
 });
+
+jest.mock('react-native-notify-kit', () => require('react-native-notify-kit/jest-mock'));

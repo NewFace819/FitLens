@@ -3,10 +3,12 @@
  * Reads getRhythm(); writes only through setWeeklyGoal / pauseRhythm / resumeRhythm.
  */
 import { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { GOAL_OPTIONS, progressMessage, type Rhythm, type RhythmStatus, type WeekResult } from '../modules/rhythm/rhythm-model';
 import { getRhythm, pauseRhythm, resumeRhythm, setWeeklyGoal } from '../modules/rhythm/rhythm';
-import { nextMonday, shortDate, weekLabel } from '../shared/dates';
+import { checkInPrompt, latestUnreviewed } from '../modules/checkin/checkin';
+import { useAppNavigation } from '../navigation';
+import { dayLabel, nextMonday, shortDate, weekLabel } from '../shared/dates';
 import type { Mood } from '../shared/constants';
 import { Button, Chip, Divider, IconButton, ListRow, Mascot, Screen, Sheet, TopBar } from '../ui/components';
 import { colors, radius, space, type } from '../ui/theme';
@@ -29,17 +31,19 @@ const MOODS: Record<RhythmStatus, Mood> = {
   comeback: 'energized',
 };
 const PAGE_SIZE = 4;
-const workoutsComingSoon = () => Alert.alert('Workouts', 'The workout library is coming with the Workouts tab.');
 
 type SheetName = null | 'goal' | 'settings' | 'pause' | 'resume' | 'rules' | 'week';
 
 export default function RhythmScreen() {
   useStore();
+  const nav = useAppNavigation();
   const rhythm = getRhythm();
   const [sheet, setSheet] = useState<SheetName>(null);
   const [openWeek, setOpenWeek] = useState<WeekResult | null>(null);
   const close = () => setSheet(null);
+  const openWorkouts = () => nav.navigate('Workouts');
   const pauseOpen = rhythm.paused && rhythm.pausedUntil === null;
+  const unreviewed = latestUnreviewed();
 
   return (
     <Screen>
@@ -56,6 +60,14 @@ export default function RhythmScreen() {
 
       <WeekCard rhythm={rhythm} />
 
+      {unreviewed ? (
+        <ListRow
+          label={`How did ${checkInPrompt(unreviewed)} feel?`}
+          detail={`Check in · ${dayLabel(unreviewed.date)}`}
+          onPress={() => nav.navigate('CheckIn', { history: unreviewed.id })}
+        />
+      ) : null}
+
       {rhythm.status === 'empty' ? (
         <View style={{ marginTop: space.lg }}>
           <Text style={type.h2}>Sessions per week</Text>
@@ -66,9 +78,9 @@ export default function RhythmScreen() {
         </View>
       ) : null}
       {rhythm.status === 'active' || rhythm.status === 'comeback' ? (
-        <ListRow label="Choose your next session" onPress={workoutsComingSoon} />
+        <ListRow label="Choose your next session" onPress={openWorkouts} />
       ) : null}
-      {rhythm.status === 'complete' ? <ListRow label="Browse workouts" onPress={workoutsComingSoon} /> : null}
+      {rhythm.status === 'complete' ? <ListRow label="Browse workouts" onPress={openWorkouts} /> : null}
       {pauseOpen ? <ListRow label="Return from a break" onPress={() => setSheet('resume')} /> : null}
 
       {rhythm.status !== 'empty' && rhythm.status !== 'scheduled' ? (

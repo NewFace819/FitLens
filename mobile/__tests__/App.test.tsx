@@ -182,9 +182,9 @@ test('Complete via skip path: resets root stack to Home, and subsequent restart 
     await skipNotif.props.onPress();
   });
 
-  // Root stack reset to Home (DevHub)
+  // Root stack reset to the current Home screen
   expect(isOnboardingCompleted()).toBe(true);
-  expect(findTexts(activeRenderer!)).toContain('FitLens · dev hub');
+  expect(findPressableByLabel(activeRenderer!.root, 'Open Account')).toBeDefined();
   expect(findTexts(activeRenderer!)).not.toContain('Welcome to\nFitLens.');
 
   // 2. Unmount and simulate restart
@@ -199,6 +199,6 @@ test('Complete via skip path: resets root stack to Home, and subsequent restart 
   });
 
   // Confirmed completed step routes directly to Home on startup
-  expect(findTexts(activeRenderer!)).toContain('FitLens · dev hub');
+  expect(findPressableByLabel(activeRenderer!.root, 'Open Account')).toBeDefined();
   expect(findTexts(activeRenderer!)).not.toContain('Welcome to\nFitLens.');
 });

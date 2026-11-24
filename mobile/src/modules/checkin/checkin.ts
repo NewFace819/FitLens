@@ -4,7 +4,7 @@
  * appendReview() (Tu never writes history) and sets the mascot through Đỗ Huy.
  */
 import { addDays, toDateKey, weekStartOf } from '../../shared/dates';
-import { appendReview, getHistory, getReview, getReviews, type HistoryEntry } from '../history/history';
+import { appendReview, appendReviewDurable, getHistory, getReview, getReviews, type HistoryEntry } from '../history/history';
 import { setMascotMood } from '../mascot/mascot';
 import { getExercise } from '../workouts/exercises';
 import { getWorkout } from '../workouts/schedule';
@@ -23,18 +23,25 @@ export function getCheckInContext(historyId: string): CheckInContext | null {
   const entry = getHistory().find((h) => h.id === historyId);
   if (!entry) return null;
   const workout = getWorkout(entry.workoutId);
-  const ids = workout ? workout.items.map((i) => i.exerciseId) : [...new Set(entry.sets.map((s) => s.exerciseId))];
+  const ids = [...new Set(entry.sets.map((s) => s.exerciseId))];
   return {
     entry,
     title: workout?.title ?? 'Workout',
     exercises: ids.map((id) => ({ id, name: getExercise(id)?.name ?? id })),
-    setCount: entry.sets.length || (workout?.items.reduce((n, i) => n + i.sets, 0) ?? 0),
+    setCount: entry.sets.length,
     existing: getReview(historyId),
   };
 }
 
 export function submitCheckIn(draft: ReviewDraft, stoppedByPain: boolean, now: Date = new Date()): Review {
   const saved = appendReview(buildReview(draft, now));
+  setMascotMood(moodAfterReview(draft, stoppedByPain));
+  return saved;
+}
+
+/** UI acknowledgement comes only after the review has reached device storage. */
+export async function submitCheckInDurable(draft: ReviewDraft, stoppedByPain: boolean, now: Date = new Date()): Promise<Review> {
+  const saved = await appendReviewDurable(buildReview(draft, now));
   setMascotMood(moodAfterReview(draft, stoppedByPain));
   return saved;
 }
@@ -49,7 +56,18 @@ export function getLoadAdjustForWeek(weekStart: string): number {
   return weeklyLoadAdjust(reviews, entries.filter((e) => e.stoppedByPain).length);
 }
 
-/** Latest finished session without a review (for "check in now" entry points). */
-export function latestUnreviewed(): HistoryEntry | null {
-  return getHistory().find((h) => !getReview(h.id) && h.date <= toDateKey(new Date())) ?? null;
+/**
+ * Latest finished session without a review, done within the last `withinDays`
+ * days (for "check in now" entry points). A fallback in case the workout screen
+ * didn't open the check-in; older sessions are not worth asking about.
+ */
+export function latestUnreviewed(withinDays = 2, now: Date = new Date()): HistoryEntry | null {
+  const today = toDateKey(now);
+  const from = addDays(today, -withinDays);
+  return getHistory({ from, to: today }).find((h) => !getReview(h.id)) ?? null;
+}
+
+/** "Upper Body, Wed" style label for a check-in prompt. */
+export function checkInPrompt(entry: HistoryEntry): string {
+  return getWorkout(entry.workoutId)?.title ?? 'Your workout';
 }
