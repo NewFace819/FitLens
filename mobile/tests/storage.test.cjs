@@ -6,6 +6,7 @@ const {
   read,
   write,
   writeDurable,
+  writeConfirmed,
   updateDurable,
   clearAll,
   storageReady,
@@ -51,6 +52,29 @@ test('durable save acknowledges device completion and never publishes a failed w
   assert.deepEqual(read('fitlens.test', null), { n: 2 });
 });
 
+test('confirmed onboarding writes share the durable queue and support memory fixtures', async () => {
+  const key = 'fitlens.onboarding';
+  const p = device();
+  await hydrate(p);
+  const gate = deferred();
+  p.save = async (k, v) => {
+    await gate.promise;
+    p.disk.set(k, v);
+  };
+  const first = writeConfirmed(key, { step: 'name' });
+  await Promise.resolve();
+  assert.equal(read(key, null), null);
+  assert.equal(write(key, { step: 'health' }), true);
+  gate.resolve();
+  assert.equal(await first, true);
+  await hydrate(p);
+  assert.deepEqual(read(key, null), { step: 'health' });
+
+  await hydrate(null);
+  assert.equal(await writeConfirmed(key, { step: 'name' }), true);
+  assert.deepEqual(read(key, null), { step: 'name' });
+});
+
 test('concurrent updates serialize and preserve both additions across reload', async () => {
   const p = device();
   await hydrate(p);
@@ -72,6 +96,7 @@ test('future/corrupt envelopes and failed hydration cannot be overwritten', asyn
   for (const key of ['fitlens.future', 'fitlens.corrupt']) {
     assert.equal(write(key, 'bad'), false);
     await assert.rejects(writeDurable(key, 'bad'));
+    assert.equal(await writeConfirmed(key, 'bad'), false);
   }
   assert.equal(p.disk.get('fitlens.corrupt'), 'bad json');
   p.loadAll = async () => {
