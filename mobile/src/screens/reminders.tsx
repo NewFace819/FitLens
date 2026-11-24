@@ -4,14 +4,17 @@
  * schedule (sessionId = null). Session times belong to Hải → updateSession().
  */
 import { useState } from 'react';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { goBackOrHome, useAppNavigation } from '../navigation';
 import { describeSync, syncReminderNotifications } from '../modules/reminders/notifications';
 import { MINUTES_BEFORE, leadLabel, type MinutesBefore, type PlannedSession } from '../modules/reminders/reminder-model';
 import { clearSessionReminder, getReminder, hasOwnReminder, setReminder, upcomingSessions } from '../modules/reminders/reminders';
 import { updateSession } from '../modules/workouts/schedule';
 import { addDays, dayLabel, fromMinutes, toDateKey, toMinutes, weekStartOf } from '../shared/dates';
-import { Button, Chip, IconButton, Mascot, Screen, Sheet, TopBar } from '../ui/components';
-import { colors, radius, space, type } from '../ui/theme';
+import { Button, Chip, IconButton, Sheet } from '../ui/components';
+import { ContinuousSurface, SETTINGS_COLORS } from '../ui/settings-surface';
+import { colors, space, type } from '../ui/theme';
 import { useStore } from '../ui/use-store';
 
 const PRESETS = [
@@ -22,6 +25,8 @@ const PRESETS = [
 
 export default function RemindersScreen() {
   useStore();
+  const nav = useAppNavigation();
+  const [showDefaultLead, setShowDefaultLead] = useState(false);
   const [editing, setEditing] = useState<PlannedSession | null>(null);
   const [status, setStatus] = useState('');
   const fallback = getReminder(null)!;
@@ -42,82 +47,123 @@ export default function RemindersScreen() {
     sync(patch.enabled === true);
   };
 
+  const sessionGroups = [
+    { title: 'This week', entries: sessions.filter((session) => session.date < nextWeek) },
+    { title: 'Next week', entries: sessions.filter((session) => session.date >= nextWeek) },
+  ];
+
   return (
-    <Screen>
-      <TopBar title="Reminders" />
-      <View style={styles.hero}>
-        <View style={{ flex: 1 }}>
-          <Text style={type.title}>A time for you.</Text>
-          <Text style={[type.caption, { marginTop: space.xs }]}>
-            A gentle nudge before each planned session. You choose how early.
-          </Text>
-        </View>
-        <Mascot mood={fallback.enabled ? 'content' : 'waiting'} size={72} />
+    <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
+      <View style={styles.header}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Back"
+          onPress={() => goBackOrHome(nav)}
+          style={({ pressed }) => [styles.back, pressed && styles.pressed]}
+        >
+          <Text style={styles.backGlyph} allowFontScaling={false}>‹</Text>
+        </Pressable>
+        <Text accessibilityRole="header" style={styles.headerTitle}>Reminders</Text>
+        <View style={styles.headerSpacer} />
       </View>
-
-      <View style={styles.card}>
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <Text style={type.h3}>For every session</Text>
-            <Text style={type.caption}>{fallback.enabled ? leadLabel(fallback.minutesBefore) : 'Off'}</Text>
+      <ScrollView contentContainerStyle={styles.settingsContent}>
+        <ContinuousSurface radius={22}>
+          <View style={styles.settingsRow}>
+            <Text style={styles.rowLabel}>For every session</Text>
+            <Switch
+              value={fallback.enabled}
+              onValueChange={(enabled) => setDefault({ enabled })}
+              trackColor={{ true: SETTINGS_COLORS.accentBlue, false: SETTINGS_COLORS.separator }}
+              thumbColor={SETTINGS_COLORS.card}
+              accessibilityLabel="Reminders for every session"
+            />
           </View>
-          <Switch
-            value={fallback.enabled}
-            onValueChange={(enabled) => setDefault({ enabled })}
-            trackColor={{ true: colors.accent, false: colors.line }}
-            thumbColor={colors.white}
-            accessibilityLabel="Reminders for every session"
-          />
-        </View>
-        {fallback.enabled ? (
-          <View style={[styles.chips, { marginTop: space.md }]}>
-            {MINUTES_BEFORE.map((m) => (
-              <Chip key={m} label={m === 0 ? 'At start' : `${m} min`} selected={fallback.minutesBefore === m} onPress={() => setDefault({ minutesBefore: m })} style={{ flex: 1 }} />
-            ))}
-          </View>
-        ) : null}
-      </View>
-
-      {status ? (
-        <Text style={[type.caption, { marginTop: space.md }]} accessibilityLiveRegion="polite">
-          {status}
-        </Text>
-      ) : null}
-
-      <Text style={[type.h2, { marginTop: space.xl, marginBottom: space.sm }]}>Your planned sessions</Text>
-      {sessions.length === 0 ? (
-        <View style={styles.empty}>
-          <Mascot mood="waiting" size={64} />
-          <Text style={[type.caption, { flex: 1 }]}>No planned sessions yet. Plan your week, then choose reminders here.</Text>
-        </View>
-      ) : (
-        sessions.map((s, i) => {
-          const r = getReminder(s.id)!;
-          const own = hasOwnReminder(s.id);
-          const showHeader = i === 0 || (s.date >= nextWeek && sessions[i - 1].date < nextWeek);
-          return (
-            <View key={s.id}>
-              {showHeader ? <Text style={[type.eyebrow, { marginTop: space.md, marginBottom: space.sm }]}>{s.date >= nextWeek ? 'Next week' : 'This week'}</Text> : null}
+          {fallback.enabled ? (
+            <>
+              <View style={styles.divider} />
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={`${s.title}, ${dayLabel(s.date)}, ${s.time ?? 'no time yet'}`}
-                onPress={() => setEditing(s)}
-                style={({ pressed }) => [styles.sessionRow, pressed && { opacity: 0.7 }]}
+                accessibilityLabel={`Remind me, ${leadLabel(fallback.minutesBefore)}`}
+                onPress={() => setShowDefaultLead(true)}
+                style={({ pressed }) => [styles.settingsRow, pressed && styles.pressed]}
               >
-                <View style={{ flex: 1 }}>
-                  <Text style={type.h3}>{s.title}</Text>
-                  <Text style={type.caption}>
-                    {dayLabel(s.date)} · {s.time ?? 'No time yet'}
-                  </Text>
-                </View>
-                <Text style={[type.caption, styles.badge]}>
-                  {!s.time ? 'Add time' : r.enabled ? `${leadLabel(r.minutesBefore)}${own ? '' : ' · default'}` : 'Off'}
-                </Text>
+                <Text style={styles.rowLabel}>Remind me</Text>
+                <Text style={styles.rowDetail}>{leadLabel(fallback.minutesBefore)}</Text>
+                <Text style={styles.disclosure} allowFontScaling={false} aria-hidden>›</Text>
               </Pressable>
-            </View>
-          );
-        })
-      )}
+            </>
+          ) : null}
+        </ContinuousSurface>
+        <Text style={styles.footer}>A gentle nudge before each planned session. You choose how early.</Text>
+        {status ? <Text style={styles.footer} accessibilityLiveRegion="polite">{status}</Text> : null}
+
+        {sessions.length === 0 ? (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Your planned sessions</Text>
+            <ContinuousSurface radius={22}>
+              <View style={styles.settingsRow}>
+                <Text style={styles.rowDetail}>No planned sessions yet. Plan your week, then choose reminders here.</Text>
+              </View>
+            </ContinuousSurface>
+          </View>
+        ) : sessionGroups.map(({ title, entries }) => entries.length > 0 ? (
+          <View key={title} style={styles.section}>
+            <Text style={styles.sectionTitle}>{title}</Text>
+            <ContinuousSurface radius={22}>
+              {entries.map((session, index) => {
+                const reminder = getReminder(session.id)!;
+                const details = `${dayLabel(session.date)} · ${session.time ?? 'No time yet'}`;
+                const result = !session.time ? 'Add time' : reminder.enabled
+                  ? `${leadLabel(reminder.minutesBefore)}${hasOwnReminder(session.id) ? '' : ' · default'}`
+                  : 'Off';
+                return (
+                  <View key={session.id}>
+                    {index > 0 ? <View style={styles.divider} /> : null}
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={`${session.title}, ${details}, ${result}`}
+                      onPress={() => setEditing(session)}
+                      style={({ pressed }) => [styles.settingsRow, pressed && styles.pressed]}
+                    >
+                      <View style={styles.rowLabel}>
+                        <Text style={styles.sessionTitle}>{session.title}</Text>
+                        <Text style={styles.sessionDetail}>{details}</Text>
+                      </View>
+                      <Text style={styles.sessionValue}>{result}</Text>
+                      <Text style={styles.disclosure} allowFontScaling={false} aria-hidden>›</Text>
+                    </Pressable>
+                  </View>
+                );
+              })}
+            </ContinuousSurface>
+          </View>
+        ) : null)}
+      </ScrollView>
+
+      <Sheet visible={showDefaultLead} onClose={() => setShowDefaultLead(false)} title="Remind me">
+        <ContinuousSurface radius={22}>
+          {MINUTES_BEFORE.map((minutes, index) => {
+            const selected = minutes === fallback.minutesBefore;
+            return (
+              <View key={minutes}>
+                {index > 0 ? <View style={styles.divider} /> : null}
+                <Pressable
+                  accessibilityRole="radio"
+                  accessibilityState={{ checked: selected }}
+                  onPress={() => {
+                    setDefault({ minutesBefore: minutes });
+                    setShowDefaultLead(false);
+                  }}
+                  style={({ pressed }) => [styles.settingsRow, pressed && styles.pressed]}
+                >
+                  <Text style={styles.rowLabel}>{leadLabel(minutes)}</Text>
+                  {selected ? <Text style={styles.selection} aria-hidden>✓</Text> : null}
+                </Pressable>
+              </View>
+            );
+          })}
+        </ContinuousSurface>
+      </Sheet>
 
       <SessionSheet
         key={editing?.id ?? 'none'}
@@ -129,7 +175,7 @@ export default function RemindersScreen() {
           sync(ask);
         }}
       />
-    </Screen>
+    </SafeAreaView>
   );
 }
 
@@ -169,12 +215,12 @@ function SessionSheet({ session, onClose, onSaved }: { session: PlannedSession |
       </View>
       <View style={styles.chips}>
         {PRESETS.map(([label, value]) => (
-          <Chip key={value} label={label} selected={time === value} onPress={() => setTime(value)} style={{ flex: 1 }} />
+          <Chip key={value} label={label} selected={time === value} onPress={() => setTime(value)} style={styles.flexItem} />
         ))}
       </View>
 
       <Text style={[type.h3, { marginTop: space.xl, marginBottom: space.sm }]}>Reminder</Text>
-      <View style={[styles.chips, { flexWrap: 'wrap' }]}>
+      <View style={[styles.chips, styles.wrap]}>
         <Chip label="Default" selected={lead === 'default'} onPress={() => setLead('default')} />
         <Chip label="Off" selected={lead === 'off'} onPress={() => setLead('off')} />
         {MINUTES_BEFORE.map((m) => (
@@ -184,21 +230,38 @@ function SessionSheet({ session, onClose, onSaved }: { session: PlannedSession |
       {error ? <Text style={[type.caption, { color: colors.danger, marginTop: space.md }]}>{error}</Text> : null}
 
       <View style={styles.actions}>
-        {session.time ? <Button title="Remove time" variant="text" onPress={() => save(null)} style={{ flex: 1 }} /> : null}
-        <Button title="Save time" style={{ flex: 2, justifyContent: 'center' }} onPress={() => save(time)} />
+        {session.time ? <Button title="Remove time" variant="text" onPress={() => save(null)} style={styles.flexItem} /> : null}
+        <Button title="Save time" style={styles.saveAction} onPress={() => save(time)} />
       </View>
     </Sheet>
   );
 }
 
 const styles = StyleSheet.create({
-  hero: { flexDirection: 'row', alignItems: 'flex-start', gap: space.md, marginVertical: space.lg },
-  card: { backgroundColor: colors.surface, borderRadius: radius.md, padding: space.lg },
-  row: { flexDirection: 'row', alignItems: 'center' },
+  screen: { flex: 1, backgroundColor: SETTINGS_COLORS.bg },
+  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 },
+  back: { width: 44, height: 44, borderRadius: 22, backgroundColor: SETTINGS_COLORS.card, alignItems: 'center', justifyContent: 'center' },
+  backGlyph: { fontSize: 27, lineHeight: 30, color: SETTINGS_COLORS.textPrimary },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '600', color: SETTINGS_COLORS.textPrimary },
+  headerSpacer: { width: 44 },
+  settingsContent: { paddingHorizontal: 16, paddingTop: 20, paddingBottom: 48 },
+  settingsRow: { minHeight: 50, paddingHorizontal: 18, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  rowLabel: { flex: 1, fontSize: 16, color: SETTINGS_COLORS.textPrimary },
+  rowDetail: { flexShrink: 1, fontSize: 15, color: SETTINGS_COLORS.textSecondary },
+  sessionTitle: { fontSize: 16, color: SETTINGS_COLORS.textPrimary },
+  sessionDetail: { marginTop: 3, fontSize: 13, color: SETTINGS_COLORS.textSecondary },
+  sessionValue: { maxWidth: '42%', flexShrink: 1, textAlign: 'right', fontSize: 14, color: SETTINGS_COLORS.textSecondary },
+  disclosure: { fontSize: 21, color: SETTINGS_COLORS.textSecondary },
+  divider: { marginHorizontal: 18, height: StyleSheet.hairlineWidth, backgroundColor: SETTINGS_COLORS.separator },
+  section: { marginTop: 24 },
+  sectionTitle: { marginHorizontal: 18, marginBottom: 8, fontSize: 13, fontWeight: '500', color: SETTINGS_COLORS.textSecondary },
+  footer: { marginHorizontal: 18, marginTop: 8, fontSize: 13, lineHeight: 18, color: SETTINGS_COLORS.textSecondary },
+  selection: { color: SETTINGS_COLORS.accentBlue, fontSize: 18 },
+  pressed: { opacity: 0.72 },
   chips: { flexDirection: 'row', gap: space.sm },
-  empty: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: space.lg },
-  sessionRow: { flexDirection: 'row', alignItems: 'center', minHeight: 64, paddingHorizontal: space.lg, marginBottom: space.sm, backgroundColor: colors.surface, borderRadius: radius.md },
-  badge: { color: colors.accent, fontWeight: '700' },
+  flexItem: { flex: 1 },
+  wrap: { flexWrap: 'wrap' },
+  saveAction: { flex: 2, justifyContent: 'center' },
   timeRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: space.lg },
   time: { fontSize: 56, fontWeight: '800', color: colors.ink, fontVariant: ['tabular-nums'] },
   actions: { flexDirection: 'row', gap: space.md, marginTop: space.xl },

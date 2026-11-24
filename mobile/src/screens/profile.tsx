@@ -29,7 +29,7 @@ import {
   AccessibilityInfo,
   ActivityIndicator,
   AppState,
-  Modal,
+  Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -71,89 +71,17 @@ import { type Equipment, type Experience, type Goal, type Region } from '../shar
 import {
   SettingsIconKind,
   SquircleIconTile,
-  buildContinuousRectPath,
 } from '../ui/settings-icons';
 
-// Settings Design System Palette (neutral reference-sampled + approved FitLens Blue)
-export const SETTINGS_COLORS = {
-  bg: '#F2F1F6',
-  card: '#FFFFFF',
-  textPrimary: '#1C1C1E',
-  textSecondary: '#636366',
-  separator: '#E5E5EA',
-  accentBlue: '#4F68D5',
-  accentBlueLight: '#EEF2FF',
-  statusGreen: '#34C759',
-  border: 'rgba(0, 0, 0, 0.05)',
-  pressed: '#E5E5EA',
-  backdropSoft: '#F2F1F6',
-  errorBg: '#FEE2E2',
-  errorText: '#DC2626',
-};
+import { ContinuousSurface, SETTINGS_COLORS } from '../ui/settings-surface';
 
-type SettingsView = 'overview' | 'trainingPlan' | 'equipmentAreas' | 'healthConnect' | 'privacy';
+export { ContinuousSurface, SETTINGS_COLORS } from '../ui/settings-surface';
+
+type SettingsView = 'overview' | 'preferredName' | 'trainingPlan' | 'equipmentAreas' | 'healthConnect' | 'privacy';
 
 interface ProfileScreenProps {
   healthConnectAdapter?: HealthConnectAdapter;
   forceSolidFallback?: boolean;
-}
-
-// -------------------------------------------------------------------
-// Component: Continuous Surface (Resizable Squircle Card / Inset Group)
-// -------------------------------------------------------------------
-interface ContinuousSurfaceProps {
-  children: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
-  radius?: number;
-  backgroundColor?: string;
-  borderColor?: string;
-}
-
-export function ContinuousSurface({
-  children,
-  style,
-  radius = 18,
-  backgroundColor = SETTINGS_COLORS.card,
-  borderColor = SETTINGS_COLORS.border,
-}: ContinuousSurfaceProps) {
-  const [size, setSize] = useState<{ width: number; height: number } | null>(null);
-
-  const path =
-    size && size.width > 0 && size.height > 0
-      ? buildContinuousRectPath(size.width, size.height, radius)
-      : null;
-
-  return (
-    <View
-      onLayout={(e) => {
-        const { width, height } = e.nativeEvent.layout;
-        setSize((prev) => (prev?.width === width && prev?.height === height ? prev : { width, height }));
-      }}
-      style={[
-        styles.continuousSurfaceBase,
-        { borderRadius: radius },
-        size ? styles.surfaceBgTransparent : styles.surfaceBgDefault,
-        style,
-      ]}
-    >
-      {size && path ? (
-        <Svg
-          width={size.width}
-          height={size.height}
-          style={StyleSheet.absoluteFill}
-          pointerEvents="none"
-        >
-          <Path
-            d={path}
-            fill={backgroundColor}
-            stroke={borderColor}
-            strokeWidth={StyleSheet.hairlineWidth}
-          />
-        </Svg>
-      ) : null}
-      {children}
-    </View>
-  );
 }
 
 // -------------------------------------------------------------------
@@ -353,7 +281,8 @@ export default function ProfileScreen({
   const [profile, setProfile] = useState<Profile>(() => getProfile());
 
   // Name editor modal state
-  const [isNameModalVisible, setIsNameModalVisible] = useState(false);
+  const nameField = useRef<React.ComponentRef<typeof TextInput>>(null);
+  const savingName = useRef(false);
   const [nameInput, setNameInput] = useState('');
   const [nameError, setNameError] = useState<string | null>(null);
   const [isSavingName, setIsSavingName] = useState(false);
@@ -422,8 +351,11 @@ export default function ProfileScreen({
   // Handle hardware Back button on Android
   useScopedBackHandler(
     useCallback(() => {
-      if (isNameModalVisible) {
-        setIsNameModalVisible(false);
+      if (currentView === 'preferredName') {
+        if (!savingName.current) {
+          Keyboard.dismiss();
+          setCurrentView('overview');
+        }
         return true;
       }
       if (currentView !== 'overview') {
@@ -432,44 +364,130 @@ export default function ProfileScreen({
         return true;
       }
       return false;
-    }, [isNameModalVisible, currentView, reloadProfile])
+    }, [currentView, reloadProfile])
   );
 
   // Name editor handlers
   const openNameEditor = () => {
     setNameInput(profile.name ?? '');
     setNameError(null);
-    setIsNameModalVisible(true);
+    setCurrentView('preferredName');
   };
 
   const closeNameEditor = () => {
-    if (isSavingName) return;
-    setIsNameModalVisible(false);
-    setNameError(null);
+    if (savingName.current) return;
+    Keyboard.dismiss();
+    setCurrentView('overview');
   };
 
   const handleSaveName = async () => {
+    if (savingName.current) return;
     const trimmed = normalizeName(nameInput);
     if (!isValidName(trimmed)) {
       setNameError('Please enter a name between 1 and 40 characters.');
       return;
     }
+    savingName.current = true;
     setIsSavingName(true);
     setNameError(null);
     try {
       const ok = await saveProfileName(trimmed);
       if (ok) {
         reloadProfile();
-        setIsNameModalVisible(false);
+        Keyboard.dismiss();
+        setCurrentView('overview');
       } else {
         setNameError('Could not save name. Please try again.');
       }
     } catch {
       setNameError('Could not save name. Please try again.');
     } finally {
+      savingName.current = false;
       setIsSavingName(false);
     }
   };
+
+  if (currentView === 'preferredName') {
+    return (
+      <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
+        <View style={[styles.editorTopBar, styles.subpageTopBar]}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Back to Settings"
+            accessibilityState={{ disabled: isSavingName }}
+            disabled={isSavingName}
+            onPress={closeNameEditor}
+            style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
+            hitSlop={8}
+          >
+            <View style={styles.subpageBackFace}>
+              <VectorBackArrow size={22} strokeWidth={2.2} />
+            </View>
+          </Pressable>
+          <Text style={styles.editorNavTitle} accessibilityRole="header" numberOfLines={1}>
+            Preferred Name
+          </Text>
+          <View style={styles.headerSpacer} />
+        </View>
+
+        <ScrollView contentContainerStyle={styles.editorScrollContent} keyboardShouldPersistTaps="handled">
+          <ContinuousSurface
+            radius={24}
+            borderColor={nameError ? SETTINGS_COLORS.errorText : SETTINGS_COLORS.border}
+            style={styles.preferredNameField}
+          >
+            <TextInput
+              ref={nameField}
+              style={styles.preferredNameInput}
+              value={nameInput}
+              onChangeText={(value) => {
+                setNameInput(value);
+                setNameError(null);
+              }}
+              onSubmitEditing={handleSaveName}
+              placeholder="Enter your name"
+              placeholderTextColor={SETTINGS_COLORS.textSecondary}
+              cursorColor={SETTINGS_COLORS.accentBlue}
+              selectionColor={SETTINGS_COLORS.accentBlue}
+              returnKeyType="done"
+              submitBehavior="submit"
+              editable={!isSavingName}
+              accessibilityState={{ busy: isSavingName }}
+              maxLength={40}
+              autoFocus
+              autoCapitalize="words"
+              autoCorrect={false}
+              accessibilityLabel="Preferred name"
+            />
+            {isSavingName ? (
+              <ActivityIndicator color={SETTINGS_COLORS.accentBlue} style={styles.nameFieldAction} />
+            ) : nameInput.length > 0 ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Clear name"
+                onPress={() => {
+                  setNameInput('');
+                  setNameError(null);
+                  nameField.current?.focus();
+                }}
+                style={({ pressed }) => [styles.nameFieldAction, pressed && styles.pressed]}
+              >
+                <View style={styles.nameClearFace}>
+                  <VectorClose size={14} color={SETTINGS_COLORS.textPrimary} strokeWidth={1.8} />
+                </View>
+              </Pressable>
+            ) : null}
+          </ContinuousSurface>
+          <Text style={styles.editorSectionFooter}>Your preferred name across FitLens</Text>
+          {nameError ? (
+            <Text style={[styles.editorSectionFooter, styles.nameFieldError]} accessibilityLiveRegion="polite">
+              {nameError}
+            </Text>
+          ) : null}
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 
   // Trailing label for Health Connect row
   const getHealthConnectRowDetail = (): string => {
@@ -650,66 +668,6 @@ export default function ProfileScreen({
         </View>
       </ScrollView>
 
-      {/* Local Name Editor Modal */}
-      <Modal
-        visible={isNameModalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={closeNameEditor}
-        statusBarTranslucent
-      >
-        <Pressable style={styles.modalOverlay} onPress={closeNameEditor}>
-          <Pressable style={styles.nameDialog} onPress={(e) => e.stopPropagation()}>
-            <Text style={styles.dialogTitle} accessibilityRole="header">
-              Edit Name
-            </Text>
-            <Text style={styles.dialogSubtitle}>Your preferred name across FitLens</Text>
-
-            <TextInput
-              style={[styles.nameTextInput, nameError ? styles.nameInputError : null]}
-              value={nameInput}
-              onChangeText={(text) => {
-                setNameInput(text);
-                if (nameError) setNameError(null);
-              }}
-              placeholder="Enter your name"
-              placeholderTextColor={SETTINGS_COLORS.textSecondary}
-              maxLength={40}
-              autoFocus
-              autoCapitalize="words"
-              autoCorrect={false}
-              accessibilityLabel="Preferred name"
-            />
-
-            {nameError ? (
-              <Text style={styles.dialogError} accessibilityLiveRegion="polite">
-                {nameError}
-              </Text>
-            ) : null}
-
-            <View style={styles.dialogActions}>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Cancel"
-                onPress={closeNameEditor}
-                disabled={isSavingName}
-                style={({ pressed }) => [styles.dialogBtn, styles.dialogCancelBtn, pressed && styles.pressed]}
-              >
-                <Text style={styles.dialogCancelText}>Cancel</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Save name"
-                onPress={handleSaveName}
-                disabled={isSavingName}
-                style={({ pressed }) => [styles.dialogBtn, styles.dialogSaveBtn, pressed && styles.pressed]}
-              >
-                <Text style={styles.dialogSaveText}>{isSavingName ? 'Saving…' : 'Save'}</Text>
-              </Pressable>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -1137,24 +1095,7 @@ function TrainingPlanEditor({
           style={({ pressed }) => [styles.editorHeaderCircleBtn, pressed && styles.pressed]}
           hitSlop={4}
         >
-          <View style={styles.editorCancelCircle}>
-            <Svg width={42} height={42} style={StyleSheet.absoluteFill} pointerEvents="none">
-              <Defs>
-                <LinearGradient id="cancelEdgeGrad" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.65} />
-                  <Stop offset="45%" stopColor="#FFFFFF" stopOpacity={0.15} />
-                  <Stop offset="100%" stopColor="#3C3C43" stopOpacity={0.12} />
-                </LinearGradient>
-              </Defs>
-              <Circle cx={21} cy={21} r={20.5} stroke="url(#cancelEdgeGrad)" strokeWidth={1} fill="none" />
-            </Svg>
-            <VectorClose
-              size={17}
-              color="#3C3C43"
-              strokeWidth={1.6}
-              pathOverride="M 4.0 4.0 L 12.0 12.0 M 12.0 4.0 L 4.0 12.0"
-            />
-          </View>
+          <EditorActionFace action="cancel" />
         </Pressable>
 
         <Text
@@ -1179,28 +1120,7 @@ function TrainingPlanEditor({
           ]}
           hitSlop={4}
         >
-          <View style={[styles.editorSaveCircle, isSaving && styles.editorSaveCircleDisabled]}>
-            <Svg width={42} height={42} style={StyleSheet.absoluteFill} pointerEvents="none">
-              <Defs>
-                <LinearGradient id="saveEdgeGrad" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.42} />
-                  <Stop offset="45%" stopColor="#FFFFFF" stopOpacity={0.16} />
-                  <Stop offset="100%" stopColor="#142364" stopOpacity={0.25} />
-                </LinearGradient>
-              </Defs>
-              <Circle cx={21} cy={21} r={20.5} stroke="url(#saveEdgeGrad)" strokeWidth={1} fill="none" />
-            </Svg>
-            {isSaving ? (
-              <ActivityIndicator size="small" color="#FFFFFF" />
-            ) : (
-              <VectorCheckmark
-                size={18}
-                color="#FFFFFF"
-                strokeWidth={1.65}
-                pathOverride="M 3.2 8.2 L 6.6 11.6 L 13.6 4.0"
-              />
-            )}
-          </View>
+          <EditorActionFace action="save" isSaving={isSaving} />
         </Pressable>
       </View>
 
@@ -1214,11 +1134,9 @@ function TrainingPlanEditor({
         {/* Section 1: Primary Goal */}
         <View style={styles.editorSection}>
           <Text style={styles.editorSectionHeader}>Primary goal</Text>
-          <ContinuousSurface radius={16}>
+          <ContinuousSurface radius={22}>
             {GOAL_OPTIONS.map((opt, i) => {
               const isSelected = goal === opt.value;
-              const isFirst = i === 0;
-              const isLast = i === GOAL_OPTIONS.length - 1;
               return (
                 <View key={opt.value}>
                   <Pressable
@@ -1228,8 +1146,7 @@ function TrainingPlanEditor({
                     onPress={() => setGoal(opt.value)}
                     style={({ pressed }) => [
                       styles.selectableRow,
-                      isFirst && styles.selectableRowFirst,
-                      isLast && styles.selectableRowLast,
+                      styles.editorSelectionRow,
                       pressed && styles.pressed,
                     ]}
                   >
@@ -1239,13 +1156,13 @@ function TrainingPlanEditor({
                       </Text>
                       <Text style={styles.selectableRowSubtitle}>{opt.subtitle}</Text>
                     </View>
-                    {isSelected ? (
-                      <View style={styles.selectedRowCheckWrap}>
-                        <VectorCheckmark size={16} color={SETTINGS_COLORS.accentBlue} strokeWidth={1.9} />
-                      </View>
-                    ) : null}
+                    <View style={styles.editorSelectionIndicator}>
+                      {isSelected ? (
+                        <VectorCheckmark size={18} color={SETTINGS_COLORS.accentBlue} strokeWidth={1.7} />
+                      ) : null}
+                    </View>
                   </Pressable>
-                  {i < GOAL_OPTIONS.length - 1 ? <View style={styles.innerDivider} /> : null}
+                  {i < GOAL_OPTIONS.length - 1 ? <View style={[styles.innerDivider, styles.editorInsetDivider]} /> : null}
                 </View>
               );
             })}
@@ -1255,11 +1172,9 @@ function TrainingPlanEditor({
         {/* Section 2: Experience Level */}
         <View style={styles.editorSection}>
           <Text style={styles.editorSectionHeader}>Experience level</Text>
-          <ContinuousSurface radius={16}>
+          <ContinuousSurface radius={22}>
             {EXPERIENCE_OPTIONS.map((opt, i) => {
               const isSelected = experience === opt.value;
-              const isFirst = i === 0;
-              const isLast = i === EXPERIENCE_OPTIONS.length - 1;
               return (
                 <View key={opt.value}>
                   <Pressable
@@ -1269,8 +1184,7 @@ function TrainingPlanEditor({
                     onPress={() => setExperience(opt.value)}
                     style={({ pressed }) => [
                       styles.selectableRow,
-                      isFirst && styles.selectableRowFirst,
-                      isLast && styles.selectableRowLast,
+                      styles.editorSelectionRow,
                       pressed && styles.pressed,
                     ]}
                   >
@@ -1280,13 +1194,13 @@ function TrainingPlanEditor({
                       </Text>
                       <Text style={styles.selectableRowSubtitle}>{opt.subtitle}</Text>
                     </View>
-                    {isSelected ? (
-                      <View style={styles.selectedRowCheckWrap}>
-                        <VectorCheckmark size={16} color={SETTINGS_COLORS.accentBlue} strokeWidth={1.9} />
-                      </View>
-                    ) : null}
+                    <View style={styles.editorSelectionIndicator}>
+                      {isSelected ? (
+                        <VectorCheckmark size={18} color={SETTINGS_COLORS.accentBlue} strokeWidth={1.7} />
+                      ) : null}
+                    </View>
                   </Pressable>
-                  {i < EXPERIENCE_OPTIONS.length - 1 ? <View style={styles.innerDivider} /> : null}
+                  {i < EXPERIENCE_OPTIONS.length - 1 ? <View style={[styles.innerDivider, styles.editorInsetDivider]} /> : null}
                 </View>
               );
             })}
@@ -1296,7 +1210,7 @@ function TrainingPlanEditor({
         {/* Section 3: Schedule & Duration (In-Place Choice Summary Rows) */}
         <View style={styles.editorSection}>
           <Text style={styles.editorSectionHeader}>Schedule & duration</Text>
-          <ContinuousSurface radius={16}>
+          <ContinuousSurface radius={22}>
             {/* Row 1: Sessions per week */}
             <Pressable
               ref={sessionsTriggerRef}
@@ -1307,7 +1221,6 @@ function TrainingPlanEditor({
               onPress={openSessionsMenu}
               style={({ pressed }) => [
                 styles.menuSummaryRow,
-                styles.selectableRowFirst,
                 pressed && styles.pressed,
               ]}
             >
@@ -1318,7 +1231,7 @@ function TrainingPlanEditor({
               </View>
             </Pressable>
 
-            <View style={styles.innerDivider} />
+            <View style={[styles.innerDivider, styles.editorInsetDivider]} />
 
             {/* Row 2: Session duration */}
             <Pressable
@@ -1330,7 +1243,6 @@ function TrainingPlanEditor({
               onPress={openDurationMenu}
               style={({ pressed }) => [
                 styles.menuSummaryRow,
-                styles.selectableRowLast,
                 pressed && styles.pressed,
               ]}
             >
@@ -1427,6 +1339,57 @@ interface EquipmentAreasEditorProps {
   onSaved: () => void;
 }
 
+function EditorActionFace({
+  action,
+  isSaving = false,
+}: {
+  action: 'cancel' | 'save';
+  isSaving?: boolean;
+}) {
+  const isSave = action === 'save';
+  const rimId = `editor-${action}-rim`;
+
+  return (
+    <View style={styles.editorActionFace} accessible={false}>
+      <Svg width={42} height={42} viewBox="0 0 42 42" style={StyleSheet.absoluteFill} pointerEvents="none">
+        <Defs>
+          <LinearGradient id={rimId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={isSave ? 0.62 : 0.92} />
+            <Stop offset="55%" stopColor="#FFFFFF" stopOpacity={0.12} />
+            <Stop offset="100%" stopColor="#FFFFFF" stopOpacity={isSave ? 0.36 : 0.78} />
+          </LinearGradient>
+        </Defs>
+        <Circle
+          cx={21}
+          cy={21}
+          r={20.55}
+          fill={isSave ? SETTINGS_COLORS.accentBlue : '#F1F1F6'}
+          stroke={isSave ? '#4258BB' : '#BFC0C9'}
+          strokeWidth={0.65}
+        />
+        <Circle cx={21} cy={21} r={19.85} fill="none" stroke={`url(#${rimId})`} strokeWidth={0.75} />
+      </Svg>
+      {isSaving ? (
+        <ActivityIndicator size="small" color="#FFFFFF" />
+      ) : isSave ? (
+        <VectorCheckmark
+          size={20}
+          color="#FFFFFF"
+          strokeWidth={1.5}
+          pathOverride="M 2.7 8.3 L 6.5 12.5 L 13.4 3.1"
+        />
+      ) : (
+        <VectorClose
+          size={20}
+          color="#626571"
+          strokeWidth={1.45}
+          pathOverride="M 3.2 3.2 L 12.8 12.8 M 12.8 3.2 L 3.2 12.8"
+        />
+      )}
+    </View>
+  );
+}
+
 function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAreasEditorProps) {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment[]>(() => [
     ...(initialProfile.equipment ?? []),
@@ -1509,24 +1472,7 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
           style={({ pressed }) => [styles.editorHeaderCircleBtn, pressed && styles.pressed]}
           hitSlop={4}
         >
-          <View style={styles.editorCancelCircle}>
-            <Svg width={42} height={42} style={StyleSheet.absoluteFill} pointerEvents="none">
-              <Defs>
-                <LinearGradient id="equipCancelEdgeGrad" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.65} />
-                  <Stop offset="45%" stopColor="#FFFFFF" stopOpacity={0.15} />
-                  <Stop offset="100%" stopColor="#3C3C43" stopOpacity={0.12} />
-                </LinearGradient>
-              </Defs>
-              <Circle cx={21} cy={21} r={20.5} stroke="url(#equipCancelEdgeGrad)" strokeWidth={1} fill="none" />
-            </Svg>
-            <VectorClose
-              size={17}
-              color="#3C3C43"
-              strokeWidth={1.6}
-              pathOverride="M 4.0 4.0 L 12.0 12.0 M 12.0 4.0 L 4.0 12.0"
-            />
-          </View>
+          <EditorActionFace action="cancel" />
         </Pressable>
 
         <Text
@@ -1551,28 +1497,7 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
           ]}
           hitSlop={4}
         >
-          <View style={[styles.editorSaveCircle, isSaving && styles.editorSaveCircleDisabled]}>
-            <Svg width={42} height={42} style={StyleSheet.absoluteFill} pointerEvents="none">
-              <Defs>
-                <LinearGradient id="equipSaveEdgeGrad" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.42} />
-                  <Stop offset="45%" stopColor="#FFFFFF" stopOpacity={0.16} />
-                  <Stop offset="100%" stopColor="#142364" stopOpacity={0.25} />
-                </LinearGradient>
-              </Defs>
-              <Circle cx={21} cy={21} r={20.5} stroke="url(#equipSaveEdgeGrad)" strokeWidth={1} fill="none" />
-            </Svg>
-            {isSaving ? (
-              <ActivityIndicator size="small" color="#FFFFFF" />
-            ) : (
-              <VectorCheckmark
-                size={18}
-                color="#FFFFFF"
-                strokeWidth={1.65}
-                pathOverride="M 4.2 9.4 L 7.4 12.6 L 14.8 4.2"
-              />
-            )}
-          </View>
+          <EditorActionFace action="save" isSaving={isSaving} />
         </Pressable>
       </View>
 
@@ -1585,15 +1510,10 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
 
         {/* Section 1: Equipment */}
         <View style={styles.editorSection}>
-          <Text style={styles.editorSectionHeader}>AVAILABLE EQUIPMENT</Text>
-          <Text style={styles.editorSectionDescription}>
-            Select what you have access to. An empty selection defaults to bodyweight exercises.
-          </Text>
-          <ContinuousSurface radius={16}>
+          <Text style={styles.editorSectionHeader}>Available equipment</Text>
+          <ContinuousSurface radius={22}>
             {EQUIPMENT_OPTIONS.map((opt, i) => {
               const isSelected = selectedEquipment.includes(opt.value);
-              const isFirst = i === 0;
-              const isLast = i === EQUIPMENT_OPTIONS.length - 1;
               return (
                 <View key={opt.value}>
                   <Pressable
@@ -1603,8 +1523,7 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
                     onPress={() => toggleEquipment(opt.value)}
                     style={({ pressed }) => [
                       styles.selectableRow,
-                      isFirst && styles.selectableRowFirst,
-                      isLast && styles.selectableRowLast,
+                      styles.editorSelectionRow,
                       pressed && styles.pressed,
                     ]}
                   >
@@ -1612,35 +1531,28 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
                       <Text style={styles.selectableRowTitle}>{opt.label}</Text>
                       <Text style={styles.selectableRowSubtitle}>{opt.description}</Text>
                     </View>
-                    <View style={[styles.checkboxBox, isSelected && styles.checkboxBoxActive]}>
+                    <View style={styles.editorSelectionIndicator}>
                       {isSelected ? (
-                        <VectorCheckmark
-                          size={13}
-                          color="#FFFFFF"
-                          strokeWidth={2.0}
-                          pathOverride="M 2.8 7.0 L 5.6 9.8 L 11.2 3.8"
-                        />
+                        <VectorCheckmark size={18} color={SETTINGS_COLORS.accentBlue} strokeWidth={1.7} />
                       ) : null}
                     </View>
                   </Pressable>
-                  {i < EQUIPMENT_OPTIONS.length - 1 ? <View style={styles.innerDivider} /> : null}
+                  {i < EQUIPMENT_OPTIONS.length - 1 ? <View style={[styles.innerDivider, styles.editorInsetDivider]} /> : null}
                 </View>
               );
             })}
           </ContinuousSurface>
+          <Text style={styles.editorSectionFooter}>
+            Select what you have access to. An empty selection defaults to bodyweight exercises.
+          </Text>
         </View>
 
         {/* Section 2: Areas to Avoid */}
         <View style={styles.editorSection}>
-          <Text style={styles.editorSectionHeader}>AREAS TO AVOID</Text>
-          <Text style={styles.editorSectionDescription}>
-            Workouts will automatically avoid exercises that put excessive load on these regions.
-          </Text>
-          <ContinuousSurface radius={16}>
+          <Text style={styles.editorSectionHeader}>Areas to avoid</Text>
+          <ContinuousSurface radius={22}>
             {REGION_OPTIONS.map((opt, i) => {
               const isSelected = selectedRegions.includes(opt.value);
-              const isFirst = i === 0;
-              const isLast = i === REGION_OPTIONS.length - 1;
               return (
                 <View key={opt.value}>
                   <Pressable
@@ -1650,30 +1562,27 @@ function EquipmentAreasEditor({ initialProfile, onCancel, onSaved }: EquipmentAr
                     onPress={() => toggleRegion(opt.value)}
                     style={({ pressed }) => [
                       styles.selectableRow,
-                      isFirst && styles.selectableRowFirst,
-                      isLast && styles.selectableRowLast,
+                      styles.editorSelectionRow,
                       pressed && styles.pressed,
                     ]}
                   >
                     <View style={styles.selectableRowText}>
                       <Text style={styles.selectableRowTitle}>{opt.label}</Text>
                     </View>
-                    <View style={[styles.checkboxBox, isSelected && styles.checkboxBoxActive]}>
+                    <View style={styles.editorSelectionIndicator}>
                       {isSelected ? (
-                        <VectorCheckmark
-                          size={13}
-                          color="#FFFFFF"
-                          strokeWidth={2.0}
-                          pathOverride="M 2.8 7.0 L 5.6 9.8 L 11.2 3.8"
-                        />
+                        <VectorCheckmark size={18} color={SETTINGS_COLORS.accentBlue} strokeWidth={1.7} />
                       ) : null}
                     </View>
                   </Pressable>
-                  {i < REGION_OPTIONS.length - 1 ? <View style={styles.innerDivider} /> : null}
+                  {i < REGION_OPTIONS.length - 1 ? <View style={[styles.innerDivider, styles.editorInsetDivider]} /> : null}
                 </View>
               );
             })}
           </ContinuousSurface>
+          <Text style={styles.editorSectionFooter}>
+            Workouts will automatically avoid exercises that put excessive load on these regions.
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -1688,17 +1597,6 @@ interface HealthConnectStatusPageProps {
   permissionGranted: boolean;
   adapter: HealthConnectAdapter;
   onBack: () => void;
-}
-
-interface HealthConnectBadge {
-  title: string;
-  desc: string;
-  dotColor: string;
-  badgeBg: string;
-  badgeTextColor: string;
-  badgeText: string;
-  actionText: string | null;
-  actionLabel: string | null;
 }
 
 function HealthConnectStatusPage({
@@ -1730,56 +1628,26 @@ function HealthConnectStatusPage({
     }
   };
 
-  const getStatusBadge = (): HealthConnectBadge => {
-    if (sdkStatus === 'available') {
-      if (permissionGranted) {
-        return {
-          title: 'Connected to Health Connect',
-          desc: 'FitLens has read access to your daily step count.',
-          dotColor: SETTINGS_COLORS.statusGreen,
-          badgeBg: '#DCFCE7',
-          badgeTextColor: '#166534',
-          badgeText: 'Connected',
-          actionText: 'Open Health Connect Settings',
-          actionLabel: 'Open Health Connect settings',
-        };
-      }
-      return {
-        title: 'Permission not granted',
-        desc: 'FitLens can read your daily steps once permission is granted in system settings.',
-        dotColor: '#F59E0B',
-        badgeBg: '#FEF3C7',
-        badgeTextColor: '#92400E',
-        badgeText: 'Not connected',
-        actionText: 'Open Health Connect Settings',
+  const status = sdkStatus === 'available'
+    ? {
+        label: permissionGranted ? 'Connected' : 'Not connected',
+        action: 'Open Health Connect Settings',
         actionLabel: 'Open Health Connect settings',
-      };
-    }
-    if (sdkStatus === 'provider-update-required') {
-      return {
-        title: 'Update required',
-        desc: 'Health Connect needs to be updated on your device via Google Play.',
-        dotColor: '#F97316',
-        badgeBg: '#FFEDD5',
-        badgeTextColor: '#9A3412',
-        badgeText: 'Update needed',
-        actionText: 'Update Health Connect',
-        actionLabel: 'Update Health Connect',
-      };
-    }
-    return {
-      title: 'Health Connect is unavailable',
-      desc: 'Health Connect is not supported or not installed on this Android device.',
-      dotColor: '#9CA3AF',
-      badgeBg: '#F3F4F6',
-      badgeTextColor: '#374151',
-      badgeText: 'Unavailable',
-      actionText: null,
-      actionLabel: null,
-    };
-  };
-
-  const badge = getStatusBadge();
+        guidance: permissionGranted ? null : 'You can grant read access in Android settings.',
+      }
+    : sdkStatus === 'provider-update-required'
+      ? {
+          label: 'Update needed',
+          action: 'Update Health Connect',
+          actionLabel: 'Update Health Connect',
+          guidance: 'Update Health Connect to manage FitLens access on this device.',
+        }
+      : {
+          label: 'Unavailable',
+          action: null,
+          actionLabel: null,
+          guidance: 'Health Connect is not supported or not installed on this Android device.',
+        };
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
@@ -1792,7 +1660,9 @@ function HealthConnectStatusPage({
           style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
           hitSlop={8}
         >
-          <VectorBackArrow size={24} color={SETTINGS_COLORS.textPrimary} strokeWidth={2.4} />
+          <View style={styles.subpageBackFace}>
+            <VectorBackArrow size={22} strokeWidth={2.2} />
+          </View>
         </Pressable>
         <Text style={styles.editorNavTitle} accessibilityRole="header" numberOfLines={1} ellipsizeMode="tail">
           Health Connect
@@ -1801,61 +1671,45 @@ function HealthConnectStatusPage({
       </View>
 
       <ScrollView contentContainerStyle={styles.editorScrollContent}>
-        {/* Status Card */}
         <View style={styles.editorSection}>
-          <ContinuousSurface radius={18}>
-            <View style={styles.statusCardInner}>
-              <View style={styles.statusHeaderRow}>
-                <View style={[styles.statusDot, { backgroundColor: badge.dotColor }]} />
-                <View style={[styles.statusBadgePill, { backgroundColor: badge.badgeBg }]}>
-                  <Text style={[styles.statusBadgePillText, { color: badge.badgeTextColor }]}>{badge.badgeText}</Text>
-                </View>
-              </View>
-              <Text style={styles.statusCardTitle}>{badge.title}</Text>
-              <Text style={styles.statusCardDesc}>{badge.desc}</Text>
-
-              {badge.actionText ? (
+          <ContinuousSurface radius={22}>
+            <View style={[styles.healthSettingsRow, styles.healthStatusRow]}>
+              <Text style={styles.menuSummaryLabel}>Status</Text>
+              <Text style={styles.healthStatusValue}>{status.label}</Text>
+            </View>
+            {status.action ? (
+              <>
+                <View style={[styles.innerDivider, styles.editorInsetDivider]} />
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={openingSettings ? 'Opening…' : (badge.actionLabel ?? badge.actionText)}
+                  accessibilityLabel={openingSettings ? 'Opening…' : status.actionLabel ?? undefined}
+                  accessibilityState={{ busy: openingSettings, disabled: openingSettings }}
                   onPress={handleOpenSettings}
                   disabled={openingSettings}
-                  style={({ pressed }) => [styles.primaryActionBtn, pressed && styles.pressed]}
+                  style={({ pressed }) => [styles.healthSettingsRow, pressed && styles.pressed]}
                 >
-                  <Text style={styles.primaryActionBtnText}>
-                    {openingSettings ? 'Opening…' : badge.actionText}
-                  </Text>
+                  <Text style={styles.menuSummaryLabel}>{openingSettings ? 'Opening…' : status.action}</Text>
+                  <Svg width={10} height={16} viewBox="0 0 10 16" aria-hidden={true}>
+                    <Path
+                      d="M 3 4 L 7 8 L 3 12"
+                      stroke={SETTINGS_COLORS.textSecondary}
+                      strokeOpacity={0.7}
+                      strokeWidth={1.6}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                    />
+                  </Svg>
                 </Pressable>
-              ) : null}
-            </View>
+              </>
+            ) : null}
           </ContinuousSurface>
-        </View>
-
-        {/* Informational Group */}
-        <View style={styles.editorSection}>
-          <Text style={styles.editorSectionHeader}>ABOUT THE INTEGRATION</Text>
-          <ContinuousSurface radius={18}>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoRowTitle}>Read-Only Access</Text>
-              <Text style={styles.infoRowDesc}>
-                FitLens only reads your daily step count. It never writes or modifies Health Connect records.
-              </Text>
-            </View>
-            <View style={styles.innerDivider} />
-            <View style={styles.infoRow}>
-              <Text style={styles.infoRowTitle}>Non-Intrusive Privacy</Text>
-              <Text style={styles.infoRowDesc}>
-                FitLens never requests permissions in loops. You have full control in Android system settings at all times.
-              </Text>
-            </View>
-            <View style={styles.innerDivider} />
-            <View style={styles.infoRow}>
-              <Text style={styles.infoRowTitle}>Local Processing</Text>
-              <Text style={styles.infoRowDesc}>
-                Your steps remain on-device and are never uploaded to any remote server or third party.
-              </Text>
-            </View>
-          </ContinuousSurface>
+          {status.guidance ? <Text style={styles.editorSectionFooter}>{status.guidance}</Text> : null}
+          {sdkStatus === 'available' ? (
+            <Text style={styles.editorSectionFooter}>
+              FitLens only reads your daily step count. It never writes or modifies Health Connect records.
+            </Text>
+          ) : null}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -1889,7 +1743,9 @@ function PrivacyDataPage({ onBack }: PrivacyDataPageProps) {
           style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
           hitSlop={8}
         >
-          <VectorBackArrow size={24} color={SETTINGS_COLORS.textPrimary} strokeWidth={2.4} />
+          <View style={styles.subpageBackFace}>
+            <VectorBackArrow size={22} strokeWidth={2.2} />
+          </View>
         </Pressable>
         <Text style={styles.editorNavTitle} accessibilityRole="header" numberOfLines={1} ellipsizeMode="tail">
           Privacy & Data
@@ -1899,41 +1755,46 @@ function PrivacyDataPage({ onBack }: PrivacyDataPageProps) {
 
       <ScrollView contentContainerStyle={styles.editorScrollContent}>
         <View style={styles.editorSection}>
-          <Text style={styles.editorSectionHeader}>PRIVACY PRINCIPLES</Text>
-          <ContinuousSurface radius={18}>
+          <Text style={styles.editorSectionHeader}>On this device</Text>
+          <ContinuousSurface radius={22}>
             <View style={styles.infoRow}>
               <Text style={styles.infoRowTitle}>Local-First Storage</Text>
               <Text style={styles.infoRowDesc}>
-                All profile preferences, workout history, plan configurations, and settings are saved locally on your device storage.
-              </Text>
-            </View>
-            <View style={styles.innerDivider} />
-            <View style={styles.infoRow}>
-              <Text style={styles.infoRowTitle}>Health Connect Permissions</Text>
-              <Text style={styles.infoRowDesc}>
-                Steps data is read through the official Android Health Connect framework only when explicitly enabled by you.
-              </Text>
-            </View>
-            <View style={styles.innerDivider} />
-            <View style={styles.infoRow}>
-              <Text style={styles.infoRowTitle}>Workout Reminders</Text>
-              <Text style={styles.infoRowDesc}>
-                Scheduled notifications are managed by your device alarm manager. No remote telemetry or push server is used.
-              </Text>
-            </View>
-            <View style={styles.innerDivider} />
-            <View style={styles.infoRow}>
-              <Text style={styles.infoRowTitle}>On-Device Camera Coaching</Text>
-              <Text style={styles.infoRowDesc}>
-                Real-time exercise posture tracking processes camera frames entirely in memory on-device. Video frames are never saved or transmitted.
+                Your profile, workout history, plans, and settings are saved on this device.
               </Text>
             </View>
           </ContinuousSurface>
         </View>
 
         <View style={styles.editorSection}>
-          <Text style={styles.editorSectionHeader}>DATA RETENTION</Text>
-          <ContinuousSurface radius={18}>
+          <Text style={styles.editorSectionHeader}>Permissions and reminders</Text>
+          <ContinuousSurface radius={22}>
+            <View style={styles.infoRow}>
+              <Text style={styles.infoRowTitle}>Health Connect Permissions</Text>
+              <Text style={styles.infoRowDesc}>
+                FitLens reads your daily steps when you grant access in Health Connect.
+              </Text>
+            </View>
+            <View style={[styles.innerDivider, styles.editorInsetDivider]} />
+            <View style={styles.infoRow}>
+              <Text style={styles.infoRowTitle}>Workout Reminders</Text>
+              <Text style={styles.infoRowDesc}>
+                Your device schedules workout reminders locally.
+              </Text>
+            </View>
+            <View style={[styles.innerDivider, styles.editorInsetDivider]} />
+            <View style={styles.infoRow}>
+              <Text style={styles.infoRowTitle}>On-Device Camera Coaching</Text>
+              <Text style={styles.infoRowDesc}>
+                FitLens processes camera frames on your device without saving or sending them.
+              </Text>
+            </View>
+          </ContinuousSurface>
+        </View>
+
+        <View style={styles.editorSection}>
+          <Text style={styles.editorSectionHeader}>Data retention</Text>
+          <ContinuousSurface radius={22}>
             <View style={styles.infoRow}>
               <Text style={styles.infoRowTitle}>Zero Cloud Tracking</Text>
               <Text style={styles.infoRowDesc}>
@@ -1954,16 +1815,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: SETTINGS_COLORS.bg,
-  },
-  continuousSurfaceBase: {
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  surfaceBgTransparent: {
-    backgroundColor: 'transparent',
-  },
-  surfaceBgDefault: {
-    backgroundColor: SETTINGS_COLORS.card,
   },
   scrollContent: {
     paddingBottom: 48,
@@ -2112,94 +1963,39 @@ const styles = StyleSheet.create({
     backgroundColor: SETTINGS_COLORS.separator,
     marginLeft: 58,
   },
-  selectableRowFirst: {
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-  },
-  selectableRowLast: {
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-  },
 
-  // Name Modal styles
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
-    justifyContent: 'center',
+  preferredNameField: {
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 24,
+    minHeight: 54,
+    paddingLeft: 18,
+    paddingRight: 8,
   },
-  nameDialog: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: SETTINGS_COLORS.card,
-    borderRadius: 20,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  dialogTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: SETTINGS_COLORS.textPrimary,
-    letterSpacing: 0,
-    marginBottom: 4,
-  },
-  dialogSubtitle: {
-    fontSize: 14,
-    color: SETTINGS_COLORS.textSecondary,
-    letterSpacing: 0,
-    marginBottom: 16,
-  },
-  nameTextInput: {
-    borderWidth: 1,
-    borderColor: SETTINGS_COLORS.separator,
-    borderRadius: 12,
-    paddingHorizontal: 14,
+  preferredNameInput: {
+    flex: 1,
+    minHeight: 54,
+    paddingLeft: 0,
+    paddingRight: 6,
     paddingVertical: 12,
     fontSize: 16,
     color: SETTINGS_COLORS.textPrimary,
-    backgroundColor: SETTINGS_COLORS.bg,
   },
-  nameInputError: {
-    borderColor: SETTINGS_COLORS.errorText,
-  },
-  dialogError: {
-    fontSize: 13,
-    color: SETTINGS_COLORS.errorText,
-    marginTop: 6,
-  },
-  dialogActions: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 20,
-    gap: 12,
-  },
-  dialogBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 10,
+  nameFieldAction: {
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dialogCancelBtn: {
-    backgroundColor: SETTINGS_COLORS.bg,
+  nameClearFace: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: SETTINGS_COLORS.separator,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  dialogCancelText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: SETTINGS_COLORS.textPrimary,
-  },
-  dialogSaveBtn: {
-    backgroundColor: SETTINGS_COLORS.accentBlue,
-  },
-  dialogSaveText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#FFFFFF',
+  nameFieldError: {
+    color: SETTINGS_COLORS.errorText,
   },
 
   // Editor generic styles
@@ -2231,19 +2027,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  editorCancelCircle: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: '#EAEAF0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1.5 },
-    shadowOpacity: 0.06,
-    shadowRadius: 2.0,
-    elevation: 2,
-  },
   editorSaveCircle: {
     width: 42,
     height: 42,
@@ -2256,9 +2039,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 3.0,
     elevation: 2,
-  },
-  editorSaveCircleDisabled: {
-    opacity: 0.6,
   },
   disabledBtn: {
     opacity: 0.7,
@@ -2307,12 +2087,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 8,
   },
-  editorSectionDescription: {
+  editorActionFace: {
+    width: 42,
+    height: 42,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editorSectionFooter: {
     fontSize: 13,
     color: SETTINGS_COLORS.textSecondary,
     paddingHorizontal: 16,
-    marginBottom: 10,
+    marginTop: 8,
     lineHeight: 18,
+  },
+  editorSelectionRow: {
+    minHeight: 48,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    backgroundColor: 'transparent',
+  },
+  editorSelectionIndicator: {
+    width: 24,
+    alignItems: 'flex-end',
+  },
+  editorInsetDivider: {
+    marginLeft: 18,
+    marginRight: 18,
   },
   selectableRow: {
     flexDirection: 'row',
@@ -2344,11 +2144,6 @@ const styles = StyleSheet.create({
     marginTop: 3,
     lineHeight: 18,
   },
-  selectedRowCheckWrap: {
-    width: 28,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
   radioCircle: {
     width: 22,
     height: 22,
@@ -2368,25 +2163,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#FFFFFF',
   },
-  checkboxBox: {
-    width: 22,
-    height: 22,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: '#C7C7CC',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxBoxActive: {
-    borderColor: SETTINGS_COLORS.accentBlue,
-    backgroundColor: SETTINGS_COLORS.accentBlue,
-  },
-  checkboxCheck: {
-    fontSize: 13,
-    fontWeight: '800',
-    color: '#FFFFFF',
-    lineHeight: 14,
-  },
   innerDivider: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: SETTINGS_COLORS.separator,
@@ -2399,9 +2175,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     minHeight: 52,
-    backgroundColor: '#FFFFFF',
     flexWrap: 'wrap',
     gap: 8,
   },
@@ -2500,66 +2275,43 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 
-  // Status card (Health Connect)
-  statusCardInner: {
-    padding: 20,
-  },
-  statusHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  statusDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginRight: 8,
-  },
-  statusBadgePill: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  statusBadgePillText: {
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 0.2,
-  },
-  statusCardTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: SETTINGS_COLORS.textPrimary,
-    letterSpacing: 0,
-    marginBottom: 6,
-  },
-  statusCardDesc: {
-    fontSize: 14,
-    color: SETTINGS_COLORS.textSecondary,
-    lineHeight: 20,
-    marginBottom: 18,
-  },
-  primaryActionBtn: {
-    backgroundColor: SETTINGS_COLORS.accentBlue,
-    borderRadius: 12,
-    paddingVertical: 13,
-    paddingHorizontal: 16,
+  subpageBackFace: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: SETTINGS_COLORS.card,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: SETTINGS_COLORS.border,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  primaryActionBtnText: {
-    color: '#FFFFFF',
+  healthSettingsRow: {
+    minHeight: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+  },
+  healthStatusRow: {
+    flexWrap: 'wrap',
+  },
+  healthStatusValue: {
     fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
+    color: SETTINGS_COLORS.textSecondary,
+    textAlign: 'right',
+    flexShrink: 1,
   },
 
   // Info rows
   infoRow: {
-    padding: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
   },
   infoRowTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '500',
     color: SETTINGS_COLORS.textPrimary,
     marginBottom: 4,
   },

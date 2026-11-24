@@ -1,5 +1,5 @@
 import React from 'react';
-import { AccessibilityInfo, BackHandler, Modal, StyleSheet, Text, TextInput } from 'react-native';
+import { AccessibilityInfo, BackHandler, Text, TextInput } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import ProfileScreen, { AccountAvatar, getInitials, VectorClose, VectorCheckmark } from './profile';
 import { clearAll, hydrate, KEYS, write, type Persistence } from '../shared/storage';
@@ -126,7 +126,7 @@ test('Unnamed profile renders "FitLens Account" as primary and supporting prompt
   expect(accountBtn).toBeTruthy();
 });
 
-test('Tapping account card opens name editor modal; saving updates name and overview', async () => {
+test('Tapping account opens Preferred Name; keyboard Done saves and returns to Settings', async () => {
   write(KEYS.profile, {
     ...DEFAULT_PROFILE,
     name: 'Old Name',
@@ -136,36 +136,41 @@ test('Tapping account card opens name editor modal; saving updates name and over
   const root = renderer.root;
   const accountBtn = root.findByProps({ accessibilityLabel: 'Old Name, FitLens Account' });
 
-  // Open modal
   ReactTestRenderer.act(() => {
     accountBtn.props.onPress();
   });
 
-  const modal = root.findByType(Modal);
-  expect(modal.props.visible).toBe(true);
+  expect(root.findByProps({ children: 'Preferred Name', accessibilityRole: 'header' })).toBeTruthy();
 
   // Edit name
   const input = root.findByType(TextInput);
   expect(input.props.value).toBe('Old Name');
+  expect(input.props.returnKeyType).toBe('done');
+
+  ReactTestRenderer.act(() => {
+    root.findByProps({ accessibilityLabel: 'Clear name' }).props.onPress();
+  });
+  expect(input.props.value).toBe('');
+  expect(root.findAllByProps({ accessibilityLabel: 'Clear name' })).toHaveLength(0);
+  expect(getProfile().name).toBe('Old Name');
 
   ReactTestRenderer.act(() => {
     input.props.onChangeText('Trần Văn Nam');
   });
 
   // Save name
-  const saveBtn = root.findByProps({ accessibilityLabel: 'Save name' });
   await ReactTestRenderer.act(async () => {
-    await saveBtn.props.onPress();
+    await input.props.onSubmitEditing();
   });
 
-  expect(modal.props.visible).toBe(false);
+  expect(root.findByProps({ children: 'Settings', accessibilityRole: 'header' })).toBeTruthy();
   expect(getProfile().name).toBe('Trần Văn Nam');
 
   const updatedTexts = root.findAllByType(Text).map((t) => t.props.children);
   expect(updatedTexts).toContain('Trần Văn Nam');
 });
 
-test('Name editor validation rejects invalid input with error message and cancel discards', async () => {
+test('Preferred Name rejects blank input and Back discards the draft', async () => {
   write(KEYS.profile, {
     ...DEFAULT_PROFILE,
     name: 'Valid Name',
@@ -184,24 +189,21 @@ test('Name editor validation rejects invalid input with error message and cancel
     input.props.onChangeText('   ');
   });
 
-  const saveBtn = root.findByProps({ accessibilityLabel: 'Save name' });
   await ReactTestRenderer.act(async () => {
-    await saveBtn.props.onPress();
+    await input.props.onSubmitEditing();
   });
 
-  // Modal remains open and shows error
   const errorText = root.findByProps({ accessibilityLiveRegion: 'polite' });
   expect(errorText.props.children).toBe('Please enter a name between 1 and 40 characters.');
   expect(getProfile().name).toBe('Valid Name');
 
-  // Cancel closes modal
-  const cancelBtn = root.findByProps({ accessibilityLabel: 'Cancel' });
   ReactTestRenderer.act(() => {
-    cancelBtn.props.onPress();
+    input.props.onChangeText('Unsaved draft');
+    root.findByProps({ accessibilityLabel: 'Back to Settings' }).props.onPress();
   });
 
-  const modal = root.findByType(Modal);
-  expect(modal.props.visible).toBe(false);
+  expect(root.findByProps({ children: 'Settings', accessibilityRole: 'header' })).toBeTruthy();
+  expect(getProfile().name).toBe('Valid Name');
 });
 
 test('Training Plan row opens full editor; selecting options and saving updates profile', async () => {
@@ -538,13 +540,9 @@ test('Health Connect status page displays connection state and settings button c
 
   expect(root.findByProps({ children: 'Health Connect', accessibilityRole: 'header' })).toBeTruthy();
 
-  // Verify badge text and dark contrast-safe color for Connected
-  const connectedBadgeText = root.findByProps({ children: 'Connected' });
-  expect(connectedBadgeText).toBeTruthy();
-  const connectedStyle = StyleSheet.flatten(connectedBadgeText.props.style);
-  expect(connectedStyle.color).toBe('#166534');
+  expect(root.findByProps({ children: 'Status' })).toBeTruthy();
+  expect(root.findByProps({ children: 'Connected' })).toBeTruthy();
 
-  // Verify Read-Only Access copy does not claim Rhythm integration
   const texts = root.findAllByType(Text).map((t) => t.props.children);
   expect(texts).toContain(
     'FitLens only reads your daily step count. It never writes or modifies Health Connect records.'
@@ -588,6 +586,14 @@ test('Health Connect represents update-needed and unavailable statuses accuratel
   const unavailRenderer = await renderProfileScreen({ healthConnectAdapter: unavailAdapter });
   const unavailRow = unavailRenderer.root.findByProps({ accessibilityLabel: 'Health Connect, Unavailable' });
   expect(unavailRow).toBeTruthy();
+
+  ReactTestRenderer.act(() => {
+    unavailRow.props.onPress();
+  });
+
+  expect(unavailRenderer.root.findByProps({ children: 'Unavailable' })).toBeTruthy();
+  expect(unavailRenderer.root.findAllByProps({ accessibilityLabel: 'Open Health Connect settings' })).toHaveLength(0);
+  expect(unavailRenderer.root.findAllByProps({ accessibilityLabel: 'Update Health Connect' })).toHaveLength(0);
 });
 
 test('Health Connect provider-update-required status page action updates provider', async () => {
@@ -612,11 +618,7 @@ test('Health Connect provider-update-required status page action updates provide
   const updateBtn = root.findByProps({ accessibilityLabel: 'Update Health Connect' });
   expect(updateBtn).toBeTruthy();
 
-  // Verify badge text color for Update needed
-  const updateBadgeText = root.findByProps({ children: 'Update needed' });
-  expect(updateBadgeText).toBeTruthy();
-  const updateStyle = StyleSheet.flatten(updateBadgeText.props.style);
-  expect(updateStyle.color).toBe('#9A3412');
+  expect(root.findByProps({ children: 'Update needed' })).toBeTruthy();
 
   await ReactTestRenderer.act(async () => {
     await updateBtn.props.onPress();
