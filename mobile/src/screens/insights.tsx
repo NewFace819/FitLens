@@ -6,7 +6,7 @@ export default function InsightsScreen() {
     <Placeholder
       title="Insights"
       owner="Thông"
-      todo={['Weekly summary from history', 'getHomeMetrics() for Home']}
+      todo={['Weekly summary from history']}
     />
   );
 }

@@ -225,6 +225,15 @@ export default function HomeScreen() {
           </View>
         </View>
         <Button
+          label="Start or resume workout"
+          onPress={() => nav.navigate('Workout')}
+        />
+        <Button
+          quiet
+          label="Workout history"
+          onPress={() => nav.navigate('History')}
+        />
+        <Button
           quiet
           label="Camera setup"
           onPress={() => nav.navigate('Camera', { exerciseId: 'goblet-squat' })}

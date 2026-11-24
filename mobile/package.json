@@ -6,7 +6,10 @@
     "android": "react-native run-android",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "test:training": "node scripts/test-training.cjs",
+    "test:foundation": "node --experimental-strip-types --test src/modules/history/history-model.test.mjs src/modules/training/training-model.test.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",

@@ -5,7 +5,7 @@ import { Button, Heading } from '../ui/parts';
 import WorkoutDetailScreen from './WorkoutDetailScreen';
 import { colors } from '../ui/theme';
 
-export default function WorkoutsScreen({ store }: { store: AppStore }) {
+export default function WorkoutsScreen({ store, onStart }: { store: AppStore; onStart?: (workoutId: string) => void }) {
   const [workouts, setWorkouts] = useState<Workout[]>(() => store.listWorkouts());
   const [detail, setDetail] = useState<string | null>(null);
   const [name, setName] = useState('');
@@ -47,6 +47,7 @@ export default function WorkoutsScreen({ store }: { store: AppStore }) {
       <WorkoutDetailScreen
         store={store}
         workoutId={detail}
+        onStart={onStart}
         onBack={() => {
           setDetail(null);
           refresh();

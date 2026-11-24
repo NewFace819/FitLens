@@ -176,7 +176,7 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 
 | Thực thể | Chủ sở hữu | File chi tiết |
 | :-- | :-- | :-- |
-| Profile, HomeMetrics | Thông | _chưa có_ |
+| Profile, HomeMetrics | Thông | [Home metrics và bước chân](../../mobile/src/modules/insights/home-metrics.ts) |
 | Workout, Session | Hải | `WORKOUT_SCHEDULE_DESIGN.md` |
 | HistoryEntry, SetRecord | Đức Huy | _chưa có_ |
 | Review, Rhythm, Reminder | Tu | `RHYTHM_CHECKIN_REMINDER.md` |
@@ -186,11 +186,12 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 - `Profile`: `goal`, `experience`, `daysPerWeek`, `minutes`, `equipment`, `avoidRegions`. Mặc định khi chưa onboarding: `habit`, `new`, `3`, `30`, `[]`, `[]`.
 - `Session`: `id`, `workoutId`, `date`, `time`, `status`.
 - `HistoryEntry`: `id`, `sessionId`, `workoutId`, `date`, `durationSec`, `stoppedByPain`.
+- `SetRecord` trong `HistoryEntry.sets` có `exerciseId` và số đo thực tế. Set theo số lần dùng `kg` và `reps`. Set theo thời gian dùng `durationSec`.
 - `Review`: `id`, `historyId`, `rpe`, `discomfortRegions`, `exerciseFeedback` (`[{exerciseId, feedback: ExerciseFeedback}]`).
 - `Exercise`: `id`, `name`, `regions`, `equipment`, `muscles`.
 - `Reminder`: `id`, `sessionId` (nullable), `enabled`, `minutesBefore`.
 - `Rhythm`: `weeklyGoal` (nullable; `null` nghĩa là dùng `Profile.daysPerWeek`, không lưu trùng), `streakWeeks` (tính ra: số tuần liên tiếp đạt mục tiêu, **Tu xác nhận**), `pausedUntil`.
-- `HomeMetrics`: `{date, steps, activeMinutes, activeEnergyKcal | null, isSample}`.
+- `HomeMetrics`: `{date, steps, activeMinutes, activeEnergyKcal | null, isSample}`. Prototype dùng bước chân mẫu. Phút tập lấy từ lịch sử trong ngày, hoặc dùng số mẫu khi ngày đó chưa có lịch sử. `isSample` là `true` khi kết quả chứa số liệu mẫu. Năng lượng chưa có nguồn đo nên trả `null`.
 - `Activity`: `id`, `type`, `date`, `durationSec`, `distanceKm | null`.
 
 Quy tắc an toàn: `discomfortRegions` (Tu) là tạm thời, **không tự cập nhật `avoidRegions`**. Chỉ hồ sơ (Thông) đổi `avoidRegions` khi người dùng xác nhận.
