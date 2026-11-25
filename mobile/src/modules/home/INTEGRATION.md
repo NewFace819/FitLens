@@ -1,6 +1,6 @@
 # Home, mascot, activity and camera integration
 
-Ported onto main 77423aa. App.tsx and shared/routes.ts are unchanged from main.
+Home migration started on main 77423aa; camera work is rebased onto main 95df1d8. App.tsx and shared/routes.ts are unchanged from main.
 The existing Home route imports screens/dev-hub.tsx, now the real Home screen.
 
 - Home reads getWeekSchedule/getNextSession/getWorkout, getHistory and getRhythm.
@@ -16,12 +16,13 @@ The existing Home route imports screens/dev-hub.tsx, now the real Home screen.
   for Hải to embed in Workouts. This native API returns a React element (no DOM
   element argument). Pass onLog to show its button; ActivityForm accepts date/save.
 - screens/camera.tsx replaces the registered Camera placeholder; accepts exerciseId
-  and targetReps. It is still the original illustrated UI, not DO2/DO3 rep tracking.
+  and targetReps. DO2/DO3 now use native CameraX + MediaPipe and the PR #15
+  squat counter. See ../camera/README.md for lifecycle, build and test limits.
 
 No Nutrition/Chat routes. No writes to other module owners' keys. No new navigator.
 Workouts/Plan/Rhythm/Reminders/Welcome remain the implementations on main.
 
 Steps is sample data. Profile/Insights/Workout/History/Recap stay at main's current
-implementation. Camera technology selection and actual squat counting are separate
-new tasks and are not included in this migration. Legacy branch-only colon-key
+implementation. Live squat accuracy still needs physical-device validation.
+Legacy branch-only colon-key
 activity storage is not imported; its records remain on the device under that key.
