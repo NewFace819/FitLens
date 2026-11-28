@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Launcher icon background (forest green from prototype/assets/branding). -->
+    <color name="ic_launcher_background">#294638</color>
+    <!-- App background, same as colors.background in src/ui/theme.ts. -->
+    <color name="app_background">#F7F6F2</color>
+</resources>
