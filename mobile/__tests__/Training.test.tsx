@@ -314,6 +314,17 @@ test('timed sets do not offer the camera', async () => {
   expect(cameraButtons()).toHaveLength(0);
 });
 
+test('exercises the camera cannot count do not offer it, and manual entry still works', async () => {
+  const upper = getStore().getWorkout('tpl-upper')!;
+  expect(upper.items[0].exerciseId).toBe('bench-press');
+  await click(upper.title);
+  expect(cameraButtons()).toHaveLength(0);
+  await enter('Set 1 weight in kg', '30');
+  await enter('Set 1 repetitions', '8');
+  await click('Complete set');
+  expect(getActiveTraining()!.training.exercises[0].sets[0]).toEqual({ kg: 30, reps: 8, done: true });
+});
+
 test('paused workouts keep the camera button disabled', async () => {
   await click(getStore().getWorkout('tpl-lower')!.title);
   await click('Pause');

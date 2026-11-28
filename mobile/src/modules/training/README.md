@@ -51,7 +51,8 @@ Review this dependent branch against feature/mobile-workout-plan before main int
 - Camera: "Count reps with camera" on an unfinished rep set opens `Camera`.
   A returned `cameraReps` (1–999) fills that set's reps, keeps its kg and leaves
   it unfinished, so the user still confirms with Complete set. Zero or invalid
-  counts show a message and change nothing. Timed sets and paused or finished
+  counts show a message and change nothing. Timed sets, exercises the camera
+  can't count (it counts squats, see `supportsSquat()`), and paused or finished
   workouts don't offer the camera. Manual entry always works.
 
 ## Compatibility additions requiring affected-owner review
