@@ -16,6 +16,8 @@ Review this dependent branch against feature/mobile-workout-plan before main int
 - training-service.ts: resolve workout/session, persist one active workout and finish it.
 - ../history/history.ts: stable public facade, including the existing seedHistory API.
 - ../history/history-repository.ts: history and Review persistence; Review remains Tu's type.
+- ../history/history-summary.ts: pure totals for History/Recap (volume = kg × reps per set, weeks, month).
+- ../../screens/history.tsx, recap.tsx, history-stat.tsx: History grouped by week and the per-workout recap.
 - ../../screens/workout.tsx and training-set-row.tsx: UI and save/retry state.
 
 ## Behavior and persistence
