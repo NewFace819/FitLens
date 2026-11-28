@@ -22,7 +22,16 @@ export const SENSATION_LABELS: Record<Sensation, string> = {
   unsure: 'Hard to describe',
 };
 
-export type DiscomfortDetail = { region: Region; sensation: Sensation | null; exerciseId: string | null };
+/** A region can feel several ways at once (e.g. tight and sore), so sensations is a set. */
+export type DiscomfortDetail = { region: Region; sensations: Sensation[]; exerciseId: string | null };
+
+/** Keep known sensations once, in SENSATIONS order. Reads the old single `sensation` field too. */
+export function normalizeSensations(d: { sensations?: unknown; sensation?: unknown }): Sensation[] {
+  const raw = Array.isArray(d.sensations) ? d.sensations : d.sensation != null ? [d.sensation] : [];
+  return SENSATIONS.filter((s) => raw.includes(s));
+}
+
+export const feelsPain = (d: Pick<DiscomfortDetail, 'sensations'>) => d.sensations.includes('pain');
 
 /**
  * Per-exercise feedback score 1–10 (decided by Tu, 2026-11-14):
@@ -112,7 +121,7 @@ export function buildReview(draft: ReviewDraft, now: Date = new Date()): Review 
     if (!isOneOf(REGIONS, d.region) || seen.has(d.region)) return false;
     seen.add(d.region);
     return true;
-  }).map((d) => ({ region: d.region, sensation: isOneOf(SENSATIONS, d.sensation) ? d.sensation : null, exerciseId: d.exerciseId ?? null }));
+  }).map((d) => ({ region: d.region, sensations: normalizeSensations(d), exerciseId: d.exerciseId ?? null }));
   return {
     id: newId('rv'),
     historyId: draft.historyId,
@@ -143,7 +152,11 @@ export function parseReview(raw: unknown): Review | null {
           .filter((f) => f && typeof f.exerciseId === 'string' && isOneOf(EXERCISE_FEEDBACK, f.feedback))
           .map((f) => ({ exerciseId: f.exerciseId, feedback: f.feedback, score: clampScore(Number(f.score ?? 5)) }))
       : [],
-    discomfort: Array.isArray(r.discomfort) ? r.discomfort.filter((d) => d && isOneOf(REGIONS, d.region)) : regions.map((region) => ({ region, sensation: null, exerciseId: null })),
+    discomfort: Array.isArray(r.discomfort)
+      ? r.discomfort
+          .filter((d) => d && isOneOf(REGIONS, d.region))
+          .map((d) => ({ region: d.region, sensations: normalizeSensations(d), exerciseId: typeof d.exerciseId === 'string' ? d.exerciseId : null }))
+      : regions.map((region) => ({ region, sensations: [], exerciseId: null })),
     note: typeof r.note === 'string' ? r.note : '',
     createdAt: typeof r.createdAt === 'string' ? r.createdAt : new Date(0).toISOString(),
   };
@@ -153,7 +166,7 @@ export function parseReview(raw: unknown): Review | null {
 export function hasPainSignal(draft: Pick<ReviewDraft, 'discomfort' | 'scores'>, stoppedByPain = false): boolean {
   return (
     stoppedByPain ||
-    draft.discomfort.some((d) => d.sensation === 'pain') ||
+    draft.discomfort.some(feelsPain) ||
     Object.values(draft.scores).some((s) => clampScore(s) === 10)
   );
 }
@@ -188,7 +201,7 @@ export function suggestAdjustments(reviews: Review[], lookback = 3): Map<string,
       else put(f.exerciseId, 'keep');
     }
     for (const d of r.discomfort) {
-      if (d.exerciseId) put(d.exerciseId, d.sensation === 'pain' ? 'swap' : 'easier');
+      if (d.exerciseId) put(d.exerciseId, feelsPain(d) ? 'swap' : 'easier');
     }
   }
   return result;
@@ -199,7 +212,7 @@ export function suggestAdjustments(reviews: Review[], lookback = 3): Map<string,
  * (WORKOUT_SCHEDULE_DESIGN §5). Uses last week's reviews.
  */
 export function weeklyLoadAdjust(lastWeekReviews: Review[], stoppedByPainCount = 0): number {
-  const anyPain = stoppedByPainCount > 0 || lastWeekReviews.some((r) => r.exerciseFeedback.some((f) => f.feedback === 'painful') || r.discomfort.some((d) => d.sensation === 'pain'));
+  const anyPain = stoppedByPainCount > 0 || lastWeekReviews.some((r) => r.exerciseFeedback.some((f) => f.feedback === 'painful') || r.discomfort.some(feelsPain));
   if (anyPain) return -0.3;
   if (!lastWeekReviews.length) return 0;
   const avg = lastWeekReviews.reduce((s, r) => s + r.rpe, 0) / lastWeekReviews.length;

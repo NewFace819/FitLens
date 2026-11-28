@@ -22,7 +22,7 @@ type Review = {
   discomfortRegions: Region[];   // enum chung, KHÔNG tự cập nhật avoidRegions
   exerciseFeedback: { exerciseId: string; feedback: ExerciseFeedback; score: 1..10 }[];
   // phần thêm của Tu (tùy chọn)
-  discomfort: { region: Region; sensation: 'tightness'|'soreness'|'pain'|'unsure'|null; exerciseId: string|null }[];
+  discomfort: { region: Region; sensations: ('tightness'|'soreness'|'pain'|'unsure')[]; exerciseId: string|null }[]; // multi-select; old `sensation` rows are read as a 1-item list
   note: string;                  // ≤ 600 ký tự
   createdAt: string;             // ISO UTC
 };

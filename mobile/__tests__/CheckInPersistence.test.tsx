@@ -116,7 +116,7 @@ test('a pain stop offers the unfinished exercise for body notes without counting
   await act(async () => { stoppedExercise.props.onPress(); });
   await act(async () => { await saveButton().props.onPress(); });
   expect(getReview(stopped.id)?.discomfort).toEqual([
-    { region: 'shoulders', sensation: 'pain', exerciseId: stoppedId },
+    { region: 'shoulders', sensations: ['pain'], exerciseId: stoppedId },
   ]);
 });
 

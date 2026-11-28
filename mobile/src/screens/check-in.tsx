@@ -76,7 +76,7 @@ function CheckInForm({ ctx, fromWorkout }: {
 
   const toggleRegion = (region: Region) =>
     setDiscomfort((list) =>
-      list.some((d) => d.region === region) ? list.filter((d) => d.region !== region) : [...list, { region, sensation: null, exerciseId: null }],
+      list.some((d) => d.region === region) ? list.filter((d) => d.region !== region) : [...list, { region, sensations: [], exerciseId: null }],
     );
   const updateRegion = (next: DiscomfortDetail) => setDiscomfort((list) => list.map((d) => (d.region === next.region ? next : d)));
 
@@ -198,9 +198,10 @@ function CheckInForm({ ctx, fromWorkout }: {
       {discomfort.map((d) => (
         <View key={d.region} style={styles.areaCard}>
           <Text style={type.h3}>{REGION_LABELS[d.region]}</Text>
+          <Text style={type.caption}>Choose all that apply</Text>
           <View style={styles.wrap}>
             {SENSATIONS.map((s: Sensation) => (
-              <Chip key={s} tone="blush" label={SENSATION_LABELS[s]} selected={d.sensation === s} onPress={() => updateRegion({ ...d, sensation: d.sensation === s ? null : s })} />
+              <Chip key={s} tone="blush" label={SENSATION_LABELS[s]} selected={d.sensations.includes(s)} onPress={() => updateRegion({ ...d, sensations: d.sensations.includes(s) ? d.sensations.filter((x) => x !== s) : [...d.sensations, s] })} />
             ))}
           </View>
           <Text style={[type.caption, { marginTop: space.md }]}>Related exercise · optional</Text>

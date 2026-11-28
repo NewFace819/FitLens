@@ -80,7 +80,7 @@ test('pain check-in during a tap immediately replaces transient reaction and sur
       {
         historyId: 'hs-mood',
         rpe: 3,
-        discomfort: [{ region: 'knees', sensation: 'pain', exerciseId: null }],
+        discomfort: [{ region: 'knees', sensations: ['pain'], exerciseId: null }],
         scores: {},
         note: '',
       },

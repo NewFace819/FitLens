@@ -69,17 +69,17 @@ describe('painAreas (#29)', () => {
   const regionsOf = (id: string): Region[] => (id === 'goblet-squat' ? ['knees', 'hips', 'ankles'] : id === 'bench-press' ? ['shoulders', 'wrists'] : []);
 
   test('no pain → nothing to avoid; soreness alone is not pain', () => {
-    const r = review({ discomfort: [{ region: 'back', sensation: 'soreness', exerciseId: null }] });
+    const r = review({ discomfort: [{ region: 'back', sensations: ['soreness'], exerciseId: null }] });
     expect(painAreas([{ id: 'hs-1', stoppedByPain: false }], [r], regionsOf)).toEqual({ regions: [], exercises: [] });
   });
 
   test('the area the user marked as pain, not every area of the exercise', () => {
-    const r = review({ discomfort: [{ region: 'knees', sensation: 'pain', exerciseId: 'goblet-squat' }] });
+    const r = review({ discomfort: [{ region: 'knees', sensations: ['pain'], exerciseId: 'goblet-squat' }] });
     expect(painAreas([{ id: 'hs-1', stoppedByPain: false }], [r], regionsOf)).toEqual({ regions: ['knees'], exercises: ['goblet-squat'] });
   });
 
   test('pain stop: every area noted in its check-in counts', () => {
-    const r = review({ discomfort: [{ region: 'back', sensation: 'unsure', exerciseId: null }] });
+    const r = review({ discomfort: [{ region: 'back', sensations: ['unsure'], exerciseId: null }] });
     expect(painAreas([{ id: 'hs-1', stoppedByPain: true }], [r], regionsOf).regions).toEqual(['back']);
   });
 
@@ -93,7 +93,7 @@ describe('painAreas (#29)', () => {
   });
 
   test('reviews of other sessions are ignored', () => {
-    const r = review({ discomfort: [{ region: 'knees', sensation: 'pain', exerciseId: null }] }, 'hs-other');
+    const r = review({ discomfort: [{ region: 'knees', sensations: ['pain'], exerciseId: null }] }, 'hs-other');
     expect(painAreas([{ id: 'hs-1', stoppedByPain: false }], [r], regionsOf).regions).toEqual([]);
   });
 
@@ -126,7 +126,7 @@ describe('from storage: pain in a workout → a safer next plan', () => {
   test('a pain stop this week with knee pain in the check-in avoids knees next week', () => {
     const entry = { id: 'hs-pain', sessionId: null, workoutId: 'tpl-lower-plan', date: addDays(MONDAY, 1), durationSec: 300, stoppedByPain: true, sets: [{ exerciseId: 'chair-squat', kg: null, reps: 6 }] };
     write(KEYS.history, [entry, ...getHistory()]);
-    submitCheckIn({ historyId: 'hs-pain', rpe: 6, discomfort: [{ region: 'knees', sensation: 'pain', exerciseId: 'chair-squat' }], scores: {}, note: '' }, true, NOW);
+    submitCheckIn({ historyId: 'hs-pain', rpe: 6, discomfort: [{ region: 'knees', sensations: ['pain'], exerciseId: 'chair-squat' }], scores: {}, note: '' }, true, NOW);
 
     const adj = getNextWeekAdjustment(NEXT);
     expect(adj).toEqual({
