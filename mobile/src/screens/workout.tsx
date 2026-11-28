@@ -31,6 +31,7 @@ import { getSession, getWeekSchedule } from '../modules/workouts/schedule';
 import { toDateKey, weekStartOf } from '../shared/dates';
 import { storageReady } from '../shared/storage';
 import { Button, Divider, Screen, TopBar } from '../ui/components';
+import SafetyNotice from '../ui/safety-notice';
 import { colors, space, type } from '../ui/theme';
 import TrainingSetRow from './training-set-row';
 
@@ -403,9 +404,12 @@ export default function WorkoutScreen() {
             />
           ) : null}
           {session.training.phase === 'stopped' ? (
-            <Text style={type.body}>
-              Your workout has stopped. Do not continue through pain.
-            </Text>
+            <View style={styles.stack}>
+              <Text style={type.body}>
+                Your workout has stopped. Do not continue through pain.
+              </Text>
+              <SafetyNotice />
+            </View>
           ) : null}
           {!terminal ? (
             <Button
@@ -419,6 +423,7 @@ export default function WorkoutScreen() {
       ) : (
         <View style={styles.stack}>
           <Text style={type.title}>Start a workout</Text>
+          <SafetyNotice />
           <Text style={type.caption}>Rest override in seconds (blank uses workout plan)</Text>
           <TextInput
             accessibilityLabel="Rest between sets in seconds"

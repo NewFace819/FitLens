@@ -14,8 +14,10 @@ import {
 } from '../modules/checkin/review-model';
 import { REGIONS, REGION_LABELS, type ExerciseFeedback, type Region } from '../shared/constants';
 import { shortDate } from '../shared/dates';
+import { PAIN_ADVICE } from '../shared/safety';
 import { goBackOrHome, goHome, useAppNavigation, useAppRoute } from '../navigation';
 import { Button, Chip, Divider, IconButton, Mascot, Screen, Sheet } from '../ui/components';
+import SafetyNotice from '../ui/safety-notice';
 import { colors, effortColors, radius, space, type } from '../ui/theme';
 
 type SheetName = null | 'help' | 'skip' | 'saved';
@@ -211,10 +213,8 @@ function CheckInForm({ ctx, fromWorkout }: {
       {pain ? (
         <View style={styles.safety} accessibilityLiveRegion="polite">
           <Text style={type.h3}>Listen to your body.</Text>
-          <Text style={[type.caption, { color: colors.ink }]}>
-            Don’t train through pain. If it’s sharp, getting worse, or doesn’t ease with rest, give that area a break and
-            talk to a doctor or physiotherapist. FitLens can’t assess injuries — this isn’t medical advice.
-          </Text>
+          <Text style={[type.caption, { color: colors.ink }]}>{PAIN_ADVICE}</Text>
+          <SafetyNotice style={{ color: colors.ink }} />
         </View>
       ) : null}
 
