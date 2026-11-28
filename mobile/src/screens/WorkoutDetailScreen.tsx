@@ -93,8 +93,8 @@ export default function WorkoutDetailScreen({ store, workoutId, onBack, onDelete
       <Text style={styles.meta}>
         {items.length} {items.length === 1 ? 'exercise' : 'exercises'} · about {store.estimateMinutes(workout)} min
       </Text>
+      {onStart && items.length > 0 && <Button label="Start workout" testID="start-workout" onPress={() => onStart(workout.id)} />}
       {isTemplate && <Text style={styles.note}>Changing a routine makes your own copy. The original stays as it is.</Text>}
-      {onStart && items.length > 0 && <Button label="Start workout" onPress={() => onStart(workout.id)} testID="start-workout" />}
 
       {!isTemplate && (
         <TextInput

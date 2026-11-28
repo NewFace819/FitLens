@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 import { markWelcomeSeen } from '../modules/welcome/welcome';
+import { saveOnboardingStep } from '../modules/onboarding/onboarding';
 import { useAppNavigation } from '../navigation';
 import { Mascot } from '../ui/components';
 
@@ -17,16 +18,33 @@ export default function WelcomeScreen() {
   const nav = useAppNavigation();
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
   const [isFocused, setIsFocused] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const submittingRef = useRef(false);
 
   const isCompact = screenHeight < 680 || screenWidth < 360;
   const mascotSize = isCompact ? 145 : 190;
 
-  const handleGetStarted = () => {
-    markWelcomeSeen();
-    nav.reset({
-      index: 0,
-      routes: [{ name: 'Home' }],
-    });
+  const handleGetStarted = async () => {
+    if (isSubmitting || submittingRef.current) return;
+    submittingRef.current = true;
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const ok = await saveOnboardingStep('name');
+      if (ok) {
+        markWelcomeSeen();
+        nav.navigate('NameEntry');
+      } else {
+        setErrorMessage('Could not save progress. Please try again.');
+      }
+    } catch {
+      setErrorMessage('Could not save progress. Please try again.');
+    } finally {
+      submittingRef.current = false;
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -71,16 +89,24 @@ export default function WelcomeScreen() {
         </View>
 
         <View style={[styles.actionSection, isCompact && styles.actionSectionCompact]}>
+          {errorMessage ? (
+            <Text style={styles.errorText} accessibilityRole="alert">
+              {errorMessage}
+            </Text>
+          ) : null}
+
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Get Started"
+            disabled={isSubmitting}
             onPress={handleGetStarted}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             style={({ pressed }) => [
               styles.ctaButton,
               isCompact && styles.ctaButtonCompact,
-              pressed && styles.ctaButtonPressed,
+              pressed && !isSubmitting && styles.ctaButtonPressed,
+              isSubmitting && styles.ctaButtonDisabled,
             ]}
           >
             <Text style={[styles.ctaText, isCompact && styles.ctaTextCompact]}>Get Started</Text>
@@ -174,6 +200,13 @@ const styles = StyleSheet.create({
   actionSectionCompact: {
     paddingTop: 16,
   },
+  errorText: {
+    fontSize: 13,
+    lineHeight: 18,
+    color: '#8A3D28',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
   ctaButton: {
     minHeight: 56,
     borderRadius: 18,
@@ -188,6 +221,9 @@ const styles = StyleSheet.create({
   },
   ctaButtonPressed: {
     backgroundColor: '#4057BD',
+  },
+  ctaButtonDisabled: {
+    opacity: 0.6,
   },
   ctaText: {
     color: '#FFFFFF',

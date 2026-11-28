@@ -3,15 +3,17 @@ import { Text } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import WelcomeScreen from './welcome';
 import DevHub from './dev-hub';
-import { clearAll, hydrate } from '../shared/storage';
+import { clearAll, hydrate, type Persistence } from '../shared/storage';
 import { hasSeenWelcome } from '../modules/welcome/welcome';
+import { getOnboardingStep } from '../modules/onboarding/onboarding';
 
 const mockReset = jest.fn();
+const mockNavigate = jest.fn();
 
 jest.mock('../navigation', () => ({
   useAppNavigation: () => ({
     reset: mockReset,
-    navigate: jest.fn(),
+    navigate: mockNavigate,
     canGoBack: jest.fn(() => false),
   }),
 }));
@@ -20,6 +22,7 @@ beforeEach(async () => {
   await hydrate(null);
   clearAll();
   mockReset.mockClear();
+  mockNavigate.mockClear();
 });
 
 test('WelcomeScreen renders exact approved copy', () => {
@@ -37,7 +40,7 @@ test('WelcomeScreen renders exact approved copy', () => {
   expect(texts).toContain('Get Started');
 });
 
-test('Pressing Get Started persists welcome acknowledgment and navigates to Home', () => {
+test('Pressing Get Started persists welcome acknowledgment and step name and navigates to NameEntry', async () => {
   let renderer: ReactTestRenderer.ReactTestRenderer;
   ReactTestRenderer.act(() => {
     renderer = ReactTestRenderer.create(<WelcomeScreen />);
@@ -46,15 +49,85 @@ test('Pressing Get Started persists welcome acknowledgment and navigates to Home
   expect(hasSeenWelcome()).toBe(false);
 
   const button = renderer!.root.findByProps({ accessibilityLabel: 'Get Started' });
-  ReactTestRenderer.act(() => {
-    button.props.onPress();
+  await ReactTestRenderer.act(async () => {
+    await button.props.onPress();
   });
 
   expect(hasSeenWelcome()).toBe(true);
-  expect(mockReset).toHaveBeenCalledWith({
-    index: 0,
-    routes: [{ name: 'Home' }],
+  expect(getOnboardingStep()).toBe('name');
+  expect(mockNavigate).toHaveBeenCalledWith('NameEntry');
+});
+
+test('Failed persistence on Get Started stays on Welcome, displays retryable error, keeps welcome unseen, and allows retry', async () => {
+  let failSave = true;
+  const failingPersistence: Persistence = {
+    loadAll: async () => [],
+    save: async () => {
+      if (failSave) {
+        throw new Error('Disk full');
+      }
+    },
+    remove: async () => {},
+  };
+  await hydrate(failingPersistence);
+
+  let renderer: ReactTestRenderer.ReactTestRenderer;
+  ReactTestRenderer.act(() => {
+    renderer = ReactTestRenderer.create(<WelcomeScreen />);
   });
+
+  const button = renderer!.root.findByProps({ accessibilityLabel: 'Get Started' });
+
+  // 1. First attempt fails
+  await ReactTestRenderer.act(async () => {
+    await button.props.onPress();
+  });
+
+  // Verify: no navigation, stays on Welcome, welcome not marked seen, error shown
+  expect(mockNavigate).not.toHaveBeenCalled();
+  expect(hasSeenWelcome()).toBe(false);
+  expect(getOnboardingStep()).toBeNull();
+
+  const errorText = renderer!.root.findByProps({ accessibilityRole: 'alert' });
+  expect(errorText.props.children).toBe('Could not save progress. Please try again.');
+  expect(button.props.disabled).toBe(false);
+
+  // 2. Retry succeeds
+  failSave = false;
+  await ReactTestRenderer.act(async () => {
+    await button.props.onPress();
+  });
+
+  expect(hasSeenWelcome()).toBe(true);
+  expect(getOnboardingStep()).toBe('name');
+  expect(mockNavigate).toHaveBeenCalledWith('NameEntry');
+});
+
+test('Guards duplicate taps on Get Started while save is pending', async () => {
+  const slowPersistence: Persistence = {
+    loadAll: async () => [],
+    save: async () => {
+      await new Promise<void>((resolve) => setTimeout(() => resolve(), 20));
+    },
+    remove: async () => {},
+  };
+  await hydrate(slowPersistence);
+
+  let renderer: ReactTestRenderer.ReactTestRenderer;
+  ReactTestRenderer.act(() => {
+    renderer = ReactTestRenderer.create(<WelcomeScreen />);
+  });
+
+  const button = renderer!.root.findByProps({ accessibilityLabel: 'Get Started' });
+  await ReactTestRenderer.act(async () => {
+    const p1 = button.props.onPress();
+    const p2 = button.props.onPress();
+    await Promise.all([p1, p2]);
+  });
+
+  expect(mockNavigate).toHaveBeenCalledTimes(1);
+  expect(mockNavigate).toHaveBeenCalledWith('NameEntry');
+  expect(getOnboardingStep()).toBe('name');
 });
 
 test('Get Started button uses darker opaque blue when pressed', () => {

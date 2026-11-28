@@ -129,7 +129,7 @@ Mỗi người xuất một đối tượng `window.FitLens<Tên>`. Kiểu trả
 | `getLoadAdjustForWeek(weekStart)` | Tu | Số từ `-0.3` đến `+0.1`, tính từ check-in tuần trước: `-0.3` có báo đau, `-0.2`/`-0.1` thấy quá nặng, `+0.1` thấy nhẹ, `0` không đổi hoặc chưa có dữ liệu | Hải (Plan: tham số `loadAdjust` của `generateDraft`, xem `WORKOUT_SCHEDULE_DESIGN.md` §5) |
 | `getReminder(sessionId)` | Tu | `Reminder \| null` (nếu buổi chưa có nhắc riêng thì trả nhắc mặc định `sessionId = null`) | Hải (Plan), Tu |
 | `setReminder(sessionId, {enabled, minutesBefore})` | Tu | `Reminder`. `minutesBefore` chỉ nhận `0`, `15`, `30` | Hải (Plan), Tu |
-| `getLoadAdjustForWeek(weekStart)` | Tu | số −0.3…+0.1 (giảm/tăng tải tuần sau theo RPE và báo đau tuần trước) | Hải (`generateDraft`) |
+| `getNextWeekAdjustment(weekStart)` | Tu | `{loadAdjust, reason: 'pain'\|'hard'\|'easy'\|null, message, avoidRegions: Region[], avoidExercises: string[]}` tính từ tuần trước `weekStart`. `message` là một câu ngắn tiếng Anh cho người dùng. `avoidRegions` là vùng báo đau, **chỉ tránh cho tuần đó**, không ghi vào hồ sơ. Chưa có dữ liệu thì `{0, null, …, [], []}` | Hải (Plan: `generateDraft(withNextWeekAvoid(profile, adj), weekStart, adj.loadAdjust)`) |
 | `setMascotMood(mood)` | Đỗ Huy | `void` | Tu, Đức Huy |
 | `getActivities({from?, to?})` | Đỗ Huy | `Activity[]` | Thông (Insights, Home) |
 | `renderActivitySection(el)` | Đỗ Huy | `void` | Hải (trang Workouts) |
@@ -177,7 +177,7 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 
 | Thực thể | Chủ sở hữu | File chi tiết |
 | :-- | :-- | :-- |
-| Profile, HomeMetrics | Thông | _chưa có_ |
+| Profile, HomeMetrics | Thông | [Home metrics và bước chân](../../mobile/src/modules/insights/home-metrics.ts) |
 | Workout, Session | Hải | `WORKOUT_SCHEDULE_DESIGN.md` |
 | HistoryEntry, SetRecord | Đức Huy | _chưa có_ |
 | Review, Rhythm, Reminder | Tu | `RHYTHM_CHECKIN_REMINDER.md` |
@@ -187,11 +187,13 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 - `Profile`: `goal`, `experience`, `daysPerWeek`, `minutes`, `equipment`, `avoidRegions`. Mặc định khi chưa onboarding: `habit`, `new`, `3`, `30`, `[]`, `[]`.
 - `Session`: `id`, `workoutId`, `date`, `time`, `status`.
 - `HistoryEntry`: `id`, `sessionId`, `workoutId`, `date`, `durationSec`, `stoppedByPain`.
+  Bản ghi mới có thể lưu `workoutTitle` theo tên lúc bắt đầu. Khi dừng vì đau, `stoppedExerciseId` là bài đang hiển thị để người dùng chọn khi check-in. Hai trường có thể vắng mặt trong bản ghi cũ.
+- `SetRecord` trong `HistoryEntry.sets` có `exerciseId` và số đo thực tế. Set theo số lần dùng `kg` và `reps`. Set theo thời gian dùng `durationSec`.
 - `Review`: `id`, `historyId`, `rpe`, `discomfortRegions`, `exerciseFeedback` (`[{exerciseId, feedback: ExerciseFeedback}]`).
 - `Exercise`: `id`, `name`, `regions`, `equipment`, `muscles`.
 - `Reminder`: `id`, `sessionId` (nullable), `enabled`, `minutesBefore`.
 - `Rhythm`: `weeklyGoal` (nullable; `null` nghĩa là dùng `Profile.daysPerWeek`, không lưu trùng), `streakWeeks` (tính ra: số tuần liên tiếp đạt mục tiêu, **Tu xác nhận**), `pausedUntil`.
-- `HomeMetrics`: `{date, steps, activeMinutes, activeEnergyKcal | null, isSample}`.
+- `HomeMetrics`: `{date, steps, activeMinutes, activeEnergyKcal | null, isSample}`. Prototype dùng bước chân mẫu. Phút tập lấy từ lịch sử trong ngày, hoặc dùng số mẫu khi ngày đó chưa có lịch sử. `isSample` là `true` khi kết quả chứa số liệu mẫu. Năng lượng chưa có nguồn đo nên trả `null`.
 - `Activity`: `id`, `type`, `date`, `durationSec`, `distanceKm | null`.
 
 Quy tắc an toàn: `discomfortRegions` (Tu) là tạm thời, **không tự cập nhật `avoidRegions`**. Chỉ hồ sơ (Thông) đổi `avoidRegions` khi người dùng xác nhận. Plan (Hải) lấy `avoidRegions` từ `getProfile()` và **không cho bỏ** các vùng đó khi lập lịch tuần; chỉ được tránh thêm vùng cho riêng tuần đó.

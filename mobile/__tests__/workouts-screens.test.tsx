@@ -31,7 +31,7 @@ function Harness({ today }: { today: string }) {
         <PlanScreen
           store={getStore()}
           today={today}
-          onStartSession={onStartSession}
+          onStart={onStartSession}
           getProfile={() => profile}
           getLoadAdjust={() => loadAdjust}
         />
@@ -336,4 +336,22 @@ test('a pain week from check-in gives a lighter draft and says why', async () =>
   await press(tree, 'preview-draft');
   expect(nativeRows(tree, 'draft-row')).toHaveLength(2);
   expect(byId(tree, 'draft-adjust-note').props.children).toContain('pain');
+});
+
+test('workout and planned-session start callbacks carry the owner IDs', async () => {
+  await hydrate(null);
+  const store = getStore();
+  const onStart = jest.fn();
+  let tree!: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(async () => { tree = ReactTestRenderer.create(<WorkoutsScreen store={store} onStart={onStart} />); });
+  await press(tree, 'workout-tpl-upper');
+  await press(tree, 'start-workout');
+  expect(onStart).toHaveBeenLastCalledWith('tpl-upper');
+  const added = store.addSession({ workoutId: 'tpl-upper', date: TODAY });
+  if (!added.ok) throw new Error(added.reason);
+  await ReactTestRenderer.act(async () => { tree.unmount(); tree = ReactTestRenderer.create(<PlanScreen store={store} today={TODAY} onStart={onStart} />); });
+  await press(tree, `session-${added.session.id}`);
+  await press(tree, 'start-session');
+  expect(onStart).toHaveBeenLastCalledWith(added.session.id);
+  await ReactTestRenderer.act(async () => tree.unmount());
 });

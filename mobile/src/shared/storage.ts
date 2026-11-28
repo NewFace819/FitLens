@@ -24,6 +24,8 @@ export const KEYS = {
   mascot: 'fitlens.mascot',
   seed: 'fitlens.seed',
   welcome: 'fitlens.welcome',
+  onboarding: 'fitlens.onboarding',
+  activeTraining: 'fitlens.active-training',
 } as const;
 
 export const PREFIX = 'fitlens.';
@@ -39,6 +41,20 @@ export type Persistence = {
 
 const cache = new Map<string, Envelope>();
 let persistence: Persistence | null = null;
+let writable = false;
+let pending: Promise<void> = Promise.resolve();
+const protectedKeys = new Set<string>();
+const revisions = new Map<string, number>();
+const queuedKeys = new Set<string>();
+let resetGeneration = 0;
+
+function enqueue<T>(operation: () => Promise<T>): Promise<T> {
+  const result = pending.then(operation);
+  pending = result.then(() => undefined, () => undefined);
+  return result;
+}
+
+export const storageReady = () => writable;
 let version = 0;
 const listeners = new Set<() => void>();
 const errorListeners = new Set<(message: string) => void>();
@@ -54,13 +70,19 @@ function reportError(message: string) {
 }
 
 function isEnvelope(value: unknown): value is Envelope {
-  return !!value && typeof value === 'object' && typeof (value as Envelope).v === 'number' && 'data' in (value as object);
+  return !!value && typeof value === 'object' && Number.isSafeInteger((value as Envelope).v) && (value as Envelope).v >= 1 && 'data' in (value as object);
 }
 
 /** Load every `fitlens.*` key into memory. Call once before rendering. */
 export async function hydrate(p: Persistence | null): Promise<void> {
+  writable = false;
+  await pending;
   persistence = p;
   cache.clear();
+  protectedKeys.clear();
+  revisions.clear();
+  queuedKeys.clear();
+  resetGeneration += 1;
   if (p) {
     try {
       for (const [key, raw] of await p.loadAll()) {
@@ -68,14 +90,18 @@ export async function hydrate(p: Persistence | null): Promise<void> {
         try {
           const parsed = JSON.parse(raw);
           if (isEnvelope(parsed)) cache.set(key, parsed);
+          else protectedKeys.add(key);
         } catch {
-          // Corrupt value: ignore, readers get their fallback.
+          protectedKeys.add(key); // Do not silently overwrite an unreadable record.
         }
       }
     } catch {
       reportError('Could not load saved data.');
+      changed();
+      return;
     }
   }
+  writable = true;
   changed();
 }
 
@@ -106,15 +132,32 @@ export function read<T>(key: string, fallback: T, options: ReadOptions<T> = {}):
 /** Write the owner's data. Returns false if the stored data is newer than this code (not overwritten). */
 export function write(key: string, data: unknown, currentVersion = 1): boolean {
   const existing = cache.get(key);
-  if (existing && existing.v > currentVersion) {
-    reportError(`${key} was saved by a newer version; not overwriting.`);
+  if (!writable || protectedKeys.has(key) || (existing && existing.v > currentVersion)) {
+    reportError(`${key} cannot be safely written; reload or recover saved data first.`);
     return false;
   }
-  const env: Envelope = { v: currentVersion, data };
+  let raw: string;
+  try { raw = JSON.stringify({ v: currentVersion, data }); } catch { return false; }
+  const env: Envelope = JSON.parse(raw);
+  revisions.set(key, (revisions.get(key) ?? 0) + 1);
   cache.set(key, env);
   changed();
-  persistence?.save(key, JSON.stringify(env)).catch(() => reportError('Couldn’t save on this device. Please try again.'));
+  const target = persistence;
+  if (target) enqueue(() => target.save(key, raw)).catch(() => reportError('Couldn’t save on this device. Please try again.'));
   return true;
+}
+
+/** Acknowledged storage write for onboarding. Failure returns false without publishing. */
+export async function writeConfirmed(key: string, data: unknown, currentVersion = 1): Promise<boolean> {
+  if (!persistence) return write(key, data, currentVersion);
+
+  try {
+    await writeDurable(key, data, currentVersion);
+    return true;
+  } catch {
+    reportError('Couldn’t save on this device. Please try again.');
+    return false;
+  }
 }
 
 /**
@@ -134,11 +177,46 @@ export const localStorageView = {
     if (!write(key, env.data, env.v)) throw new Error(`${key}: not saved`);
   },
   removeItem(key: string): void {
-    if (!cache.delete(key)) return;
+    if (!writable || protectedKeys.has(key) || (cache.get(key)?.v ?? 1) > 1) throw new Error('Saved data cannot be removed.');
+    revisions.set(key, (revisions.get(key) ?? 0) + 1);
+    cache.delete(key);
     changed();
-    persistence?.remove([key]).catch(() => reportError('Couldn’t clear saved data.'));
+    const target = persistence;
+    if (target) enqueue(() => target.remove([key])).catch(() => reportError('Couldn’t clear saved data.'));
   },
 };
+/** Serial read-modify-write, acknowledged by the device before publishing cache.
+ * Used for history/review/active-session writes; legacy write remains synchronous.
+ * hydrate(null) is a memory-only fixture, not a durable device adapter.
+ */
+export function updateDurable<T>(key: string, update: (current: unknown) => T, currentVersion = 1): Promise<T> {
+  const target = persistence;
+  if (!writable || !target) return Promise.reject(new Error('Storage is not ready for durable writes.'));
+  const generation = resetGeneration;
+  queuedKeys.add(key);
+  return enqueue(async () => {
+    const existing = cache.get(key);
+    if (!writable || generation !== resetGeneration || target !== persistence || protectedKeys.has(key) || (existing && existing.v > currentVersion)) {
+      throw new Error('Saved data cannot be overwritten by this version.');
+    }
+    const rev = revisions.get(key) ?? 0;
+    const value = update(existing ? JSON.parse(JSON.stringify(existing.data)) : undefined);
+    const raw = JSON.stringify({ v: currentVersion, data: value });
+    await target.save(key, raw);
+    if (generation !== resetGeneration) throw new Error('Saved data was reset.');
+    if ((revisions.get(key) ?? 0) === rev) {
+      cache.set(key, JSON.parse(raw));
+      changed();
+    }
+    return JSON.parse(raw).data as T;
+  });
+}
+
+export function writeDurable<T>(key: string, value: T, currentVersion = 1): Promise<T> {
+  // Capture the value now: later caller mutations must not change queued writes.
+  const snapshot = JSON.parse(JSON.stringify(value)) as T;
+  return updateDurable(key, () => snapshot, currentVersion);
+}
 
 export function has(key: string): boolean {
   return cache.has(key);
@@ -146,10 +224,16 @@ export function has(key: string): boolean {
 
 /** Remove every `fitlens.*` key (used by "Reset sample data"). */
 export function clearAll(): void {
-  const keys = [...cache.keys()].filter((k) => k.startsWith(PREFIX));
+  if (!writable) return;
+  const keys = [...new Set([...cache.keys(), ...protectedKeys, ...queuedKeys])].filter((k) => k.startsWith(PREFIX));
+  resetGeneration += 1;
+  queuedKeys.clear();
+  protectedKeys.clear();
+  keys.forEach((key) => revisions.set(key, (revisions.get(key) ?? 0) + 1));
   keys.forEach((k) => cache.delete(k));
   changed();
-  persistence?.remove(keys).catch(() => reportError('Couldn’t clear saved data.'));
+  const target = persistence;
+  if (target) enqueue(() => target.remove(keys)).catch(() => reportError('Couldn’t clear saved data.'));
 }
 
 /** For React: re-render when anything changes (see ui/use-store.ts). */

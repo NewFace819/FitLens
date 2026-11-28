@@ -59,7 +59,7 @@ export function PlanRoute() {
       <TopBar title="Plan" />
       <PlanScreen
         store={getStore()}
-        onStartSession={(session) => nav.navigate('Workout', { session })}
+        onStart={(session) => nav.navigate('Workout', { session })}
         getProfile={getProfile}
         getLoadAdjust={getLoadAdjustForWeek}
       />

@@ -17,6 +17,12 @@ __pycache__/
 # Generated output
 poc/plan_generator/outputs/
 
+# Rep counter test videos (personal, large). labels.json is committed.
+poc/rep_counter/videos/*
+!poc/rep_counter/videos/labels.json
+poc/rep_counter/outputs/
+poc/rep_counter/models/*.task
+
 Progress.csv
 
 # IDE & OS
@@ -25,4 +31,4 @@ Progress.csv
 .vscode/
 *.swp
 .DS_Store
-Thumbs.db
+Thumbs.db

@@ -3,9 +3,10 @@
  * Route param: `history` = HistoryEntry.id (DATA_CONTRACT §12).
  * Saves only through submitCheckIn → appendReview (Đức Huy) + setMascotMood (Đỗ Huy).
  */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { usePreventRemove } from '@react-navigation/native';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { getCheckInContext, submitCheckIn } from '../modules/checkin/checkin';
+import { getCheckInContext, submitCheckInDurable } from '../modules/checkin/checkin';
 import {
   DEFAULT_RPE, FEEDBACK_LABELS, NOTE_MAX, SENSATIONS, SENSATION_LABELS,
   effortLevel, hasPainSignal, moodAfterReview, scoreToFeedback,
@@ -13,8 +14,10 @@ import {
 } from '../modules/checkin/review-model';
 import { REGIONS, REGION_LABELS, type ExerciseFeedback, type Region } from '../shared/constants';
 import { shortDate } from '../shared/dates';
+import { PAIN_ADVICE } from '../shared/safety';
 import { goBackOrHome, goHome, useAppNavigation, useAppRoute } from '../navigation';
 import { Button, Chip, Divider, IconButton, Mascot, Screen, Sheet } from '../ui/components';
+import SafetyNotice from '../ui/safety-notice';
 import { colors, effortColors, radius, space, type } from '../ui/theme';
 
 type SheetName = null | 'help' | 'skip' | 'saved';
@@ -28,7 +31,7 @@ const FEEDBACK_COLORS: Record<ExerciseFeedback, string> = {
 
 export default function CheckInScreen() {
   const nav = useAppNavigation();
-  const history = useAppRoute<'CheckIn'>().params?.history;
+  const { history, fromWorkout } = useAppRoute<'CheckIn'>().params ?? {};
   const ctx = history ? getCheckInContext(history) : null;
 
   if (!ctx) {
@@ -39,10 +42,13 @@ export default function CheckInScreen() {
       </Screen>
     );
   }
-  return <CheckInForm key={ctx.entry.id} ctx={ctx} />;
+  return <CheckInForm key={ctx.entry.id} ctx={ctx} fromWorkout={fromWorkout} />;
 }
 
-function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInContext>> }) {
+function CheckInForm({ ctx, fromWorkout }: {
+  ctx: NonNullable<ReturnType<typeof getCheckInContext>>;
+  fromWorkout?: boolean;
+}) {
   const nav = useAppNavigation();
   const { entry, existing } = ctx;
   const stoppedByPain = entry.stoppedByPain;
@@ -57,6 +63,9 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
   const [sheet, setSheet] = useState<SheetName>(null);
   const [saved, setSaved] = useState<Review | null>(null);
   const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const savingRef = useRef(false);
+  usePreventRemove(saving, () => setError('Please wait while your check-in is being saved.'));
 
   const draft = { historyId: entry.id, rpe, discomfort, scores, note };
   const level = effortLevel(rpe);
@@ -69,17 +78,27 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
     );
   const updateRegion = (next: DiscomfortDetail) => setDiscomfort((list) => list.map((d) => (d.region === next.region ? next : d)));
 
-  const finish = () => {
+  const finish = async () => {
+    if (savingRef.current) return;
+    savingRef.current = true;
+    setSaving(true);
     setError('');
     try {
-      setSaved(submitCheckIn(draft, stoppedByPain));
+      setSaved(await submitCheckInDurable(draft, stoppedByPain));
       setSheet('saved');
     } catch {
       setError('Couldn’t save your check-in. Please try again.');
+    } finally {
+      savingRef.current = false;
+      setSaving(false);
     }
   };
 
   const rated = Object.keys(scores).length;
+  const leaveCheckIn = () => {
+    if (fromWorkout) nav.replace('Recap', { history: entry.id });
+    else goHome(nav);
+  };
 
   return (
     <Screen
@@ -89,10 +108,11 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
             {level.name} effort · {discomfort.length ? 'Body notes added' : 'Your moment to reflect'}
           </Text>
           {error ? <Text style={[type.caption, { color: colors.danger, marginBottom: space.sm }]}>{error}</Text> : null}
-          <Button title={existing ? 'Update check-in' : 'Finish check-in'} trailing="✓" onPress={finish} />
+          <Button title={saving ? 'Saving…' : existing ? 'Update check-in' : 'Finish check-in'} disabled={saving} trailing="✓" onPress={finish} />
         </>
       }
     >
+      <View pointerEvents={saving ? 'none' : 'auto'}>
       <View style={styles.nav}>
         <IconButton label="Back" onPress={() => goBackOrHome(nav)}>
           ‹
@@ -183,7 +203,7 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
           </View>
           <Text style={[type.caption, { marginTop: space.md }]}>Related exercise · optional</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
-            {ctx.exercises.map((e) => (
+            {ctx.discomfortExercises.map((e) => (
               <Chip key={e.id} tone="blush" label={e.name} selected={d.exerciseId === e.id} onPress={() => updateRegion({ ...d, exerciseId: d.exerciseId === e.id ? null : e.id })} />
             ))}
           </ScrollView>
@@ -193,10 +213,8 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
       {pain ? (
         <View style={styles.safety} accessibilityLiveRegion="polite">
           <Text style={type.h3}>Listen to your body.</Text>
-          <Text style={[type.caption, { color: colors.ink }]}>
-            Don’t train through pain. If it’s sharp, getting worse, or doesn’t ease with rest, give that area a break and
-            talk to a doctor or physiotherapist. FitLens can’t assess injuries — this isn’t medical advice.
-          </Text>
+          <Text style={[type.caption, { color: colors.ink }]}>{PAIN_ADVICE}</Text>
+          <SafetyNotice style={{ color: colors.ink }} />
         </View>
       ) : null}
 
@@ -275,7 +293,7 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
         <Text style={[type.body, { marginBottom: space.lg }]}>
           Your session is already saved. Without a check-in, next week’s plan can’t adjust to how this one felt.
         </Text>
-        <Button title="Skip for now" variant="secondary" onPress={() => goHome(nav)} />
+        <Button title="Skip for now" variant="secondary" onPress={leaveCheckIn} />
         <Button title="Keep checking in" variant="text" onPress={() => setSheet(null)} style={{ marginTop: space.sm }} />
       </Sheet>
 
@@ -289,9 +307,10 @@ function CheckInForm({ ctx }: { ctx: NonNullable<ReturnType<typeof getCheckInCon
           {saved?.exerciseFeedback.length ? ` ${saved.exerciseFeedback.length} exercises rated.` : ''}
           {saved?.note ? ' Your note is included.' : ''}
         </Text>
-        <Button title="Back to Today" trailing="↗" onPress={() => goHome(nav)} />
+        <Button title={fromWorkout ? 'View recap' : 'Back to Today'} trailing="↗" onPress={leaveCheckIn} />
         <Button title="Keep editing" variant="text" onPress={() => setSheet(null)} style={{ marginTop: space.sm }} />
       </Sheet>
+      </View>
     </Screen>
   );
 }

@@ -32,7 +32,7 @@ type PlanProps = {
   store: AppStore;
   today?: string;
   /** Opens the workout screen for a planned session (route 'Workout', param `session`). Hidden when absent. */
-  onStartSession?: (sessionId: string) => void;
+  onStart?: (sessionId: string) => void;
   /** The saved profile (Thông's getProfile). "Build my week" starts from it; changes there are for this week only. */
   getProfile?: () => SavedProfile;
   /** Last week's check-in result for a week (Tu's getLoadAdjustForWeek): -0.3 … +0.1. */
@@ -48,7 +48,7 @@ const ADJUST_NOTE: Record<'pain' | 'hard' | 'easy', string> = {
   easy: 'A bit more: last week felt easy, so the workouts are longer.',
 };
 
-export default function PlanScreen({ store, today, onStartSession, getProfile, getLoadAdjust }: PlanProps) {
+export default function PlanScreen({ store, today, onStart, getProfile, getLoadAdjust }: PlanProps) {
   const todayStr = today ?? store.todayStr();
   const thisWeek = store.weekStartOf(todayStr) as string;
   const [week, setWeek] = useState(thisWeek);
@@ -314,14 +314,14 @@ export default function PlanScreen({ store, today, onStartSession, getProfile, g
               {editError}
             </Text>
           )}
-          {selected && selected.status === 'planned' && onStartSession && store.getWorkout(selected.workoutId) && (
+          {selected && selected.status === 'planned' && onStart && store.getWorkout(selected.workoutId) && (
             <Button
               label="Start workout"
               testID="start-session"
               onPress={() => {
                 const id = selected.id;
                 setSelected(null);
-                onStartSession(id);
+                onStart(id);
               }}
             />
           )}
