@@ -11,6 +11,9 @@ import { getStore } from '../src/modules/workouts/store';
 import PlanScreen from '../src/screens/PlanScreen';
 import WorkoutsScreen from '../src/screens/WorkoutsScreen';
 import { hydrate, localStorageView } from '../src/shared/storage';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+
+const clock = DateTimePickerAndroid as unknown as { nextTime: string | null; open: jest.Mock };
 
 const TODAY = '2026-11-12'; // a Thursday in the week of 2026-11-09
 
@@ -234,22 +237,29 @@ test('Plan: set a time and move a session to another day; a clash is refused', a
   expect(ids).toHaveLength(2);
 
   await press(tree, ids[0]);
-  await press(tree, 'hour-18');
-  await press(tree, 'minute-30');
+  clock.nextTime = '18:30';
+  await press(tree, 'time-other'); // Android clock dialog
+  expect(clock.open).toHaveBeenLastCalledWith(expect.objectContaining({ mode: 'time', is24Hour: true }));
   await press(tree, 'save-session');
   expect(text(tree)).toContain('18:30 · ');
 
   await press(tree, ids[1]);
   await press(tree, 'day-chip-2026-11-10'); // same day as the first one
-  await press(tree, 'hour-18');
-  await press(tree, 'minute-30');
+  await press(tree, 'time-other');
   await press(tree, 'save-session');
   expect(byId(tree, 'edit-error').props.children).toContain('already have a workout');
 
-  await press(tree, 'minute-45'); // different time on that day is fine
+  await press(tree, 'time-19:00'); // a quick pick: a different time on that day is fine
   await press(tree, 'save-session');
-  expect(text(tree)).toContain('18:45 · ');
+  expect(text(tree)).toContain('19:00 · ');
   expect(byId(tree, 'plan-status').props.children).toBe('Saved.');
+
+  // Cancelling the clock keeps the time that was there.
+  await press(tree, ids[1]);
+  clock.nextTime = 'dismiss';
+  await press(tree, 'time-other');
+  await press(tree, 'save-session');
+  expect(text(tree)).toContain('19:00 · ');
 });
 
 test('workout and planned-session start callbacks carry the owner IDs', async () => {
@@ -268,4 +278,32 @@ test('workout and planned-session start callbacks carry the owner IDs', async ()
   await press(tree, 'start-session');
   expect(onStart).toHaveBeenLastCalledWith(added.session.id);
   await ReactTestRenderer.act(async () => tree.unmount());
+});
+
+test('Plan: build your own combination, saved as your workout and planned on that day', async () => {
+  const { tree } = await render();
+  await press(tree, 'tab-plan');
+  await press(tree, 'add-2026-11-10');
+  await press(tree, 'add-tab-build');
+  expect(byId(tree, 'combo-add').props.disabled).toBe(true);
+  await press(tree, 'combo-goblet-squat');
+  await press(tree, 'combo-biceps-curl');
+  expect(text(tree)).toContain('1. Goblet Squat');
+  expect(text(tree)).toContain('2. Biceps Curl');
+  await ReactTestRenderer.act(async () => {
+    byId(tree, 'combo-name').props.onChangeText('Leg + arm day');
+  });
+  await press(tree, 'combo-add');
+  expect(byId(tree, 'plan-status').props.children).toBe('Added Leg + arm day.');
+  expect(byId(tree, 'day-2026-11-10').findAllByProps({ children: 'Leg + arm day' }).length).toBeGreaterThan(0);
+
+  const mine = getStore().listWorkouts().find(w => w.title === 'Leg + arm day');
+  expect(mine?.source).toBe('custom');
+  expect(mine?.items.map(i => i.exerciseId)).toEqual(['goblet-squat', 'biceps-curl']);
+
+  // It can be picked again from saved workouts, and the builder starts empty next time.
+  await press(tree, 'add-2026-11-11');
+  expect(has(tree, `pick-${mine!.id}`)).toBe(true);
+  await press(tree, 'add-tab-build');
+  expect(byId(tree, 'combo-add').props.disabled).toBe(true);
 });
