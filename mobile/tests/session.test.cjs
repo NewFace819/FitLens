@@ -134,14 +134,29 @@ test('Use last time preserves completed sets, maps by order and never completes 
   assert.equal(JSON.stringify(s), original);
   assert.throws(() => m.applyLastSets(act(s, 'pause', 7000), [], 8000));
   assert.throws(() => m.applyLastSets(act(s, 'finish', 7000), [], 8000));
-  assert.equal(
-    m.applyLastSets(
-      start(),
-      [{ exerciseId: 'push-up', kg: null, reps: 0 }],
-      1000,
-    ).training.exercises[0].sets[0].kg,
-    null,
-  );
+});
+test('Use last time fills known reps and keeps the current load when history has no kg', () => {
+  const draft = act(start(), 'editSet', 1000, { setIndex: 1, kg: 2.5, reps: 3 });
+  const previous = [
+    { exerciseId: 'push-up', kg: null, reps: 10 },
+    { exerciseId: 'push-up', kg: null, reps: 8 },
+  ];
+  const next = m.applyLastSets(draft, previous, 1000);
+  assert.deepEqual(next.training.exercises[0].sets, [
+    { kg: null, reps: 10, done: false },
+    { kg: 2.5, reps: 8, done: false },
+  ]);
+  assert.equal(completedSets(next.training).length, 0);
+});
+test('Use last time has no edits for completed, invalid or incompatible rows', () => {
+  const session = rest();
+  const previous = [
+    { exerciseId: 'push-up', durationSec: 30 },
+    { exerciseId: 'push-up', kg: 0, reps: 10 },
+    { exerciseId: 'push-up', kg: null, reps: 0 },
+  ];
+  assert.deepEqual(m.lastSetEdits(session.training.exercises[0], previous), []);
+  assert.deepEqual(m.applyLastSets(session, previous, 5000), session);
 });
 test('restored sessions produce the same result as uninterrupted actions', () => {
   let s = rest();

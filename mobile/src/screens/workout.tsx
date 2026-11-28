@@ -15,6 +15,7 @@ import {
   actOnSession,
   extendRest,
   applyLastSets,
+  lastSetEdits,
   type ActiveTraining,
 } from '../modules/training/session-model';
 import {
@@ -220,7 +221,8 @@ export default function WorkoutScreen() {
   const exercise = view?.training.exercises[view.training.exerciseIndex];
   const timed = isDurationTarget(exercise?.targetReps);
   const lastSets = exercise ? getLastSets(exercise.exerciseId) : [];
-  const hasLastSets = lastSets.some(set => (set.durationSec !== undefined) === timed);
+  const canUseLastSets =
+    exercise !== undefined && lastSetEdits(exercise, lastSets).length > 0;
   const terminal = !!session?.finishedAt;
   const locked = busy || terminal || session?.training.phase === 'paused';
   const matchesSelection = params?.session
@@ -350,8 +352,8 @@ export default function WorkoutScreen() {
             onPress={() => act({ type: 'addSet' })}
           />
           <Button
-            title={hasLastSets ? 'Use last time' : 'No previous sets'}
-            disabled={locked || !hasLastSets}
+            title={canUseLastSets ? 'Use last time' : 'No sets to reuse'}
+            disabled={locked || !canUseLastSets}
             variant="secondary"
             onPress={() =>
               change(s => applyLastSets(s, lastSets, Date.now()))

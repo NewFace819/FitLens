@@ -71,6 +71,21 @@ test('new completions reject legacy-permissive values; empty pain stop is retain
   await h.saveHistory({ ...entry(), stoppedByPain: true, sets: [] });
   assert.equal(h.getHistory()[0].stoppedByPain, true);
 });
+test('retry enriches an older completed checkpoint without duplicates or overwriting its metadata', async () => {
+  const p = device();
+  await hydrate(p);
+  const original = { ...entry(), stoppedByPain: true };
+  await h.saveHistory(original);
+  await hydrate(p);
+
+  const retried = { ...original, workoutTitle: 'Original title', stoppedExerciseId: 'bench-press' };
+  assert.deepEqual(await h.saveHistory(retried), retried);
+  assert.deepEqual(await h.saveHistory(original), retried);
+  await assert.rejects(h.saveHistory({ ...retried, workoutTitle: 'New title' }), /different result/);
+  await assert.rejects(h.saveHistory({ ...retried, stoppedExerciseId: 'push-up' }), /different result/);
+  await hydrate(p);
+  assert.deepEqual(h.getHistory(), [retried]);
+});
 test('failed history save keeps cache and disk unchanged; retry is durable', async () => {
   const p = device();
   await hydrate(p);

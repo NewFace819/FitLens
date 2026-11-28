@@ -186,6 +186,7 @@ File này **chỉ** định nghĩa phần dùng chung. Cấu trúc chi tiết c�
 - `Profile`: `goal`, `experience`, `daysPerWeek`, `minutes`, `equipment`, `avoidRegions`. Mặc định khi chưa onboarding: `habit`, `new`, `3`, `30`, `[]`, `[]`.
 - `Session`: `id`, `workoutId`, `date`, `time`, `status`.
 - `HistoryEntry`: `id`, `sessionId`, `workoutId`, `date`, `durationSec`, `stoppedByPain`.
+  Bản ghi mới có thể lưu `workoutTitle` theo tên lúc bắt đầu. Khi dừng vì đau, `stoppedExerciseId` là bài đang hiển thị để người dùng chọn khi check-in. Hai trường có thể vắng mặt trong bản ghi cũ.
 - `SetRecord` trong `HistoryEntry.sets` có `exerciseId` và số đo thực tế. Set theo số lần dùng `kg` và `reps`. Set theo thời gian dùng `durationSec`.
 - `Review`: `id`, `historyId`, `rpe`, `discomfortRegions`, `exerciseFeedback` (`[{exerciseId, feedback: ExerciseFeedback}]`).
 - `Exercise`: `id`, `name`, `regions`, `equipment`, `muscles`.

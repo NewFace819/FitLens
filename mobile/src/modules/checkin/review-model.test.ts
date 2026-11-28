@@ -56,5 +56,6 @@ test('adjustments are conservative; load adjust stays in −30%…+10%', () => {
   expect(weeklyLoadAdjust([hurt])).toBe(-0.3);
   expect(weeklyLoadAdjust([buildReview(draft({ rpe: 9 }))])).toBe(-0.2);
   expect(weeklyLoadAdjust([easy], 1)).toBe(-0.3);
+  expect(weeklyLoadAdjust([], 1)).toBe(-0.3);
   expect(weeklyLoadAdjust([])).toBe(0);
 });

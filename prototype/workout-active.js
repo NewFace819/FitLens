@@ -50,7 +50,20 @@ function commitRhythm(){
  }
  const url=history?'workout-review.html?routine='+routineKey+'&completed='+encodeURIComponent(history.id):'workouts.html';
  $('#finish-session').href=$('#pain-review').href=url;
- return history?.id;
+ return url;
+}
+function finishWorkout(){
+ let url;
+ try{
+  url=commitRhythm();
+ }catch{
+  $('#finish-save-error').hidden=false;
+  const menu=$('#menu-dialog');
+  if(!menu.open)openSheet(menu);
+  return;
+ }
+ $('#finish-save-error').hidden=true;
+ location.href=url;
 }
 function saveStoppedWorkout(event){
  try{
@@ -65,7 +78,10 @@ $('#finish-session').addEventListener('click',event=>{
  if(phase==='stopped'){
   saveStoppedWorkout(event);
   if(event.defaultPrevented){$('#menu-dialog').close();openSheet($('#pain-dialog'));}
- }else commitRhythm();
+ }else{
+  event.preventDefault();
+  finishWorkout();
+ }
 });
 $('#pain-review').addEventListener('click',saveStoppedWorkout);
 function say(message){$('#session-announcement').textContent=message;}
@@ -103,7 +119,7 @@ function render(){const ex=plan[index],n=currentRow();phone.dataset.phase=phase;
 }
 function renderRest(){const ex=plan[index],n=currentRow();$('#rest-clock').textContent=time(remaining);$('#rest-title').innerHTML=remaining?'Rest easy<span>.</span>':'Ready when<br>you are<span>.</span>';$('#rest-eyebrow').textContent=remaining?'TAKE A BREATHER':'YOUR NEXT SET';$('#skip-rest').innerHTML=remaining?'Skip rest ':'Back to sets ';$('#next-set-note').textContent=`Next: Set ${n+1} · ${logs[index][n]?.weight??ex.weight} kg${ex.equipment.includes('Dumbbells')?' / hand':''} · ${ex.reps} reps`;}
 function complete(n){if(['stopped','paused','completed'].includes(phase))return;const line=$('#set-rows').children[n],inputs=[...line.querySelectorAll('input')];let valid=true;inputs.forEach(input=>{if(input.value===''||!input.checkValidity()){input.setCustomValidity(input.value===''?'Enter what you completed.':'Check this value.');if(valid){input.reportValidity();input.focus();}valid=false;}});if(!valid)return;logs[index][n].done=true;remaining=plan[index].rest;phase=currentRow()>=0&&remaining>0?'rest':'working';render();save();showMilestone();say(`Set ${n+1} complete.${phase==='rest'?' Rest timer started.':''}`);}
-$('#complete-set').addEventListener('click',()=>{const n=currentRow();if(n>=0)complete(n);else if(index<plan.length-1){index++;phase='working';render();save();$('.session-scroll').scrollTop=0;}else {const id=commitRhythm();location.href=id?'workout-review.html?routine='+routineKey+'&completed='+encodeURIComponent(id):'workouts.html';}});
+$('#complete-set').addEventListener('click',()=>{const n=currentRow();if(n>=0)complete(n);else if(index<plan.length-1){index++;phase='working';render();save();$('.session-scroll').scrollTop=0;}else finishWorkout();});
 $('#add-set').addEventListener('click',()=>{if(['paused','stopped','completed'].includes(phase))return;logs[index].push({weight:plan[index].needs?.length===0?0:null,reps:null,done:false});render();save();say('Set added.');});
 $('#skip-rest').addEventListener('click',()=>{phase='working';remaining=0;render();save();});
 $('#add-rest').addEventListener('click',()=>{remaining+=15;renderRest();save();});
