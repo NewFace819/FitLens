@@ -319,3 +319,38 @@ test('paused workouts keep the camera button disabled', async () => {
   await click('Pause');
   expect(cameraButtons().every(node => node.props.disabled === true)).toBe(true);
 });
+
+test('opening Workout with a chosen workout starts it straight away', async () => {
+  await reopenTraining({ workout: 'tpl-lower' });
+  expect(getActiveTraining()?.workoutId).toBe('tpl-lower');
+  expect(button('Start selected workout')).toBeUndefined();
+  expect(button('Complete set')).toBeDefined();
+});
+
+test('the set timer restarts on Complete set while the total keeps running', async () => {
+  await click(getStore().getWorkout('tpl-upper')!.title);
+  await act(async () => { jest.advanceTimersByTime(90000); });
+  const text = () => JSON.stringify(app.toJSON());
+  expect(text()).toContain('This set 1:30');
+  await enter('Set 1 weight in kg', '0');
+  await enter('Set 1 repetitions', '10');
+  await click('Complete set');
+  await act(async () => { jest.advanceTimersByTime(20000); });
+  expect(text()).toContain('This set 0:20');
+  expect(text()).toContain('Total 1:50');
+  expect(button('Skip rest')).toBeUndefined();
+});
+
+test('bad characters never reach a set field, and an invalid value clears on leaving it', async () => {
+  await click(getStore().getWorkout('tpl-upper')!.title);
+  const field = (label: string) =>
+    app.root.findAll(n => n.props.accessibilityLabel === label && typeof n.props.onChangeText === 'function')[0];
+  await enter('Set 1 weight in kg', '-1,5kg');
+  expect(field('Set 1 weight in kg').props.value).toBe('1.5');
+  await enter('Set 1 repetitions', '-0');
+  expect(field('Set 1 repetitions').props.value).toBe('0');
+  await act(async () => { field('Set 1 repetitions').props.onEndEditing(); });
+  expect(field('Set 1 repetitions').props.value).toBe('');
+  expect(field('Set 1 weight in kg').props.value).toBe('1.5');
+  expect(getActiveTraining()?.training.exercises[0].sets[0]).toEqual({ kg: 1.5, reps: null, done: false });
+});

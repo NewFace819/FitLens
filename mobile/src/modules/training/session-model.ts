@@ -22,9 +22,16 @@ export type ActiveTraining = Readonly<{
   clockMs: number;
   elapsedMs: number;
   restMs: number;
+  /** elapsedMs when the current set started (workout start, last completed set or exercise change).
+   * Optional so workouts saved before this field still restore; missing means 0. */
+  setMarkMs?: number;
   finishedAt: string | null;
   revision: number;
 }>;
+/** Time spent on the current set so far. */
+export const setElapsedMs = (session: ActiveTraining) =>
+  Math.max(0, session.elapsedMs - (session.setMarkMs ?? 0));
+
 const validTime = (n: unknown): n is number =>
   typeof n === 'number' &&
   Number.isSafeInteger(n) &&
@@ -65,6 +72,7 @@ export function startTraining(
     clockMs: nowMs,
     elapsedMs: 0,
     restMs: 0,
+    setMarkMs: 0,
     finishedAt: null,
     revision: 0,
   };
@@ -106,10 +114,13 @@ export function actOnSession(
   ) {
     restMs = 0;
   }
+  // The per-set timer restarts when a set is completed or the exercise changes.
+  const newSet = action.type === 'completeSet' || action.type === 'nextExercise';
   return {
     ...timed,
     training: result.state,
     restMs,
+    setMarkMs: newSet ? timed.elapsedMs : timed.setMarkMs ?? 0,
     revision: session.revision + 1,
     finishedAt: terminal(result.state)
       ? new Date(timed.clockMs).toISOString()
@@ -200,7 +211,8 @@ export function restoreTraining(raw: unknown): ActiveTraining | null {
     !validTime(s.clockMs) ||
     !validTime(s.elapsedMs) ||
     !validTime(s.restMs) ||
-    !validTime(s.revision)
+    !validTime(s.revision) ||
+    (s.setMarkMs !== undefined && (!validTime(s.setMarkMs) || s.setMarkMs > s.elapsedMs))
   )
     return null;
   const t = s.training;

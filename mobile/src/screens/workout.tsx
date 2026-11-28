@@ -1,21 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePreventRemove } from '@react-navigation/native';
-import {
-  Alert,
-  AppState,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, AppState, StyleSheet, Text, View } from 'react-native';
 import { useAppNavigation, useAppRoute } from '../navigation';
 import { getLastSets } from '../modules/history/history';
 import {
   advanceClock,
   actOnSession,
-  extendRest,
   applyLastSets,
   lastSetEdits,
+  setElapsedMs,
   type ActiveTraining,
 } from '../modules/training/session-model';
 import {
@@ -73,7 +66,6 @@ export default function WorkoutScreen() {
   const busyRef = useRef(false);
   const [ack, setAck] = useState(initial.session?.revision ?? 0);
   const [now, setNow] = useState(Date.now());
-  const [rest, setRest] = useState('');
   const [notice, setNotice] = useState('');
   const [acceptedSelection, setAcceptedSelection] = useState<{ activeId: string; key: string } | null>(null);
   const dirty = session !== null && ack < session.revision;
@@ -138,9 +130,7 @@ export default function WorkoutScreen() {
     setBusy(true);
     setError('');
     try {
-      if (rest !== '' && !/^\d+$/.test(rest))
-        throw new Error('Enter a whole rest duration in seconds.');
-      const next = await beginWorkout(input, rest === '' ? undefined : Number(rest), Date.now(), replace);
+      const next = await beginWorkout(input, undefined, Date.now(), replace);
       acceptSelection(next.id);
       publish(next);
       setAck(next.revision);
@@ -151,6 +141,16 @@ export default function WorkoutScreen() {
       setBusy(false);
     }
   };
+  // Opening Workout with a chosen workout or session starts it straight away. Runs once per
+  // selection; an existing workout still goes through the resume/discard choice below.
+  const handledSelection = useRef<string | null>(null);
+  useEffect(() => {
+    if (!selectionKey || handledSelection.current === selectionKey) return;
+    handledSelection.current = selectionKey;
+    if (current.current || initial.error || !storageReady() || !params) return;
+    begin(params);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectionKey]);
   const finish = async (pain = false) => {
     if (!current.current || busyRef.current) return;
     busyRef.current = true;
@@ -278,38 +278,27 @@ export default function WorkoutScreen() {
   const schedules = getWeekSchedule(weekStartOf(toDateKey(new Date()))).filter(
     s => s.status === 'planned',
   );
-  // Rest lives in the fixed footer so it stays visible while the set list is scrolled.
-  const restFooter =
-    session && view && !showConflict && session.training.phase === 'rest' ? (
-      <View style={styles.restBar}>
-        <View style={styles.restInfo}>
-          <Text style={type.big}>{time(view.restMs)}</Text>
-          <Text style={type.caption}>
-            {!view.restMs
-              ? 'Ready when you are'
-              : exercise?.sets.every(s => s.done)
-              ? 'Rest before next exercise'
-              : 'Rest between sets'}
+  // Timers live in the fixed footer so they stay visible while the set list is scrolled.
+  // Rest is not counted down; the set timer restarts when a set is completed.
+  const timerFooter =
+    session && view && exercise && !showConflict && !terminal ? (
+      <View style={styles.timerBar} accessibilityLiveRegion="none">
+        <View style={styles.timerCell}>
+          <Text style={type.caption}>This set</Text>
+          <Text style={type.big} accessibilityLabel={`This set ${time(setElapsedMs(view))}`}>
+            {time(setElapsedMs(view))}
           </Text>
         </View>
-        <View style={styles.restActions}>
-          <Button
-            title="+15s"
-            disabled={busy}
-            variant="secondary"
-            onPress={() => change(s => extendRest(s, 15, Date.now()))}
-          />
-          <Button
-            title="Skip"
-            disabled={busy}
-            variant="secondary"
-            onPress={() => act({ type: 'skipRest' })}
-          />
+        <View style={styles.timerCell}>
+          <Text style={type.caption}>Total</Text>
+          <Text style={type.big} accessibilityLabel={`Total ${time(view.elapsedMs)}`}>
+            {time(view.elapsedMs)}
+          </Text>
         </View>
       </View>
     ) : undefined;
   return (
-    <Screen footer={restFooter}>
+    <Screen footer={timerFooter}>
       <TopBar title="Workout" />
       {error ? (
         <Text accessibilityRole="alert" style={styles.error}>
@@ -349,8 +338,11 @@ export default function WorkoutScreen() {
       ) : session && view && exercise ? (
         <View style={styles.stack}>
           <Text style={type.title}>{session.title}</Text>
+          {!terminal && !exercise.sets.some(set => set.done) && view.training.exerciseIndex === 0 ? (
+            <SafetyNotice />
+          ) : null}
           <Text style={type.caption}>
-            {time(view.elapsedMs)} elapsed ·{' '}
+            {session.training.phase === 'paused' ? 'Paused · ' : ''}
             {pending || busy
               ? 'Saving…'
               : dirty
@@ -358,7 +350,7 @@ export default function WorkoutScreen() {
               : 'Saved on device'}
           </Text>
           <Text style={type.caption}>
-            Background time counts. Pause to freeze both timers.
+            Background time counts. Pause to freeze the timers.
           </Text>
           <Text style={type.h2}>
             {view.training.exerciseIndex + 1}/{view.training.exercises.length} ·{' '}
@@ -484,15 +476,6 @@ export default function WorkoutScreen() {
         <View style={styles.stack}>
           <Text style={type.title}>Start a workout</Text>
           <SafetyNotice />
-          <Text style={type.caption}>Rest override in seconds (blank uses workout plan)</Text>
-          <TextInput
-            accessibilityLabel="Rest between sets in seconds"
-            style={styles.input}
-            keyboardType="number-pad"
-            value={rest}
-            onChangeText={setRest}
-            editable={!busy}
-          />
           {params?.workout || params?.session ? (
             <Button
               title="Start selected workout"
@@ -539,15 +522,7 @@ export default function WorkoutScreen() {
 }
 const styles = StyleSheet.create({
   stack: { gap: space.md },
-  restBar: { flexDirection: 'row', alignItems: 'center', gap: space.md },
-  restInfo: { flex: 1 },
-  restActions: { flexDirection: 'row', gap: space.sm },
+  timerBar: { flexDirection: 'row', gap: space.md },
+  timerCell: { flex: 1 },
   error: { color: colors.danger, marginVertical: space.sm },
-  input: {
-    minHeight: 48,
-    padding: space.md,
-    color: colors.ink,
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
 });

@@ -32,3 +32,15 @@ export function parseSetDuration(text: string): { durationSec: number | null } |
     : /^\d+$/.test(value) ? Number(value) : NaN;
   return validDuration(durationSec) ? { durationSec } : null;
 }
+
+/** Keystroke filters: only characters that can form a valid value get into the field.
+ * A comma becomes a dot (common on Vietnamese/European keyboards). */
+export const cleanKgText = (text: string) => {
+  const [whole, ...rest] = text.replace(/,/g, '.').replace(/[^\d.]/g, '').split('.');
+  return (rest.length ? `${whole}.${rest.join('')}` : whole).slice(0, 7);
+};
+export const cleanRepsText = (text: string) => text.replace(/\D/g, '').slice(0, 3);
+export const cleanDurationText = (text: string) => {
+  const [mins, ...rest] = text.replace(/[^\d:]/g, '').split(':');
+  return (rest.length ? `${mins}:${rest.join('')}` : mins).slice(0, 7);
+};

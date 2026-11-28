@@ -72,7 +72,8 @@ test('workout: shown before starting, and again when the workout stops for pain'
   expect(text()).toContain(SAFETY_NOTICE);
 
   await act(async () => { await button(getStore().getWorkout('tpl-upper')!.title).props.onPress(); });
-  expect(notices()).toHaveLength(0); // not repeated on every set
+  // Shown once at the start of the workout too, because a chosen workout skips the start screen.
+  expect(notices()).toHaveLength(1);
   // Saving the history fails, so the screen stays on the stopped workout and shows the pain message.
   const save = persistence.save;
   persistence.save = async (k, v) => { if (k === KEYS.history) throw Error('full'); await save(k, v); };
