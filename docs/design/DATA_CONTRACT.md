@@ -126,7 +126,7 @@ Mỗi người xuất một đối tượng `window.FitLens<Tên>`. Kiểu trả
 | `getReview(historyId)` | Đức Huy | `Review \| null` | Tu, Thông |
 | `getReviews({from?, to?})` | Đức Huy | `Review[]` mới nhất trước | Hải (RPE tuần trước), Thông (gợi ý xác nhận vùng tránh), Tu |
 | `getRhythm(date)` | Tu | `Rhythm` | Đỗ Huy, Thông |
-| `getLoadAdjustForWeek(weekStart)` | Tu | Số từ `-0.3` đến `+0.1`, tính từ check-in tuần trước: `-0.3` có báo đau, `-0.2`/`-0.1` thấy quá nặng, `+0.1` thấy nhẹ, `0` không đổi hoặc chưa có dữ liệu | Hải (Plan: tham số `loadAdjust` của `generateDraft`, xem `WORKOUT_SCHEDULE_DESIGN.md` §5) |
+| `getLoadAdjustForWeek(weekStart)` | Tu | Số từ `-0.3` đến `+0.1`, tính từ check-in tuần trước: `-0.3` có báo đau, `-0.2`/`-0.1` thấy quá nặng, `+0.1` thấy nhẹ, `0` không đổi hoặc chưa có dữ liệu. Buổi dừng vì đau vẫn tính dù bỏ qua check-in. Bằng `getNextWeekAdjustment(weekStart).loadAdjust` | Hải (Plan: tham số `loadAdjust` của `generateDraft`, xem `WORKOUT_SCHEDULE_DESIGN.md` §5) |
 | `getReminder(sessionId)` | Tu | `Reminder \| null` (nếu buổi chưa có nhắc riêng thì trả nhắc mặc định `sessionId = null`) | Hải (Plan), Tu |
 | `setReminder(sessionId, {enabled, minutesBefore})` | Tu | `Reminder`. `minutesBefore` chỉ nhận `0`, `15`, `30` | Hải (Plan), Tu |
 | `getNextWeekAdjustment(weekStart)` | Tu | `{loadAdjust, reason: 'pain'\|'hard'\|'easy'\|null, message, avoidRegions: Region[], avoidExercises: string[]}` tính từ tuần trước `weekStart`. `message` là một câu ngắn tiếng Anh cho người dùng. `avoidRegions` là vùng báo đau, **chỉ tránh cho tuần đó**, không ghi vào hồ sơ. Chưa có dữ liệu thì `{0, null, …, [], []}` | Hải (Plan: `generateDraft(withNextWeekAvoid(profile, adj), weekStart, adj.loadAdjust)`) |
