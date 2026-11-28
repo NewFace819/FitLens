@@ -128,7 +128,8 @@ Mỗi người xuất một đối tượng `window.FitLens<Tên>`. Kiểu trả
 | `getRhythm(date)` | Tu | `Rhythm` | Đỗ Huy, Thông |
 | `getReminder(sessionId)` | Tu | `Reminder \| null` (nếu buổi chưa có nhắc riêng thì trả nhắc mặc định `sessionId = null`) | Hải (Plan), Tu |
 | `setReminder(sessionId, {enabled, minutesBefore})` | Tu | `Reminder`. `minutesBefore` chỉ nhận `0`, `15`, `30` | Hải (Plan), Tu |
-| `getLoadAdjustForWeek(weekStart)` | Tu | số −0.3…+0.1 (giảm/tăng tải tuần sau theo RPE và báo đau tuần trước) | Hải (`generateDraft`) |
+| `getLoadAdjustForWeek(weekStart)` | Tu | số −0.3…+0.1 (giảm/tăng tải tuần sau theo RPE và báo đau tuần trước; buổi dừng vì đau vẫn tính dù bỏ qua check-in). Bằng `getNextWeekAdjustment(weekStart).loadAdjust` | Hải (`generateDraft`) |
+| `getNextWeekAdjustment(weekStart)` | Tu | `{loadAdjust, reason: 'pain'\|'hard'\|'easy'\|null, message, avoidRegions: Region[], avoidExercises: string[]}` tính từ tuần trước `weekStart`. `message` là một câu ngắn tiếng Anh cho người dùng. `avoidRegions` là vùng báo đau, **chỉ tránh cho tuần đó**, không ghi vào hồ sơ. Chưa có dữ liệu thì `{0, null, …, [], []}` | Hải (Plan: `generateDraft(withNextWeekAvoid(profile, adj), weekStart, adj.loadAdjust)`) |
 | `setMascotMood(mood)` | Đỗ Huy | `void` | Tu, Đức Huy |
 | `getActivities({from?, to?})` | Đỗ Huy | `Activity[]` | Thông (Insights, Home) |
 | `renderActivitySection(el)` | Đỗ Huy | `void` | Hải (trang Workouts) |

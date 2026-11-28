@@ -87,6 +87,7 @@ type Reminder = { id: string; sessionId: string|null; enabled: boolean; minutesB
 | `getReminder(sessionId)`, `setReminder(sessionId, …)` | Hải (Plan), Tu |
 | `getLoadAdjustForWeek(weekStart)` → −0.3…+0.1 | Hải: tham số `loadAdjust` của `generateDraft` |
 | `suggestAdjustments(reviews)` → `swap/easier/keep/harder` theo từng bài | Hải |
+| `getNextWeekAdjustment(weekStart)` → `{loadAdjust, reason, message, avoidRegions, avoidExercises}`; `withNextWeekAvoid(profile, adj)` | Hải (Plan). File `checkin/next-week.ts`. Luật vùng đau: vùng người dùng chọn "Pain"; với buổi dừng vì đau thì mọi vùng ghi trong check-in; không có vùng nào thì lấy vùng của bài bị đau. Chỉ áp dụng một tuần, không sửa `avoidRegions` trong hồ sơ |
 | `setWeeklyGoal`, `pauseRhythm`, `resumeRhythm` | Tu (màn Rhythm) |
 | `getCheckInContext(historyId)`, `submitCheckIn(draft, stoppedByPain)`, `latestUnreviewed(withinDays = 2)` | Tu; Đỗ Huy có thể dùng `latestUnreviewed` cho Home |
 | `syncReminderNotifications()` | Không ai cần gọi: tự chạy khi dữ liệu đổi |
