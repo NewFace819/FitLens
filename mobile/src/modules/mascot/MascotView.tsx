@@ -9,10 +9,12 @@ import {
   Animated,
   Easing,
   Pressable,
+  Text,
   View,
 } from 'react-native';
 import Svg, {
   Defs,
+  Line,
   RadialGradient,
   Stop,
   Rect,
@@ -20,6 +22,7 @@ import Svg, {
 } from 'react-native-svg';
 import * as art from '../home/prototypeAssets';
 import { getMascotMood } from './mascot';
+import { getStrength } from './strength';
 import { subscribe, getVersion } from '../../shared/storage';
 import type { Mood } from '../../shared/constants';
 const moods: Record<Mood, string> = {
@@ -42,9 +45,41 @@ const washes: Record<Mood, string> = {
   exhausted: '#f3d3b7',
   concerned: '#e8d1ba',
 };
+/**
+ * Strength marks (#30): short "power lines" on both sides of the face. More and bolder lines
+ * with each level; the mascot itself keeps its size (stronger, not bigger). Level 1 has none.
+ */
+function StrengthMarks({ level }: { level: number }) {
+  const marks = Math.max(0, level - 1);
+  if (!marks) return null;
+  const width = 1.6 + level * 0.35;
+  const lines = Array.from({ length: marks }, (_, i) => {
+    const y = 46 + (i - (marks - 1) / 2) * 12;
+    const len = 8 + Math.min(i, marks - 1 - i) * 2;
+    return { y, len };
+  });
+  return (
+    <Svg
+      testID="mascot-strength-marks"
+      pointerEvents="none"
+      width={170}
+      height={92}
+      style={{ position: 'absolute', top: 0, left: 0 }}
+    >
+      {lines.map(({ y, len }, i) => (
+        <React.Fragment key={i}>
+          <Line x1={20 - len} y1={y} x2={20} y2={y} stroke="#c9822f" strokeWidth={width} strokeLinecap="round" />
+          <Line x1={150} y1={y} x2={150 + len} y2={y} stroke="#c9822f" strokeWidth={width} strokeLinecap="round" />
+        </React.Fragment>
+      ))}
+    </Svg>
+  );
+}
+
 export function Mascot() {
   useSyncExternalStore(subscribe, getVersion, getVersion);
   const base = getMascotMood();
+  const strength = getStrength();
   const [reaction, setReaction] = useState<{ base: Mood; mood: Mood } | null>(
     null,
   );
@@ -123,6 +158,7 @@ export function Mascot() {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`FitLens mascot: ${value}`}
+        accessibilityValue={{ text: `Strength level ${strength.level}, ${strength.name}` }}
         accessibilityHint="Tap to say hello. The expression returns to your latest check-in mood."
         onPress={react}
         style={{
@@ -153,6 +189,26 @@ export function Mascot() {
         >
           <SvgXml xml={moods[value]} width={130} height={86} />
         </Animated.View>
+        <StrengthMarks level={strength.level} />
+        <View
+          testID="mascot-level"
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            right: 4,
+            bottom: 0,
+            paddingHorizontal: 7,
+            paddingVertical: 2,
+            borderRadius: 999,
+            backgroundColor: '#f6e3c8',
+            borderWidth: 1,
+            borderColor: '#e2bf8f',
+          }}
+        >
+          <Text style={{ fontSize: 11, fontWeight: '700', color: '#8a5418' }}>
+            Lv {strength.level}
+          </Text>
+        </View>
       </Pressable>
     </View>
   );
