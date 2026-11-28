@@ -4,7 +4,14 @@ import type { AppStore, Workout, WorkoutItem } from '../modules/workouts/types';
 import { Button, Heading, Sheet } from '../ui/parts';
 import { colors } from '../ui/theme';
 
-type Props = { onStart?: (workoutId: string) => void; store: AppStore; workoutId: string; onBack: () => void; onDeleted: () => void };
+type Props = {
+  store: AppStore;
+  workoutId: string;
+  onBack: () => void;
+  onDeleted: () => void;
+  /** Opens the workout screen for this workout (route 'Workout', param `workout`). Hidden when absent. */
+  onStart?: (workoutId: string) => void;
+};
 
 /**
  * Look at a workout and change it: rename, sets and reps, order, add or remove exercises.

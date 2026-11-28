@@ -86,3 +86,48 @@ test('applyDraft: adds the sessions, skips what is already planned, idempotent',
  assert.equal(sch.getWeekSchedule(WEEK).length,3);
  assert.equal(Dr.applyDraft(null,sch).ok,false);
 });
+
+// loadAdjust: last week's check-in (Tu's getLoadAdjustForWeek, -0.3 … +0.1)
+const base={goal:'habit',daysPerWeek:3,minutes:30,equipment:['dumbbells','bands','mat','bench'],avoidRegions:[]};
+test('loadAdjust 0 (or missing) gives the same draft as before',()=>{
+ const a=Dr.generateDraft(base,WEEK,all()),b=Dr.generateDraft(base,WEEK,all(),0);
+ assert.deepEqual(a.sessions,b.sessions);
+ assert.deepEqual(a.adjust,{loadAdjust:0,reason:null,minutes:30,daysPerWeek:3});
+});
+test('pain week (-0.3): one session fewer, shorter time budget, never below 2 a week',()=>{
+ const d=Dr.generateDraft(base,WEEK,all(),-0.3);
+ assert.deepEqual(d.adjust,{loadAdjust:-0.3,reason:'pain',minutes:21,daysPerWeek:2});
+ assert.equal(d.sessions.length,2);
+ assert.equal(Dr.generateDraft({...base,daysPerWeek:2},WEEK,all(),-0.3).sessions.length,2);
+});
+test('hard week (-0.1/-0.2): same number of sessions, never longer workouts than a normal week',()=>{
+ const normal=Dr.generateDraft(base,WEEK,all());
+ for(const adj of [-0.1,-0.2]){
+  const d=Dr.generateDraft(base,WEEK,all(),adj);
+  assert.equal(d.adjust.reason,'hard');assert.equal(d.sessions.length,3);
+  const mins=x=>x.sessions.reduce((n,s)=>n+W.estimateMinutes(byId[s.workoutId]),0);
+  assert.ok(mins(d)<=mins(normal),adj+': '+mins(d)+' > '+mins(normal));
+ }
+});
+test('easy week (+0.1): bigger budget and longer workouts preferred',()=>{
+ const normal=Dr.generateDraft({...base,minutes:45},WEEK,all()),d=Dr.generateDraft({...base,minutes:45},WEEK,all(),0.1);
+ assert.equal(d.adjust.reason,'easy');assert.equal(d.adjust.minutes,50);
+ const mins=x=>x.sessions.reduce((n,s)=>n+W.estimateMinutes(byId[s.workoutId]),0);
+ assert.ok(mins(d)>=mins(normal));
+});
+test('out-of-range or junk loadAdjust is clamped / ignored',()=>{
+ assert.equal(Dr.generateDraft(base,WEEK,all(),-5).adjust.loadAdjust,-0.3);
+ assert.equal(Dr.generateDraft(base,WEEK,all(),5).adjust.loadAdjust,0.1);
+ assert.equal(Dr.generateDraft(base,WEEK,all(),NaN).adjust.loadAdjust,0);
+ assert.equal(Dr.generateDraft(base,WEEK,all(),'x').adjust.loadAdjust,0);
+});
+test('SAFETY holds for every loadAdjust (avoided regions and missing equipment never appear)',()=>{
+ const workouts=all();
+ for(const adj of [-0.3,-0.2,-0.1,0.1])for(const goal of C.Goal)for(const equipment of subsets(['dumbbells','bands','mat','bench']))for(const avoid of subsets([...C.Region])){
+  const d=Dr.generateDraft({goal,daysPerWeek:4,minutes:30,equipment,avoidRegions:avoid},WEEK,workouts,adj);
+  if(!d)continue;
+  for(const s of d.sessions){const w=byId[s.workoutId];
+   for(const r of W.regionsOf(w))assert.ok(!avoid.includes(r));
+   for(const e of W.equipmentOf(w))assert.ok(equipment.includes(e));}
+ }
+});
