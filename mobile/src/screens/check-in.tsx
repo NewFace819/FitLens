@@ -3,10 +3,10 @@
  * Route param: `history` = HistoryEntry.id (DATA_CONTRACT §12).
  * Saves only through submitCheckIn → appendReview (Đức Huy) + setMascotMood (Đỗ Huy).
  */
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePreventRemove } from '@react-navigation/native';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { getCheckInContext, submitCheckInDurable } from '../modules/checkin/checkin';
+import { getCheckInContext, notePainStop, submitCheckInDurable } from '../modules/checkin/checkin';
 import {
   DEFAULT_RPE, FEEDBACK_LABELS, NOTE_MAX, SENSATIONS, SENSATION_LABELS,
   effortLevel, hasPainSignal, moodAfterReview, scoreToFeedback,
@@ -66,6 +66,8 @@ function CheckInForm({ ctx, fromWorkout }: {
   const [saving, setSaving] = useState(false);
   const savingRef = useRef(false);
   usePreventRemove(saving, () => setError('Please wait while your check-in is being saved.'));
+  // A pain stop shows on the mascot even if this check-in is skipped.
+  useEffect(() => notePainStop(entry.id), [entry.id]);
 
   const draft = { historyId: entry.id, rpe, discomfort, scores, note };
   const level = effortLevel(rpe);
