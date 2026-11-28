@@ -1,7 +1,6 @@
 /** #30: the level is visible on the mascot and on Home, and rises as sessions are saved. */
 import React from 'react';
 import { Text } from 'react-native';
-import { Line } from 'react-native-svg';
 import Renderer from 'react-test-renderer';
 import Home from '../../screens/dev-hub';
 import { hydrate, KEYS, write } from '../../shared/storage';
@@ -17,8 +16,6 @@ const entry = (i: number): HistoryEntry => ({
   sets: Array.from({ length: 9 }, () => ({ exerciseId: 'bench-press', kg: 10, reps: 10 })),
 });
 const text = (t: Renderer.ReactTestRenderer) => JSON.stringify(t.toJSON());
-/** Strength lines drawn (two per mark: one each side). */
-const marks = (t: Renderer.ReactTestRenderer) => t.root.findAllByType(Line).length / 2;
 const words = (n: Renderer.ReactTestInstance) => n.findAllByType(Text).map((x) => ([] as unknown[]).concat(x.props.children).join('')).join(' | ');
 
 let tree: Renderer.ReactTestRenderer | undefined;
@@ -28,16 +25,14 @@ afterEach(() => {
   tree = undefined;
 });
 
-test('mascot: level 1 has no strength marks; the level goes up live as sessions are saved', () => {
+test('mascot: the level badge goes up live as sessions are saved', () => {
   Renderer.act(() => { tree = Renderer.create(<Mascot />); });
   expect(text(tree!)).toContain('"Lv ","1"');
-  expect(marks(tree!)).toBe(0);
   const face = tree!.root.find((n) => typeof n.props.accessibilityLabel === 'string' && n.props.accessibilityLabel.startsWith('FitLens mascot:'));
   expect(face.props.accessibilityValue).toEqual({ text: 'Strength level 1, Starter' });
 
   Renderer.act(() => { write(KEYS.history, [entry(2), entry(1)]); });
   expect(text(tree!)).toContain('"Lv ","2"');
-  expect(marks(tree!)).toBe(1);
 });
 
 test('Home shows the strength level and what is left to the next one', () => {

@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import Svg, {
   Defs,
-  Line,
   RadialGradient,
   Stop,
   Rect,
@@ -45,37 +44,6 @@ const washes: Record<Mood, string> = {
   exhausted: '#f3d3b7',
   concerned: '#e8d1ba',
 };
-/**
- * Strength marks (#30): short "power lines" on both sides of the face. More and bolder lines
- * with each level; the mascot itself keeps its size (stronger, not bigger). Level 1 has none.
- */
-function StrengthMarks({ level }: { level: number }) {
-  const marks = Math.max(0, level - 1);
-  if (!marks) return null;
-  const width = 1.6 + level * 0.35;
-  const lines = Array.from({ length: marks }, (_, i) => {
-    const y = 46 + (i - (marks - 1) / 2) * 12;
-    const len = 8 + Math.min(i, marks - 1 - i) * 2;
-    return { y, len };
-  });
-  return (
-    <Svg
-      testID="mascot-strength-marks"
-      pointerEvents="none"
-      width={170}
-      height={92}
-      style={{ position: 'absolute', top: 0, left: 0 }}
-    >
-      {lines.map(({ y, len }, i) => (
-        <React.Fragment key={i}>
-          <Line x1={20 - len} y1={y} x2={20} y2={y} stroke="#c9822f" strokeWidth={width} strokeLinecap="round" />
-          <Line x1={150} y1={y} x2={150 + len} y2={y} stroke="#c9822f" strokeWidth={width} strokeLinecap="round" />
-        </React.Fragment>
-      ))}
-    </Svg>
-  );
-}
-
 export function Mascot() {
   useSyncExternalStore(subscribe, getVersion, getVersion);
   const base = getMascotMood();
@@ -189,7 +157,6 @@ export function Mascot() {
         >
           <SvgXml xml={moods[value]} width={130} height={86} />
         </Animated.View>
-        <StrengthMarks level={strength.level} />
         <View
           testID="mascot-level"
           pointerEvents="none"
