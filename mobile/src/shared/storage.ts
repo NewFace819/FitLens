@@ -24,6 +24,7 @@ export const KEYS = {
   mascot: 'fitlens.mascot',
   seed: 'fitlens.seed',
   welcome: 'fitlens.welcome',
+  onboarding: 'fitlens.onboarding',
   activeTraining: 'fitlens.active-training',
 } as const;
 
@@ -144,6 +145,19 @@ export function write(key: string, data: unknown, currentVersion = 1): boolean {
   const target = persistence;
   if (target) enqueue(() => target.save(key, raw)).catch(() => reportError('Couldn’t save on this device. Please try again.'));
   return true;
+}
+
+/** Acknowledged storage write for onboarding. Failure returns false without publishing. */
+export async function writeConfirmed(key: string, data: unknown, currentVersion = 1): Promise<boolean> {
+  if (!persistence) return write(key, data, currentVersion);
+
+  try {
+    await writeDurable(key, data, currentVersion);
+    return true;
+  } catch {
+    reportError('Couldn’t save on this device. Please try again.');
+    return false;
+  }
 }
 
 /**
