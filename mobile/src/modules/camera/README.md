@@ -34,7 +34,7 @@ Metro refresh alone cannot register the native view.
 ## Counter integration
 
 rep-counter.ts, its tests and angle fixtures are reused unchanged from PR #15
-(feature/rep-counter), which is still pending merge. Do not implement a second
+(feature/rep-counter), which was merged into main on 2026-11-28. Do not implement a second
 angle counter. Native pixels stay in RAM; JS calls kneeAngle() then
 SquatCounter.update() through CameraSession.
 
@@ -99,3 +99,18 @@ runtime. It targets ARM64 Android phones. Current repository release signing use
 the development key: this is an internal test APK, not a production store release.
 Enable camera permission after installing. Physical-device execution and squat
 accuracy remain unverified until a phone is available.
+
+The camera branch was synchronized with main 3d9da8d on 2026-11-28, including
+PR #47 Workout camera hand-off. Device-only acceptance remains open in #37/#39.
+
+## Main integration check on 2026-11-28
+
+- Synced main 3d9da8d (including PR #15 counter and PR #47 camera hand-off).
+- Typecheck, camera ESLint and all 39 Jest suites / 350 tests pass; prototype
+  regression suite passes 65 tests. Training and foundation scripts also pass.
+- Screen tests verify Done sets cameraReps on the existing Workout route without
+  overwriting its other params; Back and Done-from-Home never write a count there.
+- Existing training integration covers filling a set, preserving kg, explicit
+  Complete set, durable Finish and reading the count after rehydration.
+- Phone-only acceptance in #37/#39 is still open. Fallback #38 is conditional on
+  the 2 December go/no-go decision; no manual/fake count is substituted here.
