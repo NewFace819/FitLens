@@ -21,7 +21,9 @@ The data path is owner workout/catalog → immutable training snapshot → compl
 sets → History → calendar completion → CheckIn → Review. A later edit to the
 original workout must not alter an active snapshot. Targets, including ranges or
 time labels, are informational; recorded sets still require explicit kg/reps.
-Rest defaults to each workout item's rest; a supplied override applies to all items.
+Since #57 (Tu): a selected workout or session starts on open, the footer shows a
+per-set timer (`setMarkMs`, optional for older snapshots) and the total, and the
+rest countdown and rest override input are gone. Rest still exists in the model.
 
 Read [README.md](README.md) for behavior and file responsibilities. Key files:
 `training-model.ts`, `session-model.ts`, `training-service.ts`,
