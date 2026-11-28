@@ -126,7 +126,7 @@ export default function TrainingSetRow({
       {onCamera && !set.done && !showDuration ? (
         <Button
           title="Count reps with camera"
-          variant="text"
+          variant="secondary"
           disabled={locked}
           onPress={onCamera}
         />
