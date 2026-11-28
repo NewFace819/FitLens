@@ -33,6 +33,12 @@ import { storageReady } from '../shared/storage';
 import { Button, Divider, Screen, TopBar } from '../ui/components';
 import { colors, space, type } from '../ui/theme';
 import TrainingSetRow from './training-set-row';
+import {
+  applyCameraReps,
+  cameraTargetFor,
+  cameraTargetReps,
+  type CameraTarget,
+} from '../modules/training/camera-handoff';
 
 const time = (ms: number) =>
   `${Math.floor(ms / 60000)}:${String(Math.floor(ms / 1000) % 60).padStart(
@@ -187,6 +193,37 @@ export default function WorkoutScreen() {
     }
   }, [completedHistory, busy, pending, session, nav]);
 
+  // Camera hand-off (#32): remember which set opened Camera, then fill that set's
+  // reps when Camera returns `cameraReps` (routes.ts). Manual entry is unchanged.
+  const cameraTarget = useRef<CameraTarget | null>(null);
+  const latestChange = useRef(change);
+  latestChange.current = change;
+  const openCamera = (setIndex: number) => {
+    const live = current.current;
+    const target = live && !busyRef.current ? cameraTargetFor(live, setIndex) : null;
+    if (!live || !target) return;
+    cameraTarget.current = target;
+    const planned = live.training.exercises[target.exerciseIndex];
+    const targetReps = cameraTargetReps(planned.targetReps);
+    nav.navigate('Camera', {
+      exerciseId: planned.exerciseId,
+      ...(targetReps ? { targetReps } : {}),
+    });
+  };
+  const cameraReps = params?.cameraReps;
+  useEffect(() => {
+    if (cameraReps === undefined) return;
+    // Clear it so the same count returned again later is still a change.
+    nav.setParams({ cameraReps: undefined });
+    const target = cameraTarget.current;
+    cameraTarget.current = null;
+    if (!current.current) {
+      setError('There is no active workout for this camera count.');
+      return;
+    }
+    latestChange.current(s => applyCameraReps(s, target, cameraReps, Date.now()));
+  }, [cameraReps, nav]);
+
   const discard = () =>
     Alert.alert(
       'Discard this workout?',
@@ -328,6 +365,7 @@ export default function WorkoutScreen() {
                 act({ type: 'editSet', setIndex: index, ...values })
               }
               onUndo={() => act({ type: 'undoSet', setIndex: index })}
+              onCamera={timed ? undefined : () => openCamera(index)}
               onComplete={values =>
                 change(s =>
                   actOnSession(
