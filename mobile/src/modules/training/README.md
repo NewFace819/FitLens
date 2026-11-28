@@ -6,7 +6,11 @@ branch dependencies, verified evidence, API boundaries and remaining acceptance 
 Training uses the Workout and Plan screens on main. Open a workout or
 a planned session → Start workout, or Home → Start or resume workout.
 Custom workouts and template targets (including ranges/time labels) use the owner models.
-Planned rest is used by default; entering a rest override applies it to every exercise.
+Opening Workout with a chosen workout or planned session starts it straight away
+(an active workout still asks to resume or discard first). The footer shows two
+timers: "This set" (restarts on Complete set or Next exercise, stored as
+`setMarkMs`) and "Total". Rest is no longer counted down on screen, and there is
+no rest override input (changed by Tu in #57).
 Review this dependent branch against feature/mobile-workout-plan before main integration.
 
 ## Responsibilities
@@ -28,8 +32,9 @@ Review this dependent branch against feature/mobile-workout-plan before main int
 - Targets are shown separately and never counted as performed reps.
 - Add set creates an empty draft. Use last time fills unfinished rows by index.
   Different set counts do not add or delete rows; completed rows remain unchanged.
-- Pause freezes workout and rest clocks. Background time counts unless explicitly
-  paused. Rest reaching zero does not automatically complete a set. Backwards
+- Pause freezes both timers. Background time counts unless explicitly paused.
+  The model still enters its `rest` phase after a set; editing and completing the
+  next set work in that phase, so no Skip rest step is needed. Backwards
   wall-clock changes cannot produce negative time; counting resumes once time
   catches up with the stored anchor.
 - Every accepted edit/action checkpoints through durable storage. The UI reports
@@ -92,7 +97,7 @@ The CI workflow repeats these checks and creates the Android JavaScript bundle.
 
 - Build with the project's supported JDK and Android SDK/NDK versions.
 - Free workout and scheduled workout: edit/complete/undo/add/skip → Finish → CheckIn → Recap.
-- Pause during rest, background/foreground, and kill/relaunch with a saved checkpoint.
+- Pause, background/foreground, and kill/relaunch with a saved checkpoint (both timers restore).
 - Retry an injected save failure without duplicate history or lost performed sets.
 - Use last time with a different set count; ordinary empty finish; pain stop.
 - Check keyboard behavior, back navigation, accessibility and actual device layout.
