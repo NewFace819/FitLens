@@ -1,6 +1,6 @@
 /**
  * Avatar strength level (#30) — OWNER: Tu, in Đỗ Huy's mascot module (agreed in the issue).
- * The mascot gets STRONGER, not bigger: the level changes its look and label, never its size.
+ * The mascot gets STRONGER, not bigger: the level shows as an "Lv N" badge; its size never changes.
  *
  * Points only grow, so the level never drops after a break (that would punish rest):
  *   10 per finished session (a workout stopped for pain is not "finished", but its sets count)
