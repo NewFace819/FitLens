@@ -30,7 +30,7 @@ import {
   getWeekSchedule,
   getWorkout,
 } from '../modules/workouts/schedule';
-import { setMascotMood } from '../modules/mascot/mascot';
+import { noteActivityMood } from '../modules/mascot/mascot';
 import { getStrength, strengthHint } from '../modules/mascot/strength';
 import { toDateKey, weekStartOf } from '../shared/dates';
 import { onStorageError } from '../shared/storage';
@@ -80,7 +80,7 @@ export default function HomeScreen() {
       Alert.alert('Could not save', 'Check activity details and try again.');
       return false;
     }
-    setMascotMood('energized');
+    noteActivityMood(value.date);
     setOverlay(null);
     return true;
   }

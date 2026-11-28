@@ -25,3 +25,13 @@ Steps is sample data. Profile/Insights/Workout/History/Recap stay at main's curr
 implementation. Camera technology selection and actual squat counting are separate
 new tasks and are not included in this migration. Legacy branch-only colon-key
 activity storage is not imported; its records remain on the device under that key.
+
+
+Mascot display follow-up (2026-11-28): saved expressions are displayed for 24 hours,
+then resolve to neutral `waiting`. A timer and foreground refresh update mounted
+Home. This does not clear the stored event, history, pain flags or Plan adjustment.
+`noteActivityMood(date)` is used only after a successful Home activity save: past
+logs leave today's expression alone; recent concerned/tired/exhausted expressions
+are preserved. The public setMascotMood(mood) contract and Tu's conservative
+soreness/tightness mapping are unchanged. The 24-hour window is a display choice,
+not an assertion that the user has recovered.
