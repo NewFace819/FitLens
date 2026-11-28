@@ -74,6 +74,7 @@ export default function WorkoutScreen() {
   const [ack, setAck] = useState(initial.session?.revision ?? 0);
   const [now, setNow] = useState(Date.now());
   const [rest, setRest] = useState('');
+  const [notice, setNotice] = useState('');
   const [acceptedSelection, setAcceptedSelection] = useState<{ activeId: string; key: string } | null>(null);
   const dirty = session !== null && ack < session.revision;
   usePreventRemove(dirty || pending > 0 || busy, () => {
@@ -258,6 +259,8 @@ export default function WorkoutScreen() {
   const view = session ? advanceClock(session, now) : null;
   const exercise = view?.training.exercises[view.training.exerciseIndex];
   const timed = isDurationTarget(exercise?.targetReps);
+  const exerciseIndex = view?.training.exerciseIndex;
+  useEffect(() => setNotice(''), [exerciseIndex]);
   const lastSets = exercise ? getLastSets(exercise.exerciseId) : [];
   const canUseLastSets =
     exercise !== undefined && lastSetEdits(exercise, lastSets).length > 0;
@@ -275,8 +278,38 @@ export default function WorkoutScreen() {
   const schedules = getWeekSchedule(weekStartOf(toDateKey(new Date()))).filter(
     s => s.status === 'planned',
   );
+  // Rest lives in the fixed footer so it stays visible while the set list is scrolled.
+  const restFooter =
+    session && view && !showConflict && session.training.phase === 'rest' ? (
+      <View style={styles.restBar}>
+        <View style={styles.restInfo}>
+          <Text style={type.big}>{time(view.restMs)}</Text>
+          <Text style={type.caption}>
+            {!view.restMs
+              ? 'Ready when you are'
+              : exercise?.sets.every(s => s.done)
+              ? 'Rest before next exercise'
+              : 'Rest between sets'}
+          </Text>
+        </View>
+        <View style={styles.restActions}>
+          <Button
+            title="+15s"
+            disabled={busy}
+            variant="secondary"
+            onPress={() => change(s => extendRest(s, 15, Date.now()))}
+          />
+          <Button
+            title="Skip"
+            disabled={busy}
+            variant="secondary"
+            onPress={() => act({ type: 'skipRest' })}
+          />
+        </View>
+      </View>
+    ) : undefined;
   return (
-    <Screen>
+    <Screen footer={restFooter}>
       <TopBar title="Workout" />
       {error ? (
         <Text accessibilityRole="alert" style={styles.error}>
@@ -337,26 +370,6 @@ export default function WorkoutScreen() {
               actually complete.
             </Text>
           ) : null}
-          {session.training.phase === 'rest' ? (
-            <View style={styles.stack}>
-              <Text style={type.big}>{time(view.restMs)}</Text>
-              <Text style={type.caption}>
-                {view.restMs ? 'Rest between sets' : 'Ready when you are'}
-              </Text>
-              <Button
-                title="Skip rest"
-                disabled={busy}
-                variant="secondary"
-                onPress={() => act({ type: 'skipRest' })}
-              />
-              <Button
-                title="Add 15 seconds"
-                disabled={busy}
-                variant="secondary"
-                onPress={() => change(s => extendRest(s, 15, Date.now()))}
-              />
-            </View>
-          ) : null}
           {exercise.sets.map((set, index) => (
             <TrainingSetRow
               key={`${view.training.exerciseIndex}-${index}`}
@@ -394,10 +407,13 @@ export default function WorkoutScreen() {
             title={canUseLastSets ? 'Use last time' : 'No sets to reuse'}
             disabled={locked || !canUseLastSets}
             variant="secondary"
-            onPress={() =>
-              change(s => applyLastSets(s, lastSets, Date.now()))
-            }
+            onPress={() => {
+              const filled = lastSetEdits(exercise, lastSets).length;
+              change(s => applyLastSets(s, lastSets, Date.now()));
+              setNotice(`Filled ${filled} unfinished set${filled === 1 ? '' : 's'} from last time.`);
+            }}
           />
+          {notice ? <Text style={type.caption}>{notice}</Text> : null}
           <Button
             title={session.training.phase === 'paused' ? 'Resume' : 'Pause'}
             disabled={busy || terminal}
@@ -409,7 +425,11 @@ export default function WorkoutScreen() {
             }
           />
           <Button
-            title="Next exercise (skip unfinished sets)"
+            title={
+              exercise.sets.some(s => !s.done)
+                ? 'Next exercise (skip unfinished sets)'
+                : 'Next exercise'
+            }
             disabled={
               locked ||
               view.training.exerciseIndex === view.training.exercises.length - 1
@@ -519,6 +539,9 @@ export default function WorkoutScreen() {
 }
 const styles = StyleSheet.create({
   stack: { gap: space.md },
+  restBar: { flexDirection: 'row', alignItems: 'center', gap: space.md },
+  restInfo: { flex: 1 },
+  restActions: { flexDirection: 'row', gap: space.sm },
   error: { color: colors.danger, marginVertical: space.sm },
   input: {
     minHeight: 48,

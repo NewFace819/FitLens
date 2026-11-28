@@ -200,11 +200,17 @@ function WeekCard({ rhythm }: { rhythm: Rhythm }) {
 
       {showProgress ? (
         <>
-          <Text style={styles.bigCount} accessibilityLabel={`${rhythm.thisWeek.length} of ${rhythm.goal} sessions`}>
-            {rhythm.thisWeek.length}
+          {/* Cap at the goal ("3 of 3", not "6 of 3"); sessions beyond it show as extra. */}
+          <Text style={styles.bigCount} accessibilityLabel={`${Math.min(rhythm.thisWeek.length, rhythm.goal)} of ${rhythm.goal} sessions`}>
+            {Math.min(rhythm.thisWeek.length, rhythm.goal)}
             <Text style={styles.bigOf}> of {rhythm.goal}</Text>
           </Text>
-          <Text style={type.caption}>{rhythm.paused ? 'sessions before pausing' : 'sessions completed'}</Text>
+          <Text style={type.caption}>
+            {rhythm.paused ? 'sessions before pausing' : 'sessions completed'}
+            {rhythm.thisWeek.length > rhythm.goal
+              ? ` · +${rhythm.thisWeek.length - rhythm.goal} extra`
+              : ''}
+          </Text>
           <SessionSlots rhythm={rhythm} />
         </>
       ) : null}
@@ -227,7 +233,7 @@ function WeekCard({ rhythm }: { rhythm: Rhythm }) {
 }
 
 function SessionSlots({ rhythm }: { rhythm: Rhythm }) {
-  const slots = Math.max(rhythm.goal, rhythm.thisWeek.length);
+  const slots = rhythm.goal;
   return (
     <View style={styles.slots}>
       {Array.from({ length: slots }, (_, i) => {

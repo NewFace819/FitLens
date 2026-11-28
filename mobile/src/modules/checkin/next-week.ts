@@ -13,7 +13,7 @@ import { REGIONS, REGION_LABELS, isOneOf, type Region } from '../../shared/const
 import { addDays, weekStartOf, type DateKey } from '../../shared/dates';
 import { getHistory, getReviews } from '../history/history';
 import { getExercise } from '../workouts/exercises';
-import { weeklyLoadAdjust, type Review } from './review-model';
+import { feelsPain, weeklyLoadAdjust, type Review } from './review-model';
 
 export type NextWeekReason = 'pain' | 'hard' | 'easy' | null;
 
@@ -48,7 +48,7 @@ export function regionList(regions: readonly Region[]): string {
 const oneDecimal = (n: number) => String(Math.round(n * 10) / 10);
 
 const reviewHasPain = (r: Review) =>
-  r.exerciseFeedback.some((f) => f.feedback === 'painful') || r.discomfort.some((d) => d.sensation === 'pain');
+  r.exerciseFeedback.some((f) => f.feedback === 'painful') || r.discomfort.some(feelsPain);
 
 /**
  * Pure (#28). Load change for next week plus a short reason, from last week's reviews and
@@ -104,8 +104,8 @@ export function painAreas(
     if (review) {
       for (const f of review.exerciseFeedback) if (f.feedback === 'painful') hurtExercises.add(f.exerciseId);
       for (const d of review.discomfort) {
-        if (d.sensation === 'pain' || entry.stoppedByPain) hurtRegions.add(d.region);
-        if (d.sensation === 'pain' && d.exerciseId) hurtExercises.add(d.exerciseId);
+        if (feelsPain(d) || entry.stoppedByPain) hurtRegions.add(d.region);
+        if (feelsPain(d) && d.exerciseId) hurtExercises.add(d.exerciseId);
       }
     }
     if (!hurtRegions.size) {

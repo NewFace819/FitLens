@@ -155,7 +155,12 @@ export function lastSetEdits(
       old.durationSec !== undefined
         ? { durationSec: old.durationSec }
         : { kg: old.kg ?? set.kg ?? null, reps: old.reps };
-    return validSetValues(values, false)
+    const same =
+      'durationSec' in values
+        ? set.durationSec === values.durationSec
+        : set.kg === values.kg && set.reps === values.reps;
+    // Skip rows that already hold last time's values, so the button only shows when it changes something.
+    return !same && validSetValues(values, false)
       ? [{ type: 'editSet', setIndex, ...values }]
       : [];
   });

@@ -196,11 +196,13 @@ export function transitionTraining(
       if (timed !== (set.durationSec !== undefined) || !validSetValues(set, true))
         return fail('invalidValues');
       updated = { ...set, done: true };
+      // Rest before the next set, or before the next exercise once this one is done.
       phase =
         exercise.restSec > 0 &&
-        exercise.sets.some(
+        (exercise.sets.some(
           (row, index) => index !== action.setIndex && !row.done,
-        )
+        ) ||
+          state.exerciseIndex + 1 < state.exercises.length)
           ? 'rest'
           : 'working';
       break;

@@ -61,12 +61,13 @@ test('cannot complete a blank or partially entered set; zero kg is explicit body
   assert.equal(complete(edit(start())).exercises[0].sets[0].done, true);
 });
 
-test('completing a set starts rest only when another set remains', () => {
+test('completing a set starts rest when another set or exercise remains', () => {
   let state = complete(edit(start()));
   assert.equal(state.phase, 'rest');
   state = step(state, { type: 'skipRest' });
   state = complete(edit(state, 0, 8, 1), 1);
-  assert.equal(state.phase, 'working');
+  assert.equal(state.phase, 'rest'); // last set, but another exercise follows
+  state = step(state, { type: 'skipRest' });
   state = step(state, { type: 'nextExercise' });
   assert.equal(complete(edit(state, 5, 8)).phase, 'working');
 });
