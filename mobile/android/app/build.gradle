@@ -107,9 +107,39 @@ android {
     }
 }
 
+// Model is pinned and bundled into the APK. No model/image network access at runtime.
+def poseAssets = layout.buildDirectory.dir("generated/poseAssets")
+def poseModelSha = "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+def preparePoseModel = tasks.register("preparePoseModel") {
+    def target = poseAssets.map { it.file("pose_landmarker_lite.task") }
+    outputs.file(target)
+    doLast {
+        def model = target.get().asFile
+        model.parentFile.mkdirs()
+        if (!model.exists()) {
+            def connection = new URI("https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task").toURL().openConnection()
+            connection.connectTimeout = 30000
+            connection.readTimeout = 120000
+            def temporary = new File(model.parentFile, model.name + ".download")
+            connection.inputStream.withCloseable { input -> temporary.withOutputStream { output -> output << input } }
+            def downloaded = java.security.MessageDigest.getInstance("SHA-256").digest(temporary.bytes).encodeHex().toString()
+            if (downloaded != poseModelSha) { temporary.delete(); throw new GradleException("Pose model checksum mismatch") }
+            java.nio.file.Files.move(temporary.toPath(), model.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        }
+        def actual = java.security.MessageDigest.getInstance("SHA-256").digest(model.bytes).encodeHex().toString()
+        if (actual != poseModelSha) throw new GradleException("Pose model checksum mismatch; remove generated poseAssets and retry")
+    }
+}
+android.sourceSets.main.assets.srcDir(poseAssets.get().asFile)
+tasks.named("preBuild").configure { dependsOn(preparePoseModel) }
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation("androidx.camera:camera-camera2:1.4.2")
+    implementation("androidx.camera:camera-lifecycle:1.4.2")
+    implementation("androidx.camera:camera-view:1.4.2")
+    implementation("com.google.mediapipe:tasks-vision:0.10.35")
     implementation("androidx.health.connect:connect-client:1.1.0-alpha11")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     implementation("androidx.appcompat:appcompat:1.7.0")

@@ -1,19 +1,29 @@
-/** Camera UI only; pose tracking remains DO2/DO3. */
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAppNavigation, goBackOrHome, useAppRoute } from '../navigation';
-import { CameraScreen as CameraView } from '../modules/camera/CameraView';
+import { CommonActions } from '@react-navigation/native';
+import { useAppNavigation, useAppRoute, goBackOrHome } from '../navigation';
+import { LiveCamera } from '../modules/camera/LiveCamera';
 export default function CameraScreen() {
   const nav = useAppNavigation();
   const { params } = useAppRoute<'Camera'>();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#faf7ed' }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 8 }}>
-        <CameraView
-          onBack={() => goBackOrHome(nav)}
-          exerciseId={params?.exerciseId}
+      <ScrollView>
+        <LiveCamera
+          exerciseId={params?.exerciseId ?? 'squat'}
           targetReps={params?.targetReps}
+          onBack={() => goBackOrHome(nav)}
+          onFinish={reps => {
+            const routes = nav.getState().routes;
+            const previous = routes[routes.length - 2];
+            if (previous?.name === 'Workout')
+              nav.dispatch({
+                ...CommonActions.setParams({ cameraReps: reps }),
+                source: previous.key,
+              });
+            goBackOrHome(nav);
+          }}
         />
       </ScrollView>
     </SafeAreaView>

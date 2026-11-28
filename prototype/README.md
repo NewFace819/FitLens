@@ -5,7 +5,7 @@ Interactive mobile UI prototype for the FitLens student project. It is an HTML/C
 ## Project status & team scope (2026-11-14 update)
 
 - **Active features:** Daily Home and activity overview, Steps daylight sun curve, Workout library, weekly Plan generation, active workout set tracking, post-workout reflection/heatmap, and Profile/Account sheet.
-- **Dropped / Historical modules:** Nutrition planning and trainer chat were dropped from the project scope on 2026-11-14. Files such as `food.html` and `chat.html` remain in this prototype solely as historical compatibility artifacts so existing navigation links do not break.
+- **Dropped / Historical modules:** Nutrition planning and trainer chat were dropped from the project scope on 2026-11-14. The 12 root `food.*`/`food-*` and `chat.*`/`chat-*` implementation files and their active references have been removed.
 - **Media provenance:** Local food photographs with unverified licensing have been excluded from the repository. Only original public-safe vector placeholders in `assets/food/demo/` are preserved.
 
 ## View locally

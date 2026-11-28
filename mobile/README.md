@@ -72,7 +72,7 @@ App.tsx                  # NavigationContainer + stack; hydrates storage, seeds 
 src/
 ├── navigation.ts        # typed navigation helpers (React Navigation native stack)
 ├── screens/             # Thin screens: call module functions only
-│   ├── dev-hub.tsx      # 'Home' — TEMPORARY until Home + dock (Đỗ Huy)
+│   ├── dev-hub.tsx      # Home + dock (Đỗ Huy; merged in PR #10)
 │   ├── rhythm.tsx       # Tu
 │   ├── reminders.tsx    # Tu
 │   ├── check-in.tsx     # Tu  (route 'CheckIn', param { history })
@@ -97,7 +97,8 @@ src/
 │   ├── workouts/        # Hải: store.ts binds ../prototype models (workout, schedule, draft, exercises)
 │   │                    #   to shared storage; schedule.ts/exercises.ts = contract functions
 │   ├── profile/         # Thông    ⚠️ placeholder
-│   └── mascot/          # Đỗ Huy   ⚠️ placeholder
+│   ├── mascot/          # Đỗ Huy: expressions and reactions
+│   └── camera/          # Đỗ Huy: native pose stream + PR #15 squat counter
 └── ui/                  # theme, shared components (components.tsx; parts.tsx for Hải's screens), mascot faces, useStore()
 ```
 
@@ -119,6 +120,6 @@ Rules (from the contract):
   - Jest uses the library's own mock (`jest.setup.js`).
 
 ## Architecture Highlights
-- **On-Device Vision:** Pose estimation (MediaPipe) runs locally on the phone's RAM. On React Native this needs a native Android module or a camera frame-processor plugin; approach not chosen yet.
+- **On-Device Vision (DO2, decided 2026-11-24):** native Android CameraX 1.4.2 + MediaPipe Pose Landmarker Lite (`tasks-vision` 0.10.35). CameraX owns permission/lifecycle/preview and a worker runs pose inference; React Native receives normalized landmarks and feeds the shared PR #15 squat counter. Chosen over a WebView to keep one Android camera lifecycle and bundle the model for offline use. No extra npm camera package or CDN is required. See [camera implementation and verification](src/modules/camera/README.md). Android emulator preview/inference and ARM64 APK build are verified; real-phone squat accuracy is still pending (#37).
 - **Local Storage:** SQLite for offline workout caching and streak tracking.
-- **Privacy:** Zero video retention; only joint angles and rep statistics are transmitted.
+- **Privacy:** Zero video retention. Camera pixels stay in RAM on the device; no camera frames, video or landmarks are uploaded. Only a confirmed rep count returns to the local Workout screen.

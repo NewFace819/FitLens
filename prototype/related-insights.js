@@ -6,7 +6,6 @@
   const walking = [['workout','steps-truth'],['workout','pacing'],['recovery','active-recovery'],['body','mental-health']];
   const shelves = {
     'steps.html': ['#steps-main', 'More about walking', walking, true],
-    'food.html': ['#food-overview-view', 'More about eating well', [['eating','fuel'],['eating','carbs'],['eating','protein'],['eating','fats']], true],
     'workouts.html': ['#training-content', 'More about training', [['workout','consistency'],['workout','variety'],['workout','progressing-safely'],['body','rpe']], false],
     'workout-details.html': ['.details-scroll', 'More about your training', [['workout','progressing-safely'],['body','rpe'],['workout','consistency']], true],
     'plan.html': ['#training-content', 'More about a balanced week', [['workout','consistency'],['recovery','rest-day'],['recovery','supercompensation'],['recovery','returning-break']], false],
@@ -100,5 +99,4 @@
     new MutationObserver(render).observe(host, {childList:true});
   }
   if (shelves[page]) mount(shelves[page]);
-  if (page === 'food.html') mount(['#food-detail-view','More about everyday nourishment',[['eating','nutrients'],['eating','protein'],['eating','fats']],true]);
 })();
