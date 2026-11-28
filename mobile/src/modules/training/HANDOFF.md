@@ -153,8 +153,12 @@ prototype tests. Native Android acceptance remains open.
    `navigate({ name: 'Workout', params: { cameraReps }, merge: true })`; the count
    fills the set that opened it (kg kept, not auto-completed) and the param is
    cleared. The active snapshot keeps its ID; camera never writes history itself.
-   Still open (#33): Đỗ Huy's Camera screen must call that navigate when the
-   counter (or the #38 manual fallback) finishes.
+   Đỗ Huy's live camera (#62) returns the count with
+   `setParams({ cameraReps })` on the previous Workout route, then goes back.
+   The button shows only where the camera can count (`supportsSquat()` in
+   `../camera/camera-session.ts`); other exercises keep manual entry only.
+   Still open (#33): the phone check that a camera-counted set shows the same
+   reps in History and Recap after a restart (#34).
 
 ## User's working rule
 

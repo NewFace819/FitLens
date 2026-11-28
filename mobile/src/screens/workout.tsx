@@ -34,6 +34,7 @@ import {
   cameraTargetReps,
   type CameraTarget,
 } from '../modules/training/camera-handoff';
+import { supportsSquat } from '../modules/camera/camera-session';
 
 const time = (ms: number) =>
   `${Math.floor(ms / 60000)}:${String(Math.floor(ms / 1000) % 60).padStart(
@@ -259,6 +260,8 @@ export default function WorkoutScreen() {
   const view = session ? advanceClock(session, now) : null;
   const exercise = view?.training.exercises[view.training.exerciseIndex];
   const timed = isDurationTarget(exercise?.targetReps);
+  // Only offer the camera where it can count (squats today, see camera-session.ts).
+  const cameraCounts = !!exercise && !timed && supportsSquat(exercise.exerciseId);
   const exerciseIndex = view?.training.exerciseIndex;
   useEffect(() => setNotice(''), [exerciseIndex]);
   const lastSets = exercise ? getLastSets(exercise.exerciseId) : [];
@@ -373,7 +376,7 @@ export default function WorkoutScreen() {
                 act({ type: 'editSet', setIndex: index, ...values })
               }
               onUndo={() => act({ type: 'undoSet', setIndex: index })}
-              onCamera={timed ? undefined : () => openCamera(index)}
+              onCamera={cameraCounts ? () => openCamera(index) : undefined}
               onComplete={values =>
                 change(s =>
                   actOnSession(
