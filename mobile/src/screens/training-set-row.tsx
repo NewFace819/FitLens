@@ -17,6 +17,7 @@ export default function TrainingSetRow({
   onEdit,
   onComplete,
   onUndo,
+  onCamera,
 }: {
   set: TrainingSet;
   index: number;
@@ -25,6 +26,8 @@ export default function TrainingSetRow({
   onEdit: (values: SetValues) => void;
   onComplete: (values: SetValues) => void;
   onUndo: () => void;
+  /** Opens Camera to count this set's reps. Hidden when absent, for done or timed sets. */
+  onCamera?: () => void;
 }) {
   const [kg, setKg] = useState(set.kg?.toString() ?? '');
   const [reps, setReps] = useState(set.reps?.toString() ?? '');
@@ -101,6 +104,14 @@ export default function TrainingSetRow({
             ? 'Enter a positive duration in seconds or m:ss.'
             : 'Enter kg from 0–1000 and whole reps from 1–999.'}
         </Text>
+      ) : null}
+      {onCamera && !set.done && !showDuration ? (
+        <Button
+          title="Count reps with camera"
+          variant="text"
+          disabled={locked}
+          onPress={onCamera}
+        />
       ) : null}
       <Button
         title={set.done ? 'Undo set' : 'Complete set'}
