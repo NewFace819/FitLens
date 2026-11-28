@@ -3,11 +3,11 @@
  * Contract: reminders are per session (sessionId) with a default for the whole
  * schedule (sessionId = null). Session times belong to Hải → updateSession().
  */
-import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { AppState, Linking, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { goBackOrHome, useAppNavigation } from '../navigation';
-import { describeSync, sendTestReminder, syncReminderNotifications } from '../modules/reminders/notifications';
+import { describeSync, notificationsAllowed, sendTestReminder, syncReminderNotifications } from '../modules/reminders/notifications';
 import { MINUTES_BEFORE, leadLabel, type MinutesBefore, type PlannedSession } from '../modules/reminders/reminder-model';
 import { clearSessionReminder, getReminder, hasOwnReminder, setReminder, upcomingSessions } from '../modules/reminders/reminders';
 import { updateSession } from '../modules/workouts/schedule';
@@ -29,14 +29,28 @@ export default function RemindersScreen() {
   const [showDefaultLead, setShowDefaultLead] = useState(false);
   const [editing, setEditing] = useState<PlannedSession | null>(null);
   const [status, setStatus] = useState('');
+  // false = Android has notifications off for FitLens (refused at onboarding or later in settings).
+  const [allowed, setAllowed] = useState<boolean | null>(null);
   const fallback = getReminder(null)!;
   const sessions = upcomingSessions().filter((s) => s.status === 'planned' && s.date >= toDateKey(new Date()));
   const nextWeek = addDays(weekStartOf(toDateKey(new Date())), 7);
 
+  // Check on open and whenever the user comes back (e.g. from Android settings), without prompting.
+  useEffect(() => {
+    let active = true;
+    const check = () => notificationsAllowed().then((ok) => { if (active) setAllowed(ok); });
+    check();
+    const sub = AppState.addEventListener('change', (state) => { if (state === 'active') check(); });
+    return () => { active = false; sub.remove(); };
+  }, []);
+
   /** Persisting is synchronous; this mirrors the result onto the phone's notifications. */
   const sync = async (ask: boolean) => {
     try {
-      setStatus(describeSync(await syncReminderNotifications({ ask })));
+      const result = await syncReminderNotifications({ ask });
+      if (result.mode === 'denied') setAllowed(false);
+      else if (result.mode === 'device') setAllowed(await notificationsAllowed());
+      setStatus(describeSync(result));
     } catch {
       setStatus('Saved, but reminders couldn’t be scheduled on this phone.');
     }
@@ -95,6 +109,19 @@ export default function RemindersScreen() {
           ) : null}
         </ContinuousSurface>
         <Text style={styles.footer}>A gentle nudge before each planned session. You choose how early.</Text>
+        {fallback.enabled && allowed === false ? (
+          <View testID="notifications-off" style={styles.permissionNotice} accessibilityLiveRegion="polite">
+            <Text style={styles.permissionTitle}>Notifications are off for FitLens</Text>
+            <Text style={styles.permissionBody}>
+              Your reminders are saved, but the phone won’t show them until you allow notifications.
+            </Text>
+            <Button
+              title="Open Android settings"
+              variant="secondary"
+              onPress={() => { Linking.openSettings().catch(() => setStatus('Couldn’t open settings. Find FitLens in Android settings → Apps.')); }}
+            />
+          </View>
+        ) : null}
         {__DEV__ ? (
           <Button
             title="Send a test reminder in 1 minute"
@@ -264,6 +291,9 @@ const styles = StyleSheet.create({
   section: { marginTop: 24 },
   sectionTitle: { marginHorizontal: 18, marginBottom: 8, fontSize: 13, fontWeight: '500', color: SETTINGS_COLORS.textSecondary },
   footer: { marginHorizontal: 18, marginTop: 8, fontSize: 13, lineHeight: 18, color: SETTINGS_COLORS.textSecondary },
+  permissionNotice: { marginHorizontal: 18, marginTop: space.md, padding: space.lg, gap: space.sm, borderRadius: 16, backgroundColor: colors.blushSoft },
+  permissionTitle: { ...type.h3 },
+  permissionBody: { ...type.caption, color: colors.ink },
   selection: { color: SETTINGS_COLORS.accentBlue, fontSize: 18 },
   testReminderAction: { marginTop: space.md },
   pressed: { opacity: 0.72 },
