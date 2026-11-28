@@ -1,5 +1,6 @@
 import React from 'react';
 import Renderer from 'react-test-renderer';
+import { AppState, type AppStateStatus } from 'react-native';
 import { Mascot } from './MascotView';
 import { getMascotMood, setMascotMood } from './mascot';
 import { hydrate, KEYS, write } from '../../shared/storage';
@@ -8,20 +9,23 @@ let tree: Renderer.ReactTestRenderer | undefined;
 beforeEach(async () => {
   jest.useFakeTimers();
   await hydrate(null);
-  write(KEYS.history, [{
-    id: 'hs-mood',
-    sessionId: null,
-    workoutId: 'tpl-upper',
-    date: '2026-11-20',
-    durationSec: 60,
-    stoppedByPain: false,
-    sets: [{ exerciseId: 'bench-press', kg: 12, reps: 10 }],
-  }]);
+  write(KEYS.history, [
+    {
+      id: 'hs-mood',
+      sessionId: null,
+      workoutId: 'tpl-upper',
+      date: '2026-11-20',
+      durationSec: 60,
+      stoppedByPain: false,
+      sets: [{ exerciseId: 'bench-press', kg: 12, reps: 10 }],
+    },
+  ]);
 });
 afterEach(() => {
   if (tree) Renderer.act(() => tree!.unmount());
   tree = undefined;
   jest.clearAllTimers();
+  jest.restoreAllMocks();
   jest.useRealTimers();
 });
 async function mount() {
@@ -80,7 +84,9 @@ test('pain check-in during a tap immediately replaces transient reaction and sur
       {
         historyId: 'hs-mood',
         rpe: 3,
-        discomfort: [{ region: 'knees', sensations: ['pain'], exerciseId: null }],
+        discomfort: [
+          { region: 'knees', sensations: ['pain'], exerciseId: null },
+        ],
         scores: {},
         note: '',
       },
@@ -91,4 +97,27 @@ test('pain check-in during a tap immediately replaces transient reaction and sur
   Renderer.act(() => jest.advanceTimersByTime(1500));
   expect(face('concerned')).toBeDefined();
   expect(getMascotMood()).toBe('concerned');
+});
+
+test('a mounted mascot changes to waiting when its display timestamp expires', async () => {
+  setMascotMood('concerned');
+  await mount();
+  expect(face('concerned')).toBeDefined();
+  Renderer.act(() => jest.advanceTimersByTime(24 * 60 * 60 * 1000));
+  expect(face('waiting')).toBeDefined();
+});
+
+test('returning to the foreground refreshes an expired mood even if its background timer did not run', async () => {
+  let onChange: (state: AppStateStatus) => void = () => {};
+  jest
+    .spyOn(AppState, 'addEventListener')
+    .mockImplementation((_event, listener) => {
+      onChange = listener;
+      return { remove: jest.fn() };
+    });
+  setMascotMood('tired');
+  await mount();
+  jest.setSystemTime(Date.now() + 24 * 60 * 60 * 1000);
+  Renderer.act(() => onChange('active'));
+  expect(face('waiting')).toBeDefined();
 });

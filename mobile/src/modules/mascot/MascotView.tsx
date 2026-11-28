@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import {
   AccessibilityInfo,
+  AppState,
   Animated,
   Easing,
   Pressable,
@@ -20,7 +21,7 @@ import Svg, {
   SvgXml,
 } from 'react-native-svg';
 import * as art from '../home/prototypeAssets';
-import { getMascotMood } from './mascot';
+import { getMascotState } from './mascot';
 import { getStrength } from './strength';
 import { subscribe, getVersion } from '../../shared/storage';
 import type { Mood } from '../../shared/constants';
@@ -46,7 +47,22 @@ const washes: Record<Mood, string> = {
 };
 export function Mascot() {
   useSyncExternalStore(subscribe, getVersion, getVersion);
-  const base = getMascotMood();
+  const { mood: base, expiresAt } = getMascotState();
+  const [, refreshMood] = useState(0);
+  useEffect(() => {
+    const refresh = () => refreshMood(value => value + 1);
+    const timeout =
+      expiresAt === null
+        ? null
+        : setTimeout(refresh, Math.max(0, expiresAt - Date.now()));
+    const listener = AppState.addEventListener('change', state => {
+      if (state === 'active') refresh();
+    });
+    return () => {
+      if (timeout !== null) clearTimeout(timeout);
+      listener.remove();
+    };
+  }, [expiresAt]);
   const strength = getStrength();
   const [reaction, setReaction] = useState<{ base: Mood; mood: Mood } | null>(
     null,
@@ -126,7 +142,9 @@ export function Mascot() {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`FitLens mascot: ${value}`}
-        accessibilityValue={{ text: `Strength level ${strength.level}, ${strength.name}` }}
+        accessibilityValue={{
+          text: `Strength level ${strength.level}, ${strength.name}`,
+        }}
         accessibilityHint="Tap to say hello. The expression returns to your latest check-in mood."
         onPress={react}
         style={{
