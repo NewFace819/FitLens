@@ -7,6 +7,7 @@ import {
   transitionTraining,
   type TrainingState,
   type TrainingAction,
+  type TrainingExercise,
   type ExercisePlan,
 } from './training-model';
 import type { SetRecord } from '../history/history-model';
@@ -21,9 +22,16 @@ export type ActiveTraining = Readonly<{
   clockMs: number;
   elapsedMs: number;
   restMs: number;
+  /** elapsedMs when the current set started (workout start, last completed set or exercise change).
+   * Optional so workouts saved before this field still restore; missing means 0. */
+  setMarkMs?: number;
   finishedAt: string | null;
   revision: number;
 }>;
+/** Time spent on the current set so far. */
+export const setElapsedMs = (session: ActiveTraining) =>
+  Math.max(0, session.elapsedMs - (session.setMarkMs ?? 0));
+
 const validTime = (n: unknown): n is number =>
   typeof n === 'number' &&
   Number.isSafeInteger(n) &&
@@ -64,6 +72,7 @@ export function startTraining(
     clockMs: nowMs,
     elapsedMs: 0,
     restMs: 0,
+    setMarkMs: 0,
     finishedAt: null,
     revision: 0,
   };
@@ -105,10 +114,13 @@ export function actOnSession(
   ) {
     restMs = 0;
   }
+  // The per-set timer restarts when a set is completed or the exercise changes.
+  const newSet = action.type === 'completeSet' || action.type === 'nextExercise';
   return {
     ...timed,
     training: result.state,
     restMs,
+    setMarkMs: newSet ? timed.elapsedMs : timed.setMarkMs ?? 0,
     revision: session.revision + 1,
     finishedAt: terminal(result.state)
       ? new Date(timed.clockMs).toISOString()
@@ -137,7 +149,35 @@ export function extendRest(
   };
 }
 
-/** Fill only unfinished rows by order. Missing/legacy values stay blank, never mark done. */
+/** Match unfinished rows by position and preserve a draft load when history has none. */
+export function lastSetEdits(
+  exercise: TrainingExercise,
+  previous: readonly SetRecord[],
+): Extract<TrainingAction, { type: 'editSet' }>[] {
+  const timed = isDurationTarget(exercise.targetReps);
+  const sets = previous.filter(
+    set =>
+      set.exerciseId === exercise.exerciseId && (set.durationSec !== undefined) === timed,
+  );
+  return exercise.sets.flatMap((set, setIndex) => {
+    const old = sets[setIndex];
+    if (set.done || !old) return [];
+    const values =
+      old.durationSec !== undefined
+        ? { durationSec: old.durationSec }
+        : { kg: old.kg ?? set.kg ?? null, reps: old.reps };
+    const same =
+      'durationSec' in values
+        ? set.durationSec === values.durationSec
+        : set.kg === values.kg && set.reps === values.reps;
+    // Skip rows that already hold last time's values, so the button only shows when it changes something.
+    return !same && validSetValues(values, false)
+      ? [{ type: 'editSet', setIndex, ...values }]
+      : [];
+  });
+}
+
+/** Prefill set drafts without marking them done. */
 export function applyLastSets(
   session: ActiveTraining,
   previous: readonly SetRecord[],
@@ -145,23 +185,17 @@ export function applyLastSets(
 ): ActiveTraining {
   if (session.training.phase === 'paused' || terminal(session.training))
     throw new Error('locked');
-  let next = advanceClock(session, nowMs);
-  const exercise = next.training.exercises[next.training.exerciseIndex];
-  const timed = isDurationTarget(exercise.targetReps);
-  const sets = previous.filter(s => s.exerciseId === exercise.exerciseId && (s.durationSec !== undefined) === timed);
-  exercise.sets.forEach((set, setIndex) => {
-    const old = sets[setIndex];
-    if (set.done || !old || old.kg === null) return;
-    const result = transitionTraining(next.training, {
-      type: 'editSet',
-      setIndex,
-      ...(old.durationSec !== undefined
-        ? { durationSec: old.durationSec }
-        : { kg: old.kg, reps: old.reps }),
-    });
-    if (result.ok) next = { ...next, training: result.state };
-  });
-  return { ...next, revision: session.revision + 1 };
+  const exercise = session.training.exercises[session.training.exerciseIndex];
+  const edits = lastSetEdits(exercise, previous);
+  if (edits.length === 0) return session;
+
+  let training = session.training;
+  for (const edit of edits) training = transitionTraining(training, edit).state;
+  return {
+    ...advanceClock(session, nowMs),
+    training,
+    revision: session.revision + 1,
+  };
 }
 
 /** Strict restore boundary: never cast unknown storage directly into model state. */
@@ -177,7 +211,8 @@ export function restoreTraining(raw: unknown): ActiveTraining | null {
     !validTime(s.clockMs) ||
     !validTime(s.elapsedMs) ||
     !validTime(s.restMs) ||
-    !validTime(s.revision)
+    !validTime(s.revision) ||
+    (s.setMarkMs !== undefined && (!validTime(s.setMarkMs) || s.setMarkMs > s.elapsedMs))
   )
     return null;
   const t = s.training;

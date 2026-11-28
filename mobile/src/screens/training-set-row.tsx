@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { validSetValues, type SetValues, type TrainingSet } from '../modules/training/training-model';
-import { parseSetDuration, parseSetInput } from '../modules/training/set-input';
+import {
+  cleanDurationText,
+  cleanKgText,
+  cleanRepsText,
+  parseSetDuration,
+  parseSetInput,
+} from '../modules/training/set-input';
 import { Button } from '../ui/components';
 import { colors, space, type } from '../ui/theme';
 
@@ -17,6 +23,7 @@ export default function TrainingSetRow({
   onEdit,
   onComplete,
   onUndo,
+  onCamera,
 }: {
   set: TrainingSet;
   index: number;
@@ -25,6 +32,8 @@ export default function TrainingSetRow({
   onEdit: (values: SetValues) => void;
   onComplete: (values: SetValues) => void;
   onUndo: () => void;
+  /** Opens Camera to count this set's reps. Hidden when absent, for done or timed sets. */
+  onCamera?: () => void;
 }) {
   const [kg, setKg] = useState(set.kg?.toString() ?? '');
   const [reps, setReps] = useState(set.reps?.toString() ?? '');
@@ -54,6 +63,15 @@ export default function TrainingSetRow({
     const values = parseSetDuration(text);
     if (values) onEdit(values);
   };
+  // Leaving a field with a value that is still invalid (reps 0, kg over 1000, 5:60) clears it,
+  // so a wrong value is never kept on screen while the saved set says something else.
+  const settle = () => {
+    if (parseSetInput(kg, reps)) return;
+    change(parseSetInput(kg, '') ? kg : '', parseSetInput('', reps) ? reps : '');
+  };
+  const settleDuration = () => {
+    if (!parseSetDuration(duration)) changeDuration('');
+  };
   const canComplete = parsed !== null && validSetValues(parsed, true);
   return (
     <View style={styles.row}>
@@ -70,7 +88,8 @@ export default function TrainingSetRow({
             editable={!locked && !set.done}
             value={duration}
             placeholder="e.g. 5:00"
-            onChangeText={changeDuration}
+            onChangeText={text => changeDuration(cleanDurationText(text))}
+            onEndEditing={settleDuration}
           />
         </View>
       ) : (
@@ -82,7 +101,8 @@ export default function TrainingSetRow({
             keyboardType="decimal-pad"
             value={kg}
             placeholder="kg (0 for bodyweight)"
-            onChangeText={text => change(text, reps)}
+            onChangeText={text => change(cleanKgText(text), reps)}
+            onEndEditing={settle}
           />
           <TextInput
             accessibilityLabel={`Set ${index + 1} repetitions`}
@@ -91,7 +111,8 @@ export default function TrainingSetRow({
             keyboardType="number-pad"
             value={reps}
             placeholder="reps"
-            onChangeText={text => change(kg, text)}
+            onChangeText={text => change(kg, cleanRepsText(text))}
+            onEndEditing={settle}
           />
         </View>
       )}
@@ -101,6 +122,14 @@ export default function TrainingSetRow({
             ? 'Enter a positive duration in seconds or m:ss.'
             : 'Enter kg from 0–1000 and whole reps from 1–999.'}
         </Text>
+      ) : null}
+      {onCamera && !set.done && !showDuration ? (
+        <Button
+          title="Count reps with camera"
+          variant="secondary"
+          disabled={locked}
+          onPress={onCamera}
+        />
       ) : null}
       <Button
         title={set.done ? 'Undo set' : 'Complete set'}

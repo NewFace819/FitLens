@@ -22,7 +22,7 @@ type Review = {
   discomfortRegions: Region[];   // enum chung, KHÔNG tự cập nhật avoidRegions
   exerciseFeedback: { exerciseId: string; feedback: ExerciseFeedback; score: 1..10 }[];
   // phần thêm của Tu (tùy chọn)
-  discomfort: { region: Region; sensation: 'tightness'|'soreness'|'pain'|'unsure'|null; exerciseId: string|null }[];
+  discomfort: { region: Region; sensations: ('tightness'|'soreness'|'pain'|'unsure')[]; exerciseId: string|null }[]; // multi-select; old `sensation` rows are read as a 1-item list
   note: string;                  // ≤ 600 ký tự
   createdAt: string;             // ISO UTC
 };
@@ -85,8 +85,9 @@ type Reminder = { id: string; sessionId: string|null; enabled: boolean; minutesB
 | :-- | :-- |
 | `getRhythm(date)` | Đỗ Huy (Home), Thông (Insights) |
 | `getReminder(sessionId)`, `setReminder(sessionId, …)` | Hải (Plan), Tu |
-| `getLoadAdjustForWeek(weekStart)` → −0.3…+0.1 | Hải: tham số `loadAdjust` của `generateDraft` |
+| `getLoadAdjustForWeek(weekStart)` → −0.3…+0.1 | Hải: tham số `loadAdjust` của `generateDraft` (đổi thời lượng mỗi buổi, −0.3 bớt 1 buổi; xem `WORKOUT_SCHEDULE_DESIGN.md` §5) |
 | `suggestAdjustments(reviews)` → `swap/easier/keep/harder` theo từng bài | Hải |
+| `getNextWeekAdjustment(weekStart)` → `{loadAdjust, reason, message, avoidRegions, avoidExercises}`; `withNextWeekAvoid(profile, adj)` | Hải (Plan). File `checkin/next-week.ts`. Luật vùng đau: vùng người dùng chọn "Pain"; với buổi dừng vì đau thì mọi vùng ghi trong check-in; không có vùng nào thì lấy vùng của bài bị đau. Chỉ áp dụng một tuần, không sửa `avoidRegions` trong hồ sơ |
 | `setWeeklyGoal`, `pauseRhythm`, `resumeRhythm` | Tu (màn Rhythm) |
 | `getCheckInContext(historyId)`, `submitCheckIn(draft, stoppedByPain)`, `latestUnreviewed(withinDays = 2)` | Tu; Đỗ Huy có thể dùng `latestUnreviewed` cho Home |
 | `syncReminderNotifications()` | Không ai cần gọi: tự chạy khi dữ liệu đổi |

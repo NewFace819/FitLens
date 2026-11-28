@@ -3,10 +3,10 @@
  * Route param: `history` = HistoryEntry.id (DATA_CONTRACT §12).
  * Saves only through submitCheckIn → appendReview (Đức Huy) + setMascotMood (Đỗ Huy).
  */
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePreventRemove } from '@react-navigation/native';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { getCheckInContext, submitCheckInDurable } from '../modules/checkin/checkin';
+import { getCheckInContext, notePainStop, submitCheckInDurable } from '../modules/checkin/checkin';
 import {
   DEFAULT_RPE, FEEDBACK_LABELS, NOTE_MAX, SENSATIONS, SENSATION_LABELS,
   effortLevel, hasPainSignal, moodAfterReview, scoreToFeedback,
@@ -14,8 +14,10 @@ import {
 } from '../modules/checkin/review-model';
 import { REGIONS, REGION_LABELS, type ExerciseFeedback, type Region } from '../shared/constants';
 import { shortDate } from '../shared/dates';
+import { PAIN_ADVICE } from '../shared/safety';
 import { goBackOrHome, goHome, useAppNavigation, useAppRoute } from '../navigation';
 import { Button, Chip, Divider, IconButton, Mascot, Screen, Sheet } from '../ui/components';
+import SafetyNotice from '../ui/safety-notice';
 import { colors, effortColors, radius, space, type } from '../ui/theme';
 
 type SheetName = null | 'help' | 'skip' | 'saved';
@@ -64,6 +66,8 @@ function CheckInForm({ ctx, fromWorkout }: {
   const [saving, setSaving] = useState(false);
   const savingRef = useRef(false);
   usePreventRemove(saving, () => setError('Please wait while your check-in is being saved.'));
+  // A pain stop shows on the mascot even if this check-in is skipped.
+  useEffect(() => notePainStop(entry.id), [entry.id]);
 
   const draft = { historyId: entry.id, rpe, discomfort, scores, note };
   const level = effortLevel(rpe);
@@ -72,7 +76,7 @@ function CheckInForm({ ctx, fromWorkout }: {
 
   const toggleRegion = (region: Region) =>
     setDiscomfort((list) =>
-      list.some((d) => d.region === region) ? list.filter((d) => d.region !== region) : [...list, { region, sensation: null, exerciseId: null }],
+      list.some((d) => d.region === region) ? list.filter((d) => d.region !== region) : [...list, { region, sensations: [], exerciseId: null }],
     );
   const updateRegion = (next: DiscomfortDetail) => setDiscomfort((list) => list.map((d) => (d.region === next.region ? next : d)));
 
@@ -194,14 +198,15 @@ function CheckInForm({ ctx, fromWorkout }: {
       {discomfort.map((d) => (
         <View key={d.region} style={styles.areaCard}>
           <Text style={type.h3}>{REGION_LABELS[d.region]}</Text>
+          <Text style={type.caption}>Choose all that apply</Text>
           <View style={styles.wrap}>
             {SENSATIONS.map((s: Sensation) => (
-              <Chip key={s} tone="blush" label={SENSATION_LABELS[s]} selected={d.sensation === s} onPress={() => updateRegion({ ...d, sensation: d.sensation === s ? null : s })} />
+              <Chip key={s} tone="blush" label={SENSATION_LABELS[s]} selected={d.sensations.includes(s)} onPress={() => updateRegion({ ...d, sensations: d.sensations.includes(s) ? d.sensations.filter((x) => x !== s) : [...d.sensations, s] })} />
             ))}
           </View>
           <Text style={[type.caption, { marginTop: space.md }]}>Related exercise · optional</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
-            {ctx.exercises.map((e) => (
+            {ctx.discomfortExercises.map((e) => (
               <Chip key={e.id} tone="blush" label={e.name} selected={d.exerciseId === e.id} onPress={() => updateRegion({ ...d, exerciseId: d.exerciseId === e.id ? null : e.id })} />
             ))}
           </ScrollView>
@@ -211,10 +216,8 @@ function CheckInForm({ ctx, fromWorkout }: {
       {pain ? (
         <View style={styles.safety} accessibilityLiveRegion="polite">
           <Text style={type.h3}>Listen to your body.</Text>
-          <Text style={[type.caption, { color: colors.ink }]}>
-            Don’t train through pain. If it’s sharp, getting worse, or doesn’t ease with rest, give that area a break and
-            talk to a doctor or physiotherapist. FitLens can’t assess injuries — this isn’t medical advice.
-          </Text>
+          <Text style={[type.caption, { color: colors.ink }]}>{PAIN_ADVICE}</Text>
+          <SafetyNotice style={{ color: colors.ink }} />
         </View>
       ) : null}
 

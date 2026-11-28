@@ -147,9 +147,14 @@ prototype tests. Native Android acceptance remains open.
    saves, free/scheduled Finish, pain-stop, last-time and duplicate-free retry.
 5. Review additive APIs with Hải, Tu and shared navigation/storage owners. Decide
    whether native testing must precede ready-for-review versus final merge.
-6. Integrate Workout with Đỗ Huy's rep result once implemented. Main has the
-   Camera setup screen. Preserve the active snapshot when returning; camera
-   must not create a separate completion record.
+6. Camera hand-off (#32): Workout side done in `camera-handoff.ts`. Each
+   unfinished rep set has "Count reps with camera", which opens `Camera` with
+   `exerciseId` and `targetReps`. Camera returns with
+   `navigate({ name: 'Workout', params: { cameraReps }, merge: true })`; the count
+   fills the set that opened it (kg kept, not auto-completed) and the param is
+   cleared. The active snapshot keeps its ID; camera never writes history itself.
+   Still open (#33): Đỗ Huy's Camera screen must call that navigate when the
+   counter (or the #38 manual fallback) finishes.
 
 ## User's working rule
 

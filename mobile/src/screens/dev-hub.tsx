@@ -31,6 +31,7 @@ import {
   getWorkout,
 } from '../modules/workouts/schedule';
 import { setMascotMood } from '../modules/mascot/mascot';
+import { getStrength, strengthHint } from '../modules/mascot/strength';
 import { toDateKey, weekStartOf } from '../shared/dates';
 import { onStorageError } from '../shared/storage';
 import { useStore } from '../ui/use-store';
@@ -46,7 +47,8 @@ export default function HomeScreen() {
   );
   const activities = getActivities(),
     history = getHistory(),
-    rhythm = getRhythm();
+    rhythm = getRhythm(),
+    strength = getStrength();
   const next = getNextSession();
   const plans = getWeekSchedule(weekStartOf(date))
     .filter(session => session.status === 'planned')
@@ -62,7 +64,7 @@ export default function HomeScreen() {
     ...history.map(h => ({
       id: h.id,
       type: 'other' as const,
-      name: getWorkout(h.workoutId)?.title ?? 'Workout',
+      name: h.workoutTitle ?? getWorkout(h.workoutId)?.title ?? 'Workout',
       date: h.date,
       durationSec: h.durationSec,
       distanceKm: null,
@@ -202,6 +204,31 @@ export default function HomeScreen() {
                 }}
               />
             ))}
+          </View>
+          <View testID="home-strength" style={{ gap: 6 }}>
+            <View style={s.row}>
+              <Text style={s.body}>
+                Strength · Level {strength.level} {strength.name}
+              </Text>
+              <Text style={{ color: colors.muted, fontSize: 12 }}>
+                {strengthHint(strength)}
+              </Text>
+            </View>
+            <View
+              accessibilityRole="progressbar"
+              accessibilityLabel="Progress to the next strength level"
+              accessibilityValue={{ min: 0, max: 100, now: Math.round(strength.progress * 100) }}
+              style={{ height: 6, borderRadius: 3, backgroundColor: '#dce2d4' }}
+            >
+              <View
+                style={{
+                  height: 6,
+                  borderRadius: 3,
+                  width: `${Math.round(strength.progress * 100)}%`,
+                  backgroundColor: '#c9822f',
+                }}
+              />
+            </View>
           </View>
           <View
             style={{

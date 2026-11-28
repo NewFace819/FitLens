@@ -11,6 +11,9 @@ class MainActivity : ReactActivity() {
 
   /** react-native-screens: avoid crashes when Android restores the Activity (React Navigation setup). */
   override fun onCreate(savedInstanceState: Bundle?) {
+    // The manifest starts this activity with LaunchTheme (splash background); switch back
+    // to the normal theme before any view is created.
+    setTheme(R.style.AppTheme)
     supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
     super.onCreate(savedInstanceState)
   }

@@ -18,8 +18,8 @@ test('buildReview produces the contract shape', () => {
     rpe: 14,
     note: '  ok  ',
     discomfort: [
-      { region: 'shoulders', sensation: 'soreness', exerciseId: 'push-up' },
-      { region: 'shoulders', sensation: 'pain', exerciseId: null }, // duplicate region dropped
+      { region: 'shoulders', sensations: ['soreness'], exerciseId: 'push-up' },
+      { region: 'shoulders', sensations: ['pain'], exerciseId: null }, // duplicate region dropped
     ],
     scores: { 'push-up': 8, 'plank': 2 },
   }), new Date('2026-11-14T10:00:00Z'));
@@ -39,7 +39,7 @@ test('buildReview produces the contract shape', () => {
 
 test('pain signals: sensation, score 10, or stopped by pain', () => {
   expect(hasPainSignal(draft({ scores: { a: 10 } }))).toBe(true);
-  expect(hasPainSignal(draft({ discomfort: [{ region: 'knees', sensation: 'pain', exerciseId: null }] }))).toBe(true);
+  expect(hasPainSignal(draft({ discomfort: [{ region: 'knees', sensations: ['pain'], exerciseId: null }] }))).toBe(true);
   expect(hasPainSignal(draft(), true)).toBe(true);
   expect(hasPainSignal(draft({ scores: { a: 9 } }))).toBe(false);
   expect(moodAfterReview(draft({ rpe: 9 }))).toBe('tired');
@@ -56,5 +56,15 @@ test('adjustments are conservative; load adjust stays in −30%…+10%', () => {
   expect(weeklyLoadAdjust([hurt])).toBe(-0.3);
   expect(weeklyLoadAdjust([buildReview(draft({ rpe: 9 }))])).toBe(-0.2);
   expect(weeklyLoadAdjust([easy], 1)).toBe(-0.3);
+  expect(weeklyLoadAdjust([], 1)).toBe(-0.3);
   expect(weeklyLoadAdjust([])).toBe(0);
+});
+
+test('a region keeps several sensations and old single-sensation reviews still load', () => {
+  const r = buildReview(draft({ discomfort: [{ region: 'hips', sensations: ['soreness', 'tightness', 'soreness'], exerciseId: null }] }));
+  expect(r.discomfort[0].sensations).toEqual(['tightness', 'soreness']);
+  const old = parseReview({ id: 'rv-old', historyId: 'hs-1', rpe: 5, discomfortRegions: ['knees'], exerciseFeedback: [],
+    discomfort: [{ region: 'knees', sensation: 'pain', exerciseId: null }] });
+  expect(old?.discomfort).toEqual([{ region: 'knees', sensations: ['pain'], exerciseId: null }]);
+  expect(hasPainSignal({ discomfort: old!.discomfort, scores: {} })).toBe(true);
 });

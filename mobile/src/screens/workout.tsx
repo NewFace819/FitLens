@@ -1,20 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePreventRemove } from '@react-navigation/native';
-import {
-  Alert,
-  AppState,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, AppState, StyleSheet, Text, View } from 'react-native';
 import { useAppNavigation, useAppRoute } from '../navigation';
 import { getLastSets } from '../modules/history/history';
 import {
   advanceClock,
   actOnSession,
-  extendRest,
   applyLastSets,
+  lastSetEdits,
+  setElapsedMs,
   type ActiveTraining,
 } from '../modules/training/session-model';
 import {
@@ -31,8 +25,15 @@ import { getSession, getWeekSchedule } from '../modules/workouts/schedule';
 import { toDateKey, weekStartOf } from '../shared/dates';
 import { storageReady } from '../shared/storage';
 import { Button, Divider, Screen, TopBar } from '../ui/components';
+import SafetyNotice from '../ui/safety-notice';
 import { colors, space, type } from '../ui/theme';
 import TrainingSetRow from './training-set-row';
+import {
+  applyCameraReps,
+  cameraTargetFor,
+  cameraTargetReps,
+  type CameraTarget,
+} from '../modules/training/camera-handoff';
 
 const time = (ms: number) =>
   `${Math.floor(ms / 60000)}:${String(Math.floor(ms / 1000) % 60).padStart(
@@ -65,7 +66,7 @@ export default function WorkoutScreen() {
   const busyRef = useRef(false);
   const [ack, setAck] = useState(initial.session?.revision ?? 0);
   const [now, setNow] = useState(Date.now());
-  const [rest, setRest] = useState('');
+  const [notice, setNotice] = useState('');
   const [acceptedSelection, setAcceptedSelection] = useState<{ activeId: string; key: string } | null>(null);
   const dirty = session !== null && ack < session.revision;
   usePreventRemove(dirty || pending > 0 || busy, () => {
@@ -129,9 +130,7 @@ export default function WorkoutScreen() {
     setBusy(true);
     setError('');
     try {
-      if (rest !== '' && !/^\d+$/.test(rest))
-        throw new Error('Enter a whole rest duration in seconds.');
-      const next = await beginWorkout(input, rest === '' ? undefined : Number(rest), Date.now(), replace);
+      const next = await beginWorkout(input, undefined, Date.now(), replace);
       acceptSelection(next.id);
       publish(next);
       setAck(next.revision);
@@ -142,6 +141,16 @@ export default function WorkoutScreen() {
       setBusy(false);
     }
   };
+  // Opening Workout with a chosen workout or session starts it straight away. Runs once per
+  // selection; an existing workout still goes through the resume/discard choice below.
+  const handledSelection = useRef<string | null>(null);
+  useEffect(() => {
+    if (!selectionKey || handledSelection.current === selectionKey) return;
+    handledSelection.current = selectionKey;
+    if (current.current || initial.error || !storageReady() || !params) return;
+    begin(params);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectionKey]);
   const finish = async (pain = false) => {
     if (!current.current || busyRef.current) return;
     busyRef.current = true;
@@ -187,6 +196,37 @@ export default function WorkoutScreen() {
     }
   }, [completedHistory, busy, pending, session, nav]);
 
+  // Camera hand-off (#32): remember which set opened Camera, then fill that set's
+  // reps when Camera returns `cameraReps` (routes.ts). Manual entry is unchanged.
+  const cameraTarget = useRef<CameraTarget | null>(null);
+  const latestChange = useRef(change);
+  latestChange.current = change;
+  const openCamera = (setIndex: number) => {
+    const live = current.current;
+    const target = live && !busyRef.current ? cameraTargetFor(live, setIndex) : null;
+    if (!live || !target) return;
+    cameraTarget.current = target;
+    const planned = live.training.exercises[target.exerciseIndex];
+    const targetReps = cameraTargetReps(planned.targetReps);
+    nav.navigate('Camera', {
+      exerciseId: planned.exerciseId,
+      ...(targetReps ? { targetReps } : {}),
+    });
+  };
+  const cameraReps = params?.cameraReps;
+  useEffect(() => {
+    if (cameraReps === undefined) return;
+    // Clear it so the same count returned again later is still a change.
+    nav.setParams({ cameraReps: undefined });
+    const target = cameraTarget.current;
+    cameraTarget.current = null;
+    if (!current.current) {
+      setError('There is no active workout for this camera count.');
+      return;
+    }
+    latestChange.current(s => applyCameraReps(s, target, cameraReps, Date.now()));
+  }, [cameraReps, nav]);
+
   const discard = () =>
     Alert.alert(
       'Discard this workout?',
@@ -219,8 +259,11 @@ export default function WorkoutScreen() {
   const view = session ? advanceClock(session, now) : null;
   const exercise = view?.training.exercises[view.training.exerciseIndex];
   const timed = isDurationTarget(exercise?.targetReps);
+  const exerciseIndex = view?.training.exerciseIndex;
+  useEffect(() => setNotice(''), [exerciseIndex]);
   const lastSets = exercise ? getLastSets(exercise.exerciseId) : [];
-  const hasLastSets = lastSets.some(set => (set.durationSec !== undefined) === timed);
+  const canUseLastSets =
+    exercise !== undefined && lastSetEdits(exercise, lastSets).length > 0;
   const terminal = !!session?.finishedAt;
   const locked = busy || terminal || session?.training.phase === 'paused';
   const matchesSelection = params?.session
@@ -235,8 +278,27 @@ export default function WorkoutScreen() {
   const schedules = getWeekSchedule(weekStartOf(toDateKey(new Date()))).filter(
     s => s.status === 'planned',
   );
+  // Timers live in the fixed footer so they stay visible while the set list is scrolled.
+  // Rest is not counted down; the set timer restarts when a set is completed.
+  const timerFooter =
+    session && view && exercise && !showConflict && !terminal ? (
+      <View style={styles.timerBar} accessibilityLiveRegion="none">
+        <View style={styles.timerCell}>
+          <Text style={type.caption}>This set</Text>
+          <Text style={type.big} accessibilityLabel={`This set ${time(setElapsedMs(view))}`}>
+            {time(setElapsedMs(view))}
+          </Text>
+        </View>
+        <View style={styles.timerCell}>
+          <Text style={type.caption}>Total</Text>
+          <Text style={type.big} accessibilityLabel={`Total ${time(view.elapsedMs)}`}>
+            {time(view.elapsedMs)}
+          </Text>
+        </View>
+      </View>
+    ) : undefined;
   return (
-    <Screen>
+    <Screen footer={timerFooter}>
       <TopBar title="Workout" />
       {error ? (
         <Text accessibilityRole="alert" style={styles.error}>
@@ -276,8 +338,11 @@ export default function WorkoutScreen() {
       ) : session && view && exercise ? (
         <View style={styles.stack}>
           <Text style={type.title}>{session.title}</Text>
+          {!terminal && !exercise.sets.some(set => set.done) && view.training.exerciseIndex === 0 ? (
+            <SafetyNotice />
+          ) : null}
           <Text style={type.caption}>
-            {time(view.elapsedMs)} elapsed ·{' '}
+            {session.training.phase === 'paused' ? 'Paused · ' : ''}
             {pending || busy
               ? 'Saving…'
               : dirty
@@ -285,7 +350,7 @@ export default function WorkoutScreen() {
               : 'Saved on device'}
           </Text>
           <Text style={type.caption}>
-            Background time counts. Pause to freeze both timers.
+            Background time counts. Pause to freeze the timers.
           </Text>
           <Text style={type.h2}>
             {view.training.exerciseIndex + 1}/{view.training.exercises.length} ·{' '}
@@ -296,26 +361,6 @@ export default function WorkoutScreen() {
               Target: {exercise.targetReps} per set. Record what you
               actually complete.
             </Text>
-          ) : null}
-          {session.training.phase === 'rest' ? (
-            <View style={styles.stack}>
-              <Text style={type.big}>{time(view.restMs)}</Text>
-              <Text style={type.caption}>
-                {view.restMs ? 'Rest between sets' : 'Ready when you are'}
-              </Text>
-              <Button
-                title="Skip rest"
-                disabled={busy}
-                variant="secondary"
-                onPress={() => act({ type: 'skipRest' })}
-              />
-              <Button
-                title="Add 15 seconds"
-                disabled={busy}
-                variant="secondary"
-                onPress={() => change(s => extendRest(s, 15, Date.now()))}
-              />
-            </View>
           ) : null}
           {exercise.sets.map((set, index) => (
             <TrainingSetRow
@@ -328,6 +373,7 @@ export default function WorkoutScreen() {
                 act({ type: 'editSet', setIndex: index, ...values })
               }
               onUndo={() => act({ type: 'undoSet', setIndex: index })}
+              onCamera={timed ? undefined : () => openCamera(index)}
               onComplete={values =>
                 change(s =>
                   actOnSession(
@@ -350,13 +396,16 @@ export default function WorkoutScreen() {
             onPress={() => act({ type: 'addSet' })}
           />
           <Button
-            title={hasLastSets ? 'Use last time' : 'No previous sets'}
-            disabled={locked || !hasLastSets}
+            title={canUseLastSets ? 'Use last time' : 'No sets to reuse'}
+            disabled={locked || !canUseLastSets}
             variant="secondary"
-            onPress={() =>
-              change(s => applyLastSets(s, lastSets, Date.now()))
-            }
+            onPress={() => {
+              const filled = lastSetEdits(exercise, lastSets).length;
+              change(s => applyLastSets(s, lastSets, Date.now()));
+              setNotice(`Filled ${filled} unfinished set${filled === 1 ? '' : 's'} from last time.`);
+            }}
           />
+          {notice ? <Text style={type.caption}>{notice}</Text> : null}
           <Button
             title={session.training.phase === 'paused' ? 'Resume' : 'Pause'}
             disabled={busy || terminal}
@@ -368,7 +417,11 @@ export default function WorkoutScreen() {
             }
           />
           <Button
-            title="Next exercise (skip unfinished sets)"
+            title={
+              exercise.sets.some(s => !s.done)
+                ? 'Next exercise (skip unfinished sets)'
+                : 'Next exercise'
+            }
             disabled={
               locked ||
               view.training.exerciseIndex === view.training.exercises.length - 1
@@ -403,9 +456,12 @@ export default function WorkoutScreen() {
             />
           ) : null}
           {session.training.phase === 'stopped' ? (
-            <Text style={type.body}>
-              Your workout has stopped. Do not continue through pain.
-            </Text>
+            <View style={styles.stack}>
+              <Text style={type.body}>
+                Your workout has stopped. Do not continue through pain.
+              </Text>
+              <SafetyNotice />
+            </View>
           ) : null}
           {!terminal ? (
             <Button
@@ -419,15 +475,7 @@ export default function WorkoutScreen() {
       ) : (
         <View style={styles.stack}>
           <Text style={type.title}>Start a workout</Text>
-          <Text style={type.caption}>Rest override in seconds (blank uses workout plan)</Text>
-          <TextInput
-            accessibilityLabel="Rest between sets in seconds"
-            style={styles.input}
-            keyboardType="number-pad"
-            value={rest}
-            onChangeText={setRest}
-            editable={!busy}
-          />
+          <SafetyNotice />
           {params?.workout || params?.session ? (
             <Button
               title="Start selected workout"
@@ -474,12 +522,7 @@ export default function WorkoutScreen() {
 }
 const styles = StyleSheet.create({
   stack: { gap: space.md },
+  timerBar: { flexDirection: 'row', gap: space.md },
+  timerCell: { flex: 1 },
   error: { color: colors.danger, marginVertical: space.sm },
-  input: {
-    minHeight: 48,
-    padding: space.md,
-    color: colors.ink,
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
 });

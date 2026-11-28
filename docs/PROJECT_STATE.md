@@ -1,6 +1,6 @@
 # FitLens — Project State
 
-> Cập nhật: 2026-11-19 (tối). File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
+> Cập nhật: 2026-11-23. File sống: sửa mỗi khi một module đổi trạng thái. Nếu mâu thuẫn với code, tin code rồi sửa file này.
 
 ## 1. Mốc (milestones)
 
@@ -18,7 +18,7 @@
 | PoC sinh lịch tập bằng Gemini | `poc/plan_generator/` | Có | Chạy được từ CLI, chưa là API |
 | Backend FastAPI | `backend/` | Chưa có code | Chỉ có README |
 | Mobile React Native (Android) | `mobile/` | RN 0.88.1 + TypeScript, chỉ Android | Xem mục 3. `tsc` và `jest` chạy qua (5 suite, 23 test, 19/11). Chưa build Android vì máy chưa có Android SDK và JDK 17 |
-| Pose estimation (MediaPipe) | — | Chưa có | Chỉ là thiết kế |
+| Pose estimation (MediaPipe) | `poc/rep_counter/`, `mobile/src/modules/camera/rep-counter.ts` | PoC Python + bộ đếm TypeScript | PoC đếm squat từ video bằng MediaPipe Pose (đúng 9/9 trên video quay đủ người, xem README của PoC). Bộ đếm và công thức góc gối đã port sang TS thuần, có test khớp PoC. **Chưa chạy trên camera Android**: còn thiếu bước lấy landmark thời gian thực (DO2) |
 | Database (Supabase) | — | Chưa có | Chỉ là thiết kế |
 
 ## 3. Mobile: trạng thái theo module
@@ -30,7 +30,7 @@
 | Welcome (màn chào, routing lần đầu) | Thông | Có (PR #6) | — |
 | Workouts, Plan (lịch tuần) | Hải | Có (từ `feature/mobile-workout-plan`): chạy trên model của `../prototype` qua cache chung | — |
 | Route + màn tạm cho Onboarding, Profile, Insights, Workout, Recap, History, Camera | chủ từng màn | Có: `src/screens/<tên>.tsx` là placeholder, chủ màn thay file của mình | — |
-| History, buổi tập đang diễn ra | Đức Huy | Placeholder | `codex/npdwuy-training-foundation` (+2, tụt 12) |
+| History, Recap, buổi tập đang diễn ra | Đức Huy | Có (PR #8, 24/11): màn tập lưu bền, resume, set tính giờ, Check-in → Recap → History. Sprint MVP: #18 sửa lỗi, #47 nối camera, #48 History/Recap mới, #49 icon + splash (đang review, 28/11) | `codex/training-regression-fixes`, `feature/npdwuy-camera-sets`, `feature/npdwuy-history-recap`, `feature/npdwuy-app-icon` |
 | Home, Mascot, Activity, Camera | Đỗ Huy | Placeholder | `feature/home-mascot-activity-camera-v2` (+2, tụt 8) |
 | Profile | Thông | Placeholder | — |
 
@@ -55,7 +55,7 @@ Nhãn: **Có lưu** = ghi localStorage/sessionStorage và đọc lại; **Mẫu*
 ## 5. Khoảng trống so với định hướng (F1–F7)
 
 1. Vòng tự điều chỉnh: RPE sau buổi → tăng/giảm độ khó tuần sau **chưa nối hoàn chỉnh** (mobile đã có logic điều chỉnh tải trong `checkin/`, chưa nối với Plan).
-2. Camera: chưa có pose estimation thật.
+2. Camera: thuật toán đếm rep đã có (PoC + `rep-counter.ts`), nhưng chưa có pose estimation chạy trên camera Android (cần chốt DO2: module native hay WebView).
 3. LLM: mới có PoC sinh lịch; chưa có Safety Router phía backend.
 4. Avatar: mới có biểu cảm, chưa "mạnh lên" theo luyện tập.
 5. Chưa có backend, DB, đồng bộ, đăng nhập (JWT).
@@ -95,13 +95,13 @@ Quy tắc: mỗi người chỉ sửa thư mục/màn của mình; gọi sang ng
 | TU2 | Tu | Thử và chọn thư viện thông báo trên Android | **Xong (20/11)**: `react-native-notify-kit`, lý do trong `mobile/README.md` (Tu tự build trên máy mình, không cần chờ H3) | — |
 | TU3 | Tu | Nhắc lịch thật qua `setNotificationScheduler()` | **Xong (20/11)**: thông báo thật trên emulator; tự đồng bộ khi lịch đổi | — |
 | TU4 | Tu | Check-in dùng lịch sử thật | **Phần Tu xong (20/11)**: đọc `getHistory` theo contract, thêm lối vào dự phòng ở màn Rhythm. Mở ngay sau buổi tập là một dòng `navigate('CheckIn', {history})` trong DH4 | DH2, DH4 |
-| DH1 | Đức Huy | Rebase lên `main`, chốt `appendReview()` với Tu | — | — |
-| DH2 | Đức Huy | Thay placeholder `modules/history`: `getHistory`, `getLastSets`, `appendReview`, lưu buổi tập | `contract.test` vẫn qua | — |
-| DH3 | Đức Huy | Màn tập (thay `screens/workout.tsx`): kg/rep từng set, nghỉ, tạm dừng, "Use last time" | Tập được 1 buổi | — |
-| DH4 | Đức Huy | Hoàn tất → lưu lịch sử, `markSessionDone()`, sang `CheckIn`; báo đau → dừng | Màn tập nối sang check-in | DH3 |
+| DH1 | Đức Huy | Rebase lên `main`, chốt `appendReview()` với Tu | **Xong (24/11)**: `appendReviewDurable`, Tu đã ghi vào contract | — |
+| DH2 | Đức Huy | Thay placeholder `modules/history`: `getHistory`, `getLastSets`, `appendReview`, lưu buổi tập | **Xong (24/11, PR #8)**: `contract.test` vẫn qua | — |
+| DH3 | Đức Huy | Màn tập (thay `screens/workout.tsx`): kg/rep từng set, nghỉ, tạm dừng, "Use last time" | **Xong (24/11, PR #8)**: thêm resume sau khi tắt app, set tính giờ | — |
+| DH4 | Đức Huy | Hoàn tất → lưu lịch sử, `markSessionDone()`, sang `CheckIn`; báo đau → dừng | **Xong (24/11, PR #8)**: màn tập nối sang check-in | DH3 |
 | DO1 | Đỗ Huy | Xóa `food.*`, `chat.*` khỏi `prototype/` | PR nhỏ | — |
 | DO2 | Đỗ Huy | Thử camera: MediaPipe JS trong WebView hay native | Chốt cách làm | H3 |
-| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`) | Video demo | DO2 |
+| DO3 | Đỗ Huy | Màn `Camera` chạy riêng, đếm rep squat (thay `screens/camera.tsx`). Đã có sẵn `SquatCounter` và `kneeAngle()` trong `modules/camera/rep-counter.ts`: chỉ cần đưa 33 landmark vào `kneeAngle()` rồi kết quả vào `update()` | Video demo | DO2 |
 | DO4 | Đỗ Huy | Home bản đầu thay dev hub (rebase nhánh home có sẵn) | Home hiện buổi tới + nhịp | — |
 
 Ưu tiên khi trễ: Đỗ Huy làm camera trước Home; H3 của Hải trước mọi việc khác của Hải.

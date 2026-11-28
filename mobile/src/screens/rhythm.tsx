@@ -52,7 +52,8 @@ export default function RhythmScreen() {
         right={
           rhythm.status !== 'empty' ? (
             <IconButton label="Rhythm settings" onPress={() => setSheet('settings')}>
-              •••
+              {/* Smaller dots: at the default icon size "•••" is wider than the 44 px button and wraps. */}
+              <Text style={styles.menuDots}>•••</Text>
             </IconButton>
           ) : null
         }
@@ -200,11 +201,17 @@ function WeekCard({ rhythm }: { rhythm: Rhythm }) {
 
       {showProgress ? (
         <>
-          <Text style={styles.bigCount} accessibilityLabel={`${rhythm.thisWeek.length} of ${rhythm.goal} sessions`}>
-            {rhythm.thisWeek.length}
+          {/* Cap at the goal ("3 of 3", not "6 of 3"); sessions beyond it show as extra. */}
+          <Text style={styles.bigCount} accessibilityLabel={`${Math.min(rhythm.thisWeek.length, rhythm.goal)} of ${rhythm.goal} sessions`}>
+            {Math.min(rhythm.thisWeek.length, rhythm.goal)}
             <Text style={styles.bigOf}> of {rhythm.goal}</Text>
           </Text>
-          <Text style={type.caption}>{rhythm.paused ? 'sessions before pausing' : 'sessions completed'}</Text>
+          <Text style={type.caption}>
+            {rhythm.paused ? 'sessions before pausing' : 'sessions completed'}
+            {rhythm.thisWeek.length > rhythm.goal
+              ? ` · +${rhythm.thisWeek.length - rhythm.goal} extra`
+              : ''}
+          </Text>
           <SessionSlots rhythm={rhythm} />
         </>
       ) : null}
@@ -227,7 +234,7 @@ function WeekCard({ rhythm }: { rhythm: Rhythm }) {
 }
 
 function SessionSlots({ rhythm }: { rhythm: Rhythm }) {
-  const slots = Math.max(rhythm.goal, rhythm.thisWeek.length);
+  const slots = rhythm.goal;
   return (
     <View style={styles.slots}>
       {Array.from({ length: slots }, (_, i) => {
@@ -266,10 +273,15 @@ function CompletedWeeks({ rhythm, onOpen }: { rhythm: Rhythm; onOpen: (w: WeekRe
         <View style={styles.weekGrid}>
           {visible.map((w) => (
             <Pressable key={w.weekStart} accessibilityRole="button" onPress={() => onOpen(w)} style={({ pressed }) => [styles.weekTile, pressed && { opacity: 0.7 }]}>
-              <Text style={styles.tileCheck}>✓</Text>
-              <View>
-                <Text style={type.h3}>{weekLabel(w.weekStart)}</Text>
-                <Text style={type.caption}>{w.sessions.length} sessions</Text>
+              <View style={styles.tileBadge}>
+                <Text style={styles.tileCheck}>✓</Text>
+              </View>
+              {/* flex: 1 lets the text shrink and wrap inside the tile instead of running past its edge. */}
+              <View style={styles.tileText}>
+                <Text style={styles.tileRange} numberOfLines={2}>
+                  {weekLabel(w.weekStart)}
+                </Text>
+                <Text style={type.caption}>{w.sessions.length === 1 ? '1 session' : `${w.sessions.length} sessions`}</Text>
               </View>
             </Pressable>
           ))}
@@ -289,19 +301,23 @@ function CompletedWeeks({ rhythm, onOpen }: { rhythm: Rhythm; onOpen: (w: WeekRe
         </View>
       ) : null}
       <View style={styles.stats}>
-        <Stat value={rhythm.completedWeeks.length} label="weeks completed" />
-        <Stat value={rhythm.longestStreak} label="longest rhythm" />
-        <Stat value={rhythm.sessionsRecorded} label="sessions recorded" />
+        <Stat value={rhythm.completedWeeks.length} unit={rhythm.completedWeeks.length === 1 ? 'week' : 'weeks'} label="Completed" />
+        <Stat value={rhythm.longestStreak} unit={rhythm.longestStreak === 1 ? 'week' : 'weeks'} label="Longest rhythm" />
+        <Stat value={rhythm.sessionsRecorded} unit={rhythm.sessionsRecorded === 1 ? 'session' : 'sessions'} label="Recorded" />
       </View>
     </View>
   );
 }
 
-function Stat({ value, label }: { value: number; label: string }) {
+/** One of three equal tiles under Completed weeks: big number, unit, then a short label. */
+function Stat({ value, unit, label }: { value: number; unit: string; label: string }) {
   return (
-    <View style={{ flex: 1 }}>
-      <Text style={type.h2}>{value}</Text>
-      <Text style={type.caption}>{label}</Text>
+    <View style={styles.statTile} accessible accessibilityLabel={`${label}: ${value} ${unit}`}>
+      <Text style={styles.statValue}>{value}</Text>
+      <Text style={styles.statUnit}>{unit}</Text>
+      <Text style={styles.statLabel} numberOfLines={2}>
+        {label}
+      </Text>
     </View>
   );
 }
@@ -397,10 +413,35 @@ const styles = StyleSheet.create({
   link: { color: colors.accent, fontWeight: '700', fontSize: 15 },
   emptyWeeks: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: space.md },
   weekGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: space.md },
-  weekTile: { width: '47%', flexDirection: 'row', gap: space.sm, padding: space.md, backgroundColor: colors.surface, borderRadius: radius.md },
-  tileCheck: { color: colors.accent, fontSize: 16, fontWeight: '800' },
+  weekTile: {
+    flexBasis: '47%',
+    flexGrow: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.sm,
+    padding: space.md,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    overflow: 'hidden',
+  },
+  tileBadge: { width: 28, height: 28, borderRadius: 14, backgroundColor: colors.accentSoft, alignItems: 'center', justifyContent: 'center' },
+  tileCheck: { color: colors.accent, fontSize: 14, fontWeight: '800' },
+  tileText: { flex: 1, minWidth: 0 },
+  tileRange: { fontSize: 14, fontWeight: '700', color: colors.ink },
   pager: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.lg, marginTop: space.md },
-  stats: { flexDirection: 'row', marginTop: space.xl },
+  stats: { flexDirection: 'row', gap: space.sm, marginTop: space.xl },
+  statTile: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: space.lg,
+    paddingHorizontal: space.sm,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+  },
+  statValue: { fontSize: 28, fontWeight: '800', color: colors.ink, lineHeight: 32 },
+  statUnit: { fontSize: 12, fontWeight: '600', color: colors.muted },
+  statLabel: { fontSize: 12, color: colors.ink, textAlign: 'center', marginTop: space.xs },
+  menuDots: { fontSize: 14, letterSpacing: 1, lineHeight: 18 },
   bigCheck: { alignSelf: 'center', width: 96, height: 96, borderRadius: 48, backgroundColor: colors.accentSoft, alignItems: 'center', justifyContent: 'center', marginVertical: space.lg },
   detailRow: { flexDirection: 'row', paddingVertical: space.sm, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
   sheetText: { marginBottom: space.lg },

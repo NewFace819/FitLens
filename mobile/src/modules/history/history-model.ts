@@ -10,9 +10,11 @@ export type HistoryEntry = {
   id: string;
   sessionId: string | null;
   workoutId: string;
+  workoutTitle?: string;
   date: string;
   durationSec: number;
   stoppedByPain: boolean;
+  stoppedExerciseId?: string;
   sets: SetRecord[];
   completedAt?: string;
 };
@@ -27,13 +29,13 @@ export type HistoryFilter = {
 export type DateValidator = (value: string) => boolean;
 const isObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === 'object' && !Array.isArray(value);
-const isId = (value: unknown): value is string =>
+const isNonBlankString = (value: unknown): value is string =>
   typeof value === 'string' && value.trim().length > 0;
 const isNonNegativeInteger = (value: unknown): value is number =>
   typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 
 export function parseSetRecord(value: unknown): SetRecord | null {
-  if (!isObject(value) || !isId(value.exerciseId)) return null;
+  if (!isObject(value) || !isNonBlankString(value.exerciseId)) return null;
   if (value.durationSec !== undefined) {
     if (!isNonNegativeInteger(value.durationSec) || value.durationSec === 0 ||
         value.kg !== undefined || value.reps !== undefined) return null;
@@ -62,8 +64,8 @@ export function parseHistory(
   return data.flatMap((entry): HistoryEntry[] => {
     if (
       !isObject(entry) ||
-      !isId(entry.id) ||
-      !isId(entry.workoutId) ||
+      !isNonBlankString(entry.id) ||
+      !isNonBlankString(entry.workoutId) ||
       typeof entry.date !== 'string' ||
       !isDate(entry.date)
     )
@@ -76,13 +78,17 @@ export function parseHistory(
     return [
       {
         id: entry.id,
-        sessionId: isId(entry.sessionId) ? entry.sessionId : null,
+        sessionId: isNonBlankString(entry.sessionId) ? entry.sessionId : null,
         workoutId: entry.workoutId,
+        ...(isNonBlankString(entry.workoutTitle) ? { workoutTitle: entry.workoutTitle } : {}),
         date: entry.date,
         durationSec: isNonNegativeInteger(entry.durationSec)
           ? entry.durationSec
           : 0,
         stoppedByPain: entry.stoppedByPain === true,
+        ...(entry.stoppedByPain === true && isNonBlankString(entry.stoppedExerciseId)
+          ? { stoppedExerciseId: entry.stoppedExerciseId }
+          : {}),
         sets,
         ...(typeof entry.completedAt === 'string' &&
         Number.isFinite(Date.parse(entry.completedAt))

@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { AppStore, Draft, Equipment, GOALS, Goal, HOME_EQUIPMENT, REGIONS, Region, Session } from '../modules/workouts/types';
 import { Button, Chip, Heading, Sheet } from '../ui/parts';
 import { colors } from '../ui/theme';
@@ -24,11 +25,37 @@ const LABEL: Record<string, string> = {
 };
 // Plain string formatting: no dependence on the device's Intl support or language.
 const fmt = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${Number(d.slice(8, 10))}`;
-const HOURS = Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0'));
-const MINUTES = ['00', '15', '30', '45'];
+// Quick picks for the usual training times; any other time comes from Android's own clock dialog.
+const PRESETS = [
+  { label: 'Morning', time: '07:00' },
+  { label: 'Noon', time: '12:00' },
+  { label: 'Afternoon', time: '17:00' },
+  { label: 'Evening', time: '19:00' },
+] as const;
+const pad = (n: number) => String(n).padStart(2, '0');
 const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter(x => x !== v) : [...list, v]);
 
-export default function PlanScreen({ store, today, onStart }: { store: AppStore; today?: string; onStart?: (sessionId: string) => void }) {
+type PlanProps = {
+  store: AppStore;
+  today?: string;
+  /** Opens the workout screen for a planned session (route 'Workout', param `session`). Hidden when absent. */
+  onStart?: (sessionId: string) => void;
+  /** The saved profile (Thông's getProfile). "Build my week" starts from it; changes there are for this week only. */
+  getProfile?: () => SavedProfile;
+  /** Last week's check-in result for a week (Tu's getLoadAdjustForWeek): -0.3 … +0.1. */
+  getLoadAdjust?: (weekStart: string) => number;
+};
+
+/** The profile fields Plan reads. Loosely typed: values are checked here and again in the draft model. */
+type SavedProfile = { goal?: string; daysPerWeek?: number; minutes?: number; equipment?: readonly string[]; avoidRegions?: readonly string[] };
+
+const ADJUST_NOTE: Record<'pain' | 'hard' | 'easy', string> = {
+  pain: 'Lighter week: you reported pain last week, so there is one session fewer and shorter workouts.',
+  hard: 'A bit lighter: last week felt hard, so the workouts are shorter.',
+  easy: 'A bit more: last week felt easy, so the workouts are longer.',
+};
+
+export default function PlanScreen({ store, today, onStart, getProfile, getLoadAdjust }: PlanProps) {
   const todayStr = today ?? store.todayStr();
   const thisWeek = store.weekStartOf(todayStr) as string;
   const [week, setWeek] = useState(thisWeek);
@@ -37,14 +64,20 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
   const [addDate, setAddDate] = useState<string | null>(null);
   const [selected, setSelected] = useState<Session | null>(null);
   const [editDate, setEditDate] = useState('');
-  const [editHour, setEditHour] = useState<string | null>(null);
-  const [editMinute, setEditMinute] = useState('00');
+  const [editTime, setEditTime] = useState<string | null>(null);
+  // "Build your own": exercises in the order they were ticked, plus an optional name.
+  const [addTab, setAddTab] = useState<'saved' | 'build'>('saved');
+  const [picked, setPicked] = useState<string[]>([]);
+  const [comboName, setComboName] = useState('');
   const [editError, setEditError] = useState('');
   const [build, setBuild] = useState(false);
   const [goal, setGoal] = useState<Goal>('habit');
   const [days, setDays] = useState<2 | 3 | 4 | 5>(3);
   const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [avoid, setAvoid] = useState<Region[]>([]);
+  // Areas from the profile cannot be unticked here; only the profile changes them (safety rule, contract §9).
+  const [lockedAvoid, setLockedAvoid] = useState<Region[]>([]);
+  const [minutes, setMinutes] = useState(30);
   // undefined = still answering questions, null = no safe plan, Draft = preview
   const [draft, setDraft] = useState<Draft | null | undefined>(undefined);
 
@@ -62,7 +95,7 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
       return;
     }
     const r = store.addSession({ workoutId, date: addDate, time: null });
-    setAddDate(null);
+    closeAdd();
     setMessage(r.ok ? `Added ${titleOf(workoutId)}.` : 'Couldn’t add this workout.');
     bump();
   };
@@ -70,16 +103,46 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
   const openSession = (s: Session) => {
     setSelected(s);
     setEditDate(s.date);
-    setEditHour(s.time ? s.time.slice(0, 2) : null);
-    setEditMinute(s.time ? s.time.slice(3) : '00');
+    setEditTime(s.time);
     setEditError('');
   };
-  // 24-hour time in two small steps, so it never depends on the phone's 12/24-hour setting.
+  // Android clock dialog in 24-hour mode, so the result never depends on the phone's 12/24-hour setting.
+  const pickOtherTime = () => {
+    const base = new Date();
+    if (editTime) base.setHours(Number(editTime.slice(0, 2)), Number(editTime.slice(3)), 0, 0);
+    DateTimePickerAndroid.open({
+      value: base,
+      mode: 'time',
+      is24Hour: true,
+      onChange: (event, date) => {
+        if (event.type === 'set' && date) setEditTime(`${pad(date.getHours())}:${pad(date.getMinutes())}`);
+      },
+    });
+  };
+  const closeAdd = () => {
+    setAddDate(null);
+    setAddTab('saved');
+    setPicked([]);
+    setComboName('');
+  };
+  // Saves the ticked exercises as your own workout (so it can be picked again later) and plans it.
+  const addCombo = () => {
+    const w = store.createWorkout({
+      title: comboName.trim() || 'My combo',
+      items: picked.map(exerciseId => ({ exerciseId })),
+    });
+    if (!w) {
+      setMessage('Couldn’t save this combination.');
+      closeAdd();
+      return;
+    }
+    add(w.id);
+  };
   const saveEdits = () => {
     if (!selected) {
       return;
     }
-    const r = store.updateSession(selected.id, { date: editDate, time: editHour === null ? null : `${editHour}:${editMinute}` });
+    const r = store.updateSession(selected.id, { date: editDate, time: editTime });
     if (!r.ok) {
       setEditError(
         r.reason === 'conflict' ? 'You already have a workout at that time on that day.' : 'Couldn’t save these changes.',
@@ -102,8 +165,30 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
     );
   };
 
+  const startFromProfile = () => {
+    const p = getProfile?.() ?? {};
+    setGoal(GOALS.includes(p.goal as Goal) ? (p.goal as Goal) : 'habit');
+    const d = Number(p.daysPerWeek);
+    setDays((d >= 2 && d <= 5 ? d : d > 5 ? 5 : d === 1 ? 2 : 3) as 2 | 3 | 4 | 5);
+    setEquipment(Array.isArray(p.equipment) ? (p.equipment as Equipment[]) : []);
+    const locked = (Array.isArray(p.avoidRegions) ? p.avoidRegions : []).filter((r): r is Region => REGIONS.includes(r as Region));
+    setLockedAvoid(locked);
+    setAvoid(locked);
+    setMinutes(typeof p.minutes === 'number' && p.minutes > 0 ? p.minutes : 30);
+  };
+  const toggleAvoid = (r: Region) => {
+    if (!lockedAvoid.includes(r)) {
+      setAvoid(toggle(avoid, r));
+    }
+  };
   const preview = () =>
-    setDraft(store.generateDraft({ goal, daysPerWeek: days, minutes: 30, equipment, avoidRegions: avoid }, week));
+    setDraft(
+      store.generateDraft(
+        { goal, daysPerWeek: days, minutes, equipment, avoidRegions: [...new Set([...lockedAvoid, ...avoid])] },
+        week,
+        getLoadAdjust?.(week) ?? 0,
+      ),
+    );
   const apply = () => {
     if (!draft) {
       return;
@@ -157,6 +242,7 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
           <Button
             label="Build my week"
             onPress={() => {
+              startFromProfile();
               setDraft(undefined);
               setBuild(true);
             }}
@@ -217,25 +303,68 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
         );
       })}
 
-      <Sheet visible={addDate !== null} title="Add a workout" onClose={() => setAddDate(null)}>
-        <ScrollView>
-          {ordered.map(w => (
-            <Pressable
-              key={w.id}
-              testID={`pick-${w.id}`}
-              accessibilityRole="button"
-              style={styles.pick}
-              onPress={() => add(w.id)}>
-              <Text style={styles.sessionTitle}>
-                {w.title}
-                {w.source === 'custom' ? ' (yours)' : ''}
-              </Text>
-              <Text style={styles.sessionMeta}>
-                {w.items.length} exercises · about {store.estimateMinutes(w)} min
-              </Text>
-            </Pressable>
-          ))}
-        </ScrollView>
+      <Sheet visible={addDate !== null} title="Add a workout" onClose={closeAdd}>
+        <View style={[styles.chips, styles.tabs]}>
+          <Chip testID="add-tab-saved" label="Saved workouts" selected={addTab === 'saved'} onPress={() => setAddTab('saved')} />
+          <Chip testID="add-tab-build" label="Build your own" selected={addTab === 'build'} onPress={() => setAddTab('build')} />
+        </View>
+        {addTab === 'saved' ? (
+          <ScrollView>
+            {ordered.map(w => (
+              <Pressable
+                key={w.id}
+                testID={`pick-${w.id}`}
+                accessibilityRole="button"
+                style={styles.pick}
+                onPress={() => add(w.id)}>
+                <Text style={styles.sessionTitle}>
+                  {w.title}
+                  {w.source === 'custom' ? ' (yours)' : ''}
+                </Text>
+                <Text style={styles.sessionMeta}>
+                  {w.items.length} exercises · about {store.estimateMinutes(w)} min
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        ) : (
+          <ScrollView contentContainerStyle={styles.stack} keyboardShouldPersistTaps="handled">
+            <Text style={styles.sessionMeta}>
+              Tick exercises in the order you want to do them. They are saved as your own workout.
+            </Text>
+            <View style={styles.chips}>
+              {store.listExercises().map(e => {
+                const at = picked.indexOf(e.id);
+                return (
+                  <Chip
+                    key={e.id}
+                    testID={`combo-${e.id}`}
+                    label={at >= 0 ? `${at + 1}. ${e.name}` : e.name}
+                    selected={at >= 0}
+                    onPress={() => setPicked(toggle(picked, e.id))}
+                  />
+                );
+              })}
+            </View>
+            <Text style={styles.group}>Name (optional)</Text>
+            <TextInput
+              testID="combo-name"
+              accessibilityLabel="Name for this combination"
+              style={styles.input}
+              value={comboName}
+              onChangeText={setComboName}
+              placeholder="My combo"
+              placeholderTextColor={colors.muted}
+              maxLength={40}
+            />
+            <Button
+              testID="combo-add"
+              label={picked.length ? `Add ${picked.length} ${picked.length === 1 ? 'exercise' : 'exercises'}` : 'Pick at least one exercise'}
+              disabled={picked.length === 0}
+              onPress={addCombo}
+            />
+          </ScrollView>
+        )}
       </Sheet>
 
       <Sheet
@@ -251,24 +380,39 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
           </View>
           <Text style={styles.group}>Time (optional)</Text>
           <View style={styles.chips}>
-            <Chip testID="hour-none" label="No time" selected={editHour === null} onPress={() => setEditHour(null)} />
-            {HOURS.map(h => (
-              <Chip key={h} testID={`hour-${h}`} label={h} selected={editHour === h} onPress={() => setEditHour(h)} />
+            <Chip testID="time-none" label="No time" selected={editTime === null} onPress={() => setEditTime(null)} />
+            {PRESETS.map(p => (
+              <Chip
+                key={p.time}
+                testID={`time-${p.time}`}
+                label={`${p.label} ${p.time}`}
+                selected={editTime === p.time}
+                onPress={() => setEditTime(p.time)}
+              />
             ))}
+            <Chip
+              testID="time-other"
+              label={editTime !== null && !PRESETS.some(p => p.time === editTime) ? `${editTime} · Change` : 'Other time…'}
+              selected={editTime !== null && !PRESETS.some(p => p.time === editTime)}
+              onPress={pickOtherTime}
+            />
           </View>
-          {editHour !== null && (
-            <View style={styles.chips}>
-              {MINUTES.map(m => (
-                <Chip key={m} testID={`minute-${m}`} label={`:${m}`} selected={editMinute === m} onPress={() => setEditMinute(m)} />
-              ))}
-            </View>
-          )}
           {editError !== '' && (
             <Text style={styles.error} testID="edit-error">
               {editError}
             </Text>
           )}
-          {selected && onStart && selected.status === 'planned' && <Button label="Start workout" testID="start-session" onPress={() => { const id = selected.id; setSelected(null); onStart(id); }} />}
+          {selected && selected.status === 'planned' && onStart && store.getWorkout(selected.workoutId) && (
+            <Button
+              label="Start workout"
+              testID="start-session"
+              onPress={() => {
+                const id = selected.id;
+                setSelected(null);
+                onStart(id);
+              }}
+            />
+          )}
           <Button label="Save changes" testID="save-session" onPress={saveEdits} />
           {selected && selected.status !== 'done' && (
             <Button
@@ -335,15 +479,25 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
                     testID={`avoid-${r}`}
                     label={LABEL[r]}
                     selected={avoid.includes(r)}
-                    onPress={() => setAvoid(toggle(avoid, r))}
+                    onPress={() => toggleAvoid(r)}
                   />
                 ))}
               </View>
+              {lockedAvoid.length > 0 && (
+                <Text style={styles.sessionMeta} testID="avoid-locked-note">
+                  Areas from your profile stay ticked. Change them in your profile.
+                </Text>
+              )}
               <Button label="Preview" onPress={preview} testID="preview-draft" />
             </View>
           ) : (
             <View style={styles.stack}>
               <Text style={styles.group}>Your suggested week</Text>
+              {draft?.adjust?.reason && (
+                <Text style={styles.sessionMeta} testID="draft-adjust-note">
+                  {ADJUST_NOTE[draft.adjust.reason]}
+                </Text>
+              )}
               {draft === null ? (
                 <Text style={styles.sessionMeta} testID="draft-empty">
                   We couldn’t find a safe set of workouts for those answers. Try fewer areas to avoid, or add equipment.
@@ -423,4 +577,14 @@ const styles = StyleSheet.create({
   error: { fontSize: 13, fontWeight: '700', color: colors.danger },
   group: { fontSize: 13, fontWeight: '800', color: colors.ink },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  tabs: { marginBottom: 10 },
+  input: {
+    minHeight: 44,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    color: colors.ink,
+    backgroundColor: colors.card,
+  },
 });

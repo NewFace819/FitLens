@@ -4,6 +4,13 @@
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+        <!-- Matches the app's own background so screen changes never flash white. -->
+        <item name="android:windowBackground">@color/app_background</item>
+    </style>
+
+    <!-- Only while the app starts; MainActivity switches to AppTheme in onCreate. -->
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
 </resources>

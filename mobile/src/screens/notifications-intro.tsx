@@ -27,6 +27,7 @@ import { saveOnboardingStep } from '../modules/onboarding/onboarding';
 import { getProfile } from '../modules/profile/profile';
 import { useAppFocusEffect, useAppNavigation, useScopedBackHandler } from '../navigation';
 import { Mascot } from '../ui/components';
+import SafetyNotice from '../ui/safety-notice';
 
 export interface NotificationsIntroScreenProps {
   adapter?: NotificationPermissionAdapter;
@@ -804,6 +805,7 @@ export default function NotificationsIntroScreen({
           <Text style={styles.reassuranceText}>
             Only when it matters. Always your choice.
           </Text>
+          <SafetyNotice style={styles.safetyNoticeText} />
         </View>
       </View>
     </SafeAreaView>
@@ -1114,6 +1116,12 @@ const styles = StyleSheet.create({
     color: '#273046',
     fontSize: 16,
     fontWeight: '700',
+  },
+  safetyNoticeText: {
+    fontSize: 12,
+    color: '#6A788F',
+    textAlign: 'center',
+    marginTop: 8,
   },
   reassuranceText: {
     fontSize: 13,

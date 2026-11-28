@@ -16,7 +16,10 @@ Review this dependent branch against feature/mobile-workout-plan before main int
 - training-service.ts: resolve workout/session, persist one active workout and finish it.
 - ../history/history.ts: stable public facade, including the existing seedHistory API.
 - ../history/history-repository.ts: history and Review persistence; Review remains Tu's type.
+- ../history/history-summary.ts: pure totals for History/Recap (volume = kg × reps per set, weeks, month).
+- ../../screens/history.tsx, recap.tsx, history-stat.tsx: History grouped by week and the per-workout recap.
 - ../../screens/workout.tsx and training-set-row.tsx: UI and save/retry state.
+- camera-handoff.ts: which set opened Camera, and how a returned `cameraReps` fills it.
 
 ## Behavior and persistence
 
@@ -44,6 +47,12 @@ Review this dependent branch against feature/mobile-workout-plan before main int
   or newer stored snapshots are kept for recovery, not silently overwritten.
 - Completion timestamps order same-day history; legacy entries without timestamps
   retain stable source order. Random IDs are never treated as timestamps.
+
+- Camera: "Count reps with camera" on an unfinished rep set opens `Camera`.
+  A returned `cameraReps` (1–999) fills that set's reps, keeps its kg and leaves
+  it unfinished, so the user still confirms with Complete set. Zero or invalid
+  counts show a message and change nothing. Timed sets and paused or finished
+  workouts don't offer the camera. Manual entry always works.
 
 ## Compatibility additions requiring affected-owner review
 

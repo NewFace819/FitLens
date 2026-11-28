@@ -44,7 +44,43 @@ function cleanItems(list){return(Array.isArray(list)?list:[]).filter(i=>i&&E[i.i
 function blank(){return {version:1,templates:copy(starters),sessions:[],history:[],weeks:{},draft:null,importNotice:0};}
 let memory=null;
 function storage(){return root.localStorage;}
-function read(){let state;try{const raw=JSON.parse(storage().getItem(KEY));if(raw?.version===1&&Array.isArray(raw.templates)&&Array.isArray(raw.sessions)&&Array.isArray(raw.history)){raw.weeks=raw.weeks||{};raw.templates=raw.templates.map(t=>({...t,items:cleanItems(t.items)}));state=raw;}}catch{}state=state||(memory?copy(memory):blank());const before=JSON.stringify(state);migrate(state);memory=copy(state);try{if(JSON.stringify(state)!==before||!storage().getItem(KEY))storage().setItem(KEY,JSON.stringify(state));}catch{}return copy(state);}
+function markCompleted(session, at) {
+ session.status = 'completed';
+ session.completedAt = at;
+}
+function reconcileStoppedSessions(state) {
+ const planned = new Map(
+  state.sessions.filter(session => session?.status === 'planned').map(session => [session.id, session]),
+ );
+ for (const entry of state.history) {
+  if (entry?.outcome !== 'stopped' || typeof entry.sessionId !== 'string' ||
+      typeof entry.at !== 'string' || !Number.isFinite(Date.parse(entry.at))) continue;
+  const session = planned.get(entry.sessionId);
+  if (!session) continue;
+  markCompleted(session, entry.at);
+  planned.delete(session.id);
+ }
+}
+function read() {
+ let state;
+ try {
+  const raw = JSON.parse(storage().getItem(KEY));
+  if (raw?.version === 1 && Array.isArray(raw.templates) && Array.isArray(raw.sessions) && Array.isArray(raw.history)) {
+   raw.weeks = raw.weeks || {};
+   raw.templates = raw.templates.map(t => ({ ...t, items: cleanItems(t.items) }));
+   state = raw;
+  }
+ } catch {}
+ state = state || (memory ? copy(memory) : blank());
+ const before = JSON.stringify(state);
+ migrate(state);
+ reconcileStoppedSessions(state);
+ memory = copy(state);
+ try {
+  if (JSON.stringify(state) !== before || !storage().getItem(KEY)) storage().setItem(KEY, JSON.stringify(state));
+ } catch {}
+ return copy(state);
+}
 function write(state){storage().setItem(KEY,JSON.stringify(state));memory=copy(state);if(typeof root.dispatchEvent==='function')root.dispatchEvent(new Event('fitlens:training-changed'));return state;}
 function legacyWeek(plan){
  if(plan?.version!==1||plan.days?.length!==7||!validDate(plan.weekStart))throw new Error('This saved week is invalid.');
@@ -100,7 +136,37 @@ function generate(settings){
 }
 function discardDraft(){const s=read();s.draft=null;write(s);}
 function applyDraft(){const s=read();if(!s.draft?.sessions.length)throw new Error('Add a workout before applying this week.');for(const item of s.draft.sessions)if(s.sessions.some(x=>x.date===item.date&&x.status!=='skipped'))throw new Error('Your week changed. Move the conflicting suggestion to another day first.');s.sessions.push(...s.draft.sessions);s.weeks[s.draft.week]='suggested';const week=s.draft.week;s.draft=null;write(s);return week;}
-function complete({sessionId=null,name,items:performed=[],seconds=0,logs=[],id=null,date=today(),source='fitlens',note='',outcome='completed'}){const stopped=outcome==='stopped',s=read(),key=(stopped?id:sessionId||id)||uid('history');const already=s.history.find(h=>h.id===key);if(already)return already;const item=s.sessions.find(x=>x.id===sessionId),history={id:key,sessionId,name:name||item?.name||'Workout',date,at:new Date().toISOString(),seconds,source,type:'strength',note,outcome:stopped?'stopped':'completed',items:copy(performed),logs:copy(logs)};s.history.push(history);if(item&&!stopped){item.status='completed';item.completedAt=history.at;}write(s);if(!stopped)root.FitLensRhythm?.record({id:key,kind:'workout',name:history.name,date:history.date});return history;}
+function complete({
+ sessionId = null, name, items: performed = [], seconds = 0, logs = [], id = null,
+ date = today(), source = 'fitlens', note = '', outcome = 'completed',
+}) {
+ const stopped = outcome === 'stopped';
+ const state = read();
+ const key = (stopped ? id : sessionId || id) || uid('history');
+ const already = state.history.find(entry => entry.id === key);
+ if (already) return already;
+
+ const session = state.sessions.find(item => item.id === sessionId);
+ const history = {
+  id: key,
+  sessionId,
+  name: name || session?.name || 'Workout',
+  date,
+  at: new Date().toISOString(),
+  seconds,
+  source,
+  type: 'strength',
+  note,
+  outcome: stopped ? 'stopped' : 'completed',
+  items: copy(performed),
+  logs: copy(logs),
+ };
+ state.history.push(history);
+ if (session && (!stopped || session.status === 'planned')) markCompleted(session, history.at);
+ write(state);
+ if (!stopped) root.FitLensRhythm?.record({ id: key, kind: 'workout', name: history.name, date: history.date });
+ return history;
+}
 function removeTemplate(id){const s=read(),t=s.templates.find(t=>t.id===id);if(!t)throw new Error('This workout is no longer in your library.');if(t.starter)throw new Error('Starter workouts stay in the library.');s.templates=s.templates.filter(t=>t.id!==id);write(s);}
 function previewWeekCopy(from,to,state=read()){
  if(!validDate(from)||!validDate(to))throw new Error('Choose a valid week.');from=weekStart(from);to=weekStart(to);if(from===to)throw new Error('Choose a different week.');

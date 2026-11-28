@@ -1,0 +1,9 @@
+{
+  "_comment": "True rep count per video file in this folder. Videos themselves are gitignored.",
+  "_notes": {
+    "squad_01.mp4": "self-recorded, side view, full body",
+    "squat_2.mp4": "YouTube clip (not self-recorded): full body for 3 reps, then zoomed close-up with feet cut off. Hard case, not one of the 3 official tracker videos."
+  },
+  "squad_01.mp4": 9,
+  "squat_2.mp4": 5
+}
