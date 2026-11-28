@@ -35,6 +35,19 @@ import { getStrength, strengthHint } from '../modules/mascot/strength';
 import { toDateKey, weekStartOf } from '../shared/dates';
 import { onStorageError } from '../shared/storage';
 import { useStore } from '../ui/use-store';
+import { getActiveTraining } from '../modules/training/training-service';
+import type { ActiveTraining } from '../modules/training/session-model';
+
+/** "Set 3 of 12 · 14 min" for the Home card; a workout ended but not yet saved says so. */
+function inProgressCard(active: ActiveTraining) {
+  const sets = active.training.exercises.flatMap(e => e.sets);
+  const done = sets.filter(set => set.done).length;
+  const minutes = Math.floor(active.elapsedMs / 60000);
+  const detail = active.finishedAt
+    ? 'Finished, not saved yet'
+    : `${done} of ${sets.length} sets done · ${minutes} min${active.training.phase === 'paused' ? ' · Paused' : ''}`;
+  return { title: active.title, detail };
+}
 export default function HomeScreen() {
   useStore();
   const nav = useAppNavigation();
@@ -50,6 +63,14 @@ export default function HomeScreen() {
     rhythm = getRhythm(),
     strength = getStrength();
   const next = getNextSession();
+  // A saved workout that needs recovery still opens Workout, which shows the recovery message.
+  let inProgress: { title: string; detail: string } | null = null;
+  try {
+    const active = getActiveTraining();
+    if (active) inProgress = inProgressCard(active);
+  } catch {
+    inProgress = { title: 'Unfinished workout', detail: 'Needs recovery' };
+  }
   const plans = getWeekSchedule(weekStartOf(date))
     .filter(session => session.status === 'planned')
     .map(session => ({
@@ -108,6 +129,8 @@ export default function HomeScreen() {
             sets: h.sets.length,
           }))}
           onDateChange={setDate}
+          inProgress={inProgress}
+          onResume={() => nav.navigate('Workout')}
           onSession={id => {
             const session = getWeekSchedule(weekStartOf(date)).find(
               item => item.id === id,

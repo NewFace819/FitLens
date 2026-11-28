@@ -19,6 +19,8 @@ export type HomePlan = {
   time?: string | null;
 };
 export type WorkoutMetric = { date: string; durationSec: number; sets: number };
+/** A workout that was started and not finished yet (shown on today's card before any schedule). */
+export type HomeInProgress = { title: string; detail: string };
 export function ActivitySection({
   onSteps,
   workouts = [],
@@ -92,6 +94,8 @@ export function HomeScreen({
   onDateChange,
   onSession,
   onAccount,
+  inProgress,
+  onResume,
 }: {
   entries: Entry[];
   plans?: HomePlan[];
@@ -103,6 +107,8 @@ export function HomeScreen({
   onDateChange?: (date: string) => void;
   onSession?: (id: string) => void;
   onAccount?: () => void;
+  inProgress?: HomeInProgress | null;
+  onResume?: () => void;
 }) {
   const [date, setDate] = useState(today());
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
@@ -114,6 +120,9 @@ export function HomeScreen({
   const records = entries.filter(e => e.date === date);
   const planned = plans.find(p => p.date === date);
   const isToday = date === today();
+  // An unfinished workout wins over today's schedule, so Home never invites a second start.
+  const live = isToday && inProgress ? inProgress : null;
+  const dark = Boolean(planned || live);
   return (
     <View style={{ gap: 14 }}>
       <View>
@@ -266,7 +275,7 @@ export function HomeScreen({
           },
         ]}
       >
-        {planned && (
+        {dark && (
           <Svg
             pointerEvents="none"
             width={stageSize.width}
@@ -281,19 +290,23 @@ export function HomeScreen({
             />
           </Svg>
         )}
-        {planned && (
+        {live ? (
+          <Text style={{ color: '#d1dfbd', fontSize: 13 }}>In progress</Text>
+        ) : planned ? (
           <Text style={{ color: '#d1dfbd', fontSize: 13 }}>
             Scheduled{planned.time ? ` · ${planned.time}` : ''}
           </Text>
-        )}
-        {!planned && records.length > 0 && (
+        ) : null}
+        {!dark && records.length > 0 && (
           <Text style={{ color: colors.muted, fontSize: 13 }}>
             Saved on this day.
           </Text>
         )}
-        <Text style={[s.title, planned && { color: '#fff9ec' }]}>
+        <Text style={[s.title, dark && { color: '#fff9ec' }]}>
           {error
             ? 'Activity couldn’t be loaded.'
+            : live
+            ? live.title
             : planned
             ? planned.name
             : records.length
@@ -308,7 +321,13 @@ export function HomeScreen({
           <Button label="Try again" onPress={retry} />
         ) : (
           <>
-            {planned && (
+            {live && <Text style={{ color: '#d1dfbd' }}>{live.detail}</Text>}
+            {live && planned && (
+              <Text style={{ color: '#d1dfbd', fontSize: 12 }}>
+                Also scheduled today: {planned.name}
+              </Text>
+            )}
+            {!live && planned && (
               <Text style={{ color: '#d1dfbd' }}>
                 {[
                   planned.minutes ? planned.minutes + ' min' : null,
@@ -327,10 +346,10 @@ export function HomeScreen({
                   borderBottomColor: colors.rule,
                 }}
               >
-                <Text style={[s.heading, planned && { color: '#fff9ec' }]}>
+                <Text style={[s.heading, dark && { color: '#fff9ec' }]}>
                   {e.name}
                 </Text>
-                <Text style={[s.body, planned && { color: '#d1dfbd' }]}>
+                <Text style={[s.body, dark && { color: '#d1dfbd' }]}>
                   {Math.round(e.durationSec / 60)} min · Saved
                 </Text>
               </View>
@@ -345,9 +364,11 @@ export function HomeScreen({
               }}
             >
               <Button
-                inverse={Boolean(planned)}
+                inverse={dark}
                 label={
-                  planned
+                  live
+                    ? 'Resume workout'
+                    : planned
                     ? isToday
                       ? 'Start workout'
                       : 'View workout'
@@ -356,7 +377,9 @@ export function HomeScreen({
                     : 'Choose a workout'
                 }
                 onPress={() =>
-                  planned && onSession
+                  live && onResume
+                    ? onResume()
+                    : planned && onSession
                     ? onSession(planned.id)
                     : go(date > today() ? 'plan' : 'workouts')
                 }
@@ -364,7 +387,7 @@ export function HomeScreen({
               {date <= today() && (
                 <Button
                   quiet
-                  inverse={Boolean(planned)}
+                  inverse={dark}
                   label="Log activity"
                   onPress={() => onLog(date)}
                 />
