@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Android 12+ draws its own splash screen with the launcher icon; theme its colours. -->
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowSplashScreenBackground">@color/app_background</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/ic_launcher_background</item>
+    </style>
+
+</resources>
