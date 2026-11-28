@@ -41,17 +41,35 @@ export function getCheckInContext(historyId: string): CheckInContext | null {
   };
 }
 
+/** Only the newest session speaks for how the user feels now (getHistory is newest first). */
+const isLatestSession = (historyId: string) => getHistory()[0]?.id === historyId;
+
+/** Editing an older session's check-in saves the review but leaves today's mood alone. */
+function moodFromCheckIn(draft: ReviewDraft, stoppedByPain: boolean) {
+  if (isLatestSession(draft.historyId)) setMascotMood(moodAfterReview(draft, stoppedByPain));
+}
+
 export function submitCheckIn(draft: ReviewDraft, stoppedByPain: boolean, now: Date = new Date()): Review {
   const saved = appendReview(buildReview(draft, now));
-  setMascotMood(moodAfterReview(draft, stoppedByPain));
+  moodFromCheckIn(draft, stoppedByPain);
   return saved;
 }
 
 /** UI acknowledgement comes only after the review has reached device storage. */
 export async function submitCheckInDurable(draft: ReviewDraft, stoppedByPain: boolean, now: Date = new Date()): Promise<Review> {
   const saved = await appendReviewDurable(buildReview(draft, now));
-  setMascotMood(moodAfterReview(draft, stoppedByPain));
+  moodFromCheckIn(draft, stoppedByPain);
   return saved;
+}
+
+/**
+ * Called when the check-in opens. A workout stopped for pain makes the mascot concerned right
+ * away, so skipping the check-in (Skip, Back, Android back) can't leave it looking happy.
+ * Only for the newest session and only before its check-in exists.
+ */
+export function notePainStop(historyId: string): void {
+  const entry = getHistory().find((h) => h.id === historyId);
+  if (entry?.stoppedByPain && !getReview(historyId) && isLatestSession(historyId)) setMascotMood('concerned');
 }
 
 /**

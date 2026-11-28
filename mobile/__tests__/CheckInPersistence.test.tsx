@@ -119,3 +119,18 @@ test('a pain stop offers the unfinished exercise for body notes without counting
     { region: 'shoulders', sensation: 'pain', exerciseId: stoppedId },
   ]);
 });
+
+test('a pain stop makes the mascot concerned even when the check-in is skipped', async () => {
+  const { getMascotMood, setMascotMood } = require('../src/modules/mascot/mascot');
+  await act(async () => app.unmount());
+  await saveHistory({id:'hs-pain-skip',workoutId:'tpl-upper',sessionId:null,date:'2026-11-20',durationSec:30,stoppedByPain:true,sets:[{exerciseId:'push-up',kg:0,reps:4}],completedAt:'2026-11-20T03:00:00.000Z'});
+  setMascotMood('happy');
+  mockHistoryId = 'hs-pain-skip';
+  await act(async () => { app = Renderer.create(<CheckInScreen />); });
+  expect(getMascotMood()).toBe('concerned');
+  // Leaving without saving (Skip / Back) keeps it.
+  await act(async () => app.unmount());
+  expect(getMascotMood()).toBe('concerned');
+  mockHistoryId = 'hs-checkin';
+  await act(async () => { app = Renderer.create(<CheckInScreen />); });
+});
