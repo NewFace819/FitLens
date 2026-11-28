@@ -3,12 +3,13 @@
  * Reads the finished session through Đức Huy / Hải, saves only through
  * appendReview() (Tu never writes history) and sets the mascot through Đỗ Huy.
  */
-import { addDays, toDateKey, weekStartOf } from '../../shared/dates';
-import { appendReview, appendReviewDurable, getHistory, getReview, getReviews, type HistoryEntry } from '../history/history';
+import { addDays, toDateKey } from '../../shared/dates';
+import { appendReview, appendReviewDurable, getHistory, getReview, type HistoryEntry } from '../history/history';
 import { setMascotMood } from '../mascot/mascot';
 import { getExercise } from '../workouts/exercises';
 import { getWorkout } from '../workouts/schedule';
-import { buildReview, moodAfterReview, weeklyLoadAdjust, type Review, type ReviewDraft } from './review-model';
+import { getNextWeekAdjustment } from './next-week';
+import { buildReview, moodAfterReview, type Review, type ReviewDraft } from './review-model';
 
 const exerciseOption = (id: string) => ({ id, name: getExercise(id)?.name ?? id });
 
@@ -53,14 +54,12 @@ export async function submitCheckInDurable(draft: ReviewDraft, stoppedByPain: bo
   return saved;
 }
 
-/** For Hải's generateDraft(…, loadAdjust): based on last week's reviews and pain stops. */
+/**
+ * For Hải's generateDraft(…, loadAdjust): −0.3…+0.1 from last week's reviews and pain stops.
+ * The reason and the areas to avoid come with getNextWeekAdjustment() (./next-week).
+ */
 export function getLoadAdjustForWeek(weekStart: string): number {
-  const lastMonday = addDays(weekStartOf(weekStart), -7);
-  const lastSunday = addDays(lastMonday, 6);
-  const entries = getHistory({ from: lastMonday, to: lastSunday });
-  const ids = new Set(entries.map((e) => e.id));
-  const reviews = getReviews().filter((r) => ids.has(r.historyId));
-  return weeklyLoadAdjust(reviews, entries.filter((e) => e.stoppedByPain).length);
+  return getNextWeekAdjustment(weekStart).loadAdjust;
 }
 
 /**
