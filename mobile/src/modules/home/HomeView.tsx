@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import Svg, { Rect, SvgXml } from 'react-native-svg';
 import { timeIcon } from './prototypeAssets';
@@ -7,7 +7,7 @@ import { StepSun } from './StepSun';
 import { Icon } from './Icon';
 import { Mascot } from '../mascot/MascotView';
 import { Activity as Entry } from '../activity/activity';
-import { addDays, weekStartOf, toDateKey } from '../../shared/dates';
+import { toDateKey } from '../../shared/dates';
 const today = () => toDateKey(new Date());
 export type HomeDestination = 'workouts' | 'plan' | 'steps';
 export type HomePlan = {
@@ -89,8 +89,6 @@ export function HomeScreen({
   onLog,
   error,
   retry,
-  onDateChange,
-  onSession,
   onAccount,
 }: {
   entries: Entry[];
@@ -100,20 +98,12 @@ export function HomeScreen({
   onLog: (date: string) => void;
   error: boolean;
   retry: () => void;
-  onDateChange?: (date: string) => void;
-  onSession?: (id: string) => void;
   onAccount?: () => void;
 }) {
-  const [date, setDate] = useState(today());
+  const date = today();
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
-  useEffect(() => {
-    onDateChange?.(date);
-  }, [date, onDateChange]);
-  const shift = addDays;
-  const first = weekStartOf(date);
   const records = entries.filter(e => e.date === date);
   const planned = plans.find(p => p.date === date);
-  const isToday = date === today();
   return (
     <View style={{ gap: 14 }}>
       <View>
@@ -162,92 +152,14 @@ export function HomeScreen({
           </Pressable>
         )}
       </View>
-      <View style={s.row}>
-        <Text style={s.heading}>
-          {first === weekStartOf(today())
-            ? 'This week'
-            : new Date(first + 'T12:00:00').toLocaleDateString('en', {
-                month: 'short',
-                day: 'numeric',
-              })}
-        </Text>
-        <View style={{ flexDirection: 'row' }}>
-          {[-7, 7].map(delta => (
-            <Pressable
-              key={delta}
-              accessibilityRole="button"
-              accessibilityLabel={delta < 0 ? 'Previous week' : 'Next week'}
-              onPress={() => setDate(shift(date, delta))}
-              style={{
-                width: 44,
-                height: 36,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Icon name={delta < 0 ? 'left' : 'right'} size={16} />
-            </Pressable>
-          ))}
-        </View>
-      </View>
-      <View style={{ flexDirection: 'row', gap: 4 }}>
-        {Array.from({ length: 7 }, (_, i) => {
-          const d = shift(first, i);
-          return (
-            <Pressable
-              key={d}
-              accessibilityRole="button"
-              accessibilityLabel={d}
-              accessibilityState={{ selected: d === date }}
-              onPress={() => setDate(d)}
-              style={{
-                flex: 1,
-                paddingVertical: 12,
-                alignItems: 'center',
-                borderRadius: 18,
-                backgroundColor: d === date ? colors.selection : 'transparent',
-                gap: 3,
-                borderWidth: 1,
-                borderColor: d === date ? '#738466' : 'transparent',
-              }}
-            >
-              <Text style={{ color: colors.muted, fontSize: 12 }}>
-                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][i]}
-              </Text>
-              <Text
-                style={{
-                  color: colors.ink,
-                  fontSize: 19,
-                  fontWeight: d === today() ? '700' : '400',
-                }}
-              >
-                {Number(d.slice(-2))}
-              </Text>
-              <Text style={{ color: colors.muted, fontSize: 10 }}>
-                {entries.some(e => e.date === d) ||
-                plans.some(p => p.date === d)
-                  ? '●'
-                  : ' '}
-              </Text>
-            </Pressable>
-          );
+      {/* The week calendar lives in Plan; Home shows only today (team decision 2026-11-28). */}
+      <Text style={s.heading}>
+        Today,{' '}
+        {new Date(date + 'T12:00:00').toLocaleDateString('en', {
+          month: 'short',
+          day: 'numeric',
         })}
-      </View>
-      <Text style={{ color: colors.muted, fontSize: 11 }}>
-        ● Planned or recorded activity
       </Text>
-      <View style={[s.row, { minHeight: 40, paddingHorizontal: 20 }]}>
-        <Text style={s.body}>
-          {isToday ? 'Today, ' : ''}
-          {new Date(date + 'T12:00:00').toLocaleDateString('en', {
-            month: 'short',
-            day: 'numeric',
-          })}
-        </Text>
-        {!isToday && (
-          <Button quiet label="Today" onPress={() => setDate(today())} />
-        )}
-      </View>
       <View
         onLayout={event => {
           const { width, height } = event.nativeEvent.layout;
@@ -297,11 +209,7 @@ export function HomeScreen({
             : planned
             ? planned.name
             : records.length
-            ? isToday
-              ? records[0].name
-              : 'Recorded activity.'
-            : date < today()
-            ? 'No recorded activity.'
+            ? records[0].name
             : 'No workout scheduled.'}
         </Text>
         {error ? (
@@ -345,30 +253,11 @@ export function HomeScreen({
               }}
             >
               <Button
+                quiet
                 inverse={Boolean(planned)}
-                label={
-                  planned
-                    ? isToday
-                      ? 'Start workout'
-                      : 'View workout'
-                    : date > today()
-                    ? 'Schedule workout'
-                    : 'Choose a workout'
-                }
-                onPress={() =>
-                  planned && onSession
-                    ? onSession(planned.id)
-                    : go(date > today() ? 'plan' : 'workouts')
-                }
+                label="Log activity"
+                onPress={() => onLog(date)}
               />
-              {date <= today() && (
-                <Button
-                  quiet
-                  inverse={Boolean(planned)}
-                  label="Log activity"
-                  onPress={() => onLog(date)}
-                />
-              )}
             </View>
           </>
         )}

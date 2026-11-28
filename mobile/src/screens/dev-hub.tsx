@@ -35,11 +35,12 @@ import { getStrength, strengthHint } from '../modules/mascot/strength';
 import { toDateKey, weekStartOf } from '../shared/dates';
 import { onStorageError } from '../shared/storage';
 import { useStore } from '../ui/use-store';
+import { getActiveTraining } from '../modules/training/training-service';
 export default function HomeScreen() {
   useStore();
   const nav = useAppNavigation();
-  const [date, setDate] = useState(toDateKey(new Date())),
-    [overlay, setOverlay] = useState<'activity' | 'steps' | null>(null),
+  const date = toDateKey(new Date());
+  const [overlay, setOverlay] = useState<'activity' | 'steps' | null>(null),
     [logDate, setLogDate] = useState(date);
   useEffect(
     () => onStorageError(message => Alert.alert('Storage', message)),
@@ -75,6 +76,12 @@ export default function HomeScreen() {
       source: 'manual' as const,
     })),
   ];
+  // A saved workout that needs recovery still counts as active: Workout shows the recovery message.
+  let active = true;
+  try {
+    active = getActiveTraining() !== null;
+  } catch {}
+  const todayPlan = plans.find(p => p.date === date);
   async function save(value: Activity) {
     if (!saveActivity(value)) {
       Alert.alert('Could not save', 'Check activity details and try again.');
@@ -107,15 +114,6 @@ export default function HomeScreen() {
             durationSec: h.durationSec,
             sets: h.sets.length,
           }))}
-          onDateChange={setDate}
-          onSession={id => {
-            const session = getWeekSchedule(weekStartOf(date)).find(
-              item => item.id === id,
-            );
-            if (session && session.date > toDateKey(new Date()))
-              nav.navigate('Plan');
-            else nav.navigate('Workout', { session: id });
-          }}
           go={destination =>
             destination === 'steps'
               ? setOverlay('steps')
@@ -252,10 +250,6 @@ export default function HomeScreen() {
           </View>
         </View>
         <Button
-          label="Start or resume workout"
-          onPress={() => nav.navigate('Workout')}
-        />
-        <Button
           quiet
           label="Workout history"
           onPress={() => nav.navigate('History')}
@@ -273,6 +267,15 @@ export default function HomeScreen() {
           />
         )}
       </ScrollView>
+      <StartBar
+        active={active}
+        today={todayPlan}
+        onPress={() => {
+          if (active) nav.navigate('Workout');
+          else if (todayPlan) nav.navigate('Workout', { session: todayPlan.id });
+          else nav.navigate('Workouts');
+        }}
+      />
       <HomeDock />
       <Modal
         visible={overlay !== null}
@@ -316,5 +319,51 @@ export default function HomeScreen() {
         </SafeAreaView>
       </Modal>
     </SafeAreaView>
+  );
+}
+
+/** Always-visible start action above the tab bar, so the way to train is never scrolled away. */
+function StartBar({
+  active,
+  today,
+  onPress,
+}: {
+  active: boolean;
+  today?: { name: string };
+  onPress: () => void;
+}) {
+  const title = active ? 'Resume workout' : today ? 'Start workout' : 'Choose a workout';
+  const detail = active
+    ? 'Your workout is still in progress'
+    : today
+    ? today.name
+    : 'Nothing scheduled today';
+  return (
+    <View style={{ paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8 }}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={title}
+        accessibilityHint={detail}
+        onPress={onPress}
+        style={({ pressed }) => ({
+          flexDirection: 'row',
+          alignItems: 'center',
+          minHeight: 60,
+          paddingHorizontal: 22,
+          borderRadius: 24,
+          backgroundColor: colors.primary,
+          opacity: pressed ? 0.85 : 1,
+          elevation: 3,
+        })}
+      >
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: '#fff9ec', fontSize: 16, fontWeight: '600' }}>{title}</Text>
+          <Text numberOfLines={1} style={{ color: '#d1dfbd', fontSize: 12 }}>
+            {detail}
+          </Text>
+        </View>
+        <Text style={{ color: '#fff9ec', fontSize: 22 }}>›</Text>
+      </Pressable>
+    </View>
   );
 }
