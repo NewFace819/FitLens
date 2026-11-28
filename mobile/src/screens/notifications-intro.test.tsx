@@ -1295,3 +1295,14 @@ test('Pending permission request -> Back tapped -> destination save fails -> pre
   });
   expect(isOnboardingCompleted()).toBe(true);
 });
+
+test('End of onboarding shows the shared safety notice (#45)', async () => {
+  const { SAFETY_NOTICE } = require('../shared/safety');
+  const adapter = createFakeNotificationAdapter();
+  let renderer: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(async () => {
+    renderer = ReactTestRenderer.create(<NotificationsIntroScreen adapter={adapter} />);
+  });
+  const texts = renderer!.root.findAllByType(Text).map((t) => t.props.children);
+  expect(texts).toContain(SAFETY_NOTICE);
+});
