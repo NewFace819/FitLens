@@ -56,6 +56,19 @@ async function syncNow(options: { ask?: boolean }, now: Date): Promise<SyncResul
 }
 
 /**
+ * Whether the phone currently allows FitLens notifications. Never prompts.
+ * null = unknown: no scheduler plugged in (preview mode, tests) or the check failed.
+ */
+export async function notificationsAllowed(): Promise<boolean | null> {
+  if (!scheduler) return null;
+  try {
+    return await scheduler.ensurePermission(false);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Dev only: schedule one reminder `seconds` from now so the device path can be
  * checked without waiting for a real session. A later sync cancels it.
  */
