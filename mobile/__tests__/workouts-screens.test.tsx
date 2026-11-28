@@ -19,11 +19,26 @@ const TODAY = '2026-11-12'; // a Thursday in the week of 2026-11-09
 
 const tick = () => new Promise<void>(r => setTimeout(() => r(), 5));
 
+const onStart = jest.fn();
+const onStartSession = jest.fn();
+let profile: Record<string, unknown> = {};
+let loadAdjust = 0;
+
 function Harness({ today }: { today: string }) {
   const [tab, setTab] = useState<'workouts' | 'plan'>('workouts');
   return (
     <View>
-      {tab === 'workouts' ? <WorkoutsScreen store={getStore()} /> : <PlanScreen store={getStore()} today={today} />}
+      {tab === 'workouts' ? (
+        <WorkoutsScreen store={getStore()} onStart={onStart} />
+      ) : (
+        <PlanScreen
+          store={getStore()}
+          today={today}
+          onStart={onStartSession}
+          getProfile={() => profile}
+          getLoadAdjust={() => loadAdjust}
+        />
+      )}
       {(['workouts', 'plan'] as const).map(t => (
         <Pressable key={t} testID={`tab-${t}`} onPress={() => setTab(t)}>
           <Text>{t}</Text>
@@ -37,6 +52,10 @@ function Harness({ today }: { today: string }) {
 const saved = { get: (key: string) => localStorageView.getItem(key) ?? undefined };
 
 async function render() {
+  onStart.mockClear();
+  profile = {};
+  loadAdjust = 0;
+  onStartSession.mockClear();
   await hydrate(null); // empty storage for every test
   let tree!: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(async () => {
@@ -260,6 +279,73 @@ test('Plan: set a time and move a session to another day; a clash is refused', a
   await press(tree, 'time-other');
   await press(tree, 'save-session');
   expect(text(tree)).toContain('19:00 · ');
+});
+
+test('Start: a workout opens the workout screen with its id; an empty workout cannot start', async () => {
+  const { tree } = await render();
+  await press(tree, 'workout-tpl-upper');
+  await press(tree, 'start-workout');
+  expect(onStart).toHaveBeenCalledWith('tpl-upper');
+
+  await press(tree, 'back');
+  await ReactTestRenderer.act(async () => {
+    byId(tree, 'workout-name').props.onChangeText('Empty one');
+  });
+  await press(tree, 'create-workout');
+  expect(has(tree, 'start-workout')).toBe(false);
+});
+
+test('Start: a planned session opens the workout screen with the session id; a done one does not', async () => {
+  const { tree } = await render();
+  await press(tree, 'tab-plan');
+  await press(tree, 'add-2026-11-10');
+  await press(tree, 'pick-tpl-core');
+  const id = [...new Set(tree.root
+    .findAll(n => typeof n.props.testID === 'string' && n.props.testID.startsWith('session-') && typeof n.type === 'string')
+    .map(n => n.props.testID as string))][0];
+  await press(tree, id);
+  await press(tree, 'start-session');
+  expect(onStartSession).toHaveBeenCalledWith(id.replace('session-', ''));
+
+  await press(tree, id);
+  await press(tree, 'mark-done');
+  await press(tree, id);
+  expect(has(tree, 'start-session')).toBe(false);
+});
+
+const nativeRows = (tree: ReactTestRenderer.ReactTestRenderer, id: string) =>
+  tree.root.findAll(n => n.props.testID === id && typeof n.type === 'string');
+const checked = (tree: ReactTestRenderer.ReactTestRenderer, id: string) => byId(tree, id).props.selected;
+
+test('Build my week starts from the saved profile; profile areas to avoid cannot be unticked', async () => {
+  const { tree } = await render();
+  profile = { goal: 'strength', daysPerWeek: 4, minutes: 30, equipment: ['dumbbells', 'bands'], avoidRegions: ['knees'] };
+  await press(tree, 'tab-plan');
+  await press(tree, 'build-week');
+  expect(checked(tree, 'goal-strength')).toBe(true);
+  expect(checked(tree, 'days-4')).toBe(true);
+  expect(checked(tree, 'equip-dumbbells')).toBe(true);
+  expect(checked(tree, 'avoid-knees')).toBe(true);
+  expect(has(tree, 'avoid-locked-note')).toBe(true);
+  await press(tree, 'avoid-knees'); // locked: stays ticked
+  expect(checked(tree, 'avoid-knees')).toBe(true);
+  await press(tree, 'avoid-back'); // an extra area can be added for this week, and removed again
+  expect(checked(tree, 'avoid-back')).toBe(true);
+  await press(tree, 'avoid-back');
+  expect(checked(tree, 'avoid-back')).toBe(false);
+  await press(tree, 'preview-draft');
+  expect(nativeRows(tree, 'draft-row')).toHaveLength(4);
+  expect(text(tree)).not.toContain('Lower-body foundations');
+});
+
+test('a pain week from check-in gives a lighter draft and says why', async () => {
+  const { tree } = await render();
+  loadAdjust = -0.3;
+  await press(tree, 'tab-plan');
+  await press(tree, 'build-week'); // empty profile → defaults, 3 days
+  await press(tree, 'preview-draft');
+  expect(nativeRows(tree, 'draft-row')).toHaveLength(2);
+  expect(byId(tree, 'draft-adjust-note').props.children).toContain('pain');
 });
 
 test('workout and planned-session start callbacks carry the owner IDs', async () => {

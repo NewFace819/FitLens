@@ -25,9 +25,12 @@ export type Profile = {
   equipment: Equipment[];
   avoidRegions: Region[];
 };
+/** What generateDraft actually used after last week's check-in (draft-model.js adjustFor). */
+export type DraftAdjust = { loadAdjust: number; reason: 'pain' | 'hard' | 'easy' | null; minutes: number; daysPerWeek: number };
 export type Draft = {
   weekStart: string;
   profile: Profile;
+  adjust: DraftAdjust;
   sessions: { workoutId: string; date: string; time: string | null }[];
 };
 
@@ -54,7 +57,8 @@ export type AppStore = {
   addDays(date: string, n: number): string | null;
   exerciseName(id: string): string;
   todayStr(now?: Date): string;
-  generateDraft(profile: Partial<Profile>, weekStart: string): Draft | null;
+  /** loadAdjust: Tu's getLoadAdjustForWeek(weekStart), -0.3 … +0.1 (0 = no change). */
+  generateDraft(profile: Partial<Profile>, weekStart: string, loadAdjust?: number): Draft | null;
   applyDraft(draft: Draft): { ok: boolean; added?: number; skipped?: number; reason?: string };
 };
 

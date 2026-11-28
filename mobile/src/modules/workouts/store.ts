@@ -19,8 +19,8 @@ function build(): AppStore {
   const base = createStore({ localStorage: localStorageView, sessionStorage: null });
   return {
     ...base,
-    generateDraft: (profile: Partial<Profile>, weekStart: string): Draft | null =>
-      DraftModel.generateDraft(profile, weekStart, base.listWorkouts()),
+    generateDraft: (profile: Partial<Profile>, weekStart: string, loadAdjust = 0): Draft | null =>
+      DraftModel.generateDraft(profile, weekStart, base.listWorkouts(), loadAdjust),
     applyDraft: (draft: Draft) => DraftModel.applyDraft(draft, base),
     listExercises: () => Exercises.listExercises(),
     weekDates: (weekStart: string): string[] => Dates.weekDates(weekStart),

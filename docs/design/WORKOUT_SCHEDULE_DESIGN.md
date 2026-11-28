@@ -80,7 +80,7 @@ File đề xuất: `prototype/workout-model.js` (thuần dữ liệu, không đ�
 | `listWorkouts()` | Template + custom | Workouts |
 | `createWorkout(data)`, `deleteWorkout(id)` | Tạo / xóa workout custom (xóa thì hỏi cách xử lý các buổi đang trỏ tới nó) | Builder |
 | `getWeekSchedule(weekStart)` | Danh sách buổi trong tuần | Home, Tu (nhắc lịch), Thông (chỉ số) |
-| `generateDraft(profile, weekStart)` | Sinh draft từ hồ sơ, không ghi lưu | Plan |
+| `generateDraft(profile, weekStart, workouts, loadAdjust = 0)` | Sinh draft từ hồ sơ, không ghi lưu. Trả thêm `adjust` (mức điều chỉnh đã dùng) | Plan |
 | `applyDraft(draft)` | Ghi draft thành lịch thật | Plan |
 | `addSession`, `moveSession`, `removeSession`, `copyWeek` | Thao tác trên lịch | Plan |
 
@@ -99,7 +99,15 @@ Nối tiếp ý tưởng đã có trong `prototype/setup-plan-model.js` (`patter
 4. Cắt cho vừa `minutes`.
 5. Trả draft `draft: true`. Người dùng xem rồi mới áp dụng.
 
-Ghi chú: vòng "RPE tuần trước → tuần này nhẹ/nặng hơn" thuộc Tu (check-in), Hải chỉ cần hàm `generateDraft` nhận thêm tham số `loadAdjust` (−30%…+10%) để sau này nối vào.
+**Điều chỉnh theo check-in tuần trước (`loadAdjust`, đã làm 20/11):** Plan gọi `getLoadAdjustForWeek(weekStart)` của Tu và truyền vào `generateDraft`.
+- Giá trị bị kẹp vào khoảng −0.3…+0.1; giá trị lạ coi như 0.
+- Đổi **thời lượng mỗi buổi** theo tỉ lệ đó: `minutes × (1 + loadAdjust)` (tối thiểu 10 phút). Tuần nhẹ hơn chọn workout ngắn hơn; tuần `+0.1` ưu tiên workout dài hơn.
+- Tuần có báo đau (−0.3) bớt thêm **1 buổi** (không dưới 2 buổi/tuần).
+- Bộ lọc an toàn (vùng tránh, dụng cụ) chạy trước và **không bao giờ nới**.
+- Draft trả `adjust = {loadAdjust, reason: 'pain'|'hard'|'easy'|null, minutes, daysPerWeek}`; màn xem trước hiện lý do cho người dùng.
+- Chưa dùng `suggestAdjustments` (gợi ý theo từng bài) của Tu: để tuần 2.
+
+**Hồ sơ trong form "Build my week":** điền sẵn từ `getProfile()`. Mọi thay đổi chỉ áp dụng cho tuần đó, không ghi ngược vào hồ sơ. Vùng tránh có trong hồ sơ bị khóa (không bỏ tick được), chỉ thêm được vùng mới.
 
 ## 6. Việc cần làm (thứ tự đề xuất)
 

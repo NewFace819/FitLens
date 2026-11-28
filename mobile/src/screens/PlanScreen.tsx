@@ -35,7 +35,27 @@ const PRESETS = [
 const pad = (n: number) => String(n).padStart(2, '0');
 const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter(x => x !== v) : [...list, v]);
 
-export default function PlanScreen({ store, today, onStart }: { store: AppStore; today?: string; onStart?: (sessionId: string) => void }) {
+type PlanProps = {
+  store: AppStore;
+  today?: string;
+  /** Opens the workout screen for a planned session (route 'Workout', param `session`). Hidden when absent. */
+  onStart?: (sessionId: string) => void;
+  /** The saved profile (Thông's getProfile). "Build my week" starts from it; changes there are for this week only. */
+  getProfile?: () => SavedProfile;
+  /** Last week's check-in result for a week (Tu's getLoadAdjustForWeek): -0.3 … +0.1. */
+  getLoadAdjust?: (weekStart: string) => number;
+};
+
+/** The profile fields Plan reads. Loosely typed: values are checked here and again in the draft model. */
+type SavedProfile = { goal?: string; daysPerWeek?: number; minutes?: number; equipment?: readonly string[]; avoidRegions?: readonly string[] };
+
+const ADJUST_NOTE: Record<'pain' | 'hard' | 'easy', string> = {
+  pain: 'Lighter week: you reported pain last week, so there is one session fewer and shorter workouts.',
+  hard: 'A bit lighter: last week felt hard, so the workouts are shorter.',
+  easy: 'A bit more: last week felt easy, so the workouts are longer.',
+};
+
+export default function PlanScreen({ store, today, onStart, getProfile, getLoadAdjust }: PlanProps) {
   const todayStr = today ?? store.todayStr();
   const thisWeek = store.weekStartOf(todayStr) as string;
   const [week, setWeek] = useState(thisWeek);
@@ -55,6 +75,9 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
   const [days, setDays] = useState<2 | 3 | 4 | 5>(3);
   const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [avoid, setAvoid] = useState<Region[]>([]);
+  // Areas from the profile cannot be unticked here; only the profile changes them (safety rule, contract §9).
+  const [lockedAvoid, setLockedAvoid] = useState<Region[]>([]);
+  const [minutes, setMinutes] = useState(30);
   // undefined = still answering questions, null = no safe plan, Draft = preview
   const [draft, setDraft] = useState<Draft | null | undefined>(undefined);
 
@@ -142,8 +165,30 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
     );
   };
 
+  const startFromProfile = () => {
+    const p = getProfile?.() ?? {};
+    setGoal(GOALS.includes(p.goal as Goal) ? (p.goal as Goal) : 'habit');
+    const d = Number(p.daysPerWeek);
+    setDays((d >= 2 && d <= 5 ? d : d > 5 ? 5 : d === 1 ? 2 : 3) as 2 | 3 | 4 | 5);
+    setEquipment(Array.isArray(p.equipment) ? (p.equipment as Equipment[]) : []);
+    const locked = (Array.isArray(p.avoidRegions) ? p.avoidRegions : []).filter((r): r is Region => REGIONS.includes(r as Region));
+    setLockedAvoid(locked);
+    setAvoid(locked);
+    setMinutes(typeof p.minutes === 'number' && p.minutes > 0 ? p.minutes : 30);
+  };
+  const toggleAvoid = (r: Region) => {
+    if (!lockedAvoid.includes(r)) {
+      setAvoid(toggle(avoid, r));
+    }
+  };
   const preview = () =>
-    setDraft(store.generateDraft({ goal, daysPerWeek: days, minutes: 30, equipment, avoidRegions: avoid }, week));
+    setDraft(
+      store.generateDraft(
+        { goal, daysPerWeek: days, minutes, equipment, avoidRegions: [...new Set([...lockedAvoid, ...avoid])] },
+        week,
+        getLoadAdjust?.(week) ?? 0,
+      ),
+    );
   const apply = () => {
     if (!draft) {
       return;
@@ -197,6 +242,7 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
           <Button
             label="Build my week"
             onPress={() => {
+              startFromProfile();
               setDraft(undefined);
               setBuild(true);
             }}
@@ -356,7 +402,17 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
               {editError}
             </Text>
           )}
-          {selected && onStart && selected.status === 'planned' && <Button label="Start workout" testID="start-session" onPress={() => { const id = selected.id; setSelected(null); onStart(id); }} />}
+          {selected && selected.status === 'planned' && onStart && store.getWorkout(selected.workoutId) && (
+            <Button
+              label="Start workout"
+              testID="start-session"
+              onPress={() => {
+                const id = selected.id;
+                setSelected(null);
+                onStart(id);
+              }}
+            />
+          )}
           <Button label="Save changes" testID="save-session" onPress={saveEdits} />
           {selected && selected.status !== 'done' && (
             <Button
@@ -423,15 +479,25 @@ export default function PlanScreen({ store, today, onStart }: { store: AppStore;
                     testID={`avoid-${r}`}
                     label={LABEL[r]}
                     selected={avoid.includes(r)}
-                    onPress={() => setAvoid(toggle(avoid, r))}
+                    onPress={() => toggleAvoid(r)}
                   />
                 ))}
               </View>
+              {lockedAvoid.length > 0 && (
+                <Text style={styles.sessionMeta} testID="avoid-locked-note">
+                  Areas from your profile stay ticked. Change them in your profile.
+                </Text>
+              )}
               <Button label="Preview" onPress={preview} testID="preview-draft" />
             </View>
           ) : (
             <View style={styles.stack}>
               <Text style={styles.group}>Your suggested week</Text>
+              {draft?.adjust?.reason && (
+                <Text style={styles.sessionMeta} testID="draft-adjust-note">
+                  {ADJUST_NOTE[draft.adjust.reason]}
+                </Text>
+              )}
               {draft === null ? (
                 <Text style={styles.sessionMeta} testID="draft-empty">
                   We couldn’t find a safe set of workouts for those answers. Try fewer areas to avoid, or add equipment.

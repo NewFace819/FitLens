@@ -1,32 +1,68 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../shared/routes';
 /**
- * Stack routes for Hải's screens. The screens take the store as a prop (so tests can pass their
- * own); in the app it is the one store bound to shared storage.
+ * Stack routes for Hải's screens: Workouts, WorkoutDetail, Plan. The screens take the store and
+ * callbacks as props (so tests can render them alone); navigation lives only here.
  */
+import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getLoadAdjustForWeek } from '../modules/checkin/checkin';
+import { getProfile } from '../modules/profile/profile';
 import { getStore } from '../modules/workouts/store';
-import { useStore } from '../ui/use-store';
+import { goBackOrHome, useAppNavigation, useAppRoute } from '../navigation';
+import { TopBar } from '../ui/components';
 import { colors } from '../ui/theme';
+import { useStore } from '../ui/use-store';
 import PlanScreen from './PlanScreen';
+import WorkoutDetailScreen from './WorkoutDetailScreen';
 import WorkoutsScreen from './WorkoutsScreen';
 
 const style = { flex: 1, backgroundColor: colors.background };
 
-export function WorkoutsRoute({ navigation }: NativeStackScreenProps<RootStackParamList, 'Workouts'>) {
+export function WorkoutsRoute() {
   useStore();
+  const nav = useAppNavigation();
   return (
     <SafeAreaView style={style} edges={['top', 'bottom']}>
-      <WorkoutsScreen store={getStore()} onStart={workout => navigation.navigate('Workout', { workout })} />
+      <TopBar title="Workouts" />
+      <WorkoutsScreen store={getStore()} onStart={(workout) => nav.navigate('Workout', { workout })} />
     </SafeAreaView>
   );
 }
 
-export function PlanRoute({ navigation }: NativeStackScreenProps<RootStackParamList, 'Plan'>) {
+/** One workout, opened from another screen (contract §12 param `workout`). Missing/unknown → back. */
+export function WorkoutDetailRoute() {
   useStore();
+  const nav = useAppNavigation();
+  const workoutId = useAppRoute<'WorkoutDetail'>().params?.workout;
+  const exists = !!workoutId && !!getStore().getWorkout(workoutId);
+  useEffect(() => {
+    if (!exists) goBackOrHome(nav);
+  }, [exists, nav]);
+  if (!exists) return null;
   return (
     <SafeAreaView style={style} edges={['top', 'bottom']}>
-      <PlanScreen store={getStore()} onStart={session => navigation.navigate('Workout', { session })} />
+      <WorkoutDetailScreen
+        store={getStore()}
+        workoutId={workoutId}
+        onBack={() => goBackOrHome(nav)}
+        onDeleted={() => goBackOrHome(nav)}
+        onStart={(workout) => nav.navigate('Workout', { workout })}
+      />
+    </SafeAreaView>
+  );
+}
+
+export function PlanRoute() {
+  useStore();
+  const nav = useAppNavigation();
+  return (
+    <SafeAreaView style={style} edges={['top', 'bottom']}>
+      <TopBar title="Plan" />
+      <PlanScreen
+        store={getStore()}
+        onStart={(session) => nav.navigate('Workout', { session })}
+        getProfile={getProfile}
+        getLoadAdjust={getLoadAdjustForWeek}
+      />
     </SafeAreaView>
   );
 }
