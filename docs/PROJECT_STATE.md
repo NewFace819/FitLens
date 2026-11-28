@@ -17,7 +17,7 @@
 | Prototype UI (HTML/CSS/JS) | `prototype/` | Có, đã đồng bộ bản mới (PR #5, 14/11) | Đã có `plan.html`, `profile.html`, `streak.html`, `yearly-recap.html`. Vẫn còn `food.*`, `chat.*` cần xóa |
 | PoC sinh lịch tập bằng Gemini | `poc/plan_generator/` | Có | Chạy được từ CLI, chưa là API |
 | Backend FastAPI | `backend/` | Chưa có code | Chỉ có README |
-| Mobile React Native (Android) | `mobile/` | RN 0.88.1 + TypeScript, chỉ Android | Xem mục 3. `tsc` và `jest` chạy qua (5 suite, 23 test, 19/11). Chưa build Android vì máy chưa có Android SDK và JDK 17 |
+| Mobile React Native (Android) | `mobile/` | RN 0.88.1 + TypeScript, chỉ Android | Xem mục 3. `tsc` và `jest` chạy qua (26 suite, 249 test, 28/11). CI build được APK (xem H3); chưa có ghi nhận chạy trọn vẹn trên điện thoại |
 | Pose estimation (MediaPipe) | — | Chưa có | Chỉ là thiết kế |
 | Database (Supabase) | — | Chưa có | Chỉ là thiết kế |
 
@@ -86,7 +86,7 @@ Quy tắc: mỗi người chỉ sửa thư mục/màn của mình; gọi sang ng
 | :-- | :-- | :-- | :-- | :-- |
 | H1 | Hải | Đưa Workouts/Plan + `DATA_CONTRACT.md` vào `main` | PR merge | — |
 | H2 | Hải | Đăng ký sẵn mọi route + màn tạm | Xong (cùng PR với H1) | — |
-| H3 | Hải | Cài Android SDK + JDK 17, build APK đầu tiên, ghi hướng dẫn vào `mobile/README.md` | App chạy trên emulator/điện thoại | — |
+| H3 | Hải | Cài Android SDK + JDK 17, build APK đầu tiên, ghi hướng dẫn vào `mobile/README.md` | **Gần xong (28/11)**: CI build APK xanh trên `main` (run #25, 24/11) và README đã có mục "Get an APK without Android Studio". Còn thiếu: cài APK lên điện thoại/emulator, chạy hết một vòng và ghi kết quả | — |
 | H4 | Hải | Nút "Start" trên Plan mở `Workout` với `{session}` | Từ Plan vào được màn tập | — |
 | T1 | Thông | Onboarding (thay `screens/onboarding.tsx`): mục tiêu, kinh nghiệm, buổi/tuần, phút, thiết bị, vùng tránh; Welcome dẫn sang lần đầu | Lưu `fitlens.profile` | — |
 | T2 | Thông | Profile xem/sửa; thay placeholder `modules/profile`, `getProfile()` đúng contract | Plan dùng profile thật | — |

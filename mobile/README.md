@@ -6,11 +6,25 @@ Status: React Native CLI project on the shared data layer from `docs/design/DATA
 
 - **Tu:** Rhythm, Reminders, Check-in.
 - **Hải:** Workouts (list, detail with editing: rename, sets/reps, reorder, add/remove exercises; editing a routine makes your own copy) and Plan (build a week from a few answers, add/remove/mark-done sessions, change day and 24-hour time, copy a week). Built on the same pure-JS models as the browser prototype. Not done yet: drag-and-drop, adapting a workout to time/equipment.
-- History, Profile, Mascot are placeholders.
+- Still placeholders: Onboarding (plan preferences) and Insights. See `docs/PROJECT_STATE.md` for the rest.
 
-Not yet run on a device or emulator (no Android SDK on the dev machine); covered by Jest tests that render the screens. See `docs/PROJECT_STATE.md`.
+Every push to `main` builds an installable APK in CI (see "Get an APK without Android Studio"). Tu has run the reminders on an emulator; the rest is covered by Jest tests that render the screens. Nobody has recorded a full run on a phone yet.
 
-## Requirements
+## Get an APK without Android Studio
+
+The `Android APK` workflow (`.github/workflows/android-apk.yml`) type-checks, runs the tests and builds a release APK on GitHub's servers. It takes about 6 minutes.
+
+1. On GitHub open **Actions → Android APK** and pick the latest green run on `main` (or on your pull request).
+2. Under **Artifacts** download `fitlens-release-apk` (a zip, kept for 14 days) and unzip it.
+3. Install the `.apk` inside:
+   - Phone: copy it over and open it (allow "install unknown apps"), or `adb install <file>.apk` with USB debugging on.
+   - Emulator: `adb install <file>.apk`, but build it for the emulator first (next step).
+
+The default build is `arm64-v8a`, which runs on real phones only. For an emulator, open **Actions → Android APK → Run workflow** and set `architectures` to `x86_64` (or `arm64-v8a,x86_64` for both).
+
+The APK is signed with the committed debug keystore and bundles the JavaScript, so it needs no Metro server. It is for testing and demos, not the Play Store.
+
+## Requirements (to build and run locally)
 
 - Node.js >= 22.11
 - JDK 17 (JDK 22 is too new for the Android Gradle build; install 17 and point `JAVA_HOME` at it)
